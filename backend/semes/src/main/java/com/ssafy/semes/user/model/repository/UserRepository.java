@@ -1,4 +1,9 @@
 package com.ssafy.semes.user.model.repository;
 
-public interface UserRepository {
+
+import com.ssafy.semes.user.model.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<UserEntity,Long> {
+
 }
