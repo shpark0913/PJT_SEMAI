@@ -10,11 +10,28 @@ logging:
   level:
     root: info
 
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     url: jdbc:mysql://127.0.0.1:3306/semes?allowMultiQueries=true&useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     password: ssafy
+    hikari:
+      auto-commit: false
+      connection-test-query: SELECT 1
+      minimum-idle: 10
+      maximum-pool-size: 50
+      transaction-isolation: TRANSACTION_READ_UNCOMMITTED
+      pool-name: pool-semes
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    properties:
+      hibernate:
+        format_sql: true
+        hbm2ddl.auto: update
+        implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    open-in-view: false
+    show-sql: true
+
 
