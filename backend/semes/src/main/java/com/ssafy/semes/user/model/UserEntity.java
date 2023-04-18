@@ -21,7 +21,7 @@ public class UserEntity implements Serializable {
     @Column(name = "user_name", length = 20, nullable = false)
     private String userName;
 
-    @Column(name = "user_role", length = 10, nullable = false,columnDefinition ="varchar(10) DEFAULT '사용자'")
+    @Column(name = "user_role", length = 10, nullable = false, columnDefinition ="varchar(10) DEFAULT '사용자'")
     private String userRole;
 
     @Column(name = "user_id",length = 20,nullable = false)
