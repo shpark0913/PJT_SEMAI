@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.ssafy.semes.image.model.ImageEntity;
@@ -23,6 +24,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@ToString
 public class WheelCheckEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
