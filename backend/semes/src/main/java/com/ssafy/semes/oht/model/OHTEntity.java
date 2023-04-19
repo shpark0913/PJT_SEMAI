@@ -1,5 +1,6 @@
 package com.ssafy.semes.oht.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,11 +12,8 @@ import javax.persistence.OneToMany;
 
 import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 @Getter
 @Setter
@@ -23,6 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class OHTEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +32,10 @@ public class OHTEntity {
 	private String ohtSN;
 	@OneToMany(mappedBy = "oht")
 	private List<OHTCheckEntity> ohtChecks;
+
+	@Column(name="check_date",nullable = false)
+	private LocalDateTime checkDate;
+	@Column(name="change_date",nullable = false)
+	private LocalDateTime changeDate;
+
 }
