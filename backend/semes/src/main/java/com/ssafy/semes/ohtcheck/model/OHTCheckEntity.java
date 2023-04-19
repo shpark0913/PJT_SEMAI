@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.ssafy.semes.oht.model.OHTEntity;
