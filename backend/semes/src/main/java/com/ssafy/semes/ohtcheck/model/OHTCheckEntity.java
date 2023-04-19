@@ -13,18 +13,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.ssafy.semes.oht.model.OHTEntity;
 import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class OHTCheckEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

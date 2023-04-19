@@ -33,8 +33,16 @@ public class SseEmitters {
         return emitter;
     }
 
-    public void showMain(){
-
+    public void showMain(List<DashboardMainResponseDto> dtos ){
+        emitters.forEach(emitter -> {
+            try {
+                emitter.send(SseEmitter.event()
+                        .name("count")
+                        .data(dtos));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
 }
