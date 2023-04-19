@@ -58,6 +58,7 @@
     ]
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "electron": "^24.1.2",
     "electron-builder": "^23.6.0"
   }
