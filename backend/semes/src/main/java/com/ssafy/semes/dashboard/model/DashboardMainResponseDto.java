@@ -1,5 +1,6 @@
 package com.ssafy.semes.dashboard.model;
 
+import com.ssafy.semes.image.model.ImageEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,12 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 public class DashboardMainResponseDto {
-    private LocalDateTime CheckDatetime;
-    private LocalDateTime ChangeDate;
+    private LocalDateTime ohtCheckDatetime;
+    private LocalDateTime ohtChangeDate;
+    private String oht_sn;
+    private int boltGoodCount;
+    private int boltOutCount;
+    private int boltLoseCount;
+    private int unclassifiedCount;
+    private String wheelPosition;
 }
