@@ -1,15 +1,11 @@
 import React from 'react';
-import {Link, Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 function LayoutPage() {
   return (
     <div>
-      <nav>
-        <Link to='/'>대시보드</Link>
-        <Link to='/report'>레포트</Link>
-        <Link to='/transfer'>전이학습</Link>
-        <Link to='/login'>로그인</Link>
-      </nav>
+      <NavBar />
       <Outlet />
       <footer>A301</footer>
     </div>
