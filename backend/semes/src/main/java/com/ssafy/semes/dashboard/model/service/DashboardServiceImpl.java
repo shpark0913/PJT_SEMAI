@@ -56,6 +56,10 @@ public class DashboardServiceImpl implements DashboardService{
     @Transactional
     public List<DashboardMainResponseDto> findAllMain(long id) throws Exception {
         List<WheelCheckEntity> list = wheelCheckRepository.findByOhtCheck(OHTCheckEntity.builder().ohtCheckId(id).build());
+
+        if(list.size()==0){
+            throw  new RuntimeException("WheelCheckEntity Find Error");
+        }
         log.info("OHTCheckResponseDto : " + list);
         LocalDateTime ohtCheckDatetime = list.get(0).getOhtCheck().getOht().getCheckDate();
         LocalDateTime ohtChangeDate = list.get(0).getOhtCheck().getOht().getChangeDate();
