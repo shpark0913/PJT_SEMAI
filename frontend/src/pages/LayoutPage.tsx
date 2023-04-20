@@ -1,13 +1,12 @@
-import React from 'react';
-import { Outlet } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import { Outlet } from "react-router-dom";
+import React from "react";
 
 function LayoutPage() {
   return (
     <div>
       <NavBar />
       <Outlet />
-      <footer>A301</footer>
     </div>
   );
 }

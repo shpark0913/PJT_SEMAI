@@ -94,9 +94,17 @@ const GlobalStyle = createGlobalStyle`
     font-family: inherit;
   }
 
-  h1, h2, h3 {
+  h1 {
+    font-size: 16px;
+    color: var(--emphasize-color);
+    margin-top: 0px;
+    margin-bottom: 7px;
+  }
+
+  h2, h3 {
     margin: 0 0 10px;
   }
+
 `;
 
 export default GlobalStyle;
