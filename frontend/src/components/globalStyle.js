@@ -58,7 +58,7 @@ const GlobalStyle = createGlobalStyle`
     color: var(--font-color);
     background-color: var(--background-color);
     width: 100%;
-    //height: 100%;
+    height: 100%;
     font-family: "Pretendard", -apple-system, Helvetica Neue, sans-serif;
     margin: 0;
     padding: 0;
