@@ -37,7 +37,7 @@ public class SseEmitters {
         emitters.forEach(emitter -> {
             try {
                 emitter.send(SseEmitter.event()
-                        .name("count")
+                        .name("main")
                         .data(dtos));
             } catch (IOException e) {
                 throw new RuntimeException(e);
