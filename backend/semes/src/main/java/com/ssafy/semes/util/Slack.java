@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Slack {
-    public void send(String userName, String text){
+    public void send(String text){
         Map<String, Object> payload = new HashMap<>();
-        payload.put("username",userName);
+        payload.put("username","ErrorBot");
         payload.put("text", text);
         payload.put("icon_url","https://cdn-icons-png.flaticon.com/512/5741/5741333.png");
 
