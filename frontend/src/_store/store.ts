@@ -1,4 +1,4 @@
-import { configureStore, combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
+import {configureStore, combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -15,7 +15,9 @@ const rootReducers = combineReducers({
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 export const store = configureStore({
-  reducer: persistedReducer
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
+  devTools: true,
 });
 
 export type AppDispatch = typeof store.dispatch;
