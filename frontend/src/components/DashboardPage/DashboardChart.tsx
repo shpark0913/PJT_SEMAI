@@ -19,7 +19,7 @@ function MyInterestChart({ myScore, name, order }: Props) {
       // name: myScore + "%", // 이 부분은 점수에 따라 다른 데이터 보여주자
       detail: {
         valueAnimation: true,
-        offsetCenter: ["0%", "-20%"],
+        offsetCenter: ["0%", "0%"],
       },
     },
   ];
@@ -42,7 +42,7 @@ function MyInterestChart({ myScore, name, order }: Props) {
           clip: false,
           itemStyle: {
             borderWidth: 1,
-            borderColor: "#464646",
+            // borderColor: "#464646",
           },
         },
         axisLine: {
@@ -69,8 +69,6 @@ function MyInterestChart({ myScore, name, order }: Props) {
           fontSize: 14,
         },
         detail: {
-          // width: 50,
-          // height: 14,
           fontSize: 18,
           color: "inherit",
           formatter: "{value}%",
