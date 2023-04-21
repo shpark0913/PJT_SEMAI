@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 
 type ToggleThemeProps = {
   theme: string;
@@ -19,17 +20,42 @@ function handleToggleTheme({ theme, setTheme }: ToggleThemeProps) {
   }
 }
 
+const Nav = styled.nav`
+  height: var(--nav-height);
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 18px;
+  border-bottom: 1px solid var(--emphasize-color);
+  & a {
+    margin-right: 30px;
+    font-weight: bold;
+    
+    &.active {
+      color: var(--emphasize-color);
+    }
+  }
+  
+  & button {
+    background-color: transparent;
+    color: var(--check-color);
+    font-size: 20px;
+  }
+`;
+
 function NavBar() {
   let [theme, setTheme] = useState("dark");
 
   return (
-    <nav style={{ height: "40px" }}>
-      <Link to="/">대시보드</Link>
-      <Link to="/report">레포트</Link>
-      <Link to="/transfer">전이학습</Link>
-      <Link to="/login">로그인</Link>
-      <button onClick={(): void => handleToggleTheme({ theme, setTheme })}>테마 토글</button>
-    </nav>
+    <Nav>
+      <NavLink className={({isActive}) => isActive? "active" : ""} to="/">대시보드</NavLink>
+      <NavLink to="/report">레포트</NavLink>
+      <NavLink to="/transfer">전이학습</NavLink>
+      <NavLink to="/login">로그인</NavLink>
+      <button onClick={(): void => handleToggleTheme({ theme, setTheme })}>☢</button>
+    </Nav>
   );
 }
 

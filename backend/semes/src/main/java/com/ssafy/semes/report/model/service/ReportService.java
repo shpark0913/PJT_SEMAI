@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ReportService {
     List<ReportListResponseDto> findReport(QuestionDto dto) throws Exception;
+    ReportListResponseDto findReportDetail(long wheelChcekId) throws Exception;
 }
