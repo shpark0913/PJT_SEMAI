@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 public class ReportListResponseDto {
-    private String oht_sn;
+    private String ohtSn;
     private int boltGoodCount;
     private LocalDateTime wheelCheckDate;
     private long wheelChcekId;
