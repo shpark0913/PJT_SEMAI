@@ -24,12 +24,10 @@ public class ReportController {
     private Slack slack = new Slack();
 
     @PostMapping("/list")
-    private ApiResponse<?> findReport( @RequestBody QuestionDto questionDto){//,
+    private ApiResponse<?> findReport( @RequestBody QuestionDto questionDto){
         log.info("Report FindReport Start");
         try {
-
             return ApiResponse.success(SuccessCode.READ_REPORT_LIST,reportService.findReport(questionDto));
-
         }catch (Exception e){
             log.error("Report FindReport Error : "+e.getMessage());
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
@@ -42,11 +40,9 @@ public class ReportController {
         try{
             return ApiResponse.success(SuccessCode.READ_REPORT_DETAIL, reportService.findReportDetail(wheelChcekId));
         }catch (Exception e){
-            slack.send("ErrorBot","Report findReportDetail Error : "+e.getMessage());
+            slack.send("Report findReportDetail Error : "+e.getMessage());
             log.error("Report findReportDetail Error : "+e.getMessage());
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
         }
     }
-
-
 }
