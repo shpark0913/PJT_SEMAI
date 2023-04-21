@@ -23,7 +23,6 @@ public class ReportServiceImpl implements ReportService{
     @Override
     @Transactional
     public List<ReportListResponseDto> findReport(QuestionDto dto) throws Exception {
-        //List<WheelCheckEntity> list = wheelCheckRepository.findAll(page).getContent();
         if(dto.getTime().equals("ALL")){
             dto.setStartTime(dto.getDate()+" 00:00:00");
             dto.setEndTime(dto.getDate()+" 23:59:59");
@@ -49,7 +48,9 @@ public class ReportServiceImpl implements ReportService{
             log.info("Report NOT ALL");
             list= wheelCheckRepository.findReport(dto.getOhtSn(),dto.getStartTime(), dto.getEndTime(),dto.getWheelPosition(),dto.getPage());
         }
-
+        if(list==null){
+            throw new RuntimeException("findReport wheelCheckRepository null");
+        }
         return list.stream().map(m->{
             return ReportListResponseDto.builder()
                     .ohtSn(m.getOhtCheck().getOht().getOhtSN())
@@ -59,5 +60,22 @@ public class ReportServiceImpl implements ReportService{
                     .wheelPosition(m.getWheelPosition())
                     .build();
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public ReportListResponseDto findReportDetail(long wheelChcekId) throws Exception {
+        WheelCheckEntity wheel = wheelCheckRepository.findByWheelHistoryId(wheelChcekId);
+        if(wheel==null){
+            throw new RuntimeException("findReportDetail wheelCheckRepository null");
+        }
+        log.info("WheelCheckEntity : "+wheel);
+        return ReportListResponseDto.builder()
+                .ohtSn(wheel.getOhtCheck().getOht().getOhtSN())
+                .boltGoodCount(wheel.getBoltGoodCount())
+                .wheelCheckDate(wheel.getCheckDate())
+                .wheelChcekId(wheel.getWheelHistoryId())
+                .wheelPosition(wheel.getWheelPosition())
+                .build();
     }
 }
