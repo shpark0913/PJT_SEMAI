@@ -20,6 +20,7 @@ public interface WheelCheckRepository extends JpaRepository<WheelCheckEntity,Lon
     @Transactional(readOnly = true)
     List<WheelCheckEntity> findByOhtCheck(OHTCheckEntity ohtCheck);
 
+    WheelCheckEntity findByWheelHistoryId(long wheelHistoryId);
 
     @Query(value = "SELECT * FROM semes.wheel_check_entity e join ohtcheck_entity oe on e.oht_check_id = oe.oht_check_id join ohtentity o on oe.oht_id = o.oht_id" +
             " where o.oht_sn = :sn and (e.wheel_check_date BETWEEN :start and :end) and e.wheel_position = :position" +
