@@ -95,14 +95,26 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h1 {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--emphasize-color);
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 7px;
   }
 
   h2, h3 {
     margin: 0 0 10px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 20px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: var(--gray600-color);
   }
 
 `;
