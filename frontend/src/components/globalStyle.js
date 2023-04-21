@@ -107,7 +107,7 @@ const GlobalStyle = createGlobalStyle`
 
   ::-webkit-scrollbar {
     width: 10px;
-    height: 20px;
+    height: 10px;
   }
   ::-webkit-scrollbar-track {
     background-color: transparent;
@@ -116,7 +116,9 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 8px;
     background-color: var(--gray600-color);
   }
-
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
 `;
 
 export default GlobalStyle;
