@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const MainGrid = styled.section`
   display: grid;
-  width: 100vw;
+  width: 100%;
   height: 85vh;
   grid-template-rows: 34% 34% 32%;
   grid-template-columns: 70% 30%;

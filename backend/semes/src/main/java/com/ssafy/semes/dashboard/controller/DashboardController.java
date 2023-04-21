@@ -1,6 +1,9 @@
 package com.ssafy.semes.dashboard.controller;
 
 
+import com.ssafy.semes.common.ErrorCode;
+import com.ssafy.semes.common.SuccessCode;
+import com.ssafy.semes.common.dto.ApiResponse;
 import com.ssafy.semes.dashboard.model.DashboardMainResponseDto;
 import com.ssafy.semes.dashboard.model.OHTCheckResponseDto;
 import com.ssafy.semes.dashboard.model.SseEmitters;
@@ -44,18 +47,17 @@ public class DashboardController {
             throw new RuntimeException(e);
         }
     }
-    @GetMapping(value = "/main/{oht-check-id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public ResponseEntity<SseEmitter> showMain(@PathVariable("oht-check-id")long ohtCheckId){
+    @GetMapping("/main/{oht-check-id}")
+    public ApiResponse<?> showMain(@PathVariable("oht-check-id")long ohtCheckId){
         log.info("DashBoard ShowMain Start");
         List<DashboardMainResponseDto> list= null;
         try {
             list = dashboardService.findAllMain(ohtCheckId);
             log.info("DashboardMainResponseDtos : " + list);
-            sseEmitters.showMain(list);
-            return ResponseEntity.ok().build();
+            return ApiResponse.success(SuccessCode.READ_DASHBOARD_MAIN,list);
         }catch (Exception e){
             log.error("DashBoard ShowMain Error : " + e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
         }
     }
 }
