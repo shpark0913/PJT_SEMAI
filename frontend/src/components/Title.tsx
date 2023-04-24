@@ -1,5 +1,5 @@
-import { DashboardTitleProps } from "../../_utils/Types";
-import { ReactComponent as TitleRect } from "../../assets/TitleRect.svg";
+import { TitleProps } from "../_utils/Types";
+import { ReactComponent as TitleRect } from "../assets/TitleRect.svg";
 import styled from "styled-components";
 
 const TitleH1 = styled.h1`
@@ -9,7 +9,7 @@ const TitleH1 = styled.h1`
   align-items: center;
 `;
 
-function DashboardTitle({ title }: DashboardTitleProps) {
+function Title({ title }: TitleProps) {
   return (
     <TitleH1>
       <TitleRect fill="var(--emphasize-color)" style={{ marginRight: "5px" }} /> {title}
@@ -17,4 +17,4 @@ function DashboardTitle({ title }: DashboardTitleProps) {
   );
 }
 
-export default DashboardTitle;
+export default Title;

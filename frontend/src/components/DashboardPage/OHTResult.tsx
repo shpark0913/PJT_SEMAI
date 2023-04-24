@@ -1,4 +1,4 @@
-import DashboardTitle from "./DashboardTitle";
+import Title from "../Title";
 import styled from "styled-components";
 
 const OHTResultContainer = styled.section`
@@ -17,7 +17,7 @@ const OHTResultSec = styled.div`
 function OHTResult() {
   return (
     <OHTResultContainer>
-      <DashboardTitle title="OHT 휠 검사 결과" />
+      <Title title="OHT 휠 검사 결과" />
       <OHTResultSec>안녕</OHTResultSec>
     </OHTResultContainer>
   );
