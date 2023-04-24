@@ -5,6 +5,7 @@ import styled from "styled-components";
 const OHTAllResultContainer = styled.section`
   display: flex;
   flex-direction: column;
+  flex: 1;
   grid-row: 3/4;
   grid-column: 1/3;
   margin-top: 10px;
@@ -13,6 +14,7 @@ const OHTAllResultContainer = styled.section`
 
 const OHTAllResultSec = styled.div`
   flex: 1;
+  overflow: auto;
 `;
 
 function OHTAllResult() {
