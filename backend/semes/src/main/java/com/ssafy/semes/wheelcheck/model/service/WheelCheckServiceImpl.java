@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.semes.common.Directory;
+import com.ssafy.semes.util.FileNameUtil;
 import com.ssafy.semes.util.FileUtil;
 import com.ssafy.semes.wheelcheck.model.WheelCheckResultDto;
 import com.ssafy.semes.wheelcheck.model.repository.WheelCheckRepository;
@@ -20,11 +21,10 @@ import lombok.RequiredArgsConstructor;
 public class WheelCheckServiceImpl implements WheelCheckService {
 	@Autowired
 	WheelCheckRepository wheelCheckRepository;
-	public WheelCheckResultDto checkWheel(MultipartFile file, String baseName,int pos) throws IOException {
-		String filename = FileUtil.getWheelFileNameWithPos(baseName,pos);
-		String originFilePath = FileUtil.create(Directory.WHEEL_ORIGIN.getPath(),filename,file);
+	public WheelCheckResultDto checkWheel(MultipartFile file, FileNameUtil fileNameUtil,int wheelPosition) throws IOException {
 
-		System.out.println("WheelCheckServiceImpl checkWheel originFilePath"+originFilePath);
+		fileNameUtil.setWheelPosition(wheelPosition);
+		String originFilePath = FileUtil.create(Directory.WHEEL_ORIGIN.getPath(),fileNameUtil.getFilename(),file);
 
 
 		return WheelCheckResultDto.builder().build();
