@@ -107,8 +107,8 @@ public class JwtUtil  {
         return value;
     }
 
-    public int getUserRole(String token) {
-        return (int) Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(token).getBody().get("role");
+    public String getUserRole(String token) {
+        return (String) Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(token).getBody().get("role");
     }
 
 }
