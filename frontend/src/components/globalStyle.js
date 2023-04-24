@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
 
     --check-color: #0AFF0A;
     --danger-color: #FF0A0A;
+    --danger-color-light: #FF7070;
     --warning-color: #FFFF0A;
   
     /* Navigation bar height */
