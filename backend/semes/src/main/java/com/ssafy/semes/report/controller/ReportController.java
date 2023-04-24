@@ -24,7 +24,7 @@ public class ReportController {
     private Slack slack = new Slack();
 
     @PostMapping("/list")
-    private ApiResponse<?> findReport( @RequestBody QuestionDto questionDto){
+    private ApiResponse<?> findReport(@RequestBody QuestionDto questionDto){
         log.info("Report FindReport Start");
         try {
             return ApiResponse.success(SuccessCode.READ_REPORT_LIST,reportService.findReport(questionDto));
