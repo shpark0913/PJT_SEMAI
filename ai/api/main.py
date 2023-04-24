@@ -57,10 +57,8 @@ transformations = transforms.Compose([
 ])
 
 # 볼트 이미지를 읽어 결과를 반환하는 함수
-def get_prediction(image_bytes):
-    # 이미지 바이트 데이터를 입력으로 받아 image에 저장
-    image = Image.open(io.BytesIO(image_bytes))
-    # 저장한 이미지를 전처리(unsqueeze를 이용해 배치 차원을 추가하고, GPU를 사용)
+def get_prediction(image):
+    # 이미지를 전처리(unsqueeze를 이용해 배치 차원을 추가하고, GPU를 사용)
     image = transformations(image).unsqueeze(0).to(device)
 
     # 모델의 파라미터가 업데이트 되지 않고 연산의 중복을 막아 빠른 결과를 출력
@@ -71,3 +69,13 @@ def get_prediction(image_bytes):
         _, preds = torch.max(outputs, 1)
     # 예측한 결과 preds에서 가장 확률이 높은 클래스를 class_names 리스트에서 찾아 반환
     return class_names[preds[0]]
+
+
+@app.get("/infer")
+def detect_classification(filePath: str):
+    print(filePath)
+    image = Image.open(filePath)
+    image = image.convert('RGB')
+    class_name = get_prediction(image)
+    print(class_name)
+    return class_name
