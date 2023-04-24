@@ -62,7 +62,7 @@ const OHTCheckBar = styled.div`
   background-color: var(--background-color);
   position: absolute;
   height: 7px;
-  top: 29%;
+  top: 31%;
   z-index: 1;
 `;
 
