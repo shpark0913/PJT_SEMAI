@@ -1,6 +1,6 @@
 import { ReactComponent as Check } from "../../assets/Check.svg";
-import DashboardTitle from "./DashboardTitle";
 import { ReactComponent as NotCheck } from "../../assets/NotCheck.svg";
+import Title from "../Title";
 import styled from "styled-components";
 
 type OHTCheckGaugeType = {
@@ -97,7 +97,7 @@ function OHTCheck() {
 
   return (
     <OHTCheckSec>
-      <DashboardTitle title="현재 검사 OHT" />
+      <Title title="현재 검사 OHT" />
       <OHTCheckContainer>
         <OHTCheckTitle>
           <OHTCheckContent style={{ color: "var(--emphasize-color)", marginRight: "5px" }}>
