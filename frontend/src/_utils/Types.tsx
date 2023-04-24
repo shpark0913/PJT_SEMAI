@@ -1,3 +1,3 @@
-export type DashboardTitleProps = {
+export type TitleProps = {
   title: string;
 };
