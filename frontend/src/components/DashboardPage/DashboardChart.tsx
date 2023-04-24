@@ -8,6 +8,7 @@ interface Props {
 }
 
 const ChartFrame = styled.div`
+  padding-top: 4%;
   width: 30%;
 `;
 

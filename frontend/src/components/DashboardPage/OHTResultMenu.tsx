@@ -1,12 +1,11 @@
-import { TBody, TD, TFoot, TH, THead, TR, Table } from "../../components/TableComponents";
+import { TBody, TD, TH, THead, TR, Table } from "../../components/TableComponents";
 
 import styled from "styled-components";
 
 const OHTResultMenuDiv = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  flex: 1;
 `;
 
 function OHTResultMenu() {
