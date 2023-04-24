@@ -10,10 +10,7 @@ import com.ssafy.semes.user.model.UserResponseDto;
 import com.ssafy.semes.user.model.service.UserSerivce;
 import com.ssafy.semes.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -26,7 +23,7 @@ public class UserController {
     public ApiResponse<?> login(@RequestBody UserRequestDto userRequestDto){
         try{
             UserEntity user =userSerivce.findUser(userRequestDto);
-
+            System.out.println(user.getUserRole());
             return ApiResponse.success(SuccessCode.READ_USER_LOGIN,
                     new UserResponseDto(jwtUtil.createAccessToken("role",user.getUserRole()))
             );
@@ -34,5 +31,10 @@ public class UserController {
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
         }
 
+    }
+
+    @GetMapping("test")
+    public ApiResponse<?> test(){
+        return ApiResponse.success(SuccessCode.READ_DASHBOARD_MAIN);
     }
 }
