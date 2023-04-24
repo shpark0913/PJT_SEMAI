@@ -1,5 +1,5 @@
-import DashboardTitle from "./DashboardTitle";
 import OHTResultMenu from "./OHTResultMenu";
+import Title from "../Title";
 import styled from "styled-components";
 
 const OHTAllResultContainer = styled.section`
@@ -18,7 +18,7 @@ const OHTAllResultSec = styled.div`
 function OHTAllResult() {
   return (
     <OHTAllResultContainer>
-      <DashboardTitle title="OHT 휠 검사 현황" />
+      <Title title="OHT 휠 검사 현황" />
       <OHTAllResultSec>
         <OHTResultMenu />
       </OHTAllResultSec>
