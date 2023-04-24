@@ -85,6 +85,11 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
+  p {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
   a,
   div,
   span,
