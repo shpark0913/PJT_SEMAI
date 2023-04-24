@@ -2,6 +2,24 @@ import React from 'react';
 import { Form } from "react-router-dom";
 import styled from "styled-components";
 import { Table, TBody, TFoot, TH, THead, TD, TR } from "../components/TableComponents";
+// import { DatePicker } from "@mui/x-date-pickers";
+
+// import type {} from '@mui/x-date-pickers/themeAugmentation';
+// import { createTheme } from "@mui/material";
+
+// const theme = createTheme({
+//   components: {
+//     MuiDatePicker: {
+//       styleOverrides: {
+//         root: {
+//           backgroundColor: 'var(--emphasize-color)',
+//           width: "120px",
+//           height: "40px",
+//         },
+//       },
+//     },
+//   },
+// });
 
 const ReportSection = styled.section`
   //width: 100%;
@@ -25,7 +43,37 @@ function ReportPage() {
     <ReportSection>
       <h1>레포트</h1>
       <Form>
-        장비 종류, 검사 날짜, 검사 시간, 검사 휠 위치
+        <label>
+          장비 종류
+          <select name="OHT_type">
+            <option value="V30001">V30001</option>
+            <option value="V30002">V30002</option>
+            <option value="V30003">V30003</option>
+          </select>
+        </label>
+        <label>
+          검사 일자
+          <input type="date" name="date" value="2023-04-24" />
+        </label>
+        <label>
+          검사 시간
+          <select name="time">
+            <option value="00:00~01:00">00:00~01:00</option>
+            <option value="01:00~02:00">01:00~02:00</option>
+            <option value="02:00~03:00">02:00~03:00</option>
+          </select>
+        </label>
+        <label>
+          검사 휠 위치
+          <select name="time">
+            <option value="FL">FL</option>
+            <option value="FR">FR</option>
+            <option value="RL">RL</option>
+            <option value="RR">RR</option>
+          </select>
+        </label>
+        {/*<DatePicker value="날짜 선택"  />*/}
+
         <button type="submit">조회하기</button>
       </Form>
       <TableDiv>
