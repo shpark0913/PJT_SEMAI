@@ -3,22 +3,18 @@ package com.ssafy.semes.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-
-import javax.xml.bind.DatatypeConverter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class FileHandler {
-	static String BASE_PATH = "C:" + File.separator + "dataset" + File.separator;
-	static boolean baseChecked = false;
+public class FileUtil {
+	static String BASE_PATH = new StringBuilder(new File( new File(System.getProperty("user.dir")).getParent()).getParent())
+		.append(File.separator).append("semes_bolts").append(File.separator).toString();
+	static String[] position = new String[]{"FL","FR","RL","RL"};
 
 	static public String create(String dir, String filename, MultipartFile inputFile) throws IOException {
 		StringBuilder sb = new StringBuilder(BASE_PATH);
@@ -30,10 +26,11 @@ public class FileHandler {
 		}
 		//file 생성
 		sb = new StringBuilder(path);
-		String ext = inputFile.getOriginalFilename().split(".")[1];
+		String ext = getFileExtension(inputFile);
 		String dest = sb.append(filename).append('.').append(ext).toString();
 
 		File file = new File(dest);
+		System.out.println(dest);
 		if (!file.exists()) {
 			file.createNewFile();
 		}
@@ -55,36 +52,27 @@ public class FileHandler {
 			}
 		} else {
 			FileNotFoundException e = new FileNotFoundException("파일이 존재하지 않습니다.");
-			return false;
+			throw e;
 		}
 	}
 
-	static public String getUniqueFileName(String originName) {
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		String formattedTime = new SimpleDateFormat("yyyy-MM-dd hh:m:ss").format(timestamp);
+	static public String getWheelFileName(String ohtSn) {
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HHmmss");
+		String formattedDateTime = now.format(formatter);
 
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		}
-
-		String uniqueString = originName + formattedTime;
-		byte[] digest = md.digest(originName.getBytes(StandardCharsets.UTF_8));
-		String sha256 = DatatypeConverter.printHexBinary(digest).toLowerCase();
-
-		return sha256;
+		return new StringBuilder(formattedDateTime).append("_").append(ohtSn).toString();
 	}
-
-	static public void initBasePath() {
-		File file = new File(BASE_PATH);
-		if (!file.exists()) {
-			baseChecked = file.mkdirs();
-			return;
-		}
-		baseChecked = true;
-		return;
+	static public String getWheelFileNameWithPos(String baseName,int pos){
+		return new StringBuilder(baseName).append("_").append(position[pos]).toString();
 	}
-
+	static public String getFileExtension(MultipartFile file) {
+		String originalFileName = file.getOriginalFilename();
+		int dotIndex = originalFileName.lastIndexOf('.');
+		if (dotIndex > 0) {
+			return originalFileName.substring(dotIndex + 1);
+		} else {
+			return "";
+		}
+	}
 }

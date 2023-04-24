@@ -24,7 +24,7 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 		Optional<OHTEntity> oht = ohtRepository.findByOhtSN(ohtSn);
 		System.out.println("createOhtCheck");
 
-		if(!oht.isEmpty()){
+		if(!oht.isPresent()){
 			throw new InvaildOHTSerialNo();
 		}
 		System.out.println("createOhtCheck");
