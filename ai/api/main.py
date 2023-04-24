@@ -71,11 +71,17 @@ def get_prediction(image):
     return class_names[preds[0]]
 
 
+# infer로 get 요청이 왔을 때
 @app.get("/infer")
+# 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
 def detect_classification(filePath: str):
-    print(filePath)
-    image = Image.open(filePath)
+    # filePath의 앞부분을 IMG_DIR에 저장
+    IMG_DIR = os.path.dirname('../../semes_bolt/')
+    # image에 해당 휠 이미지 열기
+    image = Image.open(os.path.join(IMG_DIR, filePath))
+    # image를 RGB로 변환
     image = image.convert('RGB')
+    # 볼트 분류 결과를 class_name에 저장
     class_name = get_prediction(image)
     print(class_name)
     return class_name
