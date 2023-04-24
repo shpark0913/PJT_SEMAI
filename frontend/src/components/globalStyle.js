@@ -106,7 +106,7 @@ const GlobalStyle = createGlobalStyle`
     margin-bottom: 7px;
   }
 
-  h2, h3 {
+  h2, h3, h4, h5 {
     margin: 0 0 10px;
   }
 
