@@ -1,6 +1,7 @@
 package com.ssafy.semes.oht.model.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +48,11 @@ public class OHTServiceImpl implements OHTService {
 	@Override
 	@Transactional
 	public OHTResponseDto getOHT(String ohtSN) {
-		OHTEntity oht = ohtRepository.findByOhtSN(ohtSN);
+		Optional<OHTEntity> oht = ohtRepository.findByOhtSN(ohtSN);
 		OHTResponseDto ohtResponseDto = OHTResponseDto.builder().serialNumber(ohtSN).build();
+
 		for (OHTCheckEntity ohtCheck:
-			oht.getOhtChecks()) {
+			oht.get().getOhtChecks()) {
 			ohtResponseDto.getOhtChecks().add(ohtCheck);
 		}
 		return ohtResponseDto;
