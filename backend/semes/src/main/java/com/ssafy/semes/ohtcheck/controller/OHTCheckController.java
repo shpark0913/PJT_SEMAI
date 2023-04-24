@@ -15,7 +15,7 @@ import com.ssafy.semes.common.SuccessCode;
 import com.ssafy.semes.common.dto.ApiResponse;
 import com.ssafy.semes.image.model.service.ImageService;
 import com.ssafy.semes.ohtcheck.model.service.OHTCheckService;
-import com.ssafy.semes.util.FileUtil;
+import com.ssafy.semes.util.FileNameUtil;
 import com.ssafy.semes.wheelcheck.model.service.WheelCheckService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,13 +43,12 @@ public class OHTCheckController {
 		}
 
 		boolean normal = true;
-		String baseName = FileUtil.getWheelFileName(ohtSn);
+		FileNameUtil ohtFileName = new FileNameUtil(ohtSn);
 		//바퀴 별 처리
-
 		for (int i=0;i<4;i++) {
 			MultipartFile file = files[i];
 			try {
-				wheelCheckService.checkWheel(file,baseName,i);
+				wheelCheckService.checkWheel(file,ohtFileName,i);
 			} catch (IOException e) {
 				log.info("OHTCheckController checkOht wheelCheckService.checkWheel check error");
 				throw new RuntimeException(e);
