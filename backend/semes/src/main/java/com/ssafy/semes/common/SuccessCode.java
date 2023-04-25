@@ -20,7 +20,8 @@ public enum SuccessCode {
     ,READ_BOARD(SUCCESS,"대시보드 조회 성공"),READ_REPORT_LIST(SUCCESS,"보고서 조회 성공")
     ,CREATE_FILE(CREATED,"이미지 저장 성공"),DELETE_FILE(SUCCESS,"이미지 삭제 성공")
     ,READ_REPORT_DETAIL(SUCCESS,"보고서 상세 조회 성공"),READ_DASHBOARD_MAIN(SUCCESS,"대시보드 메인 조회 성공")
-
+    ,CHECK_OHT_COMPLETE(SUCCESS,"OHT 검사 종료")
+    ,READ_USER_LOGIN(SUCCESS,"유저 로그인 성공")
 
 
 

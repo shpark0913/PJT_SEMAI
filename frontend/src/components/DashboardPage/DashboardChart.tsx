@@ -8,15 +8,15 @@ interface Props {
 }
 
 const ChartFrame = styled.div`
+  padding-top: 4%;
   width: 30%;
-  padding: 15px 0px;
 `;
 
 function ChartDark({ myScore, name, order }: Props) {
   const gaugeData = [
     {
       value: myScore,
-      // name: myScore + "%", // 이 부분은 점수에 따라 다른 데이터 보여주자
+      // name: name, // 이 부분은 점수에 따라 다른 데이터 보여주자
       detail: {
         valueAnimation: true,
         offsetCenter: ["0%", "0%"],
@@ -112,7 +112,7 @@ function ChartLight({ myScore, name, order }: Props) {
   const gaugeData = [
     {
       value: myScore,
-      // name: myScore + "%", // 이 부분은 점수에 따라 다른 데이터 보여주자
+      // name: name, // 이 부분은 점수에 따라 다른 데이터 보여주자
       detail: {
         valueAnimation: true,
         offsetCenter: ["0%", "0%"],

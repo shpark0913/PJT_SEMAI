@@ -1,15 +1,13 @@
 from typing import Union
-
 from fastapi import FastAPI
 from pydantic import BaseModel
-#---
-import os
-import io
+import re
 import torch
-import torchvision.transforms as transforms
-from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import JSONResponse
-from PIL import Image
+from fastapi import FastAPI, HTTPException
+# detection
+from detection import yolo
+# clssification
+from classification import RegNet
 
 # GPU가 사용 가능한 경우 cuda를 0으로 초기화하여 사용 / GPU가 사용 불가능한 경우 CPU로 초기화하여 CPU 사용
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
@@ -24,50 +22,64 @@ class Item(BaseModel):
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"Hello": "SEMES"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG')
 
-
-@app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
-    print(item)
-    return {"item_name": item.name, "item_id": item_id}
-
-
-
-# 볼트 분석 모델 load
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
-classification_model = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
-classification_model.eval()
-class_names = ['breaking','disappearance','good']
-
-# 분류를 위한 볼트 이미지 파일 전처리
-transformations = transforms.Compose([
-    # 해상도를 (224,224)로 맞춰준다
-    transforms.Resize((224, 224)),
-    # 이미지를 PyTorch의 Tensor로 변환
-    transforms.ToTensor(),
-    # 흑백 이미지이기 때문에 1개의 채널을 정규화
-    transforms.Normalize([0.5], [0.5])
-])
-
-# 볼트 이미지를 읽어 결과를 반환하는 함수
-def get_prediction(image_bytes):
-    # 이미지 바이트 데이터를 입력으로 받아 image에 저장
-    image = Image.open(io.BytesIO(image_bytes))
-    # 저장한 이미지를 전처리(unsqueeze를 이용해 배치 차원을 추가하고, GPU를 사용)
-    image = transformations(image).unsqueeze(0).to(device)
-
-    # 모델의 파라미터가 업데이트 되지 않고 연산의 중복을 막아 빠른 결과를 출력
-    with torch.no_grad():
-        # classification_model image를 넣어 예측
-        outputs = classification_model(image)
-        # torch.max 함수를 이용해 출력값 중 가장 큰 값을 가지는 인덱스
-        _, preds = torch.max(outputs, 1)
-    # 예측한 결과 preds에서 가장 확률이 높은 클래스를 class_names 리스트에서 찾아 반환
-    return class_names[preds[0]]
+# infer로 get 요청이 왔을 때
+@app.get("/infer")
+# 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
+def detect_classification(filePath: str):
+    try:
+        # cropped 된 볼트의 각 bounding box 좌표를 원소로하는 리스트를 받는다.
+        image, bboxes = yolo.detect_bolt(filePath)
+        # 확장자 삭제
+        filePath = re.sub(REGEX, '', filePath)
+        # blot 이미지 저장 
+        result = []
+        for i, now_bbox in enumerate(bboxes):
+            x_min = float(now_bbox[1])
+            y_min = float(now_bbox[2])
+            x_max = float(now_bbox[3])
+            y_max = float(now_bbox[4])
+            cropped = image.crop((x_min, y_min, x_max, y_max))
+            # 크롭된 이미지 분류
+            classification_Result = RegNet.classification(cropped)
+            print(111)
+            image_name = filePath + f'_{i+1}.png' 
+            # 정상인 볼트로 분류되었을 경우
+            if classification_Result == 2:
+                save_directory = '../../../semes_bolt/BOLT_NORMAL/'
+                classification_directory = 'BOLT_NORMAL/'
+                result.append(classification_directory + image_name)
+            # 유실된 볼트로 분류되었을 경우
+            elif classification_Result == 1:
+                save_directory = '../../../semes_bolt/BOLT_LOST/'
+                classification_directory = 'BOLT_LOST/'
+                result.append(classification_directory + image_name)
+            # 파단된 볼트로 분류되었을 경우
+            else:
+                save_directory = '../../../semes_bolt/BOLT_BREAK/'
+                classification_directory = 'BOLT_BREAK/'
+                result.append(classification_directory + image_name)
+            # 이미지를 분류된 폴더에 맞게 저장
+            cropped.save(save_directory + image_name)
+        # 데이터를 JSON 형식으로 구성
+        data = {
+            "markedImage": "WHEEL_RESULT/marked.png",
+            "bolts": result,
+            "word": "저장중"
+        }
+        # 성공적으로 분류 작업을 수행한 경우
+        return {
+            "status": 200,
+            "success": True,
+            "data": data
+        }
+    except FileNotFoundError:
+        # 파일 경로가 잘못된 경우
+        raise HTTPException(status_code=400, detail="필요한 값이 없습니다.")
+    except Exception as e:
+        # 분류 작업 중 오류가 발생한 경우
+        raise HTTPException(status_code=500, detail="서버 내 오류")
