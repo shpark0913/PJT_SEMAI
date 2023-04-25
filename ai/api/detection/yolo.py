@@ -38,7 +38,6 @@ def detect_bolt(image_path, model=model):
     2. 해당 이미지에 대해 detection을 진행한다.
     3. detected objects(bolts)의 bounding box 정보를 반환한다.
     '''
-    print(image_path)
     # filePath의 앞부분을 IMG_DIR에 저장
     IMG_DIR = os.path.dirname('../../../semes_bolt/WHEEL_ORIGIN/')
     # image에 해당 휠 이미지 열기
@@ -62,10 +61,13 @@ def detect_bolt(image_path, model=model):
         label_path = NORMAL_BBOXES_PATH
 
     # 반환 값
+    bboxes_response = []
     with open(label_path + image_name + '.txt', 'w') as f:
-        for bbox in bboxes_norm:
-            bbox_str = '{} {} {} {} {}'.format(int(bbox[-1]), bbox[0], bbox[1], bbox[2], bbox[3])
+        for i in range(n_bboxes):
+            bbox_str = '{} {} {} {} {}'.format(int(bboxes_norm[i][-1]), bboxes_norm[i][0], bboxes_norm[i][1], bboxes_norm[i][2], bboxes_norm[i][3])
+            bbox_res_str = '{} {} {} {} {}'.format(int(bboxes[i][-1]), bboxes[i][0], bboxes[i][1], bboxes[i][2], bboxes[i][3])
+            bboxes_response.append(list(bbox_res_str.split()))
             f.write(bbox_str + '\n')
         f.close()
 
-    return now_image, bboxes
+    return now_image, bboxes_response
