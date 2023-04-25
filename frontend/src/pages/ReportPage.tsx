@@ -8,12 +8,15 @@ import { Label } from "../components/ReportPage/FilterComponents"
 import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
 import {RootState} from "../_store/store";
+import DetailModal from "../components/DetailModal/DetailModal";
+import { DetailInfoType } from "../_utils/Types";
 
-const ReportSection = styled.section`
+const ReportSection = styled.section<{ isModalOpen: boolean }>`
   padding: 30px;
   
   display: flex;
   flex-direction: column;
+  overflow-y: ${props => props.isModalOpen? "hidden" : "auto"};
 `
 
 let today = new Date();
@@ -24,7 +27,9 @@ let TodayDate = `${year}-${month}-${day}`;
 console.log(TodayDate);
 
 function ReportPage() {
-  let [chosenDate, setChosenDate] = useState<string>(TodayDate)
+  let [chosenDate, setChosenDate] = useState<string>(TodayDate);
+  let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  let [detailInfo, setDetailInfo] = useState<object>({});
   let theme = useSelector((state:RootState) => state.theme.theme)
 
 
@@ -32,8 +37,16 @@ function ReportPage() {
     setChosenDate(e.target.value);
   }
 
+  const handleModalOpen = (detailInfo: DetailInfoType) => {
+    setIsModalOpen(true);
+    setDetailInfo(detailInfo)
+  }
+
   return (
-    <ReportSection>
+    <ReportSection isModalOpen={isModalOpen}>
+
+      { isModalOpen && <DetailModal detailInfo={detailInfo} setIsModalOpen={setIsModalOpen} /> }
+
       <Title title="레포트" />
       <Form style={{height :"30px", marginBottom: "15px", display: "flex", justifyContent: "space-between"}}>
         <div>
@@ -72,13 +85,12 @@ function ReportPage() {
           </Label>
           <SemesButton width="90px" height="100%" type="submit">조회하기</SemesButton>
         </div>
-
         <div>
           <Button width="90px" height="100%" type="submit">CSV 출력</Button>
         </div>
       </Form>
 
-      <ReportTable />
+      <ReportTable handleModalOpen={handleModalOpen} />
     </ReportSection>
   );
 }
