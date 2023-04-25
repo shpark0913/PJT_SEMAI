@@ -9,8 +9,31 @@ const THead = styled.thead`
   border-top: solid var(--emphasize-color);
   border-top-width: 3px;
   border-bottom: 1px solid var(--emphasize-color);
+`;
+
+const THeadMain = styled.thead`
   position: sticky;
   top: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -1px;
+    right: -1px;
+    height: 3px;
+    background-color: var(--emphasize-color);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: -1px;
+    right: -1px;
+    height: 1px;
+    background-color: var(--emphasize-color);
+  }
 `;
 
 const TBody = styled.tbody`
@@ -37,8 +60,6 @@ const TR = styled.tr`
 `;
 
 const TH = styled.th`
-  position: sticky;
-  top: 0;
   background-color: var(--background-dark-color);
   border-right: 1px solid var(--emphasize-color);
   border-bottom: 1px solid var(--emphasize-color);
@@ -60,4 +81,4 @@ const TD = styled.td`
   }
 `;
 
-export { Table, THead, TBody, TFoot, TR, TH, TD };
+export { Table, THead, TBody, TFoot, TR, TH, TD, THeadMain };
