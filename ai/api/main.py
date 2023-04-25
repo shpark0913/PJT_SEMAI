@@ -5,10 +5,9 @@ import os
 import torch
 from fastapi import FastAPI, HTTPException
 # detection
-# from detection import yolo
+from detection import yolo
 # clssification
 from classification import RegNet
-
 
 # GPU가 사용 가능한 경우 cuda를 0으로 초기화하여 사용 / GPU가 사용 불가능한 경우 CPU로 초기화하여 CPU 사용
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
@@ -30,15 +29,6 @@ def read_root():
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
 def detect_classification(filePath: str):
     
-    ## 이미지 크롭 코드 ##
-    image, bboxes = yolo.detect_bolt(filePath)
-    now_bbox = bboxes[0]
-    x_min = now_bbox[0]
-    y_min = now_bbox[1]
-    x_max = now_bbox[2]
-    y_max = now_bbox[3]
-    cropped = image.crop((x_min, y_min, x_max, y_max))
-    
     # cropped 이미지를 분류 모델에 넣으면 됨!
     # 만약 오류날 경우 아래 코드 실행해서 cropped 이미지 다시 불러와서 사용하면 됨
     # from io import BytesIO
@@ -48,12 +38,25 @@ def detect_classification(filePath: str):
     
     try:
         # cropped 된 볼트의 각 bounding box 좌표를 원소로하는 리스트를 받는다.
-        # bboxes = yolo.detect_bolt(filePath)
-        bbolt = RegNet.classification(filePath)
+        bboxes = yolo.detect_bolt(filePath)
+ 
+        # 이미지 크롭 코드 ##
+        image, bboxes = yolo.detect_bolt(filePath)
+        now_bbox = bboxes[0]
+        x_min = now_bbox[0]
+        y_min = now_bbox[1]
+        x_max = now_bbox[2]
+        y_max = now_bbox[3]
+        cropped = image.crop((x_min, y_min, x_max, y_max))
+        print(bboxes)
+        result = []
+        A = RegNet.classification(cropped)
+        print(A)
+        result.append(A)
         # 데이터를 JSON 형식으로 구성
         data = {
             "markedImage": "WHEEL_RESULT/marked.png",
-            "bolts": [bbolt],
+            "bolts": result,
             "word": "저장중"
         }
         

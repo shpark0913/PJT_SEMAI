@@ -14,15 +14,12 @@ NORMAL_BBOXES_PATH = '../../../semes_bolt/DETECTION_NORMAL/'
 PROBLEM_BBOXES_PATH = '../../../semes_bolt/DETECTION_PROBLEM/'
 REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp')
 
-
 def load_detection_model(model_name, model_path=MODEL_PATH):
     path = model_path + model_name
     return torch.hub.load('.', 'custom', path=path, source='local')
 
-
 ## 서버를 실행시킬 때 바로 model load ##
 model = load_detection_model('best.pt')
-
 
 ## 전처리 함수 ##
 def preprocess_image(image, image_size=IMAGE_SIZE, interpolation=Image.LANCZOS):
@@ -41,8 +38,11 @@ def detect_bolt(image_path, model=model):
     2. 해당 이미지에 대해 detection을 진행한다.
     3. detected objects(bolts)의 bounding box 정보를 반환한다.
     '''
-    
-    now_image = Image.open('images/' + image_path)
+    print(image_path)
+    # filePath의 앞부분을 IMG_DIR에 저장
+    IMG_DIR = os.path.dirname('../../../semes_bolt/WHEEL_ORIGIN/')
+    # image에 해당 휠 이미지 열기
+    now_image = Image.open(os.path.join(IMG_DIR, image_path))
     now_image = preprocess_image(now_image)
 
     result = model(now_image)
