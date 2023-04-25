@@ -1,0 +1,16 @@
+path: ../datasets/cattle
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 2
+names: 
+  0: none
+  1: Cattle
+
+roboflow:
+  workspace: project
+  project: catle
+  version: 3
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/project/catle/dataset/3

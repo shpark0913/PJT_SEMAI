@@ -1,6 +1,6 @@
 import { ChartDark, ChartLight } from "./DashboardChart";
 
-import DashboardTitle from "./DashboardTitle";
+import Title from "../Title";
 import styled from "styled-components";
 
 const OHTTransitionContainer = styled.section`
@@ -12,12 +12,21 @@ const OHTTransitionContainer = styled.section`
 `;
 
 const OHTTransitionSec = styled.div`
+  flex: 0.7;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: var(--section-color);
+  height: 100%;
+`;
+
+const TransitionSortDiv = styled.div`
+  width: 100%;
   flex: 1;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   background-color: var(--section-color);
-  height: 90%;
 `;
 
 function OHTTransition() {
@@ -44,8 +53,13 @@ function OHTTransition() {
 
   return (
     <OHTTransitionContainer>
-      <DashboardTitle title="전이 학습 데이터 수집 현황" />
+      <Title title="전이 학습 데이터 수집 현황" />
       {chart}
+      <TransitionSortDiv>
+        <h4>양호</h4>
+        <h4>유실</h4>
+        <h4>모호</h4>
+      </TransitionSortDiv>
     </OHTTransitionContainer>
   );
 }

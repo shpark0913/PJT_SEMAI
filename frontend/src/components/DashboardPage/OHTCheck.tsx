@@ -1,7 +1,16 @@
 import { ReactComponent as Check } from "../../assets/Check.svg";
-import DashboardTitle from "./DashboardTitle";
 import { ReactComponent as NotCheck } from "../../assets/NotCheck.svg";
+import Title from "../Title";
 import styled from "styled-components";
+
+type OHTCheckGaugeType = {
+  isSuccessed: boolean;
+  wheel: string;
+};
+
+type OHTCheckPercentBarType = {
+  checkBar: boolean[];
+};
 
 const OHTCheckSec = styled.section`
   display: flex;
@@ -40,7 +49,7 @@ const OHTCheckGaugeDiv = styled.div`
   position: relative;
 `;
 
-const OHTCheckGauge = styled.div`
+const OHTCheckGauge = styled.div<OHTCheckGaugeType>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,26 +59,45 @@ const OHTCheckGauge = styled.div`
 
 const OHTCheckBar = styled.div`
   width: 100%;
-  background-color: var(--emphasize-color);
+  background-color: var(--background-color);
   position: absolute;
   height: 7px;
-  top: 29%;
+  top: 31%;
   z-index: 1;
 `;
 
+const OHTCheckPercentBar = styled.div<OHTCheckPercentBarType>`
+  width: ${props =>
+    props.checkBar[3]
+      ? "100%"
+      : props.checkBar[2]
+      ? "60%"
+      : props.checkBar[1]
+      ? "40%"
+      : props.checkBar[0]
+      ? "20%"
+      : "0%"};
+  background-color: var(--emphasize-color);
+  height: 100%;
+  top: 29%;
+  z-index: 3;
+`;
+
 function OHTCheck() {
-  const checkBar: boolean[] = [true, true, false, false];
-  console.log(checkBar);
-  console.log("3번째 : ", checkBar[3]);
-  // switch (checkBar) {
-  //   case checkBar[3] === true:
-  //     console.log(2)
-  //     break
-  // }
+  const checkBar: boolean[] = [true, true, true, false];
+
+  const OHTCheckGaugeFtn = ({ isSuccessed, wheel }: OHTCheckGaugeType) => {
+    return (
+      <OHTCheckGauge isSuccessed={isSuccessed} wheel={wheel}>
+        {isSuccessed ? <Check /> : <NotCheck fill="var(--background-color)" />}
+        <p>{wheel}</p>
+      </OHTCheckGauge>
+    );
+  };
 
   return (
     <OHTCheckSec>
-      <DashboardTitle title="현재 검사 OHT" />
+      <Title title="현재 검사 OHT" />
       <OHTCheckContainer>
         <OHTCheckTitle>
           <OHTCheckContent style={{ color: "var(--emphasize-color)", marginRight: "5px" }}>
@@ -78,27 +106,13 @@ function OHTCheck() {
           <OHTCheckContent>V30001-FL-1681704285</OHTCheckContent>
         </OHTCheckTitle>
         <OHTCheckGaugeDiv>
-          <OHTCheckBar>&nbsp;</OHTCheckBar>
-
-          <OHTCheckGauge>
-            <Check />
-            <p>FL</p>
-          </OHTCheckGauge>
-
-          <OHTCheckGauge>
-            <Check />
-            <p>FF</p>
-          </OHTCheckGauge>
-
-          <OHTCheckGauge>
-            <Check />
-            <p>RL</p>
-          </OHTCheckGauge>
-
-          <OHTCheckGauge>
-            <NotCheck />
-            <p>RR</p>
-          </OHTCheckGauge>
+          <OHTCheckBar>
+            <OHTCheckPercentBar checkBar={checkBar}></OHTCheckPercentBar>
+          </OHTCheckBar>
+          <OHTCheckGaugeFtn isSuccessed={checkBar[0]} wheel="FL" />
+          <OHTCheckGaugeFtn isSuccessed={checkBar[1]} wheel="FF" />
+          <OHTCheckGaugeFtn isSuccessed={checkBar[2]} wheel="RL" />
+          <OHTCheckGaugeFtn isSuccessed={checkBar[3]} wheel="RR" />
         </OHTCheckGaugeDiv>
       </OHTCheckContainer>
     </OHTCheckSec>
