@@ -10,3 +10,16 @@ export type ButtonProps = {
 export type LabelProps = {
   theme: string;
 }
+
+export type ReportTableProps = {
+  handleModalOpen: (arg :DetailInfoType) => void;
+}
+
+export type DetailInfoType = {
+  ohtSn?: string
+}
+
+export type DetailModalProps = {
+  detailInfo: DetailInfoType;
+  setIsModalOpen: (arg: boolean) => void;
+}

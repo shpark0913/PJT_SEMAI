@@ -10,7 +10,7 @@ const Button = styled.button<ButtonProps>`
   border-radius: 7px;
   position: relative;
   
-  &:hover::after {
+  &:hover:after {
     content: "";
     display: block;
     width: 100%;
