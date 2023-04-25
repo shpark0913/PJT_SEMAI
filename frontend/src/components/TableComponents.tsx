@@ -6,7 +6,7 @@ const TableContainer = styled.div`
   overflow-y: auto;
   flex-grow: 1;
   flex-shrink: 0;
-`
+`;
 
 const Table = styled.table`
   width: 100%;
@@ -89,4 +89,4 @@ const TD = styled.td`
   }
 `;
 
-export { TableContainer, Table, THead, TBody, TFoot, TR, TH, TD }
+export { TableContainer, Table, THead, TBody, TFoot, TR, TH, TD, THeadMain };
