@@ -29,6 +29,23 @@ def read_root():
 @app.get("/infer")
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
 def detect_classification(filePath: str):
+    
+    ## 이미지 크롭 코드 ##
+    image, bboxes = yolo.detect_bolt(filePath)
+    now_bbox = bboxes[0]
+    x_min = now_bbox[0]
+    y_min = now_bbox[1]
+    x_max = now_bbox[2]
+    y_max = now_bbox[3]
+    cropped = image.crop((x_min, y_min, x_max, y_max))
+    
+    # cropped 이미지를 분류 모델에 넣으면 됨!
+    # 만약 오류날 경우 아래 코드 실행해서 cropped 이미지 다시 불러와서 사용하면 됨
+    # from io import BytesIO
+    # b = BytesIO()
+    # cropped.save(b, format='jpeg')
+    # cropped = Image.open(b)
+    
     try:
         # cropped 된 볼트의 각 bounding box 좌표를 원소로하는 리스트를 받는다.
         # bboxes = yolo.detect_bolt(filePath)
