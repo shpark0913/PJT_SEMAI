@@ -7,7 +7,7 @@ from fastapi import FastAPI, HTTPException
 # detection
 # from detection import yolo
 # clssification
-from classification import Regnet
+from classification import RegNet
 
 
 # GPU가 사용 가능한 경우 cuda를 0으로 초기화하여 사용 / GPU가 사용 불가능한 경우 CPU로 초기화하여 CPU 사용
@@ -23,31 +23,7 @@ class Item(BaseModel):
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-
-
-@app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
-    print(item)
-    return {"item_name": item.name, "item_id": item_id}
-
-
-## Backend로부터 받은 휠 분석 요청 처리 ##
-# @app.get("/api/analyze/{image_path}")
-# def analyze_wheel(image_path:str):
-#     # cropped 된 볼트의 각 bounding box 좌표를 원소로하는 리스트를 받는다.
-#     bboxes = yolo.detect_bolt(image_path)
-#     response = {
-#         'bboxes': bboxes,
-#         'message': 'success'
-#     }
-#     return response
-
+    return {"Hello": "SEMES"}
 
 # infer로 get 요청이 왔을 때
 @app.get("/infer")
@@ -56,10 +32,7 @@ def detect_classification(filePath: str):
     try:
         # cropped 된 볼트의 각 bounding box 좌표를 원소로하는 리스트를 받는다.
         # bboxes = yolo.detect_bolt(filePath)
-        bbolt = Regnet.classification(filePath)
-    
-        print(bbolt)
-        
+        bbolt = RegNet.classification(filePath)
         # 데이터를 JSON 형식으로 구성
         data = {
             "markedImage": "WHEEL_RESULT/marked.png",

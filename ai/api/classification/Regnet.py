@@ -1,10 +1,15 @@
 import os
-import io
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
+
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+    print("GPU is available. Using cuda")
+else:
+    device = torch.device("cpu")
+    print("GPU is not available. Using CPU instead.")
 
 # 볼트 분석 모델 load
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
