@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,11 +14,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.ssafy.semes.oht.model.OHTEntity;
 import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -25,15 +32,16 @@ import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class OHTCheckEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="oht_check_id")
-	private long ohtCheckId;
+	private Long ohtCheckId;
 	@CreatedDate
 	@Column(name="oht_check_start_datetime", nullable = false)
 	private LocalDateTime ohtCheckStartDatetime;
-	@Column(name="oht_check_end_datetime", nullable = false)
+	@Column(name="oht_check_end_datetime")
 	private LocalDateTime ohtCheckEndDatetime;
 
 	@Column(name="good_count_total", nullable = false)

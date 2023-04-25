@@ -4,9 +4,12 @@ import java.io.IOException;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
 import com.ssafy.semes.util.FileNameUtil;
-import com.ssafy.semes.wheelcheck.model.WheelCheckResultDto;
+import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
 
 public interface WheelCheckService {
-	WheelCheckResultDto checkWheel(MultipartFile file, FileNameUtil fileNameUtil,int wheelPosition) throws IOException;
+	WheelCheckEntity checkWheel(MultipartFile file, FileNameUtil fileNameUtil,int wheelPosition, OHTCheckEntity ohtCheck) throws
+		IOException,
+		InterruptedException;
 }

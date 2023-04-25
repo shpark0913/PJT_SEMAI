@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.semes.exception.InvaildOHTSerialNo;
 import com.ssafy.semes.oht.model.OHTEntity;
@@ -22,20 +23,22 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 
 	public OHTCheckEntity createOhtCheck(String ohtSn) throws InvaildOHTSerialNo{
 		Optional<OHTEntity> oht = ohtRepository.findByOhtSN(ohtSn);
-		System.out.println("createOhtCheck");
 
 		if(!oht.isPresent()){
 			throw new InvaildOHTSerialNo();
 		}
-		System.out.println("createOhtCheck");
 
 		OHTCheckEntity ohtCheck = OHTCheckEntity.builder()
 			.oht(oht.get())
-			.ohtCheckStartDatetime(LocalDateTime.now())
-			.ohtCheckEndDatetime(LocalDateTime.now())
 			.build();
 
 		return ohtCheckRepository.save(ohtCheck);
 	}
-
+	@Transactional
+	@Override
+	public void updateOhtCheckEndDate(OHTCheckEntity ohtCheck){
+		Optional<OHTCheckEntity> check = ohtCheckRepository.findById(ohtCheck.getOhtCheckId());
+		if(check.isPresent())
+			check.get().setOhtCheckEndDatetime(LocalDateTime.now());
+	}
 }

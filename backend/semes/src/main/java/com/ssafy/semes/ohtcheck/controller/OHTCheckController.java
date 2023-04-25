@@ -14,8 +14,10 @@ import com.ssafy.semes.common.ErrorCode;
 import com.ssafy.semes.common.SuccessCode;
 import com.ssafy.semes.common.dto.ApiResponse;
 import com.ssafy.semes.image.model.service.ImageService;
+import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
 import com.ssafy.semes.ohtcheck.model.service.OHTCheckService;
 import com.ssafy.semes.util.FileNameUtil;
+import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
 import com.ssafy.semes.wheelcheck.model.service.WheelCheckService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,10 +37,12 @@ public class OHTCheckController {
 	public ApiResponse<?> checkOht(@PathVariable String ohtSn, MultipartFile[] files, @RequestHeader("accesstoken") String accessToken ){
 		log.info("OHTCheckController checkOht start");
 		//OHT 검사기록 생성
+		OHTCheckEntity ohtCheck;
 		try {
-			ohtCheckService.createOhtCheck(ohtSn);
+			ohtCheck = ohtCheckService.createOhtCheck(ohtSn);
 		}catch (Exception e){
 			e.printStackTrace();
+			log.info("OHTCheckController checkOht error INVALID_OHT_SERIAL_NO");
 			return ApiResponse.error(ErrorCode.INVALID_OHT_SERIAL_NO);
 		}
 
@@ -48,16 +52,15 @@ public class OHTCheckController {
 		for (int i=0;i<4;i++) {
 			MultipartFile file = files[i];
 			try {
-				wheelCheckService.checkWheel(file,ohtFileName,i);
-			} catch (IOException e) {
-				log.info("OHTCheckController checkOht wheelCheckService.checkWheel check error");
+				WheelCheckEntity response = wheelCheckService.checkWheel(file,ohtFileName,i,ohtCheck);
+
+			} catch (IOException | InterruptedException e) {
+				log.info("OHTCheckController checkOht error checkWheel");
 				throw new RuntimeException(e);
 			}
 			System.out.println(file.getOriginalFilename());
 		}
-
-
-
-		return ApiResponse.success(SuccessCode.CREATE_FILE);
+		ohtCheckService.updateOhtCheckEndDate(ohtCheck);
+		return ApiResponse.success(SuccessCode.CHECK_OHT_COMPLETE);
 	}
 }
