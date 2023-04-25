@@ -1,8 +1,6 @@
 import styled from "styled-components";
+import { LabelProps } from "../../_utils/Types";
 
-type LabelProps = {
-  theme: string;
-}
 const Label = styled.label<LabelProps>`
   color: var(--emphasize-color);
   margin-right: 25px;

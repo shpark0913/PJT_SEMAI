@@ -1,11 +1,12 @@
 import React, { useState} from 'react';
 import { Form } from "react-router-dom";
 import styled from "styled-components";
+import {useSelector} from "react-redux";
 
 import {Button, SemesButton} from "../components/ButtonComponents";
 import { Label } from "../components/ReportPage/FilterComponents"
 import ReportTable from "../components/ReportPage/ReportTable";
-import {useSelector} from "react-redux";
+import Title from "../components/Title";
 import {RootState} from "../_store/store";
 
 const ReportSection = styled.section`
@@ -33,7 +34,7 @@ function ReportPage() {
 
   return (
     <ReportSection>
-      <h1>레포트</h1>
+      <Title title="레포트" />
       <Form style={{height :"30px", marginBottom: "15px", display: "flex", justifyContent: "space-between"}}>
         <div>
           <Label theme={theme}>
