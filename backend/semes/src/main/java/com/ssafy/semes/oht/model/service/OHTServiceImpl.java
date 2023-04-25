@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.semes.exception.InvaildOHTSerialNo;
 import com.ssafy.semes.oht.model.OHTEntity;
 import com.ssafy.semes.oht.model.OHTRequestDto;
 import com.ssafy.semes.oht.model.OHTResponseDto;
@@ -23,6 +24,7 @@ public class OHTServiceImpl implements OHTService {
 	OHTRepository ohtRepository;
 
 	@Override
+	@Transactional
 	public OHTEntity saveOHT(OHTRequestDto ohtRequest) {
 
 		OHTEntity oht = OHTEntity.builder().ohtSN(ohtRequest.getOhtSN()).build();
@@ -51,6 +53,7 @@ public class OHTServiceImpl implements OHTService {
 		Optional<OHTEntity> oht = ohtRepository.findByOhtSN(ohtSN);
 		OHTResponseDto ohtResponseDto = OHTResponseDto.builder().serialNumber(ohtSN).build();
 
+		if(!oht.isPresent()) throw new InvaildOHTSerialNo();
 		for (OHTCheckEntity ohtCheck:
 			oht.get().getOhtChecks()) {
 			ohtResponseDto.getOhtChecks().add(ohtCheck);

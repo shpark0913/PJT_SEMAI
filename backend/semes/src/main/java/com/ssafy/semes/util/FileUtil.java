@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FileUtil {
 	static String BASE_PATH = new String(new File( new File(System.getProperty("user.dir")).getParent()).getParent())
-		.concat(File.separator).concat("semes_bolts").concat(File.separator);
+		.concat(File.separator).concat("semes_bolt").concat(File.separator);
 
 	static public String create(String dir, String filename, MultipartFile inputFile) throws IOException {
 		StringBuilder sb = new StringBuilder(BASE_PATH);
@@ -34,7 +34,7 @@ public class FileUtil {
 		//새파일 이동
 		inputFile.transferTo(file);
 
-		return dest;
+		return new String(dir).concat(File.separator).concat(filename).concat(".").concat(ext);
 	}
 
 	static public boolean delete(String dir, String fileName) throws FileNotFoundException {
