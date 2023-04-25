@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
 classification_model = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
 classification_model.eval()
-class_names = ['breaking','disappearance','good']
+# class_names = ['breaking','disappearance','good']
 
 # 분류를 위한 볼트 이미지 파일 전처리
 transformations = transforms.Compose([
@@ -29,13 +29,7 @@ transformations = transforms.Compose([
 ])
 
 # 볼트 이미지를 읽어 결과를 반환하는 함수
-def classification(filePath):
-    # filePath의 앞부분을 IMG_DIR에 저장
-    IMG_DIR = os.path.dirname('../../semes_bolt/')
-    # image에 해당 휠 이미지 열기
-    image = Image.open(os.path.join(IMG_DIR, filePath))
-    # image를 RGB로 변환
-    image = image.convert('RGB')
+def classification(image):
     # 이미지를 전처리(unsqueeze를 이용해 배치 차원을 추가하고, GPU를 사용)
     image = transformations(image).unsqueeze(0).to(device)
 
@@ -46,4 +40,4 @@ def classification(filePath):
         # torch.max 함수를 이용해 출력값 중 가장 큰 값을 가지는 인덱스
         _, preds = torch.max(outputs, 1)
     # 예측한 결과 preds에서 가장 확률이 높은 클래스를 class_names 리스트에서 찾아 반환
-    return class_names[preds[0]]
+    return preds[0]
