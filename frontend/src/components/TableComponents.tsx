@@ -21,8 +21,6 @@ const THeadMain = styled.thead`
     top: -3px;
     left: 0px;
     right: 0px;
-    /* left: -1px;
-    right: -1px; */
     height: 3px;
     background-color: var(--emphasize-color);
   }
@@ -33,8 +31,6 @@ const THeadMain = styled.thead`
     bottom: -1px;
     left: 0px;
     right: 0px;
-    /* left: -1px;
-    right: -1px; */
     height: 1px;
     background-color: var(--emphasize-color);
   }
