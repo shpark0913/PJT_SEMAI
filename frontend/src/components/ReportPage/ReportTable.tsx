@@ -1,7 +1,9 @@
 import React from 'react';
 import {Table, TableContainer, TBody, TD, TFoot, TH, THead, TR} from "../TableComponents";
+import { ReportTableProps } from "../../_utils/Types";
+import { Button } from "../ButtonComponents";
 
-function ReportTable() {
+function ReportTable({ handleModalOpen }: ReportTableProps) {
   return (
     <TableContainer>
       <Table>
@@ -30,7 +32,7 @@ function ReportTable() {
             <TD>정상</TD>
             <TD>11</TD>
             <TD>11</TD>
-            <TD><button>상세보기</button></TD>
+            <TD><Button width="65px" height="23px" onClick={() => handleModalOpen({ohtSn: "V30001"})}>상세보기</Button></TD>
           </TR>
           <TR>
             <TH className="idxNum">2</TH>
