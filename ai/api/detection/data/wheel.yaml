@@ -1,0 +1,6 @@
+path: ../datasets/wheel
+train: train/images
+val: valid/images
+
+names: 
+  0: bolt hole
