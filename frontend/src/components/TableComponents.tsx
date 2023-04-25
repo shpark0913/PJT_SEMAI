@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+const TableContainer = styled.div`
+  width: 100%;
+  min-width: 950px;
+  overflow-y: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+`
+
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -81,4 +89,4 @@ const TD = styled.td`
   }
 `;
 
-export { Table, THead, TBody, TFoot, TR, TH, TD, THeadMain };
+export { TableContainer, Table, THead, TBody, TFoot, TR, TH, TD }
