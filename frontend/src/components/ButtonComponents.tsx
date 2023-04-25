@@ -28,4 +28,10 @@ const RedButton = styled(Button)`
   color: #FCFCFC;
 `
 
-export { Button, RedButton }
+const SemesButton = styled(Button)`
+  background: linear-gradient(to right bottom, #A3D1FF, #3D9EFF);
+  border: 1px solid #3D9EFF;
+  color: #0E0E0E;
+`
+
+export { Button, RedButton, SemesButton }
