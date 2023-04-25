@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { Button } from "../components/ButtonComponents";
 import { Label } from "../components/ReportPage/FilterComponents"
 import ReportTable from "../components/ReportPage/ReportTable";
+import {useSelector} from "react-redux";
+import {RootState} from "../_store/store";
 
 const ReportSection = styled.section`
   padding: 30px;
@@ -22,6 +24,7 @@ console.log(TodayDate);
 
 function ReportPage() {
   let [chosenDate, setChosenDate] = useState<string>(TodayDate)
+  let theme = useSelector((state:RootState) => state.theme.theme)
 
 
   const handleChange = (e:any) => {
@@ -32,7 +35,7 @@ function ReportPage() {
     <ReportSection>
       <h1>레포트</h1>
       <Form style={{height :"30px", marginBottom: "10px"}}>
-        <Label>
+        <Label theme={theme}>
           장비 종류
           <select name="ohtSn">
             <option value="ALL">전체</option>
@@ -41,11 +44,11 @@ function ReportPage() {
             <option value="V30003">V30003</option>
           </select>
         </Label>
-        <Label>
+        <Label theme={theme}>
           검사 일자
           <input type="date" value={chosenDate} name="date" max={TodayDate} onChange={e => handleChange(e)} />
         </Label>
-        <Label>
+        <Label theme={theme}>
           검사 시간
           <select name="time">
             <option value="ALL">전체</option>
@@ -55,7 +58,7 @@ function ReportPage() {
             <option value="23">23:00</option>
           </select>
         </Label>
-        <Label>
+        <Label theme={theme}>
           검사 휠 위치
           <select name="wheelPosition">
             <option value="ALL">전체</option>
