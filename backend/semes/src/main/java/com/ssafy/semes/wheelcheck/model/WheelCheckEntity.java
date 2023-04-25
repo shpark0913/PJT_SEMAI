@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,19 +13,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.ssafy.semes.image.model.ImageEntity;
 import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 public class WheelCheckEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +41,7 @@ public class WheelCheckEntity {
 	private long wheelHistoryId;
 
 	@CreatedDate
-	@Column(name="wheel_check_date", nullable = false)
+	@Column(name="wheel_check_date")
 	private LocalDateTime checkDate;
 	@Column(name="wheel_check_result", nullable = false)
 	private int checkResult;

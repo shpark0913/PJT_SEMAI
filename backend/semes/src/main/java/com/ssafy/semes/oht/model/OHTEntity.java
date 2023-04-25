@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,8 @@ import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Setter
@@ -21,7 +24,7 @@ import org.springframework.data.annotation.CreatedDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
+@EntityListeners(AuditingEntityListener.class)
 public class OHTEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +36,11 @@ public class OHTEntity {
 	@OneToMany(mappedBy = "oht")
 	private List<OHTCheckEntity> ohtChecks;
 
-	@Column(name="check_date",nullable = false)
+	@CreatedDate
+	@Column(name="check_date")
 	private LocalDateTime checkDate;
-	@Column(name="change_date",nullable = false)
+	@LastModifiedDate
+	@Column(name="change_date")
 	private LocalDateTime changeDate;
 
 }
