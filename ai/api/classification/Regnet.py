@@ -29,13 +29,7 @@ transformations = transforms.Compose([
 ])
 
 # 볼트 이미지를 읽어 결과를 반환하는 함수
-def classification(filePath):
-    # filePath의 앞부분을 IMG_DIR에 저장
-    IMG_DIR = os.path.dirname('../../semes_bolt/')
-    # image에 해당 휠 이미지 열기
-    image = Image.open(os.path.join(IMG_DIR, filePath))
-    # image를 RGB로 변환
-    image = image.convert('RGB')
+def classification(image):
     # 이미지를 전처리(unsqueeze를 이용해 배치 차원을 추가하고, GPU를 사용)
     image = transformations(image).unsqueeze(0).to(device)
 
