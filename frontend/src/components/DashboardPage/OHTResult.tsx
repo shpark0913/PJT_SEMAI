@@ -59,6 +59,17 @@ const InfoContentDiv = styled.div`
   justify-content: center;
 `;
 
+const VoltInfoGrid = styled.div`
+  display: grid;
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: 20% 20% 20% 20% auto;
+  grid-template-columns: 25% 25% 25% auto;
+  row-gap: 1%;
+  column-gap: 1%;
+`;
+
 // 화면 우측 구성
 const OHTWheelsDiv = styled.div`
   display: grid;
@@ -72,7 +83,7 @@ const WheelDiv = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 5px;
-  background-image: url(https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzAzMTBfMTM0%2FMDAxNjc4NDU4NDc0ODQ0.kBhqItjNvPxddSmHnuGmNy2Jqk_mq9qCis3jrRKaeOEg.bc66_HJPuGvVmfJPIpOjQcM8ZWl16HbZTkq2NSmj3xQg.PNG.kumkum6%2F%25C4%25B8%25C3%25B39999.PNG&type=a340);
+  background-image: url(https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20200420_40%2F1587370627039aLqHU_JPEG%2FETC1868%25283%2529.jpg&type=a340);
 `;
 const OHTWheel = ({ wheelName }: WheelNameType) => {
   return (
@@ -97,7 +108,30 @@ function OHTResult() {
             <InfoTitleDiv>최종 교체</InfoTitleDiv>
             <InfoContentDiv>230211 13:00:02</InfoContentDiv>
             <InfoTitleDiv>볼트 현황</InfoTitleDiv>
-            <InfoContentDiv></InfoContentDiv>
+            <InfoContentDiv>
+              <VoltInfoGrid>
+                <InfoTitleDiv></InfoTitleDiv>
+                <InfoTitleDiv>유실</InfoTitleDiv>
+                <InfoTitleDiv>모호</InfoTitleDiv>
+                <InfoTitleDiv>양호</InfoTitleDiv>
+                <InfoTitleDiv>FL</InfoTitleDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoTitleDiv>FR</InfoTitleDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoTitleDiv>RL</InfoTitleDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoTitleDiv>RR</InfoTitleDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+                <InfoContentDiv>-</InfoContentDiv>
+              </VoltInfoGrid>
+            </InfoContentDiv>
           </OHTInfoGrid>
         </OHTResultDiv>
         <OHTResultDiv ratio={40}>
