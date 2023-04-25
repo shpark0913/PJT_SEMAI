@@ -6,3 +6,7 @@ export type ButtonProps = {
   width?: string;
   height?: string;
 }
+
+export type LabelProps = {
+  theme: string;
+}

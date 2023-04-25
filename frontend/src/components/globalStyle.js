@@ -102,6 +102,7 @@ const GlobalStyle = createGlobalStyle`
 
   h1 {
     font-size: 18px;
+    font-weight: bold;
     color: var(--emphasize-color);
     margin-top: 0;
     margin-bottom: 7px;
@@ -112,7 +113,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h4 {
-    margin: 5px 0 0px 7px;
+    margin: 5px 0 0 7px;
     padding: 0;
   }
 
