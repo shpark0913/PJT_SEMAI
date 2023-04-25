@@ -106,8 +106,13 @@ const GlobalStyle = createGlobalStyle`
     margin-bottom: 7px;
   }
 
-  h2, h3, h4, h5 {
+  h2, h3, h5 {
     margin: 0 0 10px;
+  }
+
+  h4 {
+    margin: 5px 0 0px 7px;
+    padding: 0;
   }
 
   ::-webkit-scrollbar {

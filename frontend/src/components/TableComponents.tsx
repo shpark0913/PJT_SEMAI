@@ -14,13 +14,13 @@ const THead = styled.thead`
 const THeadMain = styled.thead`
   position: sticky;
   top: 0;
-
+  width: 100%;
   &::before {
     content: "";
     position: absolute;
     top: -3px;
-    left: -1px;
-    right: -1px;
+    left: 0px;
+    right: 0px;
     height: 3px;
     background-color: var(--emphasize-color);
   }
@@ -29,8 +29,8 @@ const THeadMain = styled.thead`
     content: "";
     position: absolute;
     bottom: -1px;
-    left: -1px;
-    right: -1px;
+    left: 0px;
+    right: 0px;
     height: 1px;
     background-color: var(--emphasize-color);
   }

@@ -9,6 +9,7 @@ const OHTAllResultContainer = styled.section`
   grid-row: 3/4;
   grid-column: 1/3;
   margin-top: 10px;
+  width: 100%;
   height: 100%;
 `;
 
