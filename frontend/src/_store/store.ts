@@ -3,15 +3,17 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import counterReducer from './slices/counterSlice';
+import themeReducer from './slices/themeSlice'
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: storage,
 };
 
 // 리듀서
 const rootReducers = combineReducers({
   counter: counterReducer,
+  theme: themeReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 export const store = configureStore({

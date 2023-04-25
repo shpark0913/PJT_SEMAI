@@ -1,6 +1,7 @@
 import React from 'react';
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
 import GlobalStyle from "./components/globalStyle";
+import {store} from "./_store/store";
 
 import LoginPage from "./pages/LoginPage";
 import LayoutPage from "./pages/LayoutPage";
@@ -23,6 +24,10 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const theme = store.getState().theme.theme;
+  console.log(theme);
+  document.documentElement.setAttribute("data-theme", theme? theme : "dark");
+
   return (
     <>
       <GlobalStyle />
