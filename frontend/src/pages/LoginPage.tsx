@@ -1,13 +1,13 @@
-import React from 'react';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import Login from "../components/LoginPage/Login";
+import React from "react";
 
 function LoginPage() {
   return (
     <div>
-      <h1>로그인 페이지</h1>
-      <Link to="/">홈으로</Link>
+      <Login></Login>
+      {/* <Link to="/">홈으로</Link> */}
     </div>
   );
 }
-
 export default LoginPage;
