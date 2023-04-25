@@ -10,7 +10,6 @@ import { persistStore } from "redux-persist"
 
 const persistor = persistStore(store);
 const container = document.getElementById('root')!;
-document.documentElement.setAttribute("data-theme", "light");
 const root = createRoot(container);
 
 root.render(
