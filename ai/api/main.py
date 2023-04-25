@@ -1,7 +1,7 @@
 from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
-import os
+import re
 import torch
 from fastapi import FastAPI, HTTPException
 # detection
@@ -24,15 +24,19 @@ class Item(BaseModel):
 def read_root():
     return {"Hello": "SEMES"}
 
+
+REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG')
+
 # infer로 get 요청이 왔을 때
 @app.get("/infer")
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
 def detect_classification(filePath: str):
     try:
         # cropped 된 볼트의 각 bounding box 좌표를 원소로하는 리스트를 받는다.
-        bboxes = yolo.detect_bolt(filePath)
-        # 이미지 크롭 코드 ##
         image, bboxes = yolo.detect_bolt(filePath)
+        # 확장자 삭제
+        filePath = re.sub(REGEX, '', filePath)
+        # blot 이미지 저장 
         result = []
         for i, now_bbox in enumerate(bboxes):
             x_min = float(now_bbox[1])
@@ -42,15 +46,31 @@ def detect_classification(filePath: str):
             cropped = image.crop((x_min, y_min, x_max, y_max))
             # 크롭된 이미지 분류
             classification_Result = RegNet.classification(cropped)
-
-            result.append(classification_Result)
+            print(111)
+            image_name = filePath + f'_{i+1}.png' 
+            # 정상인 볼트로 분류되었을 경우
+            if classification_Result == 2:
+                save_directory = '../../../semes_bolt/BOLT_NORMAL/'
+                classification_directory = 'BOLT_NORMAL/'
+                result.append(classification_directory + image_name)
+            # 유실된 볼트로 분류되었을 경우
+            elif classification_Result == 1:
+                save_directory = '../../../semes_bolt/BOLT_LOST/'
+                classification_directory = 'BOLT_LOST/'
+                result.append(classification_directory + image_name)
+            # 파단된 볼트로 분류되었을 경우
+            else:
+                save_directory = '../../../semes_bolt/BOLT_BREAK/'
+                classification_directory = 'BOLT_BREAK/'
+                result.append(classification_directory + image_name)
+            # 이미지를 분류된 폴더에 맞게 저장
+            cropped.save(save_directory + image_name)
         # 데이터를 JSON 형식으로 구성
         data = {
             "markedImage": "WHEEL_RESULT/marked.png",
             "bolts": result,
             "word": "저장중"
         }
-        
         # 성공적으로 분류 작업을 수행한 경우
         return {
             "status": 200,

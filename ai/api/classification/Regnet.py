@@ -31,8 +31,8 @@ transformations = transforms.Compose([
 # 볼트 이미지를 읽어 결과를 반환하는 함수
 def classification(image):
     # 이미지를 전처리(unsqueeze를 이용해 배치 차원을 추가하고, GPU를 사용)
+    image = image.convert('RGB')
     image = transformations(image).unsqueeze(0).to(device)
-
     # 모델의 파라미터가 업데이트 되지 않고 연산의 중복을 막아 빠른 결과를 출력
     with torch.no_grad():
         # classification_model image를 넣어 예측
@@ -40,4 +40,4 @@ def classification(image):
         # torch.max 함수를 이용해 출력값 중 가장 큰 값을 가지는 인덱스
         _, preds = torch.max(outputs, 1)
     # 예측한 결과 preds에서 가장 확률이 높은 클래스를 class_names 리스트에서 찾아 반환
-    return preds[0]
+    return int(preds[0])
