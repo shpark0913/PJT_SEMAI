@@ -3,6 +3,9 @@ package com.ssafy.semes.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,9 +42,22 @@ public class FileUtil {
 
 	static public boolean delete(String dir, String fileName) throws FileNotFoundException {
 		File file = new File(BASE_PATH + File.separator + dir + File.separator + fileName);
-
 		if (file.exists() && file.delete()) {
 			return true;
+		} else {
+			throw new FileNotFoundException("파일이 존재하지 않습니다.");
+		}
+	}
+	static  public void moveFile(String fileName, String fromDir, String toDir ) throws IOException {
+
+		File file = new File(BASE_PATH + File.separator + fromDir + File.separator + fileName);
+		File folder = new File(BASE_PATH + File.separator + toDir+ File.separator + fileName);
+
+		if (file.exists()) {
+			Path filePath = Paths.get(file.getPath());
+			Path filePathToMove = Paths.get(folder.getPath());
+			Files.move(filePath, filePathToMove);
+
 		} else {
 			throw new FileNotFoundException("파일이 존재하지 않습니다.");
 		}
