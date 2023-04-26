@@ -21,7 +21,7 @@ const DetailContainer = styled.div`
   top: 0;
   right: 0;
   
-  padding: 30px;
+  padding: 30px 50px;
 `;
 
 const CloseButton = styled.button`

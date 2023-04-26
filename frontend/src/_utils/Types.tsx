@@ -20,7 +20,7 @@ export type DetailInfoType = {   // 디테일 페이지에 들어오는 값들�
   wheelStatus?: string,
   wheelCheckDate?: string,
   wheelCheckTime?: string,
-  wheelChcekId?: string,
+  wheelCheckId?: string,
   wheelPosition?: string,
   ohtSn?: string,
 }

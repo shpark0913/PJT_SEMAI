@@ -37,7 +37,7 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
               wheelStatus: '정상',
               wheelCheckDate: "2023-04-20",
               wheelCheckTime: "13:04:45",
-              wheelChcekId: "V30001-FL-1681704285",
+              wheelCheckId: "V30001-FL-1681704285",
               wheelPosition: "FL",
               ohtSn: "V30001"})}>상세보기</Button></TD>
           </TR>

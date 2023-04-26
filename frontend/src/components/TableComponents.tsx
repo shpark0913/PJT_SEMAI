@@ -11,11 +11,18 @@ const TableContainer = styled.div`
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
+  
+  &.detail {
+    border-left: 3px solid var(--emphasize-color);
+    //border-right: 1px solid var(--emphasize-color);
+    &.detail tr:last-of-type th {
+      border-bottom: none;
+    }
+  }
 `;
 
 const THead = styled.thead`
-  border-top: solid var(--emphasize-color);
-  border-top-width: 3px;
+  border-top: 3px solid var(--emphasize-color);
   border-bottom: 1px solid var(--emphasize-color);
 `;
 
@@ -27,8 +34,8 @@ const THeadMain = styled.thead`
     content: "";
     position: absolute;
     top: -3px;
-    left: 0px;
-    right: 0px;
+    left: 0;
+    right: 0;
     height: 3px;
     background-color: var(--emphasize-color);
   }
@@ -37,8 +44,8 @@ const THeadMain = styled.thead`
     content: "";
     position: absolute;
     bottom: -1px;
-    left: 0px;
-    right: 0px;
+    left: 0;
+    right: 0;
     height: 1px;
     background-color: var(--emphasize-color);
   }
