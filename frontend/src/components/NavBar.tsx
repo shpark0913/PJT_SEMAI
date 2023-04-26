@@ -15,18 +15,6 @@ type ToggleThemeProps = {
   dispatch: (toggleTheme: any) => void;
 };
 
-/** 테마 변경, 추후 toggle 버튼으로 바꿀 예정 */
-function handleToggleTheme({ isDark, setIsDark, dispatch }: ToggleThemeProps) {
-  if (isDark) {
-    document.documentElement.setAttribute("data-theme", "light");
-    dispatch(toggleTheme("light"));
-    setIsDark(false);
-  } else {
-    document.documentElement.setAttribute("data-theme", "dark");
-    dispatch(toggleTheme("dark"));
-    setIsDark(true);
-  }
-}
 
 const Nav = styled.nav`
   height: var(--nav-height);
@@ -45,12 +33,6 @@ const Nav = styled.nav`
       color: var(--emphasize-color);
     }
   }
-  
-  //& button {
-  //  background-color: transparent;
-  //  color: var(--check-color);
-  //  font-size: 20px;
-  //}
 `;
 
 const NavLeftDiv = styled.div``
@@ -79,6 +61,24 @@ const LogoutButton = styled.button`
   color: var(--emphasize-color);
 `
 
+function handleToggleTheme({ isDark, setIsDark, dispatch }: ToggleThemeProps) {
+  if (isDark) {
+    document.documentElement.setAttribute("data-theme", "light");
+    dispatch(toggleTheme("light"));
+    setIsDark(false);
+  } else {
+    document.documentElement.setAttribute("data-theme", "dark");
+    dispatch(toggleTheme("dark"));
+    setIsDark(true);
+  }
+}
+
+let today = new Date();
+let year = String(today.getFullYear());
+let month = String(today.getMonth() + 1).padStart(2, "0");
+let day = String(today.getDate()).padStart(2, "0");
+let TodayDate = `${year}-${month}-${day}`;
+
 function NavBar() {
   let [isDark, setIsDark] = useState(useSelector((state: RootState) => state.theme.theme === "dark"))
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ function NavBar() {
     <Nav>
       <NavLeftDiv>
         <NavLink className={({isActive}) => isActive? "active" : ""} to="/">대시보드</NavLink>
-        <NavLink to="/report">레포트</NavLink>
+        <NavLink to={`/report?ohtSn=ALL&date=${TodayDate}&time=ALL&wheelPosition=ALL`}>레포트</NavLink>
         <NavLink to="/transfer">전이학습</NavLink>
         <NavLink to="/login">로그인</NavLink>
       </NavLeftDiv>
