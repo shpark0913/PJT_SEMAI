@@ -3,6 +3,7 @@ import { DetailContainer, ModalBackground, CloseButton } from "./ModalComponents
 import { DetailModalProps } from "../../_utils/Types";
 import Title from "../Title";
 import {Button} from "../ButtonComponents";
+import DetailTable from "./DetailTable";
 
 function DetailModal({ detailInfo, setIsModalOpen }: DetailModalProps) {
 
@@ -15,7 +16,7 @@ function DetailModal({ detailInfo, setIsModalOpen }: DetailModalProps) {
           <Title title="레포트 상세보기" />
           <Button width="90px" height="25px">CSV 출력</Button>
         </div>
-        <div>{detailInfo.ohtSn}</div>
+        <DetailTable detailInfo={detailInfo} />
       </DetailContainer>
     </div>
   );
