@@ -16,7 +16,13 @@ export type ReportTableProps = {   // 레포트 페이지의 테이블 중 모�
 }
 
 export type DetailInfoType = {   // 디테일 페이지에 들어오는 값들의 type
-  ohtSn?: string
+  boltGoodCount?: number,
+  wheelStatus?: string,
+  wheelCheckDate?: string,
+  wheelCheckTime?: string,
+  wheelChcekId?: string,
+  wheelPosition?: string,
+  ohtSn?: string,
 }
 
 export type DetailModalProps = {

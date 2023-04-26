@@ -28,7 +28,7 @@ function ReportPage() {
   let [query, setQuery] = useSearchParams();
   let [todayDate, setTodayDate] = useState<string>(query.get('date') || TodayDate);
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  let [detailInfo, setDetailInfo] = useState<object>({});        // 선택한 레포트의 상세내역을 전달할 객체
+  let [detailInfo, setDetailInfo] = useState<DetailInfoType>({});        // 선택한 레포트의 상세내역을 전달할 객체
 
   let theme = useSelector((state:RootState) => state.theme.theme);
 

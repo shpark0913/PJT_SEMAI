@@ -28,10 +28,11 @@ const CloseButton = styled.button`
   background-color: transparent;
   color: var(--emphasize-color);
   font-weight: bold;
+  font-size: 20px;
   transition: background-color 100ms ease-out;
   
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   text-align: center;
   
