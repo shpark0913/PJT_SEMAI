@@ -20,6 +20,23 @@ const DetailContainer = styled.div`
   z-index: 2;
   top: 0;
   right: 0;
+  
+  padding: 30px;
 `;
 
-export { ModalBackground, DetailContainer }
+const CloseButton = styled.button`
+  background-color: transparent;
+  color: var(--emphasize-color);
+  font-weight: bold;
+  transition: background-color 100ms ease-out;
+  
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  
+  &:hover {
+    background-color: rgba(128, 128, 128, 0.3);
+  }
+`
+export { ModalBackground, DetailContainer, CloseButton }
