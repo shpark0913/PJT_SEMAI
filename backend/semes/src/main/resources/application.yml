@@ -5,6 +5,7 @@ server:
       force: 'true'
       charset: UTF-8
       enabled: 'true'
+    context-path: /dev
 
 logging:
   level:
