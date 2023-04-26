@@ -32,7 +32,14 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
             <TD>정상</TD>
             <TD>11</TD>
             <TD>11</TD>
-            <TD><Button width="65px" height="23px" onClick={() => handleModalOpen({ohtSn: "V30001"})}>상세보기</Button></TD>
+            <TD><Button width="65px" height="23px" onClick={() => handleModalOpen({
+              boltGoodCount: 11,
+              wheelStatus: '정상',
+              wheelCheckDate: "2023-04-20",
+              wheelCheckTime: "13:04:45",
+              wheelChcekId: "V30001-FL-1681704285",
+              wheelPosition: "FL",
+              ohtSn: "V30001"})}>상세보기</Button></TD>
           </TR>
           <TR>
             <TH className="idxNum">2</TH>
