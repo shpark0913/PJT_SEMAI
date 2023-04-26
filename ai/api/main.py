@@ -2,9 +2,14 @@ from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
 import re
+import os
+import sys
 import torch
 from fastapi import FastAPI, HTTPException
 import time
+
+NOW_DIR = os.getcwd()
+sys.path.append(NOW_DIR + '\\classification')
 
 # detection
 from detection import yolo
@@ -25,8 +30,8 @@ class Item(BaseModel):
 def read_root():
     return {"Hello": "SEMES"}
 
-# infer로 들어온 query의 파일 형식이 이미지 파일인지 확인
 REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG|.PNG|.JPEG|.GIF|.BMP')
+
 # infer로 get 요청이 왔을 때
 @app.get("/infer")
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
@@ -45,7 +50,7 @@ def detect_classification(filePath: str):
 
         # 데이터를 JSON 형식으로 구성
         data = {
-            "markedImage": "WHEEL_RESULT/marked.png",
+            "markedImage": "WHEEL_RESULT/{}.png".format(filePath),
             "bolts": result,
             "word": "저장중"
         }
