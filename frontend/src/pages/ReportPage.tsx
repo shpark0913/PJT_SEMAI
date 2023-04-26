@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import {Form, useSearchParams} from "react-router-dom";
+import React, {useCallback, useState} from 'react';
+import { Form, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
-import {RootState} from "../_store/store";
+import { RootState } from "../_store/store";
 import { DetailInfoType } from "../_utils/Types";
+import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 
-import {Button, SemesButton} from "../components/ButtonComponents";
+import { Button, SemesButton } from "../components/ButtonComponents";
 import { Label } from "../components/ReportPage/FilterComponents"
 import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
 import DetailModal from "../components/DetailModal/DetailModal";
-import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 
 const ReportSection = styled.section`
   padding: 30px;
@@ -23,36 +23,37 @@ let today = new Date();
 let year = String(today.getFullYear());
 let month = String(today.getMonth() + 1).padStart(2, "0");
 let day = String(today.getDate()).padStart(2, "0");
-let TodayDate = `${year}-${month}-${day}`;
+let todayDate = `${year}-${month}-${day}`;
 
 function ReportPage() {
-  let [query, setQuery] = useSearchParams();
-  let [todayDate, setTodayDate] = useState<string>(query.get('date') || TodayDate);
+  let [query] = useSearchParams();
+  let [calendarDate, setCalendarDate] = useState<string>(query.get('date') || todayDate);
+
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   let [scrollY, setScrollY] = useState<number>(0);
-  const { lockScroll, openScroll } = useBodyScrollLock();
   let [detailInfo, setDetailInfo] = useState<DetailInfoType>({});        // 선택한 레포트의 상세내역을 전달할 객체
+  const { lockScroll, openScroll } = useBodyScrollLock();
 
   let theme = useSelector((state:RootState) => state.theme.theme);
 
   /** 달력에서 날짜를 클릭하면 변하는 함수 */
   const handleChange = (e:any) => {
-    setTodayDate(e.target.value);
+    setCalendarDate(e.target.value);
   }
 
   /** 모달이 열리면 실행되는 함수 */
-  const handleModalOpen = (detailInfo: DetailInfoType) => {
+  const handleModalOpen = useCallback((detailInfo: DetailInfoType) => {
     setScrollY(window.scrollY);
     setIsModalOpen(true);
     setDetailInfo(detailInfo);
     lockScroll();
-  }
+  }, [lockScroll])
 
-  const handleModalClose = () => {
+  const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
     setDetailInfo({});
     openScroll();
-  }
+  }, [openScroll]);
 
   return (
     <ReportSection>
@@ -72,7 +73,7 @@ function ReportPage() {
             </select>
           </Label>
           <Label theme={theme}> 검사 일자
-            <input type="date" value={todayDate} name="date" max={todayDate} onChange={e => handleChange(e)} />
+            <input type="date" value={calendarDate} name="date" max={todayDate} onChange={e => handleChange(e)} />
           </Label>
           <Label theme={theme}> 검사 시간
             <select name="time">
