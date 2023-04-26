@@ -13,6 +13,9 @@ else:
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
 classification_model = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+# 분류 결과 텍스트파일이 저장될 경로
+RESULT_PATH = '../../../semes_bolt/DETECTION_RESULT/'
+
 # 모델을 평가 모드 설정
 classification_model.eval()
 
@@ -39,3 +42,48 @@ def classification(image):
         _, preds = torch.max(outputs, 1)
     # 예측한 결과 preds에서 가장 확률이 높은 클래스를 class_names 리스트에서 찾아 반환
     return int(preds[0])
+
+
+def ImgCrop(filePath, image, bboxes):
+    # blot 이미지 저장
+    result = []
+    # RESULT_PATH 경로에 이미지 파일 이름으로 텍스트 파일 생성 후
+    with open(RESULT_PATH + filePath + '.txt', 'w') as f:
+        # detect_bolt로 디텍팅한 볼트를 반복해서
+        for i, now_bbox in enumerate(bboxes):
+            # 좌상단 우하단 좌표
+            x_min = float(now_bbox[1])
+            y_min = float(now_bbox[2])
+            x_max = float(now_bbox[3])
+            y_max = float(now_bbox[4])
+            # 해당 좌표로 이미지를 crop하여 저장
+            cropped = image.crop((x_min, y_min, x_max, y_max))
+            # 크롭된 이미지 분류
+            classification_Result = classification(cropped)
+            # 분류된 이미지를 저장할 변수를 생성하고
+            image_name = filePath + f'_{i+1}.png' 
+            # 정상인 볼트로 분류되었을 경우
+            if classification_Result == 2:
+                # BOLT_NORMAL 폴더로 경로 설정
+                save_directory = '../../../semes_bolt/BOLT_NORMAL/'
+                classification_directory = 'BOLT_NORMAL/'
+            # 유실된 볼트로 분류되었을 경우
+            elif classification_Result == 1:
+                # BOLT_LOST 폴더로 경로 설정
+                save_directory = '../../../semes_bolt/BOLT_LOST/'
+                classification_directory = 'BOLT_LOST/'
+            # 파단된 볼트로 분류되었을 경우
+            else:
+                # BOLT_BREAK 폴더로 경로 설정
+                save_directory = '../../../semes_bolt/BOLT_BREAK/'
+                classification_directory = 'BOLT_BREAK/'
+            # 분류 결과를 result 리스트에 append
+            result.append(classification_directory + image_name)
+            # 이미지를 분류된 폴더에 맞게 저장
+            cropped.save(save_directory + image_name)
+            # 분류 결과와 이미지 정보를 텍스트 파일에 작성
+            result_bbox = '{} {} {} {} {} {}'.format(classification_Result, int(now_bbox[0]), now_bbox[1], now_bbox[2], now_bbox[3], now_bbox[4])
+            f.write(result_bbox + '\n')
+        # 반복을 마쳤다면 텍스트 파일 작성 완료
+        f.close()
+    return result
