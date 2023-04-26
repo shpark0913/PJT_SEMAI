@@ -27,5 +27,6 @@ export type DetailInfoType = {   // 디테일 페이지에 들어오는 값들�
 
 export type DetailModalProps = {
   detailInfo: DetailInfoType;
-  setIsModalOpen: (arg: boolean) => void;
+  handleModalClose: () => void;
+  scrollY: number;
 }
