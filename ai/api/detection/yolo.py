@@ -7,6 +7,7 @@ from io import BytesIO
 NOW_DIR = os.getcwd()
 os.chdir('./detection')
 
+
 ## CONSTANTS ##
 TARGET_IMAGE_SIZE = 2048
 CROP_SIZE = (200, 0, 200, 0)
@@ -43,6 +44,9 @@ def detect_bolt(image_path, model=model):
     2. 해당 이미지에 대해 detection을 진행한다.
     3. detected objects(bolts)의 bounding box 정보를 반환한다.
     '''
+
+    os.chdir('./detection')
+    
     # filePath의 앞부분을 IMG_DIR에 저장
     IMG_DIR = os.path.dirname('../../../semes_bolt/WHEEL_ORIGIN/')
     # image에 해당 휠 이미지 열기
@@ -75,4 +79,7 @@ def detect_bolt(image_path, model=model):
             f.write(bbox_str + '\n')
         f.close()
 
+    os.chdir('../')
     return now_image, bboxes_response
+
+os.chdir('../')
