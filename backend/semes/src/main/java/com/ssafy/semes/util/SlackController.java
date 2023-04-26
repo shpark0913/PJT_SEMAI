@@ -1,12 +1,15 @@
 package com.ssafy.semes.util;
 
-import org.springframework.web.client.RestOperations;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Slack {
+@Controller
+public class SlackController {
+    @Async
     public void send(String text){
         Map<String, Object> payload = new HashMap<>();
         payload.put("username","ErrorBot");
