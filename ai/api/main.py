@@ -24,9 +24,10 @@ class Item(BaseModel):
 def read_root():
     return {"Hello": "SEMES"}
 
-
-REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG')
-
+# 분류 결과 텍스트파일이 저장될 경로
+RESULT_PATH = '../../../semes_bolt/DETECTION_RESULT/'
+# infer로 들어온 query의 파일 형식이 이미지 파일인지 확인
+REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG|.PNG|.JPEG|.GIF|.BMP')
 # infer로 get 요청이 왔을 때
 @app.get("/infer")
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
@@ -38,33 +39,46 @@ def detect_classification(filePath: str):
         filePath = re.sub(REGEX, '', filePath)
         # blot 이미지 저장 
         result = []
-        for i, now_bbox in enumerate(bboxes):
-            x_min = float(now_bbox[1])
-            y_min = float(now_bbox[2])
-            x_max = float(now_bbox[3])
-            y_max = float(now_bbox[4])
-            cropped = image.crop((x_min, y_min, x_max, y_max))
-            # 크롭된 이미지 분류
-            classification_Result = RegNet.classification(cropped)
-            print(111)
-            image_name = filePath + f'_{i+1}.png' 
-            # 정상인 볼트로 분류되었을 경우
-            if classification_Result == 2:
-                save_directory = '../../../semes_bolt/BOLT_NORMAL/'
-                classification_directory = 'BOLT_NORMAL/'
+        # RESULT_PATH 경로에 이미지 파일 이름으로 텍스트 파일 생성 후
+        with open(RESULT_PATH + filePath + '.txt', 'w') as f:
+            # detect_bolt로 디텍팅한 볼트를 반복해서
+            for i, now_bbox in enumerate(bboxes):
+                # 좌상단 우하단 좌표
+                x_min = float(now_bbox[1])
+                y_min = float(now_bbox[2])
+                x_max = float(now_bbox[3])
+                y_max = float(now_bbox[4])
+                # 해당 좌표로 이미지를 crop하여 저장
+                cropped = image.crop((x_min, y_min, x_max, y_max))
+                # 크롭된 이미지 분류
+                classification_Result = RegNet.classification(cropped)
+                # 분류된 이미지를 저장할 변수를 생성하고
+                image_name = filePath + f'_{i+1}.png' 
+                # 정상인 볼트로 분류되었을 경우
+                if classification_Result == 2:
+                    # BOLT_NORMAL 폴더로 경로 설정
+                    save_directory = '../../../semes_bolt/BOLT_NORMAL/'
+                    classification_directory = 'BOLT_NORMAL/'
+                # 유실된 볼트로 분류되었을 경우
+                elif classification_Result == 1:
+                    # BOLT_LOST 폴더로 경로 설정
+                    save_directory = '../../../semes_bolt/BOLT_LOST/'
+                    classification_directory = 'BOLT_LOST/'
+                # 파단된 볼트로 분류되었을 경우
+                else:
+                    # BOLT_BREAK 폴더로 경로 설정
+                    save_directory = '../../../semes_bolt/BOLT_BREAK/'
+                    classification_directory = 'BOLT_BREAK/'
+                # 분류 결과를 result 리스트에 append
                 result.append(classification_directory + image_name)
-            # 유실된 볼트로 분류되었을 경우
-            elif classification_Result == 1:
-                save_directory = '../../../semes_bolt/BOLT_LOST/'
-                classification_directory = 'BOLT_LOST/'
-                result.append(classification_directory + image_name)
-            # 파단된 볼트로 분류되었을 경우
-            else:
-                save_directory = '../../../semes_bolt/BOLT_BREAK/'
-                classification_directory = 'BOLT_BREAK/'
-                result.append(classification_directory + image_name)
-            # 이미지를 분류된 폴더에 맞게 저장
-            cropped.save(save_directory + image_name)
+                # 이미지를 분류된 폴더에 맞게 저장
+                cropped.save(save_directory + image_name)
+                # 분류 결과와 이미지 정보를 텍스트 파일에 작성
+                result_bbox = '{} {} {} {} {} {}'.format(classification_Result, int(now_bbox[0]), now_bbox[1], now_bbox[2], now_bbox[3], now_bbox[4])
+                f.write(result_bbox + '\n')
+            # 반복을 마쳤다면 텍스트 파일 작성 완료
+            f.close()
+
         # 데이터를 JSON 형식으로 구성
         data = {
             "markedImage": "WHEEL_RESULT/marked.png",

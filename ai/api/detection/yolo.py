@@ -12,7 +12,7 @@ IMAGE_SIZE = 2560
 MODEL_PATH = 'weights/'
 NORMAL_BBOXES_PATH = '../../../semes_bolt/DETECTION_NORMAL/'
 PROBLEM_BBOXES_PATH = '../../../semes_bolt/DETECTION_PROBLEM/'
-REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG')
+REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG|.PNG|.JPEG|.GIF|.BMP')
 
 def load_detection_model(model_name, model_path=MODEL_PATH):
     path = model_path + model_name
