@@ -44,5 +44,16 @@ public class SseEmitters {
             }
         });
     }
+    public void showProcessStatus(ProcessStatusDto dto){
+        emitters.forEach(emitter -> {
+            try {
+                emitter.send(SseEmitter.event()
+                    .name("state")
+                    .data(dto));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
 }
