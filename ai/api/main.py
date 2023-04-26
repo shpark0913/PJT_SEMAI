@@ -4,6 +4,8 @@ from pydantic import BaseModel
 import re
 import torch
 from fastapi import FastAPI, HTTPException
+import time
+
 # detection
 from detection import yolo
 # clssification
@@ -33,6 +35,8 @@ REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG|.PNG|.JPEG|.GIF|.BMP')
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
 def detect_classification(filePath: str):
     try:
+        # 추론 시작 시간 설정
+        start_test = time.time()
         # cropped 된 볼트의 각 bounding box 좌표를 원소로하는 리스트를 받는다.
         image, bboxes = yolo.detect_bolt(filePath)
         # 확장자 삭제
@@ -78,6 +82,7 @@ def detect_classification(filePath: str):
                 f.write(result_bbox + '\n')
             # 반복을 마쳤다면 텍스트 파일 작성 완료
             f.close()
+        reasoning_time = round(time.time() - start_test, 3)
 
         # 데이터를 JSON 형식으로 구성
         data = {
@@ -89,6 +94,7 @@ def detect_classification(filePath: str):
         return {
             "status": 200,
             "success": True,
+            "reasoning_time" : reasoning_time,
             "data": data
         }
     except FileNotFoundError:

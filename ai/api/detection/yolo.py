@@ -55,7 +55,7 @@ def detect_bolt(image_path, model=model):
     image_name = re.sub(REGEX, '', image_path)
     
     # bboxes 저장
-    if n_bboxes < 11:
+    if n_bboxes != 11:
         label_path = PROBLEM_BBOXES_PATH
     else:
         label_path = NORMAL_BBOXES_PATH
