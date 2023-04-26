@@ -21,7 +21,6 @@ class Item(BaseModel):
     price: float
     is_offer: Union[bool, None] = None
 
-
 @app.get("/")
 def read_root():
     return {"Hello": "SEMES"}
