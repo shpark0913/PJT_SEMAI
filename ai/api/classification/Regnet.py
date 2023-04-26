@@ -1,5 +1,7 @@
 import os
 import torch
+from copy import deepcopy
+from PIL import ImageDraw
 import torchvision.transforms as transforms
 
 if torch.cuda.is_available():
@@ -14,7 +16,17 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
 classification_model = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
 # 분류 결과 텍스트파일이 저장될 경로
-RESULT_PATH = '../../../semes_bolt/DETECTION_RESULT/'
+RESULT_PATH = '../../semes_bolt/DETECTION_RESULT/'
+
+# 최종 결과 이미지 저장 경로
+WHEEL_RESULT_PATH = '../../semes_bolt/WHEEL_RESULT/'
+# infer로 들어온 query의 파일 형식이 이미지 파일인지 확인
+LABEL_COLOR = {
+    0: (225, 240, 8),   # 파손
+    1: (255, 0, 0),     # 유실
+    # 2: (0, 255, 0),   # 정상
+    # 3: (59, 85, 193),   # 풀림
+}
 
 # 모델을 평가 모드 설정
 classification_model.eval()
@@ -47,6 +59,12 @@ def classification(image):
 def ImgCrop(filePath, image, bboxes):
     # blot 이미지 저장
     result = []
+
+    # 그릴 수 있는 객체 생성
+    result_image = deepcopy(image)
+    result_image = result_image.convert('RGB')
+    draw = ImageDraw.Draw(result_image)
+    
     # RESULT_PATH 경로에 이미지 파일 이름으로 텍스트 파일 생성 후
     with open(RESULT_PATH + filePath + '.txt', 'w') as f:
         # detect_bolt로 디텍팅한 볼트를 반복해서
@@ -65,17 +83,17 @@ def ImgCrop(filePath, image, bboxes):
             # 정상인 볼트로 분류되었을 경우
             if classification_Result == 2:
                 # BOLT_NORMAL 폴더로 경로 설정
-                save_directory = '../../../semes_bolt/BOLT_NORMAL/'
+                save_directory = '../../semes_bolt/BOLT_NORMAL/'
                 classification_directory = 'BOLT_NORMAL/'
             # 유실된 볼트로 분류되었을 경우
             elif classification_Result == 1:
                 # BOLT_LOST 폴더로 경로 설정
-                save_directory = '../../../semes_bolt/BOLT_LOST/'
+                save_directory = '../../semes_bolt/BOLT_LOST/'
                 classification_directory = 'BOLT_LOST/'
             # 파단된 볼트로 분류되었을 경우
             else:
                 # BOLT_BREAK 폴더로 경로 설정
-                save_directory = '../../../semes_bolt/BOLT_BREAK/'
+                save_directory = '../../semes_bolt/BOLT_BREAK/'
                 classification_directory = 'BOLT_BREAK/'
             # 분류 결과를 result 리스트에 append
             result.append(classification_directory + image_name)
@@ -83,7 +101,14 @@ def ImgCrop(filePath, image, bboxes):
             cropped.save(save_directory + image_name)
             # 분류 결과와 이미지 정보를 텍스트 파일에 작성
             result_bbox = '{} {} {} {} {} {}'.format(classification_Result, int(now_bbox[0]), now_bbox[1], now_bbox[2], now_bbox[3], now_bbox[4])
+            # 볼트 상태가 정상이 아닐 경우
+            if classification_Result != 2:
+                # 박스 그리기
+                # draw.rectangle((10, 10, 100, 100), outline=(225, 240, 8), width=5, fill=None)
+                draw.rectangle((x_min, y_min, x_max, y_max), outline=LABEL_COLOR[classification_Result], width=5, fill=None)
             f.write(result_bbox + '\n')
+        result_image.save(WHEEL_RESULT_PATH + filePath + '.png')
         # 반복을 마쳤다면 텍스트 파일 작성 완료
         f.close()
+    
     return result
