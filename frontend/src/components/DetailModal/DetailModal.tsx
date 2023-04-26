@@ -1,5 +1,5 @@
 import React from "react";
-import { DetailContainer, ModalBackground, CloseButton } from "./ModalComponents";
+import {DetailContainer, ModalBackground, CloseButton, Modal} from "./ModalComponents";
 import { DetailModalProps } from "../../_utils/Types";
 import Title from "../Title";
 import {Button} from "../ButtonComponents";
@@ -12,19 +12,19 @@ const TitleButtonDiv = styled.div`
   justify-content: space-between;
   margin-bottom: 10px;
 `
-function DetailModal({ detailInfo, setIsModalOpen }: DetailModalProps) {
+function DetailModal({ detailInfo, handleModalClose, scrollY }: DetailModalProps) {
   return (
-    <div>
+    <Modal scrollY={scrollY}>
       <ModalBackground />
       <DetailContainer>
-        <CloseButton onClick={e => setIsModalOpen(false)}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
+        <CloseButton onClick={handleModalClose}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
         <TitleButtonDiv>
           <Title title="레포트 상세보기" />
           <Button width="90px" height="25px">CSV 출력</Button>
         </TitleButtonDiv>
         <DetailTable detailInfo={detailInfo} />
       </DetailContainer>
-    </div>
+    </Modal>
   );
 }
 

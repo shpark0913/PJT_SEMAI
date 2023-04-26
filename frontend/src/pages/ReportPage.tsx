@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import {Form, useSearchParams} from "react-router-dom";
 import styled from "styled-components";
 import {useSelector} from "react-redux";
@@ -11,6 +11,7 @@ import { Label } from "../components/ReportPage/FilterComponents"
 import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
 import DetailModal from "../components/DetailModal/DetailModal";
+import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 
 const ReportSection = styled.section`
   padding: 30px;
@@ -28,6 +29,8 @@ function ReportPage() {
   let [query, setQuery] = useSearchParams();
   let [todayDate, setTodayDate] = useState<string>(query.get('date') || TodayDate);
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  let [scrollY, setScrollY] = useState<number>(0);
+  const { lockScroll, openScroll } = useBodyScrollLock();
   let [detailInfo, setDetailInfo] = useState<DetailInfoType>({});        // 선택한 레포트의 상세내역을 전달할 객체
 
   let theme = useSelector((state:RootState) => state.theme.theme);
@@ -39,14 +42,22 @@ function ReportPage() {
 
   /** 모달이 열리면 실행되는 함수 */
   const handleModalOpen = (detailInfo: DetailInfoType) => {
+    setScrollY(window.scrollY);
     setIsModalOpen(true);
-    setDetailInfo(detailInfo)
+    setDetailInfo(detailInfo);
+    lockScroll();
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setDetailInfo({});
+    openScroll();
   }
 
   return (
     <ReportSection>
 
-      { isModalOpen && <DetailModal detailInfo={detailInfo} setIsModalOpen={setIsModalOpen} /> }
+      { isModalOpen && <DetailModal scrollY={scrollY}  detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }
 
       <Title title="레포트" />
 
