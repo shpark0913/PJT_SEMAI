@@ -13,7 +13,7 @@
 }
 
 .inner-header {
-  height: 75vh;
+  height: 83vh;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -23,7 +23,8 @@
   /*Flexbox for containers*/
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding-top: 15%;
+  /* justify-content: center; */
   align-items: center;
   text-align: center;
 }
@@ -39,9 +40,10 @@
 
 .content {
   position: relative;
-  height: 10vh;
+  height: 2vh;
   text-align: center;
-  background-color: white;
+  background-color: #d6ebff;
+  /* background-color: rgba(255, 255, 255, 0.6); */
 }
 
 /* Animation */
