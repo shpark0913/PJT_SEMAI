@@ -234,4 +234,4 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
   );
 }
 
-export default ReportTable;
+export default React.memo(ReportTable);
