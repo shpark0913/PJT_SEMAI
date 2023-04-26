@@ -1,23 +1,23 @@
 package com.ssafy.semes.transition.controller;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
-
-import com.ssafy.semes.common.SuccessCode;
-import com.ssafy.semes.common.dto.ApiResponse;
-import com.ssafy.semes.image.model.ImageListResponseDto;
-import com.ssafy.semes.image.model.ImageResponseDto;
-import com.ssafy.semes.transition.model.TransitionDeleteRequestDto;
-import com.ssafy.semes.transition.model.TransitionUpdateRequestDto;
-import com.ssafy.semes.transition.model.service.TransitionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ssafy.semes.common.ErrorCode;
+import com.ssafy.semes.common.SuccessCode;
+import com.ssafy.semes.common.dto.ApiResponse;
+import com.ssafy.semes.image.model.ImageListResponseDto;
+import com.ssafy.semes.transition.model.TransitionDeleteRequestDto;
+import com.ssafy.semes.transition.model.TransitionUpdateRequestDto;
+import com.ssafy.semes.transition.model.service.TransitionService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,25 +30,9 @@ public class TransitionController {
 
     @GetMapping()
     public ApiResponse<?> findAllBolt(){
-        ImageResponseDto img1 = ImageResponseDto.builder().fileId(0L).imgUrl("/BOLT_NORMAL/1.png").build();
-        ImageResponseDto img2 = ImageResponseDto.builder().fileId(1L).imgUrl("/BOLT_NORMAL/1.png").build();
-        List<ImageResponseDto> images = new ArrayList<>();
-        images.add(img1);
-        images.add(img2);
-
-
-        ImageResponseDto img3 = ImageResponseDto.builder().fileId(0L).imgUrl("/BOLT_LOST/1.png").build();
-        ImageResponseDto img4 = ImageResponseDto.builder().fileId(1L).imgUrl("/BOLT_LOST/1.png").build();
-        List<ImageResponseDto> images2 = new ArrayList<>();
-        images2.add(img3);
-        images2.add(img4);
-
-        ImageListResponseDto imageList1 = ImageListResponseDto.builder().status(1).images(images).build();
-        ImageListResponseDto imageList2 = ImageListResponseDto.builder().status(2).images(images2).build();
-        List<ImageListResponseDto> response = new ArrayList<>();
-        response.add(imageList1);
-        response.add(imageList2);
-        return ApiResponse.success(SuccessCode.READ_IMG_LIST,response);
+        log.info("ImageController getImages start");
+        List<ImageListResponseDto> responseDto = transitionService.findAll();
+        return 	ApiResponse.success(SuccessCode.CREATE_FILE,responseDto);
 
     }
     @DeleteMapping
@@ -61,8 +45,16 @@ public class TransitionController {
         sb.append("볼트 삭제 성공");
         return ApiResponse.success(SuccessCode.DELETE_IMG,sb.toString());
     }
-    @PutMapping
-    public ApiResponse<?> updateBolt(@RequestBody TransitionUpdateRequestDto files){
+    @PatchMapping
+    public ApiResponse<?> updateBolt(@RequestBody TransitionUpdateRequestDto requestDto){
+        log.info("TransitionController updateBolt start");
+        try {
+            transitionService.moveFiles(requestDto);
+        }catch (IOException e){
+            log.info("TransitionController updateBolt error");
+            e.printStackTrace();
+            return ApiResponse.error(ErrorCode.FILE_NOT_FOUND);
+        }
 
         return ApiResponse.success(SuccessCode.UPDATE_IMG,"볼트 이동 성공");
     }
