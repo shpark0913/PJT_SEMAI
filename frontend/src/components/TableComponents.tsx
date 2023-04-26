@@ -15,8 +15,16 @@ const Table = styled.table`
   &.detail {
     border-left: 3px solid var(--emphasize-color);
     //border-right: 1px solid var(--emphasize-color);
-    &.detail tr:last-of-type th {
+    & tr:last-of-type th {
       border-bottom: none;
+    }
+    
+    & th {
+      width: 25%;
+    }
+    & td {
+      text-align: left;
+      padding-left: 20px;
     }
   }
 `;

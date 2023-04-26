@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const ModalBackground = styled.div`
   width: 100%;
-  height: calc(100% + var(--nav-height));
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -13,7 +13,8 @@ const ModalBackground = styled.div`
 
 const DetailContainer = styled.div`
   width: 70%;
-  height: calc(100% + var(--nav-height));
+  min-width: 800px;
+  height: 100%;
   background-color: var(--background-color);
   box-shadow: -6px 0 23px 8px rgba(173, 173, 173, 0.25);
   position: absolute;
@@ -34,7 +35,11 @@ const CloseButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  text-align: center;
+  margin-bottom: 25px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
   
   &:hover {
     background-color: rgba(128, 128, 128, 0.3);
