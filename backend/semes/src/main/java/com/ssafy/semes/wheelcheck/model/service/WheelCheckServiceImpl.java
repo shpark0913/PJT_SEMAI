@@ -33,9 +33,9 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 		InterruptedException {
 
 		fileNameUtil.setWheelPosition(wheelPosition);
-		String filePath = FileUtil.create(Directory.WHEEL_ORIGIN.getPath(),fileNameUtil.getFilename(),file);
+		FileUtil.create(Directory.WHEEL_ORIGIN.getPath(),fileNameUtil.getFilename(),file);
 
-		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(filePath);
+		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(fileNameUtil.getFilename());
 		if(result.getStatus() == 400){
 			throw new IOException("잘못된 파일 명입니다.");
 		}
