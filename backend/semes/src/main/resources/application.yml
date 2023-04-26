@@ -15,7 +15,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    url: jdbc:mysql://127.0.0.1:3306/semes?allowMultiQueries=true&useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://semes.info:3306/semes?allowMultiQueries=true&useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     password: ssafy
     hikari:
       auto-commit: false
