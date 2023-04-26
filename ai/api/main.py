@@ -2,9 +2,14 @@ from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
 import re
+import os
+import sys
 import torch
 from fastapi import FastAPI, HTTPException
 import time
+
+NOW_DIR = os.getcwd()
+sys.path.append(NOW_DIR + '\\classification')
 
 # detection
 from detection import yolo
@@ -37,15 +42,15 @@ def detect_classification(filePath: str):
         # cropped 된 볼트의 각 bounding box 좌표를 원소로하는 리스트를 받는다.
         image, bboxes = yolo.detect_bolt(filePath)
         # 확장자 삭제
-        filePath2 = re.sub(REGEX, '', filePath)
+        filePath = re.sub(REGEX, '', filePath)
         # 이미지 크롭 후 분류하여 이미지 저장 및 분류 결과 텍스트로 저장
-        result = RegNet.ImgCrop(filePath2, filePath, image, bboxes)
+        result = RegNet.ImgCrop(filePath, image, bboxes)
         # 추론 종료 시간 저장
         reasoning_time = round(time.time() - start_test, 3)
 
         # 데이터를 JSON 형식으로 구성
         data = {
-            "markedImage": "WHEEL_RESULT/marked.png",
+            "markedImage": "WHEEL_RESULT/{}.png".format(filePath),
             "bolts": result,
             "word": "저장중"
         }
@@ -62,6 +67,3 @@ def detect_classification(filePath: str):
     except Exception as e:
         # 분류 작업 중 오류가 발생한 경우
         raise HTTPException(status_code=500, detail="서버 내 오류")
-
-
-# 다윗: 23.04.26. 15:24
