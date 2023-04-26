@@ -1,8 +1,6 @@
 import os
 import torch
 import torchvision.transforms as transforms
-from PIL import Image
-
 
 if torch.cuda.is_available():
     device = torch.device("cuda")
@@ -15,8 +13,8 @@ else:
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
 classification_model = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+# 모델을 평가 모드 설정
 classification_model.eval()
-# class_names = ['breaking','disappearance','good']
 
 # 분류를 위한 볼트 이미지 파일 전처리
 transformations = transforms.Compose([
