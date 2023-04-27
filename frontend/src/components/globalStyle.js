@@ -30,6 +30,10 @@ const GlobalStyle = createGlobalStyle`
     --section-color: #E8EFF6;
     --background-color: #FCFCFC;
     --background-dark-color: #E4EDF5;
+    
+    --tab-menu-color: #EDEDED;
+    --tab-span-color: #0052A4;
+    --tab-span-font-color: #FCFCFC;
 
     --font-color: #0E0E0E;
   }
@@ -40,6 +44,10 @@ const GlobalStyle = createGlobalStyle`
     --section-color: #2A4058;
     --background-color: #001F3D;
     --background-dark-color: #00050A;
+
+    --tab-menu-color: #313748;
+    --tab-span-color: #70B8FF;
+    --tab-span-font-color: #FCFCFC;
 
     --font-color: #FCFCFC;
   }
@@ -117,6 +125,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
+  li {
+    list-style-type: none;
+  }
+  
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
