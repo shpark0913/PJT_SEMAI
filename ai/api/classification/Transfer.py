@@ -109,6 +109,14 @@ def learning(origin_acc, origin_loss, origin_fscore):
     CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
     classification_model2 = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
     classification_model = deepcopy(classification_model2)
+    # 불러온 네트워크 모델의 출력 뉴런 수를 저장
+    num_features = classification_model.fc.in_features
+    # 새로운 Fully Connected 레이어 추가
+    classification_model.fc = nn.Linear(num_features, 4)
+
+    # GPU를 사용하기 위해 모델을 CUDA 디바이스로 보냄
+    classification_model.to(device)
+
     # 손실 함수와 최적화 알고리즘 정의
     criterion = nn.CrossEntropyLoss()
     # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
@@ -221,7 +229,7 @@ def learning(origin_acc, origin_loss, origin_fscore):
             best_acc = test_acc
             torch.save(classification_model, 'classification_model_new.pth')
 
-    if best_epoch == 0:
+    if best_epoch != 0:
         flscore = f1score(test_loader, classification_model)
         result.append(True)
         result.append(best_acc)
