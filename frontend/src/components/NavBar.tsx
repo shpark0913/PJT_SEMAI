@@ -93,7 +93,7 @@ function NavBar() {
       </NavLeftDiv>
 
       <NavRightDiv>
-        <Profile>나동빈 <span style={{fontSize: "15px", fontWeight: "normal"}}>님</span></Profile>
+        <Profile>김규리 <span style={{fontSize: "15px", fontWeight: "normal"}}>님</span></Profile>
         <Switch
           checked={isDark}
           onChange={(): void => handleToggleTheme({ isDark, setIsDark, dispatch })}
