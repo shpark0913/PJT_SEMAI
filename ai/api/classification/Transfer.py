@@ -56,7 +56,7 @@ def f1score(test_loader, model):
     return f1_micro
 
 
-def learning():
+def learning(origin_acc, origin_loss, origin_fscore):
     # 학습데이터 전처리
     train_transform = transforms.Compose([
         # 해상도를 (224,224)로 맞춰준다 (a fixed resolution of 224×224 is best, even at higher flops : [논문]Designing Network Design Spaces - [저자]Facebook AI Research (FAIR))
@@ -111,7 +111,7 @@ def learning():
     # 손실 함수와 최적화 알고리즘 정의
     criterion = nn.CrossEntropyLoss()
     # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.Adam(classification_model.parameters(), lr=0.001)
 
 
     # 학습 epochs 설정
@@ -124,10 +124,10 @@ def learning():
     test_acc_list = []
 
     # 최적 모델
-    best_loss = '현재 모델의 loss'
+    best_loss = origin_loss
     best_loss_epoch = 0
 
-    best_acc = '현재 모델의 정확도'
+    best_acc = origin_acc
     best_acc_epoch = 0
 
     result = []

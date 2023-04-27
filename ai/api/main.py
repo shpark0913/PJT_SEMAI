@@ -72,9 +72,9 @@ def detect_classification(filePath: str):
 # train으로 get 요청이 왔을 때
 @app.get("/train")
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
-def transfer_learning():
+def transfer_learning(acc: float, loss: float, fscore: float):
     try:
-        result = Transfer.learining()
+        result = Transfer.learning(acc, loss, fscore)
 
         # 데이터를 JSON 형식으로 구성
         data = {
