@@ -46,6 +46,7 @@ const OHTInfoGrid = styled.div`
 
 const InfoTitleDiv = styled.div`
   color: var(--emphasize-color);
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
