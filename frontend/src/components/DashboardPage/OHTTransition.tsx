@@ -1,7 +1,9 @@
 import { ChartDark, ChartLight } from "./DashboardChart";
 
+import { RootState } from "../../_store/store";
 import Title from "../Title";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const OHTTransitionContainer = styled.section`
   display: flex;
@@ -30,10 +32,10 @@ const TransitionSortDiv = styled.div`
 `;
 
 function OHTTransition() {
-  const theme: string | null = document.documentElement.getAttribute("data-theme");
+  let theme = useSelector((state: RootState) => state.theme.theme);
   let chart;
 
-  if (theme === "light") {
+  if (theme === "dark") {
     chart = (
       <OHTTransitionSec>
         <ChartLight name="양호" myScore={94} order="1" />
