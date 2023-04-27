@@ -9,6 +9,10 @@ type OHTResultDivType = {
   ratio: number;
 };
 
+type WheelDivType = {
+  url: string;
+};
+
 const OHTResultSec = styled.section`
   display: flex;
   flex-direction: column;
@@ -80,21 +84,23 @@ const OHTWheelsDiv = styled.div`
   grid-template-columns: 48% 48%;
   gap: 4%;
 `;
-const WheelDiv = styled.div`
+const WheelDiv = styled.div<WheelDivType>`
   display: flex;
   flex-direction: column;
   border-radius: 5px;
-  background-image: url(https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20200420_40%2F1587370627039aLqHU_JPEG%2FETC1868%25283%2529.jpg&type=a340);
+  background-image: url(${props => props.url});
 `;
 const OHTWheel = ({ wheelName }: WheelNameType) => {
   return (
-    <WheelDiv>
+    <WheelDiv url="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20200420_40%2F1587370627039aLqHU_JPEG%2FETC1868%25283%2529.jpg&type=a340">
       <h4>{wheelName}</h4>
     </WheelDiv>
   );
 };
 
-function OHTResult() {
+function OHTResult(props: any) {
+  const data = props.data;
+
   return (
     <OHTResultSec>
       <Title title="OHT 휠 검사 결과" />
@@ -103,11 +109,18 @@ function OHTResult() {
           <h3 style={{ color: "var(--emphasize-color)" }}>검사 정보</h3>
           <OHTInfoGrid>
             <InfoTitleDiv>검사 호기</InfoTitleDiv>
-            <InfoContentDiv>V30001</InfoContentDiv>
+            <InfoContentDiv>{data[0].oht_sn}</InfoContentDiv>
             <InfoTitleDiv>검사 일시</InfoTitleDiv>
-            <InfoContentDiv>23-04-17 13:04:45</InfoContentDiv>
+            <InfoContentDiv>
+              {data[0].ohtCheckDatetime[0]}/{data[0].ohtCheckDatetime[1]}/
+              {data[0].ohtCheckDatetime[2]} {data[0].ohtCheckDatetime[3]}:
+              {data[0].ohtCheckDatetime[4]}
+            </InfoContentDiv>
             <InfoTitleDiv>최종 교체</InfoTitleDiv>
-            <InfoContentDiv>230211 13:00:02</InfoContentDiv>
+            <InfoContentDiv>
+              {data[0].ohtChangeDate[0]}/{data[0].ohtChangeDate[1]}/{data[0].ohtChangeDate[2]}{" "}
+              {data[0].ohtChangeDate[3]}:{data[0].ohtChangeDate[4]}
+            </InfoContentDiv>
             <InfoTitleDiv>볼트 현황</InfoTitleDiv>
             <InfoContentDiv>
               <VoltInfoGrid>
@@ -115,22 +128,22 @@ function OHTResult() {
                 <InfoTitleDiv>유실</InfoTitleDiv>
                 <InfoTitleDiv>모호</InfoTitleDiv>
                 <InfoTitleDiv>양호</InfoTitleDiv>
-                <InfoTitleDiv>FL</InfoTitleDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoTitleDiv>FR</InfoTitleDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoTitleDiv>RL</InfoTitleDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoTitleDiv>RR</InfoTitleDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoContentDiv>-</InfoContentDiv>
-                <InfoContentDiv>-</InfoContentDiv>
+                <InfoTitleDiv>{data[0].wheelPosition}</InfoTitleDiv>
+                <InfoContentDiv>{data[0].boltLoseCount}</InfoContentDiv>
+                <InfoContentDiv>{data[0].boltLoseCount}</InfoContentDiv>
+                <InfoContentDiv>{data[0].boltGoodCount}</InfoContentDiv>
+                <InfoTitleDiv>{data[1].wheelPosition}</InfoTitleDiv>
+                <InfoContentDiv>{data[1].boltLoseCount}</InfoContentDiv>
+                <InfoContentDiv>{data[1].boltLoseCount}</InfoContentDiv>
+                <InfoContentDiv>{data[1].boltGoodCount}</InfoContentDiv>
+                <InfoTitleDiv>{data[2].wheelPosition}</InfoTitleDiv>
+                <InfoContentDiv>{data[2].boltLoseCount}</InfoContentDiv>
+                <InfoContentDiv>{data[2].boltLoseCount}</InfoContentDiv>
+                <InfoContentDiv>{data[2].boltGoodCount}</InfoContentDiv>
+                <InfoTitleDiv>{data[3].wheelPosition}</InfoTitleDiv>
+                <InfoContentDiv>{data[3].boltLoseCount}</InfoContentDiv>
+                <InfoContentDiv>{data[3].boltLoseCount}</InfoContentDiv>
+                <InfoContentDiv>{data[3].boltGoodCount}</InfoContentDiv>
               </VoltInfoGrid>
             </InfoContentDiv>
           </OHTInfoGrid>
@@ -138,10 +151,10 @@ function OHTResult() {
         <OHTResultDiv ratio={40}>
           <h3 style={{ color: "var(--emphasize-color)" }}>휠 상세 이미지</h3>
           <OHTWheelsDiv>
-            <OHTWheel wheelName="FL" />
-            <OHTWheel wheelName="FR" />
-            <OHTWheel wheelName="RL" />
-            <OHTWheel wheelName="RR" />
+            <OHTWheel wheelName={data[0].wheelPosition} />
+            <OHTWheel wheelName={data[1].wheelPosition} />
+            <OHTWheel wheelName={data[2].wheelPosition} />
+            <OHTWheel wheelName={data[3].wheelPosition} />
           </OHTWheelsDiv>
         </OHTResultDiv>
       </OHTResultContainer>
