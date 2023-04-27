@@ -32,8 +32,8 @@
 .waves {
   position: relative;
   width: 100%;
-  height: 15vh;
-  margin-bottom: -7px; /*Fix for safari gap*/
+  height: 16.5vh;
+  /* margin-bottom: -7px; Fix for safari gap */
   min-height: 100px;
   max-height: 150px;
 }
