@@ -20,25 +20,29 @@ public class ReportController {
     @Autowired
     private SlackController slackController;
 
-    @PostMapping("/list")
-    private ApiResponse<?> findReport(@RequestBody QuestionDto questionDto){
+    @GetMapping("/list")
+    private ApiResponse<?> findReport(@RequestParam("ohtSn") String ohtSn
+            , @RequestParam("date") String date, @RequestParam("time") String time
+            ,@RequestParam("wheelPosition") String wheelPosition,@RequestParam("page") int page) {
         log.info("Report FindReport Start");
         try {
-            return ApiResponse.success(SuccessCode.READ_REPORT_LIST,reportService.findReport(questionDto));
-        }catch (Exception e){
-            log.error("Report FindReport Error : "+e.getMessage());
+            return ApiResponse.success(SuccessCode.READ_REPORT_LIST, reportService.findReport(QuestionDto.builder()
+                    .ohtSn(ohtSn).date(date).time(time).wheelPosition(wheelPosition).page(page)
+                    .build()));
+        } catch (Exception e) {
+            log.error("Report FindReport Error : " + e.getMessage());
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
         }
     }
 
     @GetMapping("/detail/{wheelChcekId}")
-    private  ApiResponse<?> findReportDetail(@PathVariable("wheelChcekId")long wheelChcekId){
+    private ApiResponse<?> findReportDetail(@PathVariable("wheelChcekId") long wheelChcekId) {
         log.info("Report findReportDetail Start");
-        try{
+        try {
             return ApiResponse.success(SuccessCode.READ_REPORT_DETAIL, reportService.findReportDetail(wheelChcekId));
-        }catch (Exception e){
-            slackController.send("Report findReportDetail Error : "+e.getMessage());
-            log.error("Report findReportDetail Error : "+e.getMessage());
+        } catch (Exception e) {
+            slackController.send("Report findReportDetail Error : " + e.getMessage());
+            log.error("Report findReportDetail Error : " + e.getMessage());
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
         }
     }
