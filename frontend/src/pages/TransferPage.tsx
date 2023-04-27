@@ -1,10 +1,21 @@
 import React from 'react';
+import styled from "styled-components";
+import Title from "../components/Title";
+import TransferTab from "../components/TransferPage/TransferTab";
+
+const TransferSection = styled.section`
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
 
 function TransferPage() {
   return (
-    <div>
-      <h1>전이학습 페이지</h1>
-    </div>
+    <TransferSection>
+      <Title title="전이학습" />
+      <TransferTab></TransferTab>
+    </TransferSection>
   );
 }
 
