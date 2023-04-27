@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-alpine
+FROM adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
 VOLUME /tmp
 EXPOSE 8888
 ARG JAR_FILE=build/libs/\*.jar
