@@ -117,6 +117,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
+  li {
+    list-style-type: none;
+  }
+  
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
