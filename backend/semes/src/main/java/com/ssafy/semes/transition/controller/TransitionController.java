@@ -36,14 +36,16 @@ public class TransitionController {
 
     }
     @DeleteMapping
-    public ApiResponse<?> deleteBolt(@RequestBody TransitionDeleteRequestDto dto){
-        StringBuilder sb = new StringBuilder();
-        for (int id:
-             dto.getFileIds()) {
-            sb.append(id).append(",");
+    public ApiResponse<?> deleteBolt(@RequestBody TransitionDeleteRequestDto requestDto){
+        log.info("TransitionController deleteBolt start");
+        try {
+            transitionService.deleteFiles(requestDto);
+        }catch (IOException e){
+            log.info("TransitionController deleteBolt error");
+            e.printStackTrace();
+            return ApiResponse.error(ErrorCode.FILE_NOT_FOUND);
         }
-        sb.append("볼트 삭제 성공");
-        return ApiResponse.success(SuccessCode.DELETE_IMG,sb.toString());
+        return ApiResponse.success(SuccessCode.DELETE_IMG,"볼트 이미지를 삭제 했습니다.");
     }
     @PatchMapping
     public ApiResponse<?> updateBolt(@RequestBody TransitionUpdateRequestDto requestDto){

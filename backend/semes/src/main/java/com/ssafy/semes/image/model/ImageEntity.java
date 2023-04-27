@@ -33,4 +33,6 @@ public class ImageEntity {
 
     @Column(name = "save_name",length = 200,nullable = false)
     private String saveName;
+    @Column(name = "is_deleted",nullable = false, columnDefinition="tinyint(1) default 0")
+    private Boolean isDeleted;
 }

@@ -17,6 +17,7 @@ import com.ssafy.semes.image.model.ImageEntity;
 import com.ssafy.semes.image.model.ImageListResponseDto;
 import com.ssafy.semes.image.model.ImageResponseDto;
 import com.ssafy.semes.image.model.repository.ImageRepository;
+import com.ssafy.semes.transition.model.TransitionDeleteRequestDto;
 import com.ssafy.semes.transition.model.TransitionUpdateRequestDto;
 import com.ssafy.semes.util.FileUtil;
 
@@ -35,7 +36,7 @@ public class TransitionServiceImpl implements  TransitionService {
 
 		for (int i = 0; i < 4; i++) {
 			path = dir[i].getPath();
-			List<ImageEntity> images =  imageRepository.findByFileDir(path);
+			List<ImageEntity> images =  imageRepository.findByFileDirAndIsDeletedNot(path,true);
 
 			List<ImageResponseDto> imageResponseDtoList =
 				images.stream().map(m ->
@@ -68,4 +69,21 @@ public class TransitionServiceImpl implements  TransitionService {
 
 		imageRepository.updateFileDirByFileIds(dir[requestDto.getNextType()].getPath(),requestDto.getFileIds());
 	}
+
+	@Override
+	@Transactional
+	public void deleteFiles(TransitionDeleteRequestDto requestDto) throws IOException {
+
+		Iterable<Long> iterable = Arrays.asList(requestDto.getFileIds());
+		List<ImageEntity> images = imageRepository.findAllById(iterable);
+
+		Iterator<ImageEntity> iterator = images.iterator();
+		while(iterator.hasNext()){
+			ImageEntity image = iterator.next();
+			FileUtil.archiveFile(image.getSaveName(),image.getFileDir());
+		}
+
+		imageRepository.updateIsDeletedByFileIds(requestDto.getFileIds());
+	}
+
 }
