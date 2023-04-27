@@ -1,6 +1,24 @@
-import { TBody, TD, TH, THead, THeadMain, TR, Table } from "../../components/TableComponents";
+import { TBody, TD, TH, THeadMain, TR, Table } from "../../components/TableComponents";
+
+import { useState } from "react";
 
 function OHTResultMenu() {
+  const [dashboardData, setDashboardData] = useState([]);
+
+  async function fetchData() {
+    const response = await fetch("http://70.12.247.236:8889/dev/dashboard", {
+      headers: {
+        accesstoken:
+          "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjgyNDgxODQ0NjkxLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODM3Nzc4NDQsInN1YiI6ImFjY2Vzcy10b2tlbiIsInJvbGUiOiJBRE1JTiJ9.DsMQURAqUMNNA-aU7SoSLFL19FEtQkutnp5b3HsMX0k",
+      },
+    });
+    console.log("response : ", response);
+    const data = await response.json();
+    setDashboardData(data);
+  }
+  fetchData();
+  console.log(dashboardData);
+
   return (
     <Table>
       <THeadMain style={{ borderTop: "solid 2px var(--emphasize-color)" }}>

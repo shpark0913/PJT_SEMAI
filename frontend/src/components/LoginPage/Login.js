@@ -25,6 +25,7 @@ function Login() {
             viewBox="0 24 150 28"
             preserveAspectRatio="none"
             shape-rendering="auto"
+            color="#D6EBFF"
           >
             <defs>
               <path
@@ -37,12 +38,13 @@ function Login() {
               <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
               <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
               <use xlinkHref="#gentle-wave" x="48" y="7" fill="#D6EBFF" />
+              <use xlinkHref="#gentle-wave" x="48" y="8" fill="#fff" />
             </g>
           </svg>
         </div>
       </div>
 
-      <div class="content flex"></div>
+      {/* <div class="content flex"></div> */}
     </div>
   );
 }
