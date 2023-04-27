@@ -14,11 +14,11 @@ import com.ssafy.semes.util.FileUtil;
 @EnableAsync
 public class SemesApplication {
 	public static void main(String[] args) {
-		try {
-			FileUtil.init();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		// try {
+		// 	FileUtil.init();
+		// } catch (IOException e) {
+		// 	throw new RuntimeException(e);
+		// }
 		SpringApplication.run(SemesApplication.class, args);
 	}
 }
