@@ -6,5 +6,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class TransitionDeleteRequestDto {
-	private int[] fileIds;
+	private Long[] fileIds;
 }

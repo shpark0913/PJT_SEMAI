@@ -10,9 +10,12 @@ import org.springframework.data.repository.query.Param;
 import com.ssafy.semes.image.model.ImageEntity;
 
 public interface ImageRepository extends JpaRepository<ImageEntity,Long> {
-	List<ImageEntity>  findByFileDir(String fileDir);
+	List<ImageEntity>  findByFileDirAndIsDeletedNot(String fileDir,boolean isDeleted);
 
 	@Modifying(clearAutomatically = true)
 	@Query("update ImageEntity i set i.fileDir=:fileDir where i.fileId in :fileIds")
 	int updateFileDirByFileIds(@Param("fileDir") String fileDir, @Param("fileIds") Long[] fileIds);
+	@Modifying(clearAutomatically = true)
+	@Query("update ImageEntity i set i.isDeleted=1 where i.fileId in :fileIds")
+	int updateIsDeletedByFileIds( @Param("fileIds") Long[] fileIds);
 }
