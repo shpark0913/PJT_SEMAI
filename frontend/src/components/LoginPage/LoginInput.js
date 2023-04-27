@@ -13,6 +13,7 @@ function LoginInput() {
           required="required"
           autoComplete="off"
           style={{ backgroundColor: "white" }}
+          id="loginInput"
         />
         <input
           type="password"
@@ -21,6 +22,7 @@ function LoginInput() {
           required="required"
           autoComplete="off"
           style={{ backgroundColor: "white" }}
+          id="loginInput"
         />
         <button type="submit" class="btn btn-primary btn-block btn-large">
           진단 시스템 로그인
