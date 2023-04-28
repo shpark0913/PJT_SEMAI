@@ -2,7 +2,7 @@ import {configureStore, combineReducers, ThunkAction, Action } from '@reduxjs/to
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import counterReducer from './slices/counterSlice';
+import userReducer from './slices/userSlice'
 import themeReducer from './slices/themeSlice'
 
 const persistConfig = {
@@ -12,7 +12,7 @@ const persistConfig = {
 
 // 리듀서
 const rootReducers = combineReducers({
-  counter: counterReducer,
+  user: userReducer,
   theme: themeReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
