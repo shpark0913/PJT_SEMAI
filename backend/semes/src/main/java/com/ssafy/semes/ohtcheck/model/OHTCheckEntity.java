@@ -59,7 +59,6 @@ public class OHTCheckEntity {
 	@JoinColumn(name = "oht_id")
 	private OHTEntity oht;
 
-	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(mappedBy = "ohtCheck")
 	private List<WheelCheckEntity> wheelChecks;
 

@@ -37,8 +37,6 @@ public class OHTEntity {
 	@Column(name="oht_sn",length = 10, nullable = false,unique=true)
 	private String ohtSN;
 
-
-	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(mappedBy = "oht")
 	private List<OHTCheckEntity> ohtChecks;
 
