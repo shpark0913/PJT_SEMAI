@@ -10,8 +10,7 @@ function OHTResultMenu() {
   useEffect(() => {
     const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
       headers: {
-        accesstoken:
-          "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjgyNDgxODQ0NjkxLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODM3Nzc4NDQsInN1YiI6ImFjY2Vzcy10b2tlbiIsInJvbGUiOiJBRE1JTiJ9.DsMQURAqUMNNA-aU7SoSLFL19FEtQkutnp5b3HsMX0k",
+        accesstoken: localStorage.getItem("token"),
       },
     });
 
@@ -42,8 +41,7 @@ function OHTResultMenu() {
           axios
             .get(`${BASE_URL}dashboard/main/${item.ohtCheckId}`, {
               headers: {
-                accesstoken:
-                  "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjgyNDgxODQ0NjkxLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODM3Nzc4NDQsInN1YiI6ImFjY2Vzcy10b2tlbiIsInJvbGUiOiJBRE1JTiJ9.DsMQURAqUMNNA-aU7SoSLFL19FEtQkutnp5b3HsMX0k",
+                accesstoken: localStorage.getItem("token"),
               },
             })
             .then(response => {
