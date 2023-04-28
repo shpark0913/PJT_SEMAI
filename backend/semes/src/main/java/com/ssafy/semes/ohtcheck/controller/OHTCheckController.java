@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.semes.common.ErrorCode;
 import com.ssafy.semes.common.SuccessCode;
+import com.ssafy.semes.common.WheelPosition;
 import com.ssafy.semes.common.dto.ApiResponse;
 import com.ssafy.semes.dashboard.model.ProcessStatusDto;
 import com.ssafy.semes.dashboard.model.SseEmitters;
@@ -18,7 +19,6 @@ import com.ssafy.semes.image.model.service.ImageService;
 import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
 import com.ssafy.semes.ohtcheck.model.service.OHTCheckService;
 import com.ssafy.semes.util.FileNameUtil;
-import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
 import com.ssafy.semes.wheelcheck.model.service.WheelCheckService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +60,7 @@ public class OHTCheckController {
 		for (int i=0;i<4;i++) {
 			MultipartFile file = files[i];
 			try {
-				wheelCheckService.checkWheel(file,ohtFileName,i,ohtCheck);
+				wheelCheckService.checkWheel(file,ohtFileName, WheelPosition.values()[i],ohtCheck);
 
 			} catch (IOException | InterruptedException e) {
 				log.info("OHTCheckController checkOht error checkWheel");
