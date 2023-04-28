@@ -8,6 +8,7 @@ import com.ssafy.semes.dashboard.model.DashboardMainResponseDto;
 import com.ssafy.semes.dashboard.model.OHTCheckResponseDto;
 import com.ssafy.semes.dashboard.model.SseEmitters;
 import com.ssafy.semes.dashboard.model.service.DashboardService;
+import com.ssafy.semes.exception.JPAException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -42,6 +43,9 @@ public class DashboardController {
                     .data(list));
 
             return ResponseEntity.ok(emitter);
+        }catch (JPAException jpaException){
+            log.error("DashBoard Error : " + jpaException.getMessage());
+            throw new JPAException();
         }catch (Exception e){
             log.error("DashBoard Error : " + e.getMessage());
             throw new RuntimeException(e);
@@ -55,6 +59,9 @@ public class DashboardController {
             list = dashboardService.findAllMain(ohtCheckId);
             log.info("DashboardMainResponseDtos : " + list);
             return ApiResponse.success(SuccessCode.READ_DASHBOARD_MAIN,list);
+        }catch (JPAException jpaException){
+            log.error("DashBoard Error : " + jpaException.getMessage());
+            return ApiResponse.error(ErrorCode.JPA_NOT_FIND);
         }catch (Exception e){
             log.error("DashBoard ShowMain Error : " + e.getMessage());
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
