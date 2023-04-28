@@ -30,7 +30,7 @@ public class DashboardServiceImpl implements DashboardService{
     @Override
     @Transactional
     public List<OHTCheckResponseDto> findAllCheck() throws Exception {
-        List<OHTCheckEntity> list = ohtCheckRepository.findAll();
+        List<OHTCheckEntity> list = ohtCheckRepository.findAllJoinFetch();
 
         return list.stream().map(m->{
             OHTCheckResponseDto ohtDto = OHTCheckResponseDto.builder()
@@ -47,7 +47,6 @@ public class DashboardServiceImpl implements DashboardService{
             for(WheelCheckEntity val : m.getWheelChecks()){
                 ohtDto.getWheelHistoryId().add(val.getWheelHistoryId());
             }
-            log.info("OHTCheckResponseDto : " + ohtDto);
             return ohtDto;
         }).collect(Collectors.toList());
     }
