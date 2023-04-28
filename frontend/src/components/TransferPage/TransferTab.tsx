@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import { TransferImage, TransferImageGrid, TransferImageGridContainer } from "./TransferImageComponents";
 import {Button, RedButton, SemesButton} from "../ButtonComponents";
+import { TransferTabProps } from "../../_utils/Types";
 
 const TransferTabContainer = styled.div`
   display: flex;
@@ -134,7 +135,7 @@ const data = [
   }
 ];
 
-function TransferTab() {
+const TransferTab = ({handleModalOpen}: TransferTabProps) => {
   const [tabIdx, setTabIdx] = useState(0);
   // const TabMenuList = ['정상', '유실', '풀림', '모호'];
   const tabComponent = [
@@ -142,26 +143,17 @@ function TransferTab() {
       menu: '양호',
       content:
         <>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div onClick={() => handleModalOpen(
+            {
+                  imageUrl: "https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1",
+                  buttons: <>
+                    <Button>유실로 이동</Button>
+                    <Button>풀림으로 이동</Button>
+                    <SemesButton>학습으로 이동</SemesButton>
+                    <RedButton>삭제하기</RedButton>
+                  </>,
+                })}>안녕</div>
+          </TransferImage>
         </>,
       buttons: 
         <>
@@ -236,10 +228,6 @@ function TransferTab() {
           <TransferImageGrid>{tabComponent[tabIdx].content}</TransferImageGrid>
         </TransferImageGridContainer>
         <div>
-          {/*<Button>유실로 이동</Button>*/}
-          {/*<Button>풀림으로 이동</Button>*/}
-          {/*<SemesButton>학습으로 이동</SemesButton>*/}
-          {/*<RedButton>삭제하기</RedButton>*/}
           { tabComponent[tabIdx].buttons }
           <div>현재 선택 : 1/100</div>
         </div>
