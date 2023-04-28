@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -52,10 +54,12 @@ public class OHTCheckEntity {
 	private int loseCount;
 	@Column(name="unclassified_count_total", nullable = false)
 	private int unclassifiedCount;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "oht_id")
 	private OHTEntity oht;
 
+	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(mappedBy = "ohtCheck")
 	private List<WheelCheckEntity> wheelChecks;
 
