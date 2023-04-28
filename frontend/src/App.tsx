@@ -13,6 +13,7 @@ import React from "react";
 import ReportPage from "./pages/ReportPage";
 import TransferPage from "./pages/TransferPage";
 import { store } from "./_store/store";
+import {BoltImageListsLoader} from "./_utils/Loader";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,7 +23,7 @@ const router = createBrowserRouter(
         <Route index element={<DashboardPage />} loader={DashboardLoader} />
         <Route path="report" element={<ReportPage />} />
         <Route path="report/:id" />
-        <Route path="transfer" element={<TransferPage />} />
+        <Route path="transfer" element={<TransferPage />} loader={BoltImageListsLoader} />
       </Route>
     </Route>,
   ),
