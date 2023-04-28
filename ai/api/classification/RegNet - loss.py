@@ -23,7 +23,9 @@ WHEEL_RESULT_PATH = '../../dataset/semes_bolt/WHEEL_RESULT/'
 # infer로 들어온 query의 파일 형식이 이미지 파일인지 확인
 LABEL_COLOR = {
     0: (225, 240, 8),   # 파손
-    1: (255, 0, 0),     # 유실
+    # 1: (59, 85, 193),   # 풀림
+    2: (255, 0, 0),     # 유실
+    # 3: (0, 255, 0),   # 정상
 }
 
 # 모델을 평가 모드 설정
@@ -79,12 +81,17 @@ def ImgCrop(filePath, image, bboxes):
             # 분류된 이미지를 저장할 변수를 생성하고
             image_name = filePath + f'_{i+1}.png' 
             # 정상인 볼트로 분류되었을 경우
-            if classification_Result == 2:
+            if classification_Result == 3:
                 # BOLT_NORMAL 폴더로 경로 설정
                 save_directory = '../../dataset/semes_bolt/BOLT_NORMAL/'
                 classification_directory = 'BOLT_NORMAL/'
-            # 유실된 볼트로 분류되었을 경우
+            # 풀린 볼트로 분류된 경우
             elif classification_Result == 1:
+                # BOLT_LOOSE 폴더로 경로 설정
+                save_directory = '../../dataset/semes_bolt/BOLT_LOOSE/'
+                classification_directory = 'BOLT_BREAK/'
+            # 유실된 볼트로 분류되었을 경우
+            elif classification_Result == 2:
                 # BOLT_LOST 폴더로 경로 설정
                 save_directory = '../../dataset/semes_bolt/BOLT_LOST/'
                 classification_directory = 'BOLT_LOST/'
