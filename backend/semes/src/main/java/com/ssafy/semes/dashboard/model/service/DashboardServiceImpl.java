@@ -40,15 +40,25 @@ public class DashboardServiceImpl implements DashboardService{
                     .ohtCheckId(m.getOhtCheckId())
                     .ohtCheckStartDatetime(m.getOhtCheckStartDatetime())
                     .ohtCheckEndDatetime(m.getOhtCheckEndDatetime())
-                    .goodCount(m.getGoodCount())
-                    .outCount(m.getOutCount())
-                    .loseCount(m.getLoseCount())
-                    .unclassifiedCount(m.getUnclassifiedCount())
                     .ohtId(m.getOht().getOhtId())
                     .build();
             ohtDto.setWheelHistoryId(new ArrayList<Long>());
             for(WheelCheckEntity val : m.getWheelChecks()){
                 ohtDto.getWheelHistoryId().add(val.getWheelHistoryId());
+                switch (val.getWheelPosition()){
+                    case "FL":
+                        ohtDto.setFlCount(11-val.getBoltGoodCount());
+                        break;
+                    case "FR":
+                        ohtDto.setFrCount(11-val.getBoltGoodCount());
+                        break;
+                    case "RL":
+                        ohtDto.setRlCount(11-val.getBoltGoodCount());
+                        break;
+                    case "RR":
+                        ohtDto.setRrCount(11-val.getBoltGoodCount());
+                        break;
+                }
             }
             return ohtDto;
         }).collect(Collectors.toList());
