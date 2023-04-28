@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-const Modal = styled.div< {scrollY: number}>`
+const Modal = styled.div< {scrollY?: number}>`
   height: 100vh;
   width: 100%;
   position: absolute;
-  top: ${props => props.scrollY+'px'};
+  top: ${props => props.scrollY? props.scrollY +'px' : 0 };
   left: 0;
   z-index: 1;
 `
@@ -20,7 +20,7 @@ const ModalBackground = styled.div`
   z-index: 1;
 `;
 
-const DetailContainer = styled.div`
+const ModalReportContainer = styled.div`
   width: 70%;
   min-width: 800px;
   height: 100%;
@@ -53,4 +53,20 @@ const CloseButton = styled.button`
     background-color: rgba(128, 128, 128, 0.3);
   }
 `
-export { Modal, ModalBackground, DetailContainer, CloseButton }
+
+const ModalImageContainer = styled.div`
+  width: 70%;
+  min-width: 800px;
+  height: 80vh;
+  background-color: var(--background-color);
+  box-shadow: -6px 0 23px 8px rgba(173, 173, 173, 0.25);
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px 50px;
+  border-radius: 10px;
+`
+
+export { Modal, ModalBackground, ModalReportContainer, ModalImageContainer, CloseButton }
