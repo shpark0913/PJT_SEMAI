@@ -4,14 +4,14 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 import { RootState } from "../_store/store";
-import { DetailInfoType } from "../_utils/Types";
+import { ReportDetailType } from "../_utils/Types";
 import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 
 import { Button, SemesButton } from "../components/ButtonComponents";
 import { Label } from "../components/ReportPage/FilterComponents"
 import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
-import DetailModal from "../components/DetailModal/DetailModal";
+import ReportModal from "../components/DetailModal/ReportModal";
 
 const ReportSection = styled.section`
   padding: 30px;
@@ -31,7 +31,7 @@ function ReportPage() {
 
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   let [scrollY, setScrollY] = useState<number>(0);
-  let [detailInfo, setDetailInfo] = useState<DetailInfoType>({});        // 선택한 레포트의 상세내역을 전달할 객체
+  let [detailInfo, setDetailInfo] = useState<ReportDetailType>({});        // 선택한 레포트의 상세내역을 전달할 객체
   const { lockScroll, openScroll } = useBodyScrollLock();
 
   let theme = useSelector((state:RootState) => state.theme.theme);
@@ -42,7 +42,7 @@ function ReportPage() {
   }
 
   /** 모달이 열리면 실행되는 함수 */
-  const handleModalOpen = useCallback((detailInfo: DetailInfoType) => {
+  const handleModalOpen = useCallback((detailInfo: ReportDetailType) => {
     setScrollY(window.scrollY);
     setIsModalOpen(true);
     setDetailInfo(detailInfo);
@@ -58,7 +58,7 @@ function ReportPage() {
   return (
     <ReportSection>
 
-      { isModalOpen && <DetailModal scrollY={scrollY}  detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }
+      { isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }
 
       <Title title="레포트" />
 
