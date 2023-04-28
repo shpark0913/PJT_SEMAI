@@ -2,6 +2,7 @@ package com.ssafy.semes.dashboard.model.service;
 
 import com.ssafy.semes.dashboard.model.DashboardMainResponseDto;
 import com.ssafy.semes.dashboard.model.OHTCheckResponseDto;
+import com.ssafy.semes.exception.JPAException;
 import com.ssafy.semes.oht.model.OHTEntity;
 import com.ssafy.semes.oht.model.OHTResponseDto;
 import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
@@ -31,7 +32,9 @@ public class DashboardServiceImpl implements DashboardService{
     @Transactional
     public List<OHTCheckResponseDto> findAllCheck() throws Exception {
         List<OHTCheckEntity> list = ohtCheckRepository.findAllJoinFetch();
-
+        if(list==null){
+            throw  new JPAException();
+        }
         return list.stream().map(m->{
             OHTCheckResponseDto ohtDto = OHTCheckResponseDto.builder()
                     .ohtCheckId(m.getOhtCheckId())
@@ -56,8 +59,8 @@ public class DashboardServiceImpl implements DashboardService{
     public List<DashboardMainResponseDto> findAllMain(long id) throws Exception {
         List<WheelCheckEntity> list = wheelCheckRepository.findByOhtCheck(OHTCheckEntity.builder().ohtCheckId(id).build());
 
-        if(list.size()==0){
-            throw  new RuntimeException("WheelCheckEntity Find Error");
+        if(list==null){
+            throw  new JPAException();
         }
         log.info("OHTCheckResponseDto : " + list);
         LocalDateTime ohtCheckDatetime = list.get(0).getOhtCheck().getOht().getCheckDate();
