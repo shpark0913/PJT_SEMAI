@@ -58,15 +58,20 @@ const ModalImageContainer = styled.div`
   width: 70%;
   min-width: 800px;
   height: 80vh;
+  
   background-color: var(--background-color);
   box-shadow: -6px 0 23px 8px rgba(173, 173, 173, 0.25);
+  padding: 30px 50px;
+  border-radius: 10px;
+  
   position: absolute;
   z-index: 2;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 30px 50px;
-  border-radius: 10px;
+  
+  display: flex;
+  flex-direction: column;
 `
 
 export { Modal, ModalBackground, ModalReportContainer, ModalImageContainer, CloseButton }

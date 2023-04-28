@@ -9,10 +9,12 @@ function ImageModal({detailInfo, handleModalClose}: ImageModalProps) {
     <Modal>
       <ModalBackground />
       <ModalImageContainer>
-        <CloseButton onClick={handleModalClose}><CloseIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
+        <div style={{display: "flex", justifyContent: "right"}}>
+          <CloseButton onClick={handleModalClose}><CloseIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
+        </div>
         <Title title="볼트 이미지 상세보기" />
-        <div>{detailInfo.imageUrl}</div>
-        <div>{detailInfo.buttons}</div>
+        <div style={{flex: "1", backgroundImage: `url(${detailInfo.imageUrl})`, backgroundSize: "contain", backgroundRepeat: "no-repeat"}} />
+        <div style={{margin: "20px 0 0 0"}}>{detailInfo.buttons}</div>
       </ModalImageContainer>
     </Modal>
   );
