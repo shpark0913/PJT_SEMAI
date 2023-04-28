@@ -8,6 +8,7 @@ const Layout = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
 `;
 
 function LayoutPage() {
@@ -17,7 +18,6 @@ function LayoutPage() {
       <Main>
         <Outlet />
       </Main>
-      {/*<footer>A301</footer>*/}
     </Layout>
   );
 }

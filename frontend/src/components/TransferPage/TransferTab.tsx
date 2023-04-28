@@ -5,6 +5,7 @@ const TransferTabContainer = styled.div`
   display: flex;
   flex-shrink: 0;
   flex-grow: 1;
+  height: 80%;
 `;
 
 const TabMenu = styled.menu`
@@ -45,12 +46,14 @@ const TabMenu = styled.menu`
 
 const TransferImageContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
   overflow-y: auto;
   padding: 30px;
   background-color: var(--section-color);
   border-radius: 0 10px 10px 10px;
-  
+`
+
+const TransferImageGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
@@ -153,7 +156,16 @@ function TransferTab() {
           <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
           <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
           <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
 
         </>
     },
@@ -190,7 +202,9 @@ function TransferTab() {
           </li>
         ) }
       </TabMenu>
-      <TransferImageContainer> {tabComponent[tabIdx].content} </TransferImageContainer>
+      <TransferImageContainer>
+        <TransferImageGrid>{tabComponent[tabIdx].content}</TransferImageGrid>
+      </TransferImageContainer>
     </TransferTabContainer>
   );
 }
