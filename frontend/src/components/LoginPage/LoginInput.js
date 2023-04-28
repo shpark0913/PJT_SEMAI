@@ -16,7 +16,8 @@ function LoginInput() {
     };
 
     axios
-      .post("https://i8a108.p.ssafy.io/api/users/", body)
+      .post(`http://semes.info/users/`, body)
+      // .post(`${process.env.REACT_APP_BASE_URL}users/`, body)
       .then(response => {
         // 로그인 성공 시 코드 작성(대시보드 이동, 토큰 저장)
         console.log(response);
@@ -36,7 +37,7 @@ function LoginInput() {
   };
 
   return (
-    <div class="login">
+    <div className="login">
       <form onSubmit={onSubmitHandler}>
         <input
           type="text"
@@ -55,12 +56,12 @@ function LoginInput() {
           placeholder="Password"
           required="required"
           autoComplete="off"
-          id="loginInput"
+          id="passwordInput"
           value={userPwd}
           onChange={onPwdHandler}
           style={{ backgroundColor: "white" }}
         />
-        <button type="submit" class="btn btn-primary btn-block btn-large">
+        <button type="submit" className="btn btn-primary btn-block btn-large">
           진단 시스템 로그인
         </button>
       </form>
