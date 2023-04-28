@@ -1,12 +1,14 @@
 import "./LoginInput.css";
 
 import axios from "axios";
+import { useNavigate } from "react-router";
 import { useState } from "react";
 
 function LoginInput() {
   const [userId, setUserId] = useState("");
   const [userPwd, setUserPwd] = useState("");
-
+  const [loginInfo, setLoginInfo] = useState("");
+  const navigate = useNavigate();
   const onSubmitHandler = event => {
     event.preventDefault();
 
@@ -16,15 +18,23 @@ function LoginInput() {
     };
 
     axios
-      .post(`http://semes.info/users/`, body)
-      // .post(`${process.env.REACT_APP_BASE_URL}users/`, body)
+      .post(`${process.env.REACT_APP_BASE_URL}user`, body)
       .then(response => {
-        // 로그인 성공 시 코드 작성(대시보드 이동, 토큰 저장)
-        console.log(response);
+        if (response.data.status === 200) {
+          console.log(response.data);
+          localStorage.setItem("token", response.data.data.accesstoken);
+          localStorage.setItem("userName", response.data.data.userName);
+          navigate("/");
+        } else {
+          setUserId("");
+          setUserPwd("");
+          setLoginInfo("로그인 정보를 확인하십시오.");
+        }
       })
       .catch(error => {
         // 로그인 실패 시 코드 작성(Id, Pwd 초기화 & 경고 문구)
         console.log(error);
+        setLoginInfo("로그인 정보를 확인하십시오.");
       });
   };
 
@@ -64,6 +74,7 @@ function LoginInput() {
         <button type="submit" className="btn btn-primary btn-block btn-large">
           진단 시스템 로그인
         </button>
+        <div style={{ marginTop: "10px" }}>{loginInfo}</div>
       </form>
     </div>
   );
