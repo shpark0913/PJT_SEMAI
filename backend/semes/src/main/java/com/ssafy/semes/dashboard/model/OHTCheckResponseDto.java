@@ -17,10 +17,10 @@ public class OHTCheckResponseDto {
     private long ohtCheckId;
     private LocalDateTime ohtCheckStartDatetime;
     private LocalDateTime ohtCheckEndDatetime;
-    private int goodCount;
-    private int outCount;
-    private int loseCount;
-    private int unclassifiedCount;
+    private int flCount;
+    private int frCount;
+    private int rlCount;
+    private int rrCount;
     private long ohtId;
     private List<Long> wheelHistoryId;
 
