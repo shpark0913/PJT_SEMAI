@@ -12,6 +12,8 @@ import torch.nn as nn
 # 학습에 사용되는 최적화 알고리즘
 import torch.optim as optim
 import numpy as np
+from copy import deepcopy
+
 
 
 from sklearn.metrics import f1_score
@@ -81,7 +83,7 @@ def learning(origin_acc, origin_loss, origin_fscore):
     ])
 
     # 데이터가 저장된 경로
-    data_dir = '../../semes_transfer/'
+    data_dir = '../../dataset/semes_transfer/'
     print(os.path.join(data_dir, 'train'))
 
     # 데이터가 저장된 경로에서 ImageFolder를 이용하여 이미지 데이터셋을 전처리한 후 로드(transforms_*==전처리 수행)
@@ -105,7 +107,14 @@ def learning(origin_acc, origin_loss, origin_fscore):
     # 볼트 분석 모델 load
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
-    classification_model = torch.load(CLASSIFICATION_MODEL_DIR)
+    classification_model2 = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+    classification_model = deepcopy(classification_model2)
+    # 불러온 네트워크 모델의 출력 뉴런 수를 저장
+    num_features = classification_model.fc.in_features
+    # 새로운 Fully Connected 레이어 추가
+    classification_model.fc = nn.Linear(num_features, 4)
+
+    # GPU를 사용하기 위해 모델을 CUDA 디바이스로 보냄
     classification_model.to(device)
 
     # 손실 함수와 최적화 알고리즘 정의
@@ -115,20 +124,18 @@ def learning(origin_acc, origin_loss, origin_fscore):
 
 
     # 학습 epochs 설정
-    num_epochs = 30
+    num_epochs = 1
 
     # epoch에 따른 손실 값과 정확도를 저장하는 리스트
     train_loss_list = []
     train_acc_list = []
     test_loss_list = []
     test_acc_list = []
-
+    
     # 최적 모델
     best_loss = origin_loss
-    best_loss_epoch = 0
-
+    best_epoch = 0
     best_acc = origin_acc
-    best_acc_epoch = 0
 
     result = []
     # 설정한 epochs 만큼 반복
@@ -212,12 +219,20 @@ def learning(origin_acc, origin_loss, origin_fscore):
         test_loss_list.append(test_loss)
         test_acc_list.append(test_acc)
 
-    flscore = f1score(test_loader, classification_model)
+        if test_loss < best_loss and test_acc > best_acc:
+            best_loss = test_loss
+            best_acc = test_acc
+            best_epoch = epoch + 1
+            torch.save(classification_model, './classification/models/classification_model.pth')
 
-    result.append(True)
-    result.append(best_acc)
-    result.append(best_loss)
-    result.append(flscore)
+    if best_epoch != 0:
+        flscore = f1score(test_loader, classification_model)
+        result.append(True)
+        result.append(best_acc)
+        result.append(best_loss)
+        result.append(flscore)
+    else:
+        result=[False,-1,-1,-1]
 
     return result
 
