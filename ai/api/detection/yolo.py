@@ -12,8 +12,8 @@ os.chdir('./detection')
 TARGET_IMAGE_SIZE = 2048
 CROP_SIZE = (200, 0, 200, 0)
 MODEL_PATH = 'weights/'
-NORMAL_BBOXES_PATH = '../../../semes_bolt/DETECTION_NORMAL/'
-PROBLEM_BBOXES_PATH = '../../../semes_bolt/DETECTION_PROBLEM/'
+NORMAL_BBOXES_PATH = '../../../dataset/semes_bolt/DETECTION_NORMAL/'
+PROBLEM_BBOXES_PATH = '../../../dataset/semes_bolt/DETECTION_PROBLEM/'
 REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG|.PNG|.JPEG|.GIF|.BMP')
 
 def load_detection_model(model_name, model_path=MODEL_PATH):
@@ -48,7 +48,7 @@ def detect_bolt(image_path, model=model):
     os.chdir('./detection')
     
     # filePath의 앞부분을 IMG_DIR에 저장
-    IMG_DIR = os.path.dirname('../../../semes_bolt/WHEEL_ORIGIN/')
+    IMG_DIR = os.path.dirname('../../../dataset/semes_bolt/WHEEL_ORIGIN/')
     # image에 해당 휠 이미지 열기
     now_image = Image.open(os.path.join(IMG_DIR, image_path))
     now_image = preprocess_image(now_image)
