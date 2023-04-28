@@ -16,16 +16,16 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
 classification_model = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
 # 분류 결과 텍스트파일이 저장될 경로
-RESULT_PATH = '../../semes_bolt/DETECTION_RESULT/'
+RESULT_PATH = '../../dataset/semes_bolt/DETECTION_RESULT/'
 
 # 최종 결과 이미지 저장 경로
-WHEEL_RESULT_PATH = '../../semes_bolt/WHEEL_RESULT/'
+WHEEL_RESULT_PATH = '../../dataset/semes_bolt/WHEEL_RESULT/'
 # infer로 들어온 query의 파일 형식이 이미지 파일인지 확인
 LABEL_COLOR = {
     0: (225, 240, 8),   # 파손
-    1: (255, 0, 0),     # 유실
-    # 2: (0, 255, 0),   # 정상
-    # 3: (59, 85, 193),   # 풀림
+    # 1: (59, 85, 193),   # 풀림
+    2: (255, 0, 0),     # 유실
+    # 3: (0, 255, 0),   # 정상
 }
 
 # 모델을 평가 모드 설정
@@ -83,17 +83,17 @@ def ImgCrop(filePath, image, bboxes):
             # 정상인 볼트로 분류되었을 경우
             if classification_Result == 2:
                 # BOLT_NORMAL 폴더로 경로 설정
-                save_directory = '../../semes_bolt/BOLT_NORMAL/'
+                save_directory = '../../dataset/semes_bolt/BOLT_NORMAL/'
                 classification_directory = 'BOLT_NORMAL/'
             # 유실된 볼트로 분류되었을 경우
             elif classification_Result == 1:
                 # BOLT_LOST 폴더로 경로 설정
-                save_directory = '../../semes_bolt/BOLT_LOST/'
+                save_directory = '../../dataset/semes_bolt/BOLT_LOST/'
                 classification_directory = 'BOLT_LOST/'
             # 파단된 볼트로 분류되었을 경우
             else:
                 # BOLT_BREAK 폴더로 경로 설정
-                save_directory = '../../semes_bolt/BOLT_BREAK/'
+                save_directory = '../../dataset/semes_bolt/BOLT_BREAK/'
                 classification_directory = 'BOLT_BREAK/'
             # 분류 결과를 result 리스트에 append
             result.append(classification_directory + image_name)
