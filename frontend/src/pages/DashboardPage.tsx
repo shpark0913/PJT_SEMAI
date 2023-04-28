@@ -7,9 +7,12 @@ import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
 
 export async function loader() {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   let checkResult;
+
   await axios
-    .get(`http://semes.info:8888/dev/dashboard/main/2`, {
+    .get(`${BASE_URL}dashboard/main/2`, {
       headers: {
         accesstoken:
           "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjgyNDgxODQ0NjkxLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODM3Nzc4NDQsInN1YiI6ImFjY2Vzcy10b2tlbiIsInJvbGUiOiJBRE1JTiJ9.DsMQURAqUMNNA-aU7SoSLFL19FEtQkutnp5b3HsMX0k",
