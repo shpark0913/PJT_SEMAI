@@ -8,6 +8,7 @@ import { RootState } from "../_store/store";
 import { Switch } from "@mui/joy";
 import styled from "styled-components";
 import { toggleTheme } from "../_store/slices/themeSlice";
+import { useNavigate } from "react-router-dom";
 
 type ToggleThemeProps = {
   isDark: boolean;
@@ -82,6 +83,7 @@ function NavBar() {
   let [isDark, setIsDark] = useState(
     useSelector((state: RootState) => state.theme.theme === "dark"),
   );
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   return (
@@ -94,7 +96,6 @@ function NavBar() {
           레포트
         </NavLink>
         <NavLink to="/transfer">전이학습</NavLink>
-        <NavLink to="/login">로그인</NavLink>
       </NavLeftDiv>
 
       <NavRightDiv>
@@ -121,7 +122,13 @@ function NavBar() {
             "--Switch-thumbSize": "25px",
           }}
         />
-        <LogoutButton aria-label="logout">
+        <LogoutButton
+          aria-label="logout"
+          onClick={event => {
+            localStorage.clear();
+            navigate("/login");
+          }}
+        >
           <LogoutIcon />
         </LogoutButton>
       </NavRightDiv>
