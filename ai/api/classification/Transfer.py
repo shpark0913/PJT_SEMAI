@@ -83,7 +83,7 @@ def learning(origin_acc, origin_loss, origin_fscore):
     ])
 
     # 데이터가 저장된 경로
-    data_dir = '../../semes_transfer/'
+    data_dir = '../../dataset/semes_transfer/'
     print(os.path.join(data_dir, 'train'))
 
     # 데이터가 저장된 경로에서 ImageFolder를 이용하여 이미지 데이터셋을 전처리한 후 로드(transforms_*==전처리 수행)
@@ -150,8 +150,6 @@ def learning(origin_acc, origin_loss, origin_fscore):
         # 현재까지 학습한 이미지 수를 저장할 변수 초기화
         train_cnt = 0
 
-        print(222)
-
         # 배치 단위로 나눈 학습 데이터 순회하며 불러와서
         for batch_idx, (inputs, labels) in enumerate(train_loader):
             # 입력 이미지, 라벨 정보를 GPU를 사용하기 위해 to.device()사용
@@ -161,9 +159,6 @@ def learning(origin_acc, origin_loss, origin_fscore):
             # 모델에 이미지 학습 (forward propagation이 이루어지며, 모델은 입력을 받아 출력값을 계산)
             outputs = classification_model(inputs)
             # 모델이 예측한 출력값(outputs)과 실제 정답(labels)을 비교하여 손실 값을 계산
-            print(labels)
-            print(outputs)
-            print(inputs)
             loss = criterion(outputs, labels)
             # 손실 값의 gradient를 계산(backward propagation이 이루어지며, 손실 함수를 모델의 출력값으로 미분한 gradient 값을 계산)
             loss.backward()
@@ -224,10 +219,11 @@ def learning(origin_acc, origin_loss, origin_fscore):
         test_loss_list.append(test_loss)
         test_acc_list.append(test_acc)
 
-        if test_loss < best_loss and test_acc < best_acc:
+        if test_loss < best_loss and test_acc > best_acc:
             best_loss = test_loss
             best_acc = test_acc
-            torch.save(classification_model, 'classification_model_new.pth')
+            best_epoch = epoch + 1
+            torch.save(classification_model, './classification/models/classification_model.pth')
 
     if best_epoch != 0:
         flscore = f1score(test_loader, classification_model)
