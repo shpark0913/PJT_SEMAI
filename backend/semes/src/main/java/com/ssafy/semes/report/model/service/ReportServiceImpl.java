@@ -1,5 +1,7 @@
 package com.ssafy.semes.report.model.service;
 
+import com.ssafy.semes.oht.model.OHTEntity;
+import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
 import com.ssafy.semes.report.model.QuestionDto;
 import com.ssafy.semes.report.model.ReportListResponseDto;
 import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
@@ -15,8 +17,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,32 +31,41 @@ public class ReportServiceImpl implements ReportService {
     private WheelCheckRepository wheelCheckRepository;
     @Autowired
     private EntityManager em;
-    private final int PAGE_SIZE = 20;
+    private final int PAGE_SIZE = 1;
 
     @Override
     @Transactional
-    public List<ReportListResponseDto> findReport(QuestionDto dto) throws Exception {
+    public Map<String,Object> findReport(QuestionDto dto) throws Exception {
+        StringTokenizer st = new StringTokenizer(dto.getDate(),"-");
+        int yy =  Integer.parseInt(st.nextToken());
+        int mm =  Integer.parseInt(st.nextToken());
+        int dd= Integer.parseInt(st.nextToken());
         if (dto.getTime().equals("ALL")) {
-            dto.setStartTime(dto.getDate() + " 00:00:00");
-            dto.setEndTime(dto.getDate() + " 23:59:59");
+            dto.setStartTime(LocalDateTime.of(LocalDate.of(yy,mm,dd)
+                    , LocalTime.of(0,0,0)));
+            dto.setEndTime(LocalDateTime.of(LocalDate.of(yy,mm,dd)
+                    , LocalTime.of(23,59,59)));
         } else {
-            dto.setStartTime(dto.getDate() + " " + dto.getTime() + ":00:00");
-            dto.setEndTime(dto.getDate() + " " + dto.getTime() + ":59:59");
+            dto.setStartTime(LocalDateTime.of(LocalDate.of(yy,mm,dd)
+                    , LocalTime.of(Integer.parseInt(dto.getTime()),0,0)));
+            dto.setEndTime(LocalDateTime.of(LocalDate.of(yy,mm,dd)
+                    , LocalTime.of(Integer.parseInt(dto.getTime()),59,59)));
         }
+
         dto.setPage((dto.getPage() - 1) * PAGE_SIZE);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT * FROM semes.wheel_check_entity e join ohtcheck_entity oe on e.oht_check_id = oe.oht_check_id join ohtentity o on oe.oht_id = o.oht_id")
-                .append(" where (e.wheel_check_date BETWEEN :start and :end)");
+        sb.append("SELECT e FROM WheelCheckEntity e join fetch e.ohtCheck oe join fetch oe.oht")
+                .append(" where (e.checkDate BETWEEN :start and :end)");
 
         if (!dto.getOhtSn().equals("ALL")) {
-            sb.append("and o.oht_sn = :sn ");
+            sb.append("and o.ohtSN = :sn ");
         }
         if (!dto.getWheelPosition().equals("ALL")) {
-            sb.append("and e.wheel_position = :position");
+            sb.append("and e.wheelPosition = :position");
         }
-        sb.append(" limit 20 offset :page");
-        Query query = em.createNativeQuery(sb.toString(), WheelCheckEntity.class);
+        //sb.append(" limit :size offset :page");
+        Query query = em.createQuery(sb.toString(), WheelCheckEntity.class);
 
         query.setParameter("start", dto.getStartTime());
         query.setParameter("end", dto.getEndTime());
@@ -62,13 +75,17 @@ public class ReportServiceImpl implements ReportService {
         if (!dto.getWheelPosition().equals("ALL")) {
             query.setParameter("position", dto.getWheelPosition());
         }
-        query.setParameter("page", dto.getPage());
+        long totalPage = query.getResultStream().count();
+        query.setFirstResult(dto.getPage());
+        query.setMaxResults(PAGE_SIZE);
         List<WheelCheckEntity> list = query.getResultList();
 
         if (list == null) {
             throw new RuntimeException("findReport wheelCheckRepository null");
         }
-        return list.stream().map(m -> {
+        Map<String,Object> ruturnObj = new HashMap();
+
+        ruturnObj.put("result",list.stream().map(m -> {
             return ReportListResponseDto.builder()
                     .ohtSn(m.getOhtCheck().getOht().getOhtSN())
                     .boltGoodCount(m.getBoltGoodCount())
@@ -76,7 +93,9 @@ public class ReportServiceImpl implements ReportService {
                     .wheelChcekId(m.getWheelHistoryId())
                     .wheelPosition(m.getWheelPosition())
                     .build();
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toList()));
+        ruturnObj.put("totalPage",totalPage);
+        return ruturnObj;
     }
 
     @Override
