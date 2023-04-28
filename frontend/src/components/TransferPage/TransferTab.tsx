@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
+import { TransferImage, TransferImageGrid, TransferImageGridContainer } from "./TransferImageComponents";
+import {Button, RedButton, SemesButton} from "../ButtonComponents";
 
 const TransferTabContainer = styled.div`
   display: flex;
@@ -47,32 +49,13 @@ const TabMenu = styled.menu`
 const TransferImageContainer = styled.div`
   width: 100%;
   height: auto;
-  overflow-y: auto;
   padding: 30px;
+  
   background-color: var(--section-color);
   border-radius: 0 10px 10px 10px;
-`
-
-const TransferImageGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-`
-
-const TransferImage = styled.div`
-  width: 100%;
-  background-color: #e6e6e6;
+  
   display: flex;
   flex-direction: column;
-  & > img {
-    width: 100%;
-    aspect-ratio: 1;
-  }
-  & > div {
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 `
 
 const data = [
@@ -188,7 +171,6 @@ function TransferTab() {
     
   ]
 
-
   return (
     <TransferTabContainer>
       <TabMenu>
@@ -203,7 +185,16 @@ function TransferTab() {
         ) }
       </TabMenu>
       <TransferImageContainer>
-        <TransferImageGrid>{tabComponent[tabIdx].content}</TransferImageGrid>
+        <label>전체 선택 <input type="checkbox" /></label>
+        <TransferImageGridContainer>
+          <TransferImageGrid>{tabComponent[tabIdx].content}</TransferImageGrid>
+        </TransferImageGridContainer>
+        <div>
+          <Button>유실로 이동</Button>
+          <Button>풀림으로 이동</Button>
+          <SemesButton>학습으로 이동</SemesButton>
+          <RedButton>삭제하기</RedButton>
+        </div>
       </TransferImageContainer>
     </TransferTabContainer>
   );
