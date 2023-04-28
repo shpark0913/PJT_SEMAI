@@ -1,16 +1,20 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
+import { TransferImage, TransferImageGrid, TransferImageGridContainer } from "./TransferImageComponents";
+import {Button, RedButton, SemesButton} from "../ButtonComponents";
 
 const TransferTabContainer = styled.div`
   display: flex;
   flex-shrink: 0;
   flex-grow: 1;
+  height: 80%;
 `;
 
-const TabMenu = styled.menu`
+const TransferMenuContainer = styled.menu`
   padding: 0;
   margin: 0;
   width: 150px;
+  flex-shrink: 0;
   
   & > li {
     padding: 12px 20px;
@@ -40,16 +44,31 @@ const TabMenu = styled.menu`
       background-color: var(--tab-span-color);
     }
   }
-  
 `
 
 const TransferImageContainer = styled.div`
   width: 100%;
-  height: 100%;
-  padding: 30px;
-  overflow-y: auto;
+  height: auto;
+  padding: 30px 20px 20px 30px;
+  
   background-color: var(--section-color);
   border-radius: 0 10px 10px 10px;
+  
+  display: flex;
+  flex-direction: column;
+  
+  & > * {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      & > * {
+        margin-right: 15px;
+      }
+    }
+  }
 `
 
 const data = [
@@ -121,41 +140,110 @@ function TransferTab() {
   const tabComponent = [
     {
       menu: '양호',
-      content: <div>양호이미지</div>
+      content:
+        <>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+          <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
+        </>,
+      buttons: 
+        <>
+          <Button>유실로 이동</Button>
+          <Button>풀림으로 이동</Button>
+          <SemesButton>학습으로 이동</SemesButton>
+          <RedButton>삭제하기</RedButton>
+        </>
     },
     {
       menu: '유실',
-      content: <div>유실이미지</div>
+      content: <div>유실이미지</div>,
+      buttons:
+        <>
+          <Button>양호로 이동</Button>
+          <Button>풀림으로 이동</Button>
+          <SemesButton>학습으로 이동</SemesButton>
+          <RedButton>삭제하기</RedButton>
+        </>,
     },
     {
       menu: '풀림',
-      content: <div>풀림이미지</div>
+      content: <div>풀림이미지</div>,
+      buttons:
+        <>
+          <Button>양호로 이동</Button>
+          <Button>유실로 이동</Button>
+          <SemesButton>학습으로 이동</SemesButton>
+          <RedButton>삭제하기</RedButton>
+        </>,
     },
     {
       menu: '모호',
-      content: <div>모호이미지</div>
+      content: <div>모호이미지</div>,
+      buttons:
+        <>
+          <Button>양호로 이동</Button>
+          <Button>유실로 이동</Button>
+          <Button>풀림으로 이동</Button>
+          <RedButton>삭제하기</RedButton>
+        </>,
     },
     {
       menu: '학습',
-      content: <div>학습이미지</div>
+      content: <div>학습이미지</div>,
+      buttons:
+        <>
+          <SemesButton>모델 학습하기</SemesButton>
+          <RedButton>삭제하기</RedButton>
+        </>,
     },
-    
-  ]
 
+  ]
 
   return (
     <TransferTabContainer>
-      <TabMenu>
+      <TransferMenuContainer>
         { tabComponent.map((tab, idx) =>
           <li
-          className={idx === tabIdx ? "isActive" : "" }
-          onClick={ () => setTabIdx(idx) }
+            key={`transfer-tab-menu-${idx}`}
+            className={idx === tabIdx ? "isActive" : "" }
+            onClick={ () => setTabIdx(idx) }
           >
             {tab.menu} <span>13</span>
           </li>
         ) }
-      </TabMenu>
-      <TransferImageContainer> {tabComponent[tabIdx].content} </TransferImageContainer>
+      </TransferMenuContainer>
+
+      <TransferImageContainer>
+        <label>전체 선택 <input type="checkbox" /></label>
+        <TransferImageGridContainer>
+          <TransferImageGrid>{tabComponent[tabIdx].content}</TransferImageGrid>
+        </TransferImageGridContainer>
+        <div>
+          {/*<Button>유실로 이동</Button>*/}
+          {/*<Button>풀림으로 이동</Button>*/}
+          {/*<SemesButton>학습으로 이동</SemesButton>*/}
+          {/*<RedButton>삭제하기</RedButton>*/}
+          { tabComponent[tabIdx].buttons }
+          <div>현재 선택 : 1/100</div>
+        </div>
+      </TransferImageContainer>
     </TransferTabContainer>
   );
 }
