@@ -3,6 +3,7 @@ package com.ssafy.semes.report.controller;
 import com.ssafy.semes.common.ErrorCode;
 import com.ssafy.semes.common.SuccessCode;
 import com.ssafy.semes.common.dto.ApiResponse;
+import com.ssafy.semes.exception.JPAException;
 import com.ssafy.semes.report.model.QuestionDto;
 import com.ssafy.semes.report.model.service.ReportService;
 import com.ssafy.semes.util.SlackController;
@@ -29,6 +30,9 @@ public class ReportController {
             return ApiResponse.success(SuccessCode.READ_REPORT_LIST, reportService.findReport(QuestionDto.builder()
                     .ohtSn(ohtSn).date(date).time(time).wheelPosition(wheelPosition).page(page)
                     .build()));
+        }catch (JPAException jpaException){
+            log.error("DashBoard Error : " + jpaException.getMessage());
+            return ApiResponse.error(ErrorCode.JPA_NOT_FIND);
         } catch (Exception e) {
             log.error("Report FindReport Error : " + e.getMessage());
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
@@ -40,6 +44,9 @@ public class ReportController {
         log.info("Report findReportDetail Start");
         try {
             return ApiResponse.success(SuccessCode.READ_REPORT_DETAIL, reportService.findReportDetail(wheelChcekId));
+        }catch (JPAException jpaException){
+            log.error("DashBoard Error : " + jpaException.getMessage());
+            return ApiResponse.error(ErrorCode.JPA_NOT_FIND);
         } catch (Exception e) {
             slackController.send("Report findReportDetail Error : " + e.getMessage());
             log.error("Report findReportDetail Error : " + e.getMessage());

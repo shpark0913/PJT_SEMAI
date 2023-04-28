@@ -1,5 +1,6 @@
 package com.ssafy.semes.report.model.service;
 
+import com.ssafy.semes.exception.JPAException;
 import com.ssafy.semes.oht.model.OHTEntity;
 import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
 import com.ssafy.semes.report.model.QuestionDto;
@@ -81,7 +82,7 @@ public class ReportServiceImpl implements ReportService {
         List<WheelCheckEntity> list = query.getResultList();
 
         if (list == null) {
-            throw new RuntimeException("findReport wheelCheckRepository null");
+            throw new JPAException();
         }
         Map<String,Object> ruturnObj = new HashMap();
 
@@ -103,7 +104,7 @@ public class ReportServiceImpl implements ReportService {
     public ReportListResponseDto findReportDetail(long wheelChcekId) throws Exception {
         WheelCheckEntity wheel = wheelCheckRepository.findByWheelHistoryId(wheelChcekId);
         if (wheel == null) {
-            throw new RuntimeException("findReportDetail wheelCheckRepository null");
+            throw new JPAException();
         }
         log.info("WheelCheckEntity : " + wheel);
         return ReportListResponseDto.builder()
