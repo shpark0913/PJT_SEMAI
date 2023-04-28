@@ -10,7 +10,7 @@ const TransferTabContainer = styled.div`
   height: 80%;
 `;
 
-const TabMenu = styled.menu`
+const TransferMenuContainer = styled.menu`
   padding: 0;
   margin: 0;
   width: 150px;
@@ -63,12 +63,11 @@ const TransferImageContainer = styled.div`
       margin-bottom: 0;
       display: flex;
       justify-content: flex-end;
-      & > button {
+      align-items: center;
+      & > * {
         margin-right: 15px;
       }
     }
-    
-    
   }
 `
 
@@ -163,31 +162,63 @@ function TransferTab() {
           <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
           <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
           <TransferImage><img src="https://res.cloudinary.com/rsc/image/upload/bo_1.5px_solid_white,b_auto,c_pad,dpr_2,f_auto,h_399,q_auto,w_710/c_pad,h_399,w_710/F0190355-01?pgw=1" /><div>안녕</div></TransferImage>
-
+        </>,
+      buttons: 
+        <>
+          <Button>유실로 이동</Button>
+          <Button>풀림으로 이동</Button>
+          <SemesButton>학습으로 이동</SemesButton>
+          <RedButton>삭제하기</RedButton>
         </>
     },
     {
       menu: '유실',
-      content: <div>유실이미지</div>
+      content: <div>유실이미지</div>,
+      buttons:
+        <>
+          <Button>양호로 이동</Button>
+          <Button>풀림으로 이동</Button>
+          <SemesButton>학습으로 이동</SemesButton>
+          <RedButton>삭제하기</RedButton>
+        </>,
     },
     {
       menu: '풀림',
-      content: <div>풀림이미지</div>
+      content: <div>풀림이미지</div>,
+      buttons:
+        <>
+          <Button>양호로 이동</Button>
+          <Button>유실로 이동</Button>
+          <SemesButton>학습으로 이동</SemesButton>
+          <RedButton>삭제하기</RedButton>
+        </>,
     },
     {
       menu: '모호',
-      content: <div>모호이미지</div>
+      content: <div>모호이미지</div>,
+      buttons:
+        <>
+          <Button>양호로 이동</Button>
+          <Button>유실로 이동</Button>
+          <Button>풀림으로 이동</Button>
+          <RedButton>삭제하기</RedButton>
+        </>,
     },
     {
       menu: '학습',
-      content: <div>학습이미지</div>
+      content: <div>학습이미지</div>,
+      buttons:
+        <>
+          <SemesButton>모델 학습하기</SemesButton>
+          <RedButton>삭제하기</RedButton>
+        </>,
     },
-    
+
   ]
 
   return (
     <TransferTabContainer>
-      <TabMenu>
+      <TransferMenuContainer>
         { tabComponent.map((tab, idx) =>
           <li
             key={`transfer-tab-menu-${idx}`}
@@ -197,17 +228,20 @@ function TransferTab() {
             {tab.menu} <span>13</span>
           </li>
         ) }
-      </TabMenu>
+      </TransferMenuContainer>
+
       <TransferImageContainer>
         <label>전체 선택 <input type="checkbox" /></label>
         <TransferImageGridContainer>
           <TransferImageGrid>{tabComponent[tabIdx].content}</TransferImageGrid>
         </TransferImageGridContainer>
         <div>
-          <Button>유실로 이동</Button>
-          <Button>풀림으로 이동</Button>
-          <SemesButton>학습으로 이동</SemesButton>
-          <RedButton>삭제하기</RedButton>
+          {/*<Button>유실로 이동</Button>*/}
+          {/*<Button>풀림으로 이동</Button>*/}
+          {/*<SemesButton>학습으로 이동</SemesButton>*/}
+          {/*<RedButton>삭제하기</RedButton>*/}
+          { tabComponent[tabIdx].buttons }
+          <div>현재 선택 : 1/100</div>
         </div>
       </TransferImageContainer>
     </TransferTabContainer>
