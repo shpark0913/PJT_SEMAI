@@ -25,7 +25,6 @@ import com.ssafy.semes.util.FileUtil;
 public class TransitionServiceImpl implements  TransitionService {
 	@Autowired
 	ImageRepository imageRepository;
-	static Directory[] dir = new Directory[]{Directory.BOLT_NORMAL,Directory.BOLT_LOST,Directory.BOLT_BROKEN,Directory.BOLT_AMBIGUE};
 
 	@Override
 	public List<ImageListResponseDto> findAll(){
@@ -35,7 +34,7 @@ public class TransitionServiceImpl implements  TransitionService {
 		String path;
 
 		for (int i = 0; i < 4; i++) {
-			path = dir[i].getPath();
+			path = Directory.getBoltDirectories()[i].getPath();
 			List<ImageEntity> images =  imageRepository.findByFileDirAndIsDeletedNot(path,true);
 
 			List<ImageResponseDto> imageResponseDtoList =
@@ -59,31 +58,43 @@ public class TransitionServiceImpl implements  TransitionService {
 	@Override
 	@Transactional
 	public void moveFiles(TransitionUpdateRequestDto requestDto) throws IOException {
-		Iterable<Long> iterable = Arrays.asList(requestDto.getFileIds());
-		List<ImageEntity> images = imageRepository.findAllById(iterable);
-		Iterator<ImageEntity> iterator = images.iterator();
+		Iterator<ImageEntity> iterator = getIteratorByFileIds(requestDto.getFileIds());
+		String nextDirectory = Directory.values()[requestDto.getNextType()].getPath();
+
 		while(iterator.hasNext()){
 			ImageEntity image = iterator.next();
-			FileUtil.moveFile(image.getSaveName(),image.getFileDir(),dir[requestDto.getNextType()].getPath());
+			FileUtil.moveFile(
+				Directory.BASE.getPath(),image.getFileDir(),
+				Directory.BASE.getPath(),nextDirectory,
+				image.getSaveName()
+			);
 		}
 
-		imageRepository.updateFileDirByFileIds(dir[requestDto.getNextType()].getPath(),requestDto.getFileIds());
+		imageRepository.updateFileDirByFileIds(nextDirectory,requestDto.getFileIds());
 	}
 
 	@Override
 	@Transactional
 	public void deleteFiles(TransitionDeleteRequestDto requestDto) throws IOException {
+		Iterator<ImageEntity> iterator = getIteratorByFileIds(requestDto.getFileIds());
 
-		Iterable<Long> iterable = Arrays.asList(requestDto.getFileIds());
-		List<ImageEntity> images = imageRepository.findAllById(iterable);
-
-		Iterator<ImageEntity> iterator = images.iterator();
 		while(iterator.hasNext()){
 			ImageEntity image = iterator.next();
-			FileUtil.archiveFile(image.getSaveName(),image.getFileDir());
+			FileUtil.moveFile(
+				Directory.BASE.getPath(),image.getFileDir(),
+				Directory.ARCHIVE.getPath(),image.getFileDir(),
+				image.getSaveName()
+			);
 		}
 
 		imageRepository.updateIsDeletedByFileIds(requestDto.getFileIds());
+	}
+
+	Iterator<ImageEntity> getIteratorByFileIds(Long[] fileIds){
+		Iterable<Long> iterable = Arrays.asList(fileIds);
+
+		List<ImageEntity> images = imageRepository.findAllById(iterable);
+		return images.iterator();
 	}
 
 }

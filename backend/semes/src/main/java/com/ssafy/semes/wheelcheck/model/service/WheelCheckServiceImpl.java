@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.semes.common.Directory;
+import com.ssafy.semes.common.WheelPosition;
 import com.ssafy.semes.image.model.ImageEntity;
 import com.ssafy.semes.image.model.repository.ImageRepository;
 import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
@@ -27,14 +28,15 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 	WheelCheckRepository wheelCheckRepository;
 	@Autowired
 	ImageRepository imageRepository;
-	static String[] positions = new String[]{"FL","FR","RL","RR"};
-	public WheelCheckEntity checkWheel(MultipartFile file, FileNameUtil fileNameUtil,int wheelPosition, OHTCheckEntity ohtCheck) throws
+	public WheelCheckEntity checkWheel(MultipartFile file, FileNameUtil fileNameUtil, WheelPosition wheelPosition, OHTCheckEntity ohtCheck) throws
 		IOException,
 		InterruptedException {
 
-		fileNameUtil.setWheelPosition(wheelPosition);
-		FileUtil.create(Directory.WHEEL_ORIGIN.getPath(),fileNameUtil.getFilename(),file);
+		//바퀴 파일 생성
+		fileNameUtil.setWheelPositionVal(wheelPosition.getVal());
+		FileUtil.createFile(Directory.BASE.getPath(),Directory.WHEEL_ORIGIN.getPath(),fileNameUtil.getFilename(),file);
 
+		//바퀴 이미지 요청
 		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(fileNameUtil.getFilename());
 		if(result.getStatus() == 400){
 			throw new IOException("잘못된 파일 명입니다.");
@@ -43,7 +45,7 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 		return saveResult(result,wheelPosition, ohtCheck);
 	}
 	@Transactional
-	public WheelCheckEntity saveResult(WheelCheckResultDto wheelCheckResult,int wheelPosition, OHTCheckEntity ohtCheck){
+	public WheelCheckEntity saveResult(WheelCheckResultDto wheelCheckResult,WheelPosition wheelPosition, OHTCheckEntity ohtCheck){
 
 		//마킹 이미지 저장
 		String markedImagePath = wheelCheckResult.getData().getMarkedImage().split("/")[1];
@@ -64,7 +66,7 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 			.ohtCheck(ohtCheck)
 			.image(markedImage)
 			.checkResult(checkResult)
-			.wheelPosition(positions[wheelPosition])
+			.wheelPosition(wheelPosition.name())
 			.boltGoodCount(boltResults[0])
 			.boltOutCount(boltResults[1])
 			.boltLoseCount(boltResults[2])
@@ -84,7 +86,7 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 				res[0]++;
 			}else if(path[0].equals(Directory.BOLT_LOST.getPath())){
 				res[1]++;
-			}else if(path[0].equals(Directory.BOLT_BROKEN.getPath())){
+			}else if(path[0].equals(Directory.BOLT_BREAK.getPath())){
 				res[2]++;
 			}else if(path[0].equals(Directory.BOLT_AMBIGUE.getPath())){
 				res[3]++;
