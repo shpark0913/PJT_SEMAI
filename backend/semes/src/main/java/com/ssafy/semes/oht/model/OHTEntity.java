@@ -37,6 +37,7 @@ public class OHTEntity {
 	@Column(name="oht_sn",length = 10, nullable = false,unique=true)
 	private String ohtSN;
 
+
 	@OneToMany(mappedBy = "oht")
 	private List<OHTCheckEntity> ohtChecks;
 

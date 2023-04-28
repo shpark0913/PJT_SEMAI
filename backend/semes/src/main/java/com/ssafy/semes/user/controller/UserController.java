@@ -23,9 +23,8 @@ public class UserController {
     public ApiResponse<?> login(@RequestBody UserRequestDto userRequestDto){
         try{
             UserEntity user =userSerivce.findUser(userRequestDto);
-            System.out.println(user.getUserRole());
             return ApiResponse.success(SuccessCode.READ_USER_LOGIN,
-                    new UserResponseDto(jwtUtil.createAccessToken("role",user.getUserRole()))
+                    UserResponseDto.builder().userName(user.getUserName()).accesstoken(jwtUtil.createAccessToken("role",user.getUserRole())).build()
             );
         }catch (Exception e){
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
