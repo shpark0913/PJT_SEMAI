@@ -49,13 +49,27 @@ const TabMenu = styled.menu`
 const TransferImageContainer = styled.div`
   width: 100%;
   height: auto;
-  padding: 30px;
+  padding: 30px 20px 20px 30px;
   
   background-color: var(--section-color);
   border-radius: 0 10px 10px 10px;
   
   display: flex;
   flex-direction: column;
+  
+  & > * {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+      display: flex;
+      justify-content: flex-end;
+      & > button {
+        margin-right: 15px;
+      }
+    }
+    
+    
+  }
 `
 
 const data = [
