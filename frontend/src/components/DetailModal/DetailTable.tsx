@@ -1,8 +1,8 @@
 import React from 'react';
-import {DetailInfoType} from "../../_utils/Types";
+import {ReportDetailType} from "../../_utils/Types";
 import {Table, TBody, TD, TH, TR} from "../TableComponents";
 
-function DetailTable({detailInfo}: {detailInfo: DetailInfoType}) {
+function DetailTable({detailInfo}: {detailInfo: ReportDetailType}) {
   return (
     <Table className="detail">
       <TBody>
