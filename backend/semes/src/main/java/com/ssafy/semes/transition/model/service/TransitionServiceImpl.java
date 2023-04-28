@@ -17,7 +17,7 @@ import com.ssafy.semes.image.model.ImageEntity;
 import com.ssafy.semes.image.model.ImageListResponseDto;
 import com.ssafy.semes.image.model.ImageResponseDto;
 import com.ssafy.semes.image.model.repository.ImageRepository;
-import com.ssafy.semes.transition.model.TransitionDeleteRequestDto;
+import com.ssafy.semes.transition.model.TransitionFileIdsDto;
 import com.ssafy.semes.transition.model.TransitionUpdateRequestDto;
 import com.ssafy.semes.util.FileUtil;
 
@@ -35,7 +35,7 @@ public class TransitionServiceImpl implements  TransitionService {
 
 		for (int i = 0; i < 4; i++) {
 			path = Directory.getBoltDirectories()[i].getPath();
-			List<ImageEntity> images =  imageRepository.findByFileDirAndIsDeletedNot(path,true);
+			List<ImageEntity> images =  imageRepository.findByFileDirAndStatus(path,1);
 
 			List<ImageResponseDto> imageResponseDtoList =
 				images.stream().map(m ->
@@ -75,7 +75,7 @@ public class TransitionServiceImpl implements  TransitionService {
 
 	@Override
 	@Transactional
-	public void deleteFiles(TransitionDeleteRequestDto requestDto) throws IOException {
+	public void deleteFiles(TransitionFileIdsDto requestDto) throws IOException {
 		Iterator<ImageEntity> iterator = getIteratorByFileIds(requestDto.getFileIds());
 
 		while(iterator.hasNext()){
@@ -87,7 +87,22 @@ public class TransitionServiceImpl implements  TransitionService {
 			);
 		}
 
-		imageRepository.updateIsDeletedByFileIds(requestDto.getFileIds());
+		imageRepository.updateStatusByFileIds(requestDto.getFileIds(),0);
+	}
+	@Override
+	@Transactional
+	public void moveToTrainFiles(TransitionFileIdsDto requestDto) throws IOException {
+		Iterator<ImageEntity> iterator = getIteratorByFileIds(requestDto.getFileIds());
+
+		while(iterator.hasNext()){
+			ImageEntity image = iterator.next();
+			FileUtil.moveFile(
+				Directory.BASE.getPath(),image.getFileDir(),
+				Directory.TRAIN.getPath(),image.getFileDir(),
+				image.getSaveName()
+			);
+		}
+		imageRepository.updateStatusByFileIds(requestDto.getFileIds(),2);
 	}
 
 	Iterator<ImageEntity> getIteratorByFileIds(Long[] fileIds){

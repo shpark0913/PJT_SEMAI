@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ import com.ssafy.semes.common.ErrorCode;
 import com.ssafy.semes.common.SuccessCode;
 import com.ssafy.semes.common.dto.ApiResponse;
 import com.ssafy.semes.image.model.ImageListResponseDto;
-import com.ssafy.semes.transition.model.TransitionDeleteRequestDto;
+import com.ssafy.semes.transition.model.TransitionFileIdsDto;
 import com.ssafy.semes.transition.model.TransitionUpdateRequestDto;
 import com.ssafy.semes.transition.model.service.TransitionService;
 
@@ -36,7 +37,7 @@ public class TransitionController {
 
     }
     @DeleteMapping
-    public ApiResponse<?> deleteBolt(@RequestBody TransitionDeleteRequestDto requestDto){
+    public ApiResponse<?> deleteBolt(@RequestBody TransitionFileIdsDto requestDto){
         log.info("TransitionController deleteBolt start");
         try {
             transitionService.deleteFiles(requestDto);
@@ -59,6 +60,18 @@ public class TransitionController {
         }
 
         return ApiResponse.success(SuccessCode.UPDATE_IMG,"볼트 이동 성공");
+    }
+    @PostMapping("/train")
+    public ApiResponse<?> moveBoltToTrainSet(@RequestBody TransitionFileIdsDto requestDto){
+        log.info("TransitionController moveBoltToTrainSet start");
+        try {
+            transitionService.moveToTrainFiles(requestDto);
+        }catch (IOException e){
+            log.info("TransitionController moveBoltToTrainSet error");
+            e.printStackTrace();
+            return ApiResponse.error(ErrorCode.FILE_NOT_FOUND);
+        }
+        return ApiResponse.success(SuccessCode.DELETE_IMG,"볼트 이미지를 삭제 했습니다.");
     }
 
 }
