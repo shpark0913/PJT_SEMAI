@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Comment;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,7 +35,9 @@ public class ImageEntity {
 
     @Column(name = "save_name",length = 200,nullable = false)
     private String saveName;
-    @Column(name = "is_deleted",nullable = false, columnDefinition="tinyint(1) default 0")
-    private Boolean isDeleted;
+    @Column(name = "status",nullable = false, columnDefinition="tinyint(1) default 1")
+    @Comment("0 : 삭제, 1: 기본, 2:학습용 데이터")
+    private int status;
+
 
 }
