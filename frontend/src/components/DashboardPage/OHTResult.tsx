@@ -100,6 +100,7 @@ const OHTWheel = ({ wheelName }: WheelNameType) => {
 
 function OHTResult(props: any) {
   const data = props.data;
+  const indexList = [0, 1, 2, 3];
 
   return (
     <OHTResultSec>
@@ -112,14 +113,19 @@ function OHTResult(props: any) {
             <InfoContentDiv>{data[0].oht_sn}</InfoContentDiv>
             <InfoTitleDiv>검사 일시</InfoTitleDiv>
             <InfoContentDiv>
-              {data[0].ohtCheckDatetime[0]}/{data[0].ohtCheckDatetime[1]}/
-              {data[0].ohtCheckDatetime[2]} {data[0].ohtCheckDatetime[3]}:
-              {data[0].ohtCheckDatetime[4]}
+              {data[0].ohtCheckDatetime[0]}-{String(data[0].ohtCheckDatetime[1]).padStart(2, "0")}-
+              {String(data[0].ohtCheckDatetime[2]).padStart(2, "0")}{" "}
+              {String(data[0].ohtCheckDatetime[3]).padStart(2, "0")}:
+              {String(data[0].ohtCheckDatetime[4]).padStart(2, "0")}:
+              {String(data[0].ohtCheckDatetime[5]).padStart(2, "0")}
             </InfoContentDiv>
             <InfoTitleDiv>최종 교체</InfoTitleDiv>
             <InfoContentDiv>
-              {data[0].ohtChangeDate[0]}/{data[0].ohtChangeDate[1]}/{data[0].ohtChangeDate[2]}{" "}
-              {data[0].ohtChangeDate[3]}:{data[0].ohtChangeDate[4]}
+              {data[0].ohtChangeDate[0]}-{String(data[0].ohtChangeDate[1]).padStart(2, "0")}-
+              {String(data[0].ohtChangeDate[2]).padStart(2, "0")}{" "}
+              {String(data[0].ohtChangeDate[3]).padStart(2, "0")}:
+              {String(data[0].ohtChangeDate[4]).padStart(2, "0")}:
+              {String(data[0].ohtChangeDate[5]).padStart(2, "0")}
             </InfoContentDiv>
             <InfoTitleDiv>볼트 현황</InfoTitleDiv>
             <InfoContentDiv>
@@ -128,22 +134,16 @@ function OHTResult(props: any) {
                 <InfoTitleDiv>유실</InfoTitleDiv>
                 <InfoTitleDiv>모호</InfoTitleDiv>
                 <InfoTitleDiv>양호</InfoTitleDiv>
-                <InfoTitleDiv>{data[0].wheelPosition}</InfoTitleDiv>
-                <InfoContentDiv>{data[0].boltLoseCount}</InfoContentDiv>
-                <InfoContentDiv>{data[0].boltLoseCount}</InfoContentDiv>
-                <InfoContentDiv>{data[0].boltGoodCount}</InfoContentDiv>
-                <InfoTitleDiv>{data[1].wheelPosition}</InfoTitleDiv>
-                <InfoContentDiv>{data[1].boltLoseCount}</InfoContentDiv>
-                <InfoContentDiv>{data[1].boltLoseCount}</InfoContentDiv>
-                <InfoContentDiv>{data[1].boltGoodCount}</InfoContentDiv>
-                <InfoTitleDiv>{data[2].wheelPosition}</InfoTitleDiv>
-                <InfoContentDiv>{data[2].boltLoseCount}</InfoContentDiv>
-                <InfoContentDiv>{data[2].boltLoseCount}</InfoContentDiv>
-                <InfoContentDiv>{data[2].boltGoodCount}</InfoContentDiv>
-                <InfoTitleDiv>{data[3].wheelPosition}</InfoTitleDiv>
-                <InfoContentDiv>{data[3].boltLoseCount}</InfoContentDiv>
-                <InfoContentDiv>{data[3].boltLoseCount}</InfoContentDiv>
-                <InfoContentDiv>{data[3].boltGoodCount}</InfoContentDiv>
+                {indexList.map(item => {
+                  return (
+                    <>
+                      <InfoTitleDiv>{data[item].wheelPosition}</InfoTitleDiv>
+                      <InfoContentDiv>{data[item].boltLoseCount}</InfoContentDiv>
+                      <InfoContentDiv>{data[item].boltLoseCount}</InfoContentDiv>
+                      <InfoContentDiv>{data[item].boltGoodCount}</InfoContentDiv>
+                    </>
+                  );
+                })}
               </VoltInfoGrid>
             </InfoContentDiv>
           </OHTInfoGrid>
@@ -151,10 +151,9 @@ function OHTResult(props: any) {
         <OHTResultDiv ratio={40}>
           <h3 style={{ color: "var(--emphasize-color)" }}>휠 상세 이미지</h3>
           <OHTWheelsDiv>
-            <OHTWheel wheelName={data[0].wheelPosition} />
-            <OHTWheel wheelName={data[1].wheelPosition} />
-            <OHTWheel wheelName={data[2].wheelPosition} />
-            <OHTWheel wheelName={data[3].wheelPosition} />
+            {indexList.map(item => {
+              return <OHTWheel wheelName={data[item].wheelPosition} />;
+            })}
           </OHTWheelsDiv>
         </OHTResultDiv>
       </OHTResultContainer>
