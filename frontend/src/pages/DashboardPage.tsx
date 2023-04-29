@@ -5,6 +5,7 @@ import OHTTransition from "../components/DashboardPage/OHTTransition";
 import axios from "axios";
 import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
+import { store } from "../_store/store";
 
 export async function loader() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -14,7 +15,7 @@ export async function loader() {
   await axios
     .get(`${BASE_URL}dashboard/main/2`, {
       headers: {
-        accesstoken: localStorage.getItem("token"),
+        'accesstoken' : store.getState().user.token,
       },
     })
     .then(response => {

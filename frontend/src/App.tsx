@@ -31,7 +31,6 @@ const router = createBrowserRouter(
 
 function App() {
   const theme = store.getState().theme.theme;
-  console.log(theme);
   document.documentElement.setAttribute("data-theme", theme ? theme : "dark");
 
   return (
