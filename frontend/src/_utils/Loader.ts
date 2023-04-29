@@ -11,6 +11,11 @@ async function BoltImageListsLoader () {
     console.log(err)
   }
   return BoltImageLists;
+  // await Axios.get('transition')
+  //   .then(response => console.log(response.data))
+  //   .catch(error => console.log(error))
+  //
+  // return null
 }
 
 export { BoltImageListsLoader }
