@@ -11,11 +11,23 @@ async function BoltImageListsLoader () {
     console.log(err)
   }
   return BoltImageLists;
-  // await Axios.get('transition')
-  //   .then(response => console.log(response.data))
-  //   .catch(error => console.log(error))
-  //
-  // return null
 }
 
-export { BoltImageListsLoader }
+async function ReportListsLoader ({request}: {request: any}) {
+  let ReportLists: string[] = [];
+  const url = new URL(request.url);
+  const search = url.search;
+  console.log(search);
+
+  try {
+    let response = await Axios.get(`report/list${search}`);
+    ReportLists = response.data;
+    console.log(ReportLists);
+  }
+  catch (err) {
+    console.log(err)
+  }
+  return ReportLists;
+}
+
+export { BoltImageListsLoader, ReportListsLoader }
