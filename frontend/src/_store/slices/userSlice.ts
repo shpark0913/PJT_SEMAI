@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const store = JSON.parse(localStorage.getItem("persist:root") || "");
-const user = JSON.parse(store.user);
-const token = user.token;
+const persistRoot = localStorage.getItem('persist:root');
+const store =  persistRoot ? JSON.parse(persistRoot) : "";
+const user = store ? JSON.parse(store.user) : "";
+const token = user.token || "";
+
 export const UserSlice = createSlice({
   name: 'user',
   initialState: {
