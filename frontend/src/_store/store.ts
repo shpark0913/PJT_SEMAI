@@ -1,26 +1,31 @@
 import {configureStore, combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
+import { persistReducer, PERSIST, PURGE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import counterReducer from './slices/counterSlice';
+import userReducer from './slices/userSlice'
 import themeReducer from './slices/themeSlice'
 
 const persistConfig = {
   key: 'root',
   storage: storage,
+  whitelist: ['user', 'theme'],
 };
 
 // 리듀서
 const rootReducers = combineReducers({
-  counter: counterReducer,
+  user: userReducer,
   theme: themeReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({ serializableCheck: {
+        ignoredActions: [PERSIST, PURGE],
+      }, }),
   devTools: true,
 });
+
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
