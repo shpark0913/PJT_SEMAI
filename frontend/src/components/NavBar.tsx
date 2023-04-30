@@ -1,6 +1,7 @@
 import { DarkMode, LightMode } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { persistor } from '../index';
 
 import LogoutIcon from "@mui/icons-material/Logout";
 import { NavLink } from "react-router-dom";
@@ -9,6 +10,7 @@ import { Switch } from "@mui/joy";
 import styled from "styled-components";
 import { toggleTheme } from "../_store/slices/themeSlice";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../_hooks/hooks";
 
 type ToggleThemeProps = {
   isDark: boolean;
@@ -85,6 +87,7 @@ function NavBar() {
   );
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userName = useAppSelector(state => state.user.userName);
 
   return (
     <Nav>
@@ -92,7 +95,7 @@ function NavBar() {
         <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/">
           대시보드
         </NavLink>
-        <NavLink to={`/report?ohtSn=ALL&date=${TodayDate}&time=ALL&wheelPosition=ALL`}>
+        <NavLink to={`/report?ohtSn=ALL&date=${TodayDate}&time=ALL&wheelPosition=ALL&page=1`}>
           레포트
         </NavLink>
         <NavLink to="/transfer">전이학습</NavLink>
@@ -100,7 +103,7 @@ function NavBar() {
 
       <NavRightDiv>
         <Profile>
-          {localStorage.getItem("userName")}{" "}
+          {userName}{" "}
           <span style={{ fontSize: "15px", fontWeight: "normal" }}>님</span>
         </Profile>
         <Switch
@@ -124,15 +127,14 @@ function NavBar() {
         />
         <LogoutButton
           aria-label="logout"
-          onClick={event => {
-            localStorage.clear();
+          onClick={ event => {
+            persistor.purge();
             navigate("/login");
           }}
         >
           <LogoutIcon />
         </LogoutButton>
       </NavRightDiv>
-      {/*<input type="checkbox" checked={isDark} onChange={(): void => handleToggleTheme({ isDark, setIsDark, dispatch })} />*/}
     </Nav>
   );
 }
