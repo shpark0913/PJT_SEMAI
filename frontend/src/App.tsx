@@ -14,15 +14,17 @@ import ReportPage from "./pages/ReportPage";
 import TransferPage from "./pages/TransferPage";
 import { store } from "./_store/store";
 
+import {BoltImageListsLoader, ReportListsLoader} from "./_utils/Loader";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<LayoutPage />}>
         <Route index element={<DashboardPage />} loader={DashboardLoader} />
-        <Route path="report" element={<ReportPage />} />
+        <Route path="report" element={<ReportPage />} loader={ReportListsLoader} />
         <Route path="report/:id" />
-        <Route path="transfer" element={<TransferPage />} />
+        <Route path="transfer" element={<TransferPage />} loader={BoltImageListsLoader} />
       </Route>
     </Route>,
   ),
@@ -30,7 +32,6 @@ const router = createBrowserRouter(
 
 function App() {
   const theme = store.getState().theme.theme;
-  console.log(theme);
   document.documentElement.setAttribute("data-theme", theme ? theme : "dark");
 
   return (

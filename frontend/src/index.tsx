@@ -7,7 +7,7 @@ import { persistStore } from "redux-persist";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./_store/store";
 
-const persistor = persistStore(store);
+export const persistor = persistStore(store);
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
