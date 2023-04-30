@@ -1,5 +1,5 @@
 import {configureStore, combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
+import { persistReducer, PERSIST, PURGE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import userReducer from './slices/userSlice'
@@ -19,9 +19,13 @@ const rootReducers = combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({ serializableCheck: {
+        ignoredActions: [PERSIST, PURGE],
+      }, }),
   devTools: true,
 });
+
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
