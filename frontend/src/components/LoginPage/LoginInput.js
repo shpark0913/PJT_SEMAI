@@ -3,12 +3,15 @@ import "./LoginInput.css";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import {useDispatch} from "react-redux";
+import {setToken, setUserName} from "../../_store/slices/userSlice";
 
 function LoginInput() {
   const [userId, setUserId] = useState("");
   const [userPwd, setUserPwd] = useState("");
   const [loginInfo, setLoginInfo] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onSubmitHandler = event => {
     event.preventDefault();
 
@@ -22,8 +25,10 @@ function LoginInput() {
       .then(response => {
         if (response.data.status === 200) {
           console.log(response.data);
-          localStorage.setItem("token", response.data.data.accesstoken);
-          localStorage.setItem("userName", response.data.data.userName);
+          // localStorage.setItem("token", response.data.data.accesstoken);
+          // localStorage.setItem("userName", response.data.data.userName);
+          dispatch(setUserName(response.data.data.userName));
+          dispatch(setToken(response.data.data.accesstoken));
           navigate("/");
         } else {
           setUserId("");
