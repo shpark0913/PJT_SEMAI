@@ -13,7 +13,8 @@ import React from "react";
 import ReportPage from "./pages/ReportPage";
 import TransferPage from "./pages/TransferPage";
 import { store } from "./_store/store";
-import {BoltImageListsLoader} from "./_utils/Loader";
+
+import {BoltImageListsLoader, ReportListsLoader} from "./_utils/Loader";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,7 +22,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<LayoutPage />}>
         <Route index element={<DashboardPage />} loader={DashboardLoader} />
-        <Route path="report" element={<ReportPage />} />
+        <Route path="report" element={<ReportPage />} loader={ReportListsLoader} />
         <Route path="report/:id" />
         <Route path="transfer" element={<TransferPage />} loader={BoltImageListsLoader} />
       </Route>
