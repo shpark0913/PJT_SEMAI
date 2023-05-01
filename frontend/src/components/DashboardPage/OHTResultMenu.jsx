@@ -2,6 +2,7 @@ import { TBody, TD, TH, THeadMain, TR, Table } from "../TableComponents";
 import { useEffect, useState } from "react";
 
 import { EventSourcePolyfill } from "event-source-polyfill";
+import { store } from "../../_store/store";
 
 function OHTResultMenu() {
   const [dashboardData, setDashboardData] = useState([]);
@@ -10,7 +11,7 @@ function OHTResultMenu() {
   useEffect(() => {
     const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
       headers: {
-        accesstoken: localStorage.getItem("token"),
+        accesstoken: store.getState().user.token,
       },
     });
 
@@ -36,7 +37,7 @@ function OHTResultMenu() {
       <TBody>
         {dashboardData.reverse().map((item, idx) => {
           return (
-            <TR key={idx}>
+            <TR key={idx} NG={item.flCount + item.frCount + item.rlCount + item.rrCount}>
               <TD>
                 {item.ohtCheckStartDatetime[0]}-
                 {String(item.ohtCheckStartDatetime[1]).padStart(2, "0")}-
