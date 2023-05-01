@@ -43,7 +43,8 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .addPathPatterns("/dashboard/**")
                 .addPathPatterns("/dashboard")
                 .addPathPatterns("/report/**")
-                .addPathPatterns("/report");
+                .addPathPatterns("/report")
+                .excludePathPatterns("/report/download");// 추후 제거 필
 
 
     }
