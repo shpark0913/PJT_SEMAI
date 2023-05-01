@@ -28,6 +28,43 @@ else:
 # 분류 결과 텍스트파일이 저장될 경로
 RESULT_PATH = './models'
 
+# 학습데이터 전처리
+train_transform = transforms.Compose([
+    # 해상도를 (224,224)로 맞춰준다 (a fixed resolution of 224×224 is best, even at higher flops : [논문]Designing Network Design Spaces - [저자]Facebook AI Research (FAIR))
+    transforms.Resize((224, 224)),
+    # 이미지를 좌우로 뒤집어서 데이터 증강(augmentation)을 수행(확률을 높여준)
+    transforms.RandomHorizontalFlip(),
+    # 이미지를 PyTorch의 Tensor로 변환
+    transforms.ToTensor(),
+    # 흑백 이미지이기 때문에 1개의 채널을 정규화(흑백이미지는 보통 (평균 : 0.5 / 표준편차 : 0.5)로 정규화)
+    transforms.Normalize([0.5], [0.5])
+#     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+])
+# 테스트데이터 전처리
+test_transform = transforms.Compose([
+    # 해상도를 (224,224)로 맞춰준다
+    transforms.Resize((224, 224)),
+    # 이미지를 PyTorch의 Tensor로 변환
+    transforms.ToTensor(),
+    # 흑백 이미지이기 때문에 1개의 채널을 정규화
+    transforms.Normalize([0.5], [0.5])
+#     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+])
+
+# 데이터가 저장된 경로
+data_dir = '../../dataset/semes_transfer/'
+print(os.path.join(data_dir, 'train'))
+
+# 데이터가 저장된 경로에서 ImageFolder를 이용하여 이미지 데이터셋을 전처리한 후 로드(transforms_*==전처리 수행)
+train_datasets = datasets.ImageFolder(os.path.join(data_dir, 'train'), train_transform)
+test_datasets = datasets.ImageFolder(os.path.join(data_dir, 'val'), test_transform)
+
+# DataLoader를 이용 / 데이터셋에서 미니배치(minibatch)를 추출 
+# (batch_size==미니배치의 크기 / shuffle==데이터셋을 섞을지 여부 / num_workers==데이터셋을 불러올 때 사용할 프로세스 수)
+train_loader = DataLoader(train_datasets, batch_size=128, shuffle=True, num_workers=4)
+test_loader = DataLoader(test_datasets, batch_size=128, shuffle=True, num_workers=4)
+
+
 
 def f1score(test_loader, model):
     # F1 score
@@ -57,71 +94,45 @@ def f1score(test_loader, model):
 
     return f1_micro
 
-
-def learning(origin_acc, origin_loss, origin_fscore):
-    # 학습데이터 전처리
-    train_transform = transforms.Compose([
-        # 해상도를 (224,224)로 맞춰준다 (a fixed resolution of 224×224 is best, even at higher flops : [논문]Designing Network Design Spaces - [저자]Facebook AI Research (FAIR))
-        transforms.Resize((224, 224)),
-        # 이미지를 좌우로 뒤집어서 데이터 증강(augmentation)을 수행(확률을 높여준)
-        transforms.RandomHorizontalFlip(),
-        # 이미지를 PyTorch의 Tensor로 변환
-        transforms.ToTensor(),
-        # 흑백 이미지이기 때문에 1개의 채널을 정규화(흑백이미지는 보통 (평균 : 0.5 / 표준편차 : 0.5)로 정규화)
-        transforms.Normalize([0.5], [0.5])
-    #     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    ])
-    # 테스트데이터 전처리
-    test_transform = transforms.Compose([
-        # 해상도를 (224,224)로 맞춰준다
-        transforms.Resize((224, 224)),
-        # 이미지를 PyTorch의 Tensor로 변환
-        transforms.ToTensor(),
-        # 흑백 이미지이기 때문에 1개의 채널을 정규화
-        transforms.Normalize([0.5], [0.5])
-    #     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    ])
-
-    # 데이터가 저장된 경로
-    data_dir = '../../dataset/semes_transfer/'
-    print(os.path.join(data_dir, 'train'))
-
-    # 데이터가 저장된 경로에서 ImageFolder를 이용하여 이미지 데이터셋을 전처리한 후 로드(transforms_*==전처리 수행)
-    train_datasets = datasets.ImageFolder(os.path.join(data_dir, 'train'), train_transform)
-    test_datasets = datasets.ImageFolder(os.path.join(data_dir, 'val'), test_transform)
-
-    # DataLoader를 이용 / 데이터셋에서 미니배치(minibatch)를 추출 
-    # (batch_size==미니배치의 크기 / shuffle==데이터셋을 섞을지 여부 / num_workers==데이터셋을 불러올 때 사용할 프로세스 수)
-    train_loader = DataLoader(train_datasets, batch_size=128, shuffle=True, num_workers=4)
-    test_loader = DataLoader(test_datasets, batch_size=128, shuffle=True, num_workers=4)
-
-    # 수행 결과를 출력
-    print('학습 데이터셋 크기:', len(train_datasets))
-    print('테스트 데이터셋 크기:', len(test_datasets))
-
-    # 학습된 클래스 이름과 수행 결과를 출력
-    class_names = train_datasets.classes
-    print('클래스:', class_names)
-
-
+def loadModel():
     # 볼트 분석 모델 load
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
-    classification_model2 = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+    TRANSFER_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    TRANSFER_CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(TRANSFER_BASE_DIR, "models"), "classification_model.pth")
+    classification_model2 = torch.load(TRANSFER_CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
     classification_model = deepcopy(classification_model2)
     # 불러온 네트워크 모델의 출력 뉴런 수를 저장
     num_features = classification_model.fc.in_features
     # 새로운 Fully Connected 레이어 추가
     classification_model.fc = nn.Linear(num_features, 4)
-
     # GPU를 사용하기 위해 모델을 CUDA 디바이스로 보냄
     classification_model.to(device)
-
     # 손실 함수와 최적화 알고리즘 정의
     criterion = nn.CrossEntropyLoss()
     # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
     optimizer = optim.Adam(classification_model.parameters(), lr=0.001)
 
+    return classification_model, criterion, optimizer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def learning(origin_acc, origin_loss, origin_fscore):
+    # 학습된 클래스 이름과 수행 결과를 출력
+    class_names = train_datasets.classes
+    print('클래스:', class_names)
+
+    transfer_classification_model, criterion, optimizer = loadModel()
 
     # 학습 epochs 설정
     num_epochs = 1
@@ -137,12 +148,15 @@ def learning(origin_acc, origin_loss, origin_fscore):
     best_epoch = 0
     best_acc = origin_acc
 
+    # 리턴할 결과를 저장할 리스트
     result = []
+
+    
     # 설정한 epochs 만큼 반복
     for epoch in range(num_epochs):
         # Train --------------------------------------------------------------------
         # 모델을 학습모드로 설정
-        classification_model.train()
+        transfer_classification_model.train()
         # 현재까지 누적된 손실을 저장할 변수 초기화
         train_loss = 0
         # 현재까지 맞춘 이미지의 수를 저장할 변수 초기화
@@ -157,7 +171,7 @@ def learning(origin_acc, origin_loss, origin_fscore):
             # 학습 전, 이전 학습에서 계산된 gradient 값을 0으로 초기화
             optimizer.zero_grad()
             # 모델에 이미지 학습 (forward propagation이 이루어지며, 모델은 입력을 받아 출력값을 계산)
-            outputs = classification_model(inputs)
+            outputs = transfer_classification_model(inputs)
             # 모델이 예측한 출력값(outputs)과 실제 정답(labels)을 비교하여 손실 값을 계산
             loss = criterion(outputs, labels)
             # 손실 값의 gradient를 계산(backward propagation이 이루어지며, 손실 함수를 모델의 출력값으로 미분한 gradient 값을 계산)
@@ -184,7 +198,7 @@ def learning(origin_acc, origin_loss, origin_fscore):
 
         # Test ---------------------------------------------------------------------
         # 모델을 평가 모드로 설정
-        classification_model.eval()
+        transfer_classification_model.eval()
         # 현재까지 누적된 손실을 저장할 변수 초기화
         test_loss = 0
         # 현재까지 맞춘 이미지의 수를 저장할 변수 초기화
@@ -199,7 +213,7 @@ def learning(origin_acc, origin_loss, origin_fscore):
                 # 입력 이미지, 라벨 정보를 GPU를 사용하기 위해 to.device()사용
                 inputs, labels = inputs.to(device), labels.to(device)
                 # 모델에 이미지 학습 (forward propagation이 이루어지며, 모델은 입력을 받아 출력값을 계산)
-                outputs = classification_model(inputs)
+                outputs = transfer_classification_model(inputs)
                 # 모델이 예측한 출력값(outputs)과 실제 정답(labels)을 비교하여 손실 값을 계산
                 loss = criterion(outputs, labels)
 
@@ -223,10 +237,10 @@ def learning(origin_acc, origin_loss, origin_fscore):
             best_loss = test_loss
             best_acc = test_acc
             best_epoch = epoch + 1
-            torch.save(classification_model, './classification/models/classification_model.pth')
+            torch.save(transfer_classification_model, './classification/models/classification_model.pth')
 
     if best_epoch != 0:
-        flscore = f1score(test_loader, classification_model)
+        flscore = f1score(test_loader, transfer_classification_model)
         result.append(True)
         result.append(best_acc)
         result.append(best_loss)
