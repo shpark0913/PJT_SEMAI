@@ -3,9 +3,9 @@ import OHTCheck from "../components/DashboardPage/OHTCheck";
 import OHTResult from "../components/DashboardPage/OHTResult";
 import OHTTransition from "../components/DashboardPage/OHTTransition";
 import axios from "axios";
+import { store } from "../_store/store";
 import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
-import { store } from "../_store/store";
 
 export async function loader() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -13,9 +13,9 @@ export async function loader() {
   let checkResult;
 
   await axios
-    .get(`${BASE_URL}dashboard/main/3`, {
+    .get(`${BASE_URL}dashboard/main/2`, {
       headers: {
-        'accesstoken' : store.getState().user.token,
+        accesstoken: store.getState().user.token,
       },
     })
     .then(response => {
