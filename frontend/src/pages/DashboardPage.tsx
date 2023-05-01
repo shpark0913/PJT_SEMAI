@@ -1,9 +1,8 @@
+import Axios from "../_utils/Axios";
 import OHTAllResult from "../components/DashboardPage/OHTAllResult";
 import OHTCheck from "../components/DashboardPage/OHTCheck";
 import OHTResult from "../components/DashboardPage/OHTResult";
 import OHTTransition from "../components/DashboardPage/OHTTransition";
-import axios from "axios";
-import { store } from "../_store/store";
 import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
 
@@ -12,15 +11,9 @@ export async function loader() {
 
   let checkResult;
 
-  await axios
-    .get(`${BASE_URL}dashboard/main/2`, {
-      headers: {
-        accesstoken: store.getState().user.token,
-      },
-    })
-    .then(response => {
-      checkResult = response.data.data;
-    });
+  await Axios.get(`${BASE_URL}dashboard/main/2`).then(response => {
+    checkResult = response.data.data;
+  });
 
   return [checkResult];
 }
