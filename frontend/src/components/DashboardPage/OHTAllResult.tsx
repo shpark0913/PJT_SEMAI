@@ -26,6 +26,7 @@ const TitleContainer = styled.div`
 `;
 
 const TabMenuDiv = styled.div<TabMenuType>`
+  cursor: pointer;
   display: flex;
   align-items: center;
   color: ${props => (props.isActive ? "var(--emphasize-color)" : "var(--font-color)")};
@@ -59,18 +60,10 @@ function OHTAllResult() {
       <TitleContainer>
         <Title title="OHT 휠 검사 현황" />
         <TabMenuContainer>
-          <TabMenuDiv
-            isActive={isActive}
-            style={{ cursor: "pointer" }}
-            onClick={isActive => ClickHandler(!isActive)}
-          >
+          <TabMenuDiv isActive={isActive} onClick={isActive => ClickHandler(!isActive)}>
             전체
           </TabMenuDiv>
-          <TabMenuDiv
-            isActive={!isActive}
-            style={{ cursor: "pointer" }}
-            onClick={isActive => ClickHandler(isActive)}
-          >
+          <TabMenuDiv isActive={!isActive} onClick={isActive => ClickHandler(isActive)}>
             에러
           </TabMenuDiv>
         </TabMenuContainer>
