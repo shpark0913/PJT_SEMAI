@@ -15,8 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class FileUtil{
-	static String ROOT = new File(new File(System.getProperty("user.dir")).getParent()).getParent();
-	static public void init(String baseDir) throws IOException {
+	static String pwd = System.getProperty("user.dir");
+	static String ROOT = pwd.equals(File.separator) ? new File(pwd).getPath() : new File(new File(pwd).getParent()).getParent();
+	static public void init(String baseDir) {
 		mkdir(getBasePath(baseDir));
 		Directory[] subDirs = Directory.getBoltDirectories();
 		for (Directory dir:
