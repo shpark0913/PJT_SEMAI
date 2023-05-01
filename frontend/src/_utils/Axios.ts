@@ -1,13 +1,17 @@
 import axios from "axios";
-import { store } from "../_store/store";
 
+const persistRoot = localStorage.getItem('persist:root');
+const store =  persistRoot ? JSON.parse(persistRoot) : "";
+const token = JSON.parse(store.user)?.token || "";
 
 const Axios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
-    'accesstoken' : store.getState().user.token,
+    'accesstoken' : token,
   }
 });
+
+export default Axios;
 
 // Axios.interceptors.request.use(
 //   (config) => {
@@ -48,4 +52,3 @@ const Axios = axios.create({
 // }
 
 
-export default Axios;
