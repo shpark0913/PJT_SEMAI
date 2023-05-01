@@ -2,11 +2,11 @@ import { TBody, TD, TH, THeadMain, TR, Table } from "../TableComponents";
 import { useEffect, useState } from "react";
 
 import { EventSourcePolyfill } from "event-source-polyfill";
-import axios from "axios";
 
 function OHTResultMenu() {
   const [dashboardData, setDashboardData] = useState([]);
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
       headers: {
@@ -18,8 +18,6 @@ function OHTResultMenu() {
       setDashboardData(JSON.parse(event.data));
     });
   }, []);
-
-  console.log("데이터", dashboardData);
 
   return (
     <Table>
@@ -36,41 +34,31 @@ function OHTResultMenu() {
         </TR>
       </THeadMain>
       <TBody>
-        {dashboardData.map(item => {
-          let checkResult, data;
-          axios
-            .get(`${BASE_URL}dashboard/main/${item.ohtCheckId}`, {
-              headers: {
-                accesstoken: localStorage.getItem("token"),
-              },
-            })
-            .then(response => {
-              checkResult = response.data.data;
-              console.log("바퀴 1개당 4개의 object 있어야", checkResult);
-            });
+        {dashboardData.reverse().map((item, idx) => {
           return (
-            <TR>
-              <TD></TD>
-              <TD></TD>
-              <TD></TD>
-              <TD></TD>
-              <TD></TD>
-              <TD></TD>
-              <TD></TD>
-              <TD></TD>
+            <TR key={idx}>
+              <TD>
+                {item.ohtCheckStartDatetime[0]}-
+                {String(item.ohtCheckStartDatetime[1]).padStart(2, "0")}-
+                {String(item.ohtCheckStartDatetime[2]).padStart(2, "0")}
+              </TD>
+              <TD>
+                {" "}
+                {String(item.ohtCheckStartDatetime[3]).padStart(2, "0")}:
+                {String(item.ohtCheckStartDatetime[4]).padStart(2, "0")}:
+                {String(item.ohtCheckStartDatetime[5]).padStart(2, "0")}
+              </TD>
+              <TD>{item.ohtId}</TD>
+              <TD>
+                {item.flCount + item.frCount + item.rlCount + item.rrCount === 0 ? "정상" : "NG"}
+              </TD>
+              <TD>{item.flCount ? item.flCount : "-"}</TD>
+              <TD>{item.frCount ? item.frCount : "-"}</TD>
+              <TD>{item.rlCount ? item.rlCount : "-"}</TD>
+              <TD>{item.rrCount ? item.rrCount : "-"}</TD>
             </TR>
           );
         })}
-        <TR>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001-FL-1681704285</TD>
-          <TD>정상</TD>
-          <TD>-</TD>
-          <TD>-</TD>
-          <TD>1</TD>
-          <TD>3</TD>
-        </TR>
       </TBody>
     </Table>
   );
