@@ -1,4 +1,6 @@
+import { BoltImageListsLoader, ReportListsLoader } from "./_utils/Loader";
 import DashboardPage, { loader as DashboardLoader } from "./pages/DashboardPage";
+import DashboardPage2, { loader as DashboardLoader2 } from "./pages/DashboardPage2";
 import {
   Route,
   RouterProvider,
@@ -14,14 +16,13 @@ import ReportPage from "./pages/ReportPage";
 import TransferPage from "./pages/TransferPage";
 import { store } from "./_store/store";
 
-import {BoltImageListsLoader, ReportListsLoader} from "./_utils/Loader";
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<LayoutPage />}>
         <Route index element={<DashboardPage />} loader={DashboardLoader} />
+        <Route path=":checkId" element={<DashboardPage2 />} loader={DashboardLoader2} />
         <Route path="report" element={<ReportPage />} loader={ReportListsLoader} />
         <Route path="report/:id" />
         <Route path="transfer" element={<TransferPage />} loader={BoltImageListsLoader} />
