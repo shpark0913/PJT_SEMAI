@@ -3,11 +3,10 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { persistStore } from "redux-persist";
+import { persistor } from "./_store/store"
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./_store/store";
 
-export const persistor = persistStore(store);
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
