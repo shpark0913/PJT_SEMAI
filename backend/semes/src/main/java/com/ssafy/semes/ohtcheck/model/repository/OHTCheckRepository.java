@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface OHTCheckRepository extends JpaRepository<OHTCheckEntity,Long> {
 
-    @Query("select o from OHTCheckEntity o join fetch o.oht join  fetch  o.wheelChecks")
+    @Query("select o from OHTCheckEntity o join fetch o.oht")
     List<OHTCheckEntity> findAllJoinFetch();
 }
