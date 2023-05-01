@@ -1,10 +1,11 @@
 import "./LoginInput.css";
 
+import { setToken, setUserName } from "../../_store/slices/userSlice";
+
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import {useDispatch} from "react-redux";
-import {setToken, setUserName} from "../../_store/slices/userSlice";
 
 function LoginInput() {
   const [userId, setUserId] = useState("");
@@ -64,6 +65,7 @@ function LoginInput() {
           value={userId}
           onChange={onIdHandler}
           style={{ backgroundColor: "white" }}
+          autoFocus="true"
         />
         <input
           type="password"
