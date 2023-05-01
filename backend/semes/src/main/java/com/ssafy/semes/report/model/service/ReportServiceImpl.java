@@ -73,6 +73,11 @@ public class ReportServiceImpl implements ReportService {
         if(dto.getErrorFlag()==1){
             sb.append("and e.boltGoodCount != 11");
         }
+        if(dto.getDescFlag()==1){
+            sb.append("order by e.checkDate desc");
+        }else{
+            sb.append("order by e.checkDate");
+        }
         //sb.append(" limit :size offset :page");
         Query query = em.createQuery(sb.toString(), WheelCheckEntity.class);
 
@@ -85,8 +90,10 @@ public class ReportServiceImpl implements ReportService {
             query.setParameter("position", dto.getWheelPosition());
         }
         long totalPage = query.getResultStream().count();
-        query.setFirstResult(dto.getPage());
-        query.setMaxResults(PAGE_SIZE);
+        if(!dto.isDownloadFlag()) {
+            query.setFirstResult(dto.getPage());
+            query.setMaxResults(PAGE_SIZE);
+        }
         List<WheelCheckEntity> list = query.getResultList();
 
         if (list == null) {
