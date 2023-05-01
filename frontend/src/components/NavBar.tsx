@@ -6,16 +6,13 @@ import styled from "styled-components";
 import { RootState, persistor } from '../_store/store';
 import { toggleTheme } from "../_store/slices/themeSlice";
 import { useAppSelector } from "../_hooks/hooks";
+import useDate from "../_hooks/useDate";
 
 import { Switch } from "@mui/joy";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { DarkMode, LightMode } from "@mui/icons-material";
+import {ToggleThemeProps} from "../_utils/Types";
 
-type ToggleThemeProps = {
-  isDark: boolean;
-  setIsDark: (theme: boolean) => void;
-  dispatch: (toggleTheme: any) => void;
-};
 
 const Nav = styled.nav`
   height: var(--nav-height);
@@ -74,16 +71,13 @@ function handleToggleTheme({ isDark, setIsDark, dispatch }: ToggleThemeProps) {
   }
 }
 
-let today = new Date();
-let year = String(today.getFullYear());
-let month = String(today.getMonth() + 1).padStart(2, "0");
-let day = String(today.getDate()).padStart(2, "0");
-let TodayDate = `${year}-${month}-${day}`;
-
 function NavBar() {
   let [isDark, setIsDark] = useState(
     useSelector((state: RootState) => state.theme.theme === "dark"),
   );
+  let {timestampFormat} = useDate();
+  let TodayDate = timestampFormat();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userName = useAppSelector(state => state.user.userName);
@@ -94,7 +88,7 @@ function NavBar() {
         <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/">
           대시보드
         </NavLink>
-        <NavLink to={`/report?ohtSn=ALL&date=${TodayDate}&time=ALL&wheelPosition=ALL&page=1`}>
+        <NavLink to={`/report?ohtSn=ALL&startDate=${TodayDate}&endDate=${TodayDate}&time=ALL&wheelPosition=ALL&page=1&errorFlag=0&descFlag=1`}>
           레포트
         </NavLink>
         <NavLink to="/transfer">전이학습</NavLink>
