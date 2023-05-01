@@ -18,6 +18,7 @@ public class SemesApplication {
 		// } catch (IOException e) {
 		// 	throw new RuntimeException(e);
 		// }
+
 		SpringApplication.run(SemesApplication.class, args);
 	}
 }

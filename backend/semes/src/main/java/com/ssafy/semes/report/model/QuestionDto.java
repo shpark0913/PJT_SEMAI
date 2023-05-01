@@ -21,4 +21,6 @@ public class QuestionDto {
     private LocalDateTime endTime;
     private int page;
     private int errorFlag;
+    private int descFlag;
+    private boolean downloadFlag;
 }
