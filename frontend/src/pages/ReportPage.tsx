@@ -20,25 +20,19 @@ const ReportSection = styled.section`
   flex-direction: column;
 `
 
-
-export async function ReportListsAction ({request}: {request: any}) {
-  // let formData = await request.formData();
-  console.log(request);
-  const url = new URL(request.url);
-  if (url.searchParams.get("errorFlag")) {
-    url.searchParams.append('errorFlag', "0");
-  }
-
-  console.log(url);
-  return url;
-}
-
 function ReportPage() {
   let [query] = useSearchParams();
   let data = useLoaderData();
-  console.log(data)
+  console.log(data);
+  let time=query.get('time') || "ALL";
 
   let theme = useSelector((state:RootState) => state.theme.theme);
+
+  // ================== 페이지네이션 ======================
+  let [page, setPage] = useState<string>(query.get('page') || "1");
+  const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPage(e.currentTarget.value)
+  }
 
   // =================== 달력 선택 관련 ===================
   let { timestampFormat, timeFormat } = useDate();
@@ -56,7 +50,7 @@ function ReportPage() {
   // =================== 시간 관련 ===================
   const timeInput = []
   for(let i=0; i<24; i++) {
-    timeInput.push(<option value={i}>{timeFormat(i)}</option>)
+    timeInput.push(<option key={`time-key-${i+1}`} value={i}>{timeFormat(i)}</option>)
   }
 
   // =================== 모달 관련 ===================
@@ -78,16 +72,22 @@ function ReportPage() {
   }, [openScroll]);
 
 
+  // ================ 테스트 ====================
+  const handleTest = (e:any) => {
+    e.preventDefault();
+    console.log("하위욘");
+  }
+
 
 
   return (
     <ReportSection>
 
       { isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }
-
+      <form onSubmit={handleTest}><input name={"test"} type="text" /><button type={"submit"}>제출</button></form>
       <Title title="레포트" />
 
-      <Form style={{height :"30px", marginBottom: "15px", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
+      <Form method="GET" style={{height :"30px", marginBottom: "15px", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
         <div>
           <div>
             <Label theme={theme}> 장비 종류
@@ -105,8 +105,8 @@ function ReportPage() {
               <input type="date" value={endDate} name="endDate" max={todayDate} min={startDate} onChange={e => handleChangeEndDate(e)} />
             </Label>
             <Label theme={theme}> 검사 시간
-              <select name="time">
-                <option value="ALL" selected={startDate !== endDate}>전체</option>
+              <select name="time" disabled={startDate !== endDate} defaultValue={ startDate !== endDate? "ALL" : time }>
+                <option value="ALL" >전체</option>
                 {timeInput.map(option => option)}
               </select>
             </Label>
@@ -126,7 +126,7 @@ function ReportPage() {
               </select>
             </Label>
             <Label theme={theme}> 오류 기록만 조회
-              <input type="checkbox" name="errorFlag" value={1}/>
+              <input type="checkbox" name="errorFlag" value={1} />
             </Label>
             <SemesButton width="90px" height="100%" type="submit">조회하기</SemesButton>
           </div>
@@ -137,19 +137,19 @@ function ReportPage() {
         <ReportTable handleModalOpen={handleModalOpen} />
         <fieldset>
           <label>
-            <input type="radio" name="page" value={1} checked />
+            <input type="radio" name="page" value={"1"} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)} checked={page === "1"}/>
             <span>1</span>
           </label>
           <label>
-            <input type="radio" name="page" value={2} />
+            <input type="radio" name="page" value={"2"} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)} checked={page === "2"} />
             <span>2</span>
           </label>
           <label>
-            <input type="radio" name="page" value={3} />
+            <input type="radio" name="page" value={"3"} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)} checked={page === "3"} />
             <span>3</span>
           </label>
           <label>
-            <input type="radio" name="page" value={4} />
+            <input type="radio" name="page" value={"4"} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)} checked={page === "4"} />
             <span>4</span>
           </label>
         </fieldset>
