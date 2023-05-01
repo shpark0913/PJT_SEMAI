@@ -65,7 +65,7 @@ function LoginInput() {
           value={userId}
           onChange={onIdHandler}
           style={{ backgroundColor: "white" }}
-          autoFocus="true"
+          autoFocus={true}
         />
         <input
           type="password"
