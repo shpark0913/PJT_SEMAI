@@ -46,14 +46,14 @@ public class OHTCheckEntity {
 	@Column(name="oht_check_end_datetime")
 	private LocalDateTime ohtCheckEndDatetime;
 
-	@Column(name="good_count_total", nullable = false)
-	private int goodCount;
-	@Column(name="out_count_total", nullable = false)
-	private int outCount;
-	@Column(name="lose_count_total", nullable = false)
-	private int loseCount;
-	@Column(name="unclassified_count_total", nullable = false)
-	private int unclassifiedCount;
+	@Column(name="fl_bad_count", nullable = false)
+	private int flBadCount;
+	@Column(name="fr_bad_count", nullable = false)
+	private int frBadCount;
+	@Column(name="rl_bad_count", nullable = false)
+	private int rlBadCount;
+	@Column(name="rr_bad_count", nullable = false)
+	private int rrBadCount;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "oht_id")

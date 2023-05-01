@@ -22,6 +22,5 @@ public class OHTCheckResponseDto {
     private int rlCount;
     private int rrCount;
     private long ohtId;
-    private List<Long> wheelHistoryId;
 
 }
