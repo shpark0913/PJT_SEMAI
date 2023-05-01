@@ -24,7 +24,7 @@ import lombok.Setter;
 public class WheelCheckResultDto {
 	private int status;
 	private boolean success;
-	private boolean ng = false;
+	private boolean ng;
 
 	public static class Data{
 		String markedImage;
