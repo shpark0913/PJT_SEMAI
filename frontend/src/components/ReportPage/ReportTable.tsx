@@ -2,8 +2,15 @@ import React from 'react';
 import {Table, TableContainer, TBody, TD, TFoot, TH, THead, TR} from "../TableComponents";
 import { ReportTableProps } from "../../_utils/Types";
 import { Button } from "../ButtonComponents";
+import {useRouteLoaderData} from "react-router-dom";
+import useDate from "../../_hooks/useDate";
 
 function ReportTable({ handleModalOpen }: ReportTableProps) {
+  let data: any = useRouteLoaderData("reportLists");
+  let { result } = data.data;
+  let { createWheelCheckId, dateFormat, timeSecFormat } = useDate();
+
+  console.log(result);
   return (
     <TableContainer>
       <Table>
@@ -22,205 +29,26 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
           </TR>
         </THead>
         <TBody>
-          <TR>
-            <TH className="idxNum">1</TH>
-            <TD>V30001-FL-1681704285</TD>
-            <TD>2023-04-20</TD>
-            <TD>13:04:45</TD>
-            <TD>V30001</TD>
-            <TD>FL</TD>
-            <TD>정상</TD>
-            <TD>11</TD>
-            <TD>11</TD>
-            <TD><Button width="65px" height="23px" onClick={() => handleModalOpen({
-              boltGoodCount: 11,
-              wheelStatus: '정상',
-              wheelCheckDate: "2023-04-20",
-              wheelCheckTime: "13:04:45",
-              wheelCheckId: "V30001-FL-1681704285",
-              wheelPosition: "FL",
-              ohtSn: "V30001"})}>상세보기</Button></TD>
-          </TR>
-          <TR>
-            <TH className="idxNum">2</TH>
-            <TD>V30001-FR-1681704285</TD>
-            <TD>2023-04-20</TD>
-            <TD>13:04:45</TD>
-            <TD>V30001</TD>
-            <TD>FR</TD>
-            <TD>정상</TD>
-            <TD>11</TD>
-            <TD>11</TD>
-            <TD><button>상세보기</button></TD>
-          </TR>
-          <TR>
-            <TH className="idxNum">3</TH>
-            <TD>V30001-RL-1681704285</TD>
-            <TD>2023-04-20</TD>
-            <TD>13:04:45</TD>
-            <TD>V30001</TD>
-            <TD>RL</TD>
-            <TD>정상</TD>
-            <TD>11</TD>
-            <TD>11</TD>
-            <TD><button>상세보기</button></TD>
-          </TR>
-          <TR>
-            <TH className="idxNum">4</TH>
-            <TD>V30001-RR-1681704285</TD>
-            <TD>2023-04-20</TD>
-            <TD>13:04:45</TD>
-            <TD>V30001</TD>
-            <TD>RR</TD>
-            <TD>정상</TD>
-            <TD>11</TD>
-            <TD>11</TD>
-            <TD><button>상세보기</button></TD>
-          </TR>
-          <TR>
-            <TH className="idxNum">4</TH>
-            <TD>V30001-RR-1681704285</TD>
-            <TD>2023-04-20</TD>
-            <TD>13:04:45</TD>
-            <TD>V30001</TD>
-            <TD>RR</TD>
-            <TD>정상</TD>
-            <TD>11</TD>
-            <TD>11</TD>
-            <TD><button>상세보기</button></TD>
-          </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR><TR>
-          <TH className="idxNum">4</TH>
-          <TD>V30001-RR-1681704285</TD>
-          <TD>2023-04-20</TD>
-          <TD>13:04:45</TD>
-          <TD>V30001</TD>
-          <TD>RR</TD>
-          <TD>정상</TD>
-          <TD>11</TD>
-          <TD>11</TD>
-          <TD><button>상세보기</button></TD>
-        </TR>
+          { result.map((report:any, idx:number) =>
+            <TR key={`${report.ohtSn}-${report.wheelPosition}-${createWheelCheckId(report.wheelCheckDate)}`}>
+              <TH className="idxNum">{idx + 1}</TH>
+              <TD>{`${report.ohtSn}-${report.wheelPosition}-${createWheelCheckId(report.wheelCheckDate)}`}</TD>
+              <TD>{`${dateFormat(report.wheelCheckDate.slice(0, 3))}`}</TD>
+              <TD>{`${timeSecFormat(report.wheelCheckDate.slice(3, 6))}`}</TD>
+              <TD>{report.ohtSn}</TD>
+              <TD>{report.wheelPosition}</TD>
+              <TD>{report.boltGoodCount === 11? "정상" : "NG"}</TD>
+              <TD>11</TD>
+              <TD>{report.boltGoodCount}</TD>
+              <TD><Button width="65px" height="23px" onClick={() => handleModalOpen({
+                boltGoodCount: report.boldGoodCount,
+                wheelStatus: '정상',
+                wheelCheckDate: "2023-04-20",
+                wheelCheckTime: "13:04:45",
+                wheelCheckId: "V30001-FL-1681704285",
+                wheelPosition: "FL",
+                ohtSn: "V30001"})}>상세보기</Button></TD>
+            </TR>) }
         </TBody>
         <TFoot>
           <TR>
@@ -229,7 +57,6 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
           </TR>
         </TFoot>
       </Table>
-      <div>페이지네이션 자리</div>
     </TableContainer>
   );
 }
