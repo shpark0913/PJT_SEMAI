@@ -66,5 +66,4 @@ public class WheelCheckEntity {
 	@OneToOne
 	@JoinColumn(name="file_id")
 	private ImageEntity image;
-
 }
