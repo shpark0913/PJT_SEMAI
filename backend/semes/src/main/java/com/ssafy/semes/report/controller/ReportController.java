@@ -24,11 +24,19 @@ public class ReportController {
     @GetMapping("/list")
     private ApiResponse<?> findReport(@RequestParam("ohtSn") String ohtSn
             , @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("time") String time
-            ,@RequestParam("wheelPosition") String wheelPosition,@RequestParam("errorFlag") int errorFlag,@RequestParam("page") int page) {
+            ,@RequestParam("wheelPosition") String wheelPosition,@RequestParam("errorFlag") int errorFlag,@RequestParam("page") int page
+            ,@RequestParam("descFlag") int descFlag) {
         log.info("Report FindReport Start");
         try {
             return ApiResponse.success(SuccessCode.READ_REPORT_LIST, reportService.findReport(QuestionDto.builder()
-                    .ohtSn(ohtSn).startDate(startDate).endDate(endDate).time(time).wheelPosition(wheelPosition).page(page).errorFlag(errorFlag)
+                    .ohtSn(ohtSn)
+                    .startDate(startDate)
+                    .endDate(endDate)
+                    .time(time)
+                    .wheelPosition(wheelPosition)
+                    .page(page)
+                    .errorFlag(errorFlag)
+                    .descFlag(descFlag)
                     .build()));
         }catch (JPAException jpaException){
             log.error("DashBoard Error : " + jpaException.getMessage());
