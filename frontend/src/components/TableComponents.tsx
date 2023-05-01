@@ -39,6 +39,7 @@ const THead = styled.thead`
 
 const THeadMain = styled.thead`
   position: sticky;
+  z-index: 2;
   top: 0;
   width: 100%;
   &::before {
