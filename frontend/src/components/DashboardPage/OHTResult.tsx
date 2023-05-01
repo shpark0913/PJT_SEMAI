@@ -1,3 +1,4 @@
+import React from "react";
 import Title from "../Title";
 import styled from "styled-components";
 
@@ -134,14 +135,14 @@ function OHTResult(props: any) {
                 <InfoTitleDiv>유실</InfoTitleDiv>
                 <InfoTitleDiv>모호</InfoTitleDiv>
                 <InfoTitleDiv>양호</InfoTitleDiv>
-                {indexList.map(item => {
+                {indexList.map((item, idx) => {
                   return (
-                    <>
+                    <React.Fragment key={idx}>
                       <InfoTitleDiv>{data[item].wheelPosition}</InfoTitleDiv>
                       <InfoContentDiv>{data[item].boltLoseCount}</InfoContentDiv>
                       <InfoContentDiv>{data[item].boltLoseCount}</InfoContentDiv>
                       <InfoContentDiv>{data[item].boltGoodCount}</InfoContentDiv>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </VoltInfoGrid>
@@ -151,8 +152,8 @@ function OHTResult(props: any) {
         <OHTResultDiv ratio={40}>
           <h3 style={{ color: "var(--emphasize-color)" }}>휠 상세 이미지</h3>
           <OHTWheelsDiv>
-            {indexList.map(item => {
-              return <OHTWheel wheelName={data[item].wheelPosition} />;
+            {indexList.map((item, idx) => {
+              return <OHTWheel wheelName={data[item].wheelPosition} key={idx} />;
             })}
           </OHTWheelsDiv>
         </OHTResultDiv>

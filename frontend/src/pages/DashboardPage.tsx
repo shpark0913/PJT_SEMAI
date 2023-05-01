@@ -13,7 +13,7 @@ export async function loader() {
   let checkResult;
 
   await axios
-    .get(`${BASE_URL}dashboard/main/2`, {
+    .get(`${BASE_URL}dashboard/main/3`, {
       headers: {
         'accesstoken' : store.getState().user.token,
       },
