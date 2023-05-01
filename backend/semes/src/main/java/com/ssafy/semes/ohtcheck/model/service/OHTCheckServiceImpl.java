@@ -41,22 +41,24 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 		Optional<OHTCheckEntity> check = ohtCheckRepository.findById(ohtCheck.getOhtCheckId());
 		if(check.isPresent()){
 			List<WheelCheckEntity> wheelChecks = check.get().getWheelChecks();
-			int goodCount = 0;
-			int lostCount = 0;
-			int brokenCount = 0;
-			int ambigueCount = 0;
 
 			for (WheelCheckEntity wheelCheck:
 			wheelChecks) {
-				goodCount += wheelCheck.getBoltGoodCount();
-				lostCount += wheelCheck.getBoltOutCount();
-				brokenCount += wheelCheck.getBoltLoseCount();
-				ambigueCount += wheelCheck.getUnclassifiedCount();
+				switch (wheelCheck.getWheelPosition()){
+					case "FL":
+						check.get().setFlBadCount(11-wheelCheck.getBoltGoodCount());
+						break;
+					case "FR":
+						check.get().setFrBadCount(11-wheelCheck.getBoltGoodCount());
+						break;
+					case "RL":
+						check.get().setRlBadCount(11-wheelCheck.getBoltGoodCount());
+						break;
+					case "RR":
+						check.get().setRrBadCount(11-wheelCheck.getBoltGoodCount());
+						break;
+				}
 			}
-			check.get().setGoodCount(goodCount);
-			check.get().setOutCount(lostCount);
-			check.get().setLoseCount(brokenCount);
-			check.get().setUnclassifiedCount(ambigueCount);
 			check.get().setOhtCheckEndDatetime(LocalDateTime.now());
 
 		}
