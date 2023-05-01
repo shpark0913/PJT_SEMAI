@@ -73,6 +73,11 @@ public class ReportServiceImpl implements ReportService {
         if(dto.getErrorFlag()==1){
             sb.append("and e.boltGoodCount != 11");
         }
+        if(dto.getDescFlag()==1){
+            sb.append("order by e.checkDate desc");
+        }else{
+            sb.append("order by e.checkDate");
+        }
         //sb.append(" limit :size offset :page");
         Query query = em.createQuery(sb.toString(), WheelCheckEntity.class);
 
