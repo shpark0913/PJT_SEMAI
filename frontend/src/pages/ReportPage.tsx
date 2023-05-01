@@ -1,24 +1,37 @@
 import React, {useCallback, useState} from 'react';
-import {Form, useLoaderData, useSearchParams} from "react-router-dom";
+import { Form, useLoaderData, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 import { RootState } from "../_store/store";
 import { ReportDetailType } from "../_utils/Types";
 import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
+import useDate from "../_hooks/useDate";
 
 import { Button, SemesButton } from "../components/ButtonComponents";
 import { Label } from "../components/ReportPage/FilterComponents"
 import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
 import ReportModal from "../components/DetailModal/ReportModal";
-import useDate from "../_hooks/useDate";
 
 const ReportSection = styled.section`
   padding: 30px;
   display: flex;
   flex-direction: column;
 `
+
+
+export async function ReportListsAction ({request}: {request: any}) {
+  // let formData = await request.formData();
+  console.log(request);
+  const url = new URL(request.url);
+  if (url.searchParams.get("errorFlag")) {
+    url.searchParams.append('errorFlag', "0");
+  }
+
+  console.log(url);
+  return url;
+}
 
 function ReportPage() {
   let [query] = useSearchParams();
@@ -74,7 +87,7 @@ function ReportPage() {
 
       <Title title="레포트" />
 
-      <Form method="get" style={{height :"30px", marginBottom: "15px", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
+      <Form style={{height :"30px", marginBottom: "15px", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
         <div>
           <div>
             <Label theme={theme}> 장비 종류
@@ -93,7 +106,7 @@ function ReportPage() {
             </Label>
             <Label theme={theme}> 검사 시간
               <select name="time">
-              <option value="ALL" selected={startDate !== endDate}>전체</option>
+                <option value="ALL" selected={startDate !== endDate}>전체</option>
                 {timeInput.map(option => option)}
               </select>
             </Label>
@@ -141,6 +154,7 @@ function ReportPage() {
           </label>
         </fieldset>
       </Form>
+
     </ReportSection>
   );
 }
