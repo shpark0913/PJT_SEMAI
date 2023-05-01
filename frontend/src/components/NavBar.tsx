@@ -88,7 +88,7 @@ function NavBar() {
         <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/">
           대시보드
         </NavLink>
-        <NavLink to={`/report?ohtSn=ALL&startDate=${TodayDate}&endDate=${TodayDate}&time=ALL&wheelPosition=ALL&page=1&errorFlag=1&descFlag=1`}>
+        <NavLink to={`/report?ohtSn=ALL&startDate=${TodayDate}&endDate=${TodayDate}&time=ALL&wheelPosition=ALL&page=1&errorFlag=0&descFlag=1`}>
           레포트
         </NavLink>
         <NavLink to="/transfer">전이학습</NavLink>
