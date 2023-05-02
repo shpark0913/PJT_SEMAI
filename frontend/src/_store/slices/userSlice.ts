@@ -1,14 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { PURGE } from "redux-persist";
 
-const persistRoot = localStorage.getItem('persist:root');
-const store =  persistRoot ? JSON.parse(persistRoot) : "";
-const user = store ? JSON.parse(store.user) : "";
-const token = user.token || "";
-
 const initialState = {
     userName: "",
-    token: token,
+    token: "",
   }
 
 export const UserSlice = createSlice({
@@ -23,7 +18,7 @@ export const UserSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(PURGE, (state) => {
+    builder.addCase(PURGE, () => {
       return {...initialState};
     });
   }

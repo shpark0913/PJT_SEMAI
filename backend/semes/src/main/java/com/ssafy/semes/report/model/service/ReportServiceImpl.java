@@ -32,24 +32,29 @@ public class ReportServiceImpl implements ReportService {
     private WheelCheckRepository wheelCheckRepository;
     @Autowired
     private EntityManager em;
-    private final int PAGE_SIZE = 1;
+    private final int PAGE_SIZE = 20;
 
     @Override
     @Transactional
     public Map<String,Object> findReport(QuestionDto dto) throws Exception {
-        StringTokenizer st = new StringTokenizer(dto.getDate(),"-");
-        int yy =  Integer.parseInt(st.nextToken());
-        int mm =  Integer.parseInt(st.nextToken());
-        int dd= Integer.parseInt(st.nextToken());
+        StringTokenizer st = new StringTokenizer(dto.getStartDate(),"-");
+        int startyy =  Integer.parseInt(st.nextToken());
+        int startmm =  Integer.parseInt(st.nextToken());
+        int startdd= Integer.parseInt(st.nextToken());
+
+        st = new StringTokenizer(dto.getEndDate(),"-");
+        int endyy =  Integer.parseInt(st.nextToken());
+        int endmm =  Integer.parseInt(st.nextToken());
+        int enddd= Integer.parseInt(st.nextToken());
         if (dto.getTime().equals("ALL")) {
-            dto.setStartTime(LocalDateTime.of(LocalDate.of(yy,mm,dd)
+            dto.setStartTime(LocalDateTime.of(LocalDate.of(startyy,startmm,startdd)
                     , LocalTime.of(0,0,0)));
-            dto.setEndTime(LocalDateTime.of(LocalDate.of(yy,mm,dd)
+            dto.setEndTime(LocalDateTime.of(LocalDate.of(endyy,endmm,enddd)
                     , LocalTime.of(23,59,59)));
         } else {
-            dto.setStartTime(LocalDateTime.of(LocalDate.of(yy,mm,dd)
+            dto.setStartTime(LocalDateTime.of(LocalDate.of(startyy,startmm,startdd)
                     , LocalTime.of(Integer.parseInt(dto.getTime()),0,0)));
-            dto.setEndTime(LocalDateTime.of(LocalDate.of(yy,mm,dd)
+            dto.setEndTime(LocalDateTime.of(LocalDate.of(endyy,endmm,enddd)
                     , LocalTime.of(Integer.parseInt(dto.getTime()),59,59)));
         }
 
@@ -64,6 +69,14 @@ public class ReportServiceImpl implements ReportService {
         }
         if (!dto.getWheelPosition().equals("ALL")) {
             sb.append("and e.wheelPosition = :position");
+        }
+        if(dto.getErrorFlag()==1){
+            sb.append("and e.boltGoodCount != 11");
+        }
+        if(dto.getDescFlag()==1){
+            sb.append("order by e.checkDate desc");
+        }else{
+            sb.append("order by e.checkDate");
         }
         //sb.append(" limit :size offset :page");
         Query query = em.createQuery(sb.toString(), WheelCheckEntity.class);
