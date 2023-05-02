@@ -1,5 +1,8 @@
+import { Link } from "react-router-dom";
 import React from "react";
+import { ReactComponent as RefreshBtn } from "../../assets/refreshBtn.svg";
 import Title from "../Title";
+import { redirect } from "react-router";
 import styled from "styled-components";
 
 type WheelNameType = {
@@ -99,13 +102,24 @@ const OHTWheel = ({ wheelName }: WheelNameType) => {
   );
 };
 
+const TitleContainer = styled.div`
+  display: flex;
+`;
+
 function OHTResult(props: any) {
   const data = props.data;
   const indexList = [0, 1, 2, 3];
 
   return (
     <OHTResultSec>
-      <Title title="OHT 휠 검사 결과" />
+      <TitleContainer>
+        <Title title="OHT 휠 검사 결과" />
+        <h1 style={{ marginLeft: "6px", paddingTop: "1px" }}>
+          <Link to={{ pathname: "/" }}>
+            <RefreshBtn fill="var(--emphasize-color)" style={{ cursor: "pointer" }} />
+          </Link>
+        </h1>
+      </TitleContainer>
       <OHTResultContainer>
         <OHTResultDiv ratio={57}>
           <h3 style={{ color: "var(--emphasize-color)" }}>검사 정보</h3>
