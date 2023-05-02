@@ -34,19 +34,27 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 
 		//바퀴 파일 생성
 		fileNameUtil.setWheelPositionVal(wheelPosition.getVal());
-		FileUtil.createFile(Directory.BASE.getPath(),Directory.WHEEL_ORIGIN.getPath(),fileNameUtil.getFilename(),file);
+		String savedFileName = FileUtil.createFile(Directory.BASE.getPath(),Directory.WHEEL_ORIGIN.getPath(),fileNameUtil.getFilename(),file);
 
 		//바퀴 이미지 요청
-		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(fileNameUtil.getFilename());
+		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(savedFileName);
+		System.out.println(result.toString());
 		if(result.getStatus() == 400){
 			throw new IOException("잘못된 파일 명입니다.");
+		}
+		if(result.getData() == null ){
+			throw new InterruptedException("Data가 없습니다.");
 		}
 
 		return saveResult(result,wheelPosition, ohtCheck);
 	}
 	@Transactional
-	public WheelCheckEntity saveResult(WheelCheckResultDto wheelCheckResult,WheelPosition wheelPosition, OHTCheckEntity ohtCheck){
+	public WheelCheckEntity saveResult(WheelCheckResultDto wheelCheckResult,WheelPosition wheelPosition, OHTCheckEntity ohtCheck) throws
+		IOException {
 
+		if(wheelCheckResult.getData().getMarkedImage().equals("")){
+			throw new IOException("마킹 이미지가 존재하지 않습니다.");
+		}
 		//마킹 이미지 저장
 		String markedImagePath = wheelCheckResult.getData().getMarkedImage().split("/")[1];
 		ImageEntity markedImage = imageRepository.save(ImageEntity.builder()
