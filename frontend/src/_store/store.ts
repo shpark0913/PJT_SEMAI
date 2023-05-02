@@ -1,7 +1,7 @@
 import { Action, ThunkAction, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { PERSIST, PURGE, persistReducer, persistStore } from "redux-persist";
 
-import checkIdSlice from "./slices/checkIdSlice";
+import dashboardReducer from "./slices/dashboardSlice";
 import storage from "redux-persist/lib/storage";
 import themeReducer from "./slices/themeSlice";
 import userReducer from "./slices/userSlice";
@@ -14,7 +14,7 @@ const persistConfig = {
 const rootReducers = combineReducers({
   user: userReducer,
   theme: themeReducer,
-  checkId: checkIdSlice,
+  dashboard: dashboardReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 

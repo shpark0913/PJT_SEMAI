@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const checkIdSlice = createSlice({
-  name: "checkId",
+export const dashboardSlice = createSlice({
+  name: "dashboard",
   initialState: {
     checkId: 0,
   },
@@ -13,6 +13,6 @@ export const checkIdSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setCheckId } = checkIdSlice.actions;
+export const { setCheckId } = dashboardSlice.actions;
 
-export default checkIdSlice.reducer;
+export default dashboardSlice.reducer;
