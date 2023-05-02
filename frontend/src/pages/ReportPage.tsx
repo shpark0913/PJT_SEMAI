@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import { Form, useLoaderData, useSearchParams } from "react-router-dom";
+import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
@@ -23,6 +23,7 @@ const ReportSection = styled.section`
 function ReportPage() {
   let [query] = useSearchParams();
   let data = useLoaderData();
+  let submit = useSubmit();
   console.log(data);
   let time=query.get('time') || "ALL";
 
@@ -31,7 +32,8 @@ function ReportPage() {
   // ================== 페이지네이션 ======================
   let [page, setPage] = useState<string>(query.get('page') || "1");
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(e.currentTarget.value)
+    setPage(e.currentTarget.value);
+    submit(e.currentTarget.form);
   }
 
   // =================== 달력 선택 관련 ===================
@@ -71,23 +73,13 @@ function ReportPage() {
     openScroll();
   }, [openScroll]);
 
-
-  // ================ 테스트 ====================
-  const handleTest = (e:any) => {
-    e.preventDefault();
-    console.log("하위욘");
-  }
-
-
-
   return (
     <ReportSection>
 
       { isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }
-      <form onSubmit={handleTest}><input name={"test"} type="text" /><button type={"submit"}>제출</button></form>
-      <Title title="레포트" />
 
-      <Form method="GET" style={{height :"30px", marginBottom: "15px", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
+      <Title title="레포트" />
+      <Form replace={true} method="GET" style={{height :"30px", marginBottom: "15px", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
         <div>
           <div>
             <Label theme={theme}> 장비 종류
