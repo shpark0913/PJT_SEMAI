@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { RootState } from "../_store/store";
-import { ReportDetailType } from "../_utils/Types";
+import {ReportLoaderType, ReportObjectType} from "../_utils/Types";
 import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 import useDate from "../_hooks/useDate";
 
@@ -13,6 +13,7 @@ import { Label } from "../components/ReportPage/FilterComponents";
 import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
 import ReportModal from "../components/DetailModal/ReportModal";
+import PaginationComponents from "../components/ReportPage/PaginationComponents";
 
 const ReportSection = styled.section`
   padding: 30px;
@@ -21,23 +22,34 @@ const ReportSection = styled.section`
 `
 
 function ReportPage() {
+  // ================ 초기 필요한 값들 ================
   let [query] = useSearchParams();
-  let data = useLoaderData();
   let submit = useSubmit();
+  let data = useLoaderData() as ReportLoaderType;
+  let { result, totalPage } = data;
 
-  let time=query.get('time') || "ALL";
+  let paginationTotalPage = Math.ceil(totalPage/20);
+  let ohtSn = query.get('ohtSn') || "ALL";
+  let time = query.get('time') || "ALL";
+  let page = query.get('page') || "1";
+  let wheelPosition = query.get('wheelPosition') || "";
+  let errorFlag = query.get('errorFlag') || "0";
+  let descFlag = query.get('descFlag') || "0";
+
   let theme = useSelector((state:RootState) => state.theme.theme);
 
   // ================== 페이지네이션 ======================
-  let [page, setPage] = useState<string>(query.get('page') || "1");
+  // let [page, setPage] = useState<string>(query.get('page') || "1");
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(e.currentTarget.value);
+    // setPage(e.currentTarget.value);
+
     submit(e.currentTarget.form);
   }
 
+
   // =================== 달력 선택 관련 ===================
-  let { timestampFormat, timeFormat } = useDate();
-  let todayDate = timestampFormat();
+  let { todayFormat, timeFormat } = useDate();
+  let todayDate = todayFormat();
   let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
   let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
   /** 달력에서 날짜를 클릭하면 변하는 함수 */
@@ -51,16 +63,16 @@ function ReportPage() {
   // =================== 시간 관련 ===================
   const timeInput = []
   for(let i=0; i<24; i++) {
-    timeInput.push(<option key={`time-key-${i+1}`} value={i}>{timeFormat(i)}</option>)
+    timeInput.push(<option key={`time-key-${i+1}`} value={i}>{timeFormat([i, 0])}</option>)
   }
 
   // =================== 모달 관련 ===================
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   let [scrollY, setScrollY] = useState<number>(0);
-  let [detailInfo, setDetailInfo] = useState<ReportDetailType>({});        // 선택한 레포트의 상세내역을 전달할 객체
+  let [detailInfo, setDetailInfo] = useState<ReportObjectType>({wheelCheckDate: [2023, 5, 2, 4, 32, 10]});        // 선택한 레포트의 상세내역을 전달할 객체
   const { lockScroll, openScroll } = useBodyScrollLock();
   /** 모달이 열리면 실행되는 함수 */
-  const handleModalOpen = useCallback((detailInfo: ReportDetailType) => {
+  const handleModalOpen = useCallback((detailInfo: ReportObjectType) => {
     setScrollY(window.scrollY);
     setIsModalOpen(true);
     setDetailInfo(detailInfo);
@@ -68,7 +80,7 @@ function ReportPage() {
   }, [lockScroll])
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
-    setDetailInfo({});
+    setDetailInfo({wheelCheckDate: [2023, 5, 2, 4, 32, 10]});
     openScroll();
   }, [openScroll]);
 
@@ -102,7 +114,7 @@ function ReportPage() {
               </select>
             </Label>
             <Label theme={theme}> 검사 휠 위치
-              <select name="wheelPosition">
+              <select name="wheelPosition" defaultValue={wheelPosition}>
                 <option value="ALL">전체</option>
                 <option value="FL">FL</option>
                 <option value="FR">FR</option>
@@ -111,7 +123,7 @@ function ReportPage() {
               </select>
             </Label>
             <Label theme={theme}> 정렬 기준
-              <select name="descFlag">
+              <select name="descFlag" defaultValue={descFlag}>
                 <option value="0">오래된 순</option>
                 <option value="1">최신 순</option>
               </select>
@@ -127,22 +139,7 @@ function ReportPage() {
         </div>
         <ReportTable handleModalOpen={handleModalOpen} />
         <fieldset>
-          <label>
-            <input type="radio" name="page" value={"1"} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)} checked={page === "1"}/>
-            <span>1</span>
-          </label>
-          <label>
-            <input type="radio" name="page" value={"2"} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)} checked={page === "2"} />
-            <span>2</span>
-          </label>
-          <label>
-            <input type="radio" name="page" value={"3"} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)} checked={page === "3"} />
-            <span>3</span>
-          </label>
-          <label>
-            <input type="radio" name="page" value={"4"} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)} checked={page === "4"} />
-            <span>4</span>
-          </label>
+          <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
         </fieldset>
       </Form>
 

@@ -1,16 +1,16 @@
 import React from 'react';
-import {ReportDetailType} from "../../_utils/Types";
+import {ReportObjectType} from "../../_utils/Types";
 import {Table, TBody, TD, TH, TR} from "../TableComponents";
 import useDate from "../../_hooks/useDate";
 
-function DetailTable({detailInfo}: {detailInfo: ReportDetailType}) {
-  let { createWheelCheckId, dateFormat, timeSecFormat } = useDate();
+function DetailTable({detailInfo}: {detailInfo: ReportObjectType}) {
+  let { wheelCheckId, dateFormat, timeFormat } = useDate();
   return (
     <Table className="detail">
       <TBody>
         <TR>
           <TH>검사 ID</TH>
-          <TD>{`${detailInfo.ohtSn}-${detailInfo.wheelPosition}-${createWheelCheckId(detailInfo.wheelCheckDate)}`}</TD>
+          <TD>{`${detailInfo.ohtSn}-${detailInfo.wheelPosition}-${wheelCheckId(detailInfo.wheelCheckDate)}`}</TD>
         </TR>
         <TR>
           <TH>일자</TH>
@@ -18,7 +18,7 @@ function DetailTable({detailInfo}: {detailInfo: ReportDetailType}) {
         </TR>
         <TR>
           <TH>시간</TH>
-          <TD>{`${timeSecFormat(detailInfo.wheelCheckDate.slice(3, 6))}`}</TD>
+          <TD>{`${timeFormat(detailInfo.wheelCheckDate.slice(3, 6))}`}</TD>
         </TR>
         <TR>
           <TH>호기</TH>
