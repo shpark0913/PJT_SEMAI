@@ -9,13 +9,13 @@ import { useLoaderData } from "react-router-dom";
 export async function loader({ params }: { params: any }) {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const checkId = params.checkId;
-  let checkResult;
+  let wheelData;
 
   await Axios.get(`${BASE_URL}dashboard/main/${checkId}`).then(response => {
-    checkResult = response.data.data;
+    wheelData = response.data.data;
   });
 
-  return [checkResult];
+  return [wheelData];
 }
 
 const MainGrid = styled.section`
@@ -27,11 +27,11 @@ const MainGrid = styled.section`
 `;
 
 function DashboardPage() {
-  const checkResult: any = useLoaderData();
+  const wheelData: any = useLoaderData();
 
   return (
     <MainGrid>
-      <OHTResult data={checkResult[0]} />
+      <OHTResult data={wheelData[0]} />
       <OHTCheck />
       <OHTTransition />
       <OHTAllResult />
