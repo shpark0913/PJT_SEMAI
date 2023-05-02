@@ -1,22 +1,24 @@
 import React from 'react';
-import {ReportDetailType} from "../../_utils/Types";
+import {ReportObjectType} from "../../_utils/Types";
 import {Table, TBody, TD, TH, TR} from "../TableComponents";
+import useDate from "../../_hooks/useDate";
 
-function DetailTable({detailInfo}: {detailInfo: ReportDetailType}) {
+function DetailTable({detailInfo}: {detailInfo: ReportObjectType}) {
+  let { wheelCheckId, dateFormat, timeFormat } = useDate();
   return (
     <Table className="detail">
       <TBody>
         <TR>
           <TH>검사 ID</TH>
-          <TD>{ detailInfo.wheelCheckId }</TD>
+          <TD>{`${detailInfo.ohtSn}-${detailInfo.wheelPosition}-${wheelCheckId(detailInfo.wheelCheckDate)}`}</TD>
         </TR>
         <TR>
           <TH>일자</TH>
-          <TD>{ detailInfo.wheelCheckDate }</TD>
+          <TD>{`${dateFormat(detailInfo.wheelCheckDate.slice(0, 3))}`}</TD>
         </TR>
         <TR>
           <TH>시간</TH>
-          <TD>{ detailInfo.wheelCheckTime }</TD>
+          <TD>{`${timeFormat(detailInfo.wheelCheckDate.slice(3, 6))}`}</TD>
         </TR>
         <TR>
           <TH>호기</TH>
@@ -28,7 +30,7 @@ function DetailTable({detailInfo}: {detailInfo: ReportDetailType}) {
         </TR>
         <TR>
           <TH>판정 결과</TH>
-          <TD>{ detailInfo.wheelStatus }</TD>
+          <TD>{ detailInfo.boltGoodCount === 11 ? '정상' : 'NG' }</TD>
         </TR>
         <TR>
           <TH>기준값</TH>
