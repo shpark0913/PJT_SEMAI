@@ -1,6 +1,12 @@
+import Axios from "../_utils/Axios";
 import { EventSourcePolyfill } from "event-source-polyfill";
+import OHTAllResult from "../components/DashboardPage/OHTAllResult";
+import OHTCheck from "../components/DashboardPage/OHTCheck";
+import OHTResult from "../components/DashboardPage/OHTResult";
+import OHTTransition from "../components/DashboardPage/OHTTransition";
 import { createBrowserHistory } from "history";
 import styled from "styled-components";
+import { useLoaderData } from "react-router";
 
 export const history = createBrowserHistory();
 
@@ -16,20 +22,30 @@ export async function loader(history) {
   const store = persistRoot ? JSON.parse(persistRoot) : "";
   const token = JSON.parse(store.user)?.token || "";
 
-  const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
-    headers: {
-      accesstoken: token,
-    },
-  });
+  async function fetchData() {
+    const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
+      headers: {
+        accesstoken: token,
+      },
+    });
+    const response = await new Promise(resolve => {
+      sse.addEventListener("dashboard", event => {
+        dashboardData = JSON.parse(event.data);
+        resolve(dashboardData);
+      });
+    });
+    return response;
+  }
 
-  sse.addEventListener("dashboard", event => {
-    dashboardData = JSON.parse(event.data);
-    console.log("으아아아아악");
-    redirect(`${dashboardData[0].ohtCheckId}`);
-    window.location.reload();
-  });
+  async function getData() {
+    const data = await fetchData();
+    const response = await Axios.get(`${BASE_URL}dashboard/main/${data[0].ohtCheckId}`);
+    return [response.data.data];
+  }
 
-  return null;
+  const result = await getData();
+  const wheelData = result[0];
+  return [wheelData];
 }
 
 const MainGrid = styled.section`
@@ -41,7 +57,15 @@ const MainGrid = styled.section`
 `;
 
 function DashboardPage() {
-  return <MainGrid></MainGrid>;
+  const wheelData = useLoaderData();
+  return (
+    <MainGrid>
+      <OHTResult data={wheelData[0]} />
+      <OHTCheck />
+      <OHTTransition />
+      <OHTAllResult />
+    </MainGrid>
+  );
 }
 
 export default DashboardPage;
