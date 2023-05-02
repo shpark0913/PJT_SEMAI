@@ -37,6 +37,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     @Transactional
     public Map<String,Object> findReport(QuestionDto dto) throws Exception {
+        System.out.println(dto.getWheelPosition());
         StringTokenizer st = new StringTokenizer(dto.getStartDate(),"-");
         int startyy =  Integer.parseInt(st.nextToken());
         int startmm =  Integer.parseInt(st.nextToken());
@@ -61,22 +62,22 @@ public class ReportServiceImpl implements ReportService {
         dto.setPage((dto.getPage() - 1) * PAGE_SIZE);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT e FROM WheelCheckEntity e join fetch e.ohtCheck oe join fetch oe.oht")
+        sb.append("SELECT e FROM WheelCheckEntity e join fetch e.ohtCheck oe join fetch oe.oht o ")
                 .append(" where (e.checkDate BETWEEN :start and :end)");
 
         if (!dto.getOhtSn().equals("ALL")) {
-            sb.append("and o.ohtSN = :sn ");
+            sb.append(" and o.ohtSN = :sn ");
         }
         if (!dto.getWheelPosition().equals("ALL")) {
-            sb.append("and e.wheelPosition = :position");
+            sb.append(" and e.wheelPosition = :position");
         }
         if(dto.getErrorFlag()==1){
-            sb.append("and e.boltGoodCount != 11");
+            sb.append(" and e.boltGoodCount != 11");
         }
         if(dto.getDescFlag()==1){
-            sb.append("order by e.checkDate desc");
+            sb.append(" order by e.checkDate desc");
         }else{
-            sb.append("order by e.checkDate");
+            sb.append(" order by e.checkDate");
         }
         //sb.append(" limit :size offset :page");
         Query query = em.createQuery(sb.toString(), WheelCheckEntity.class);
