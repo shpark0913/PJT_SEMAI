@@ -1,18 +1,16 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { DarkMode, LightMode } from "@mui/icons-material";
 import { NavLink, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import React, { useState } from "react";
+import { RootState, persistor } from "../_store/store";
+import { useDispatch, useSelector } from "react-redux";
 
-import { RootState, persistor } from '../_store/store';
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Switch } from "@mui/joy";
+import { ToggleThemeProps } from "../_utils/Types";
+import styled from "styled-components";
 import { toggleTheme } from "../_store/slices/themeSlice";
 import { useAppSelector } from "../_hooks/hooks";
 import useDate from "../_hooks/useDate";
-
-import { Switch } from "@mui/joy";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { DarkMode, LightMode } from "@mui/icons-material";
-import {ToggleThemeProps} from "../_utils/Types";
-
 
 const Nav = styled.nav`
   height: var(--nav-height);
@@ -88,7 +86,9 @@ function NavBar() {
         <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/">
           대시보드
         </NavLink>
-        <NavLink to={`/report?ohtSn=ALL&startDate=${TodayDate}&endDate=${TodayDate}&time=ALL&wheelPosition=ALL&page=1&errorFlag=0&descFlag=1`}>
+        <NavLink
+          to={`/report?ohtSn=ALL&startDate=${TodayDate}&endDate=${TodayDate}&time=ALL&wheelPosition=ALL&page=1&errorFlag=0&descFlag=1`}
+        >
           레포트
         </NavLink>
         <NavLink to="/transfer">전이학습</NavLink>
@@ -96,8 +96,7 @@ function NavBar() {
 
       <NavRightDiv>
         <Profile>
-          {userName}{" "}
-          <span style={{ fontSize: "15px", fontWeight: "normal" }}>님</span>
+          {userName} <span style={{ fontSize: "15px", fontWeight: "normal" }}>님</span>
         </Profile>
         <Switch
           checked={isDark}
@@ -120,7 +119,7 @@ function NavBar() {
         />
         <LogoutButton
           aria-label="logout"
-          onClick={ () => {
+          onClick={() => {
             persistor.purge();
             navigate("/login");
           }}
