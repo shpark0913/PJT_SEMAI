@@ -48,3 +48,10 @@ export type ModalImageType = {
   imageUrl?: string;
   buttons?: JSX.Element;
 }
+
+/** 테마 토글 props */
+export type ToggleThemeProps = {
+  isDark: boolean;
+  setIsDark: (theme: boolean) => void;
+  dispatch: (toggleTheme: any) => void;
+};

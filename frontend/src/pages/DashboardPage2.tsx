@@ -6,10 +6,12 @@ import OHTTransition from "../components/DashboardPage/OHTTransition";
 import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
 
-export async function loader() {
+export async function loader({ params }: { params: any }) {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const checkId = params.checkId;
   let checkResult;
 
-  await Axios.get(`dashboard/main/2`).then(response => {
+  await Axios.get(`${BASE_URL}dashboard/main/${checkId}`).then(response => {
     checkResult = response.data.data;
   });
 

@@ -1,12 +1,15 @@
 import { TBody, TD, TH, THeadMain, TR, Table } from "../TableComponents";
 import { useEffect, useState } from "react";
 
+import { Button } from "../ButtonComponents";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { store } from "../../_store/store";
+import { useNavigate } from "react-router-dom";
 
 function OHTResultMenu(props) {
   const [dashboardData, setDashboardData] = useState([]);
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
@@ -24,14 +27,15 @@ function OHTResultMenu(props) {
     <Table>
       <THeadMain style={{ borderTop: "solid 2px var(--emphasize-color)" }}>
         <TR>
-          <TH>날짜</TH>
-          <TH>시간</TH>
-          <TH>호기 ID</TH>
-          <TH>판정 결과</TH>
+          <TH>&nbsp;&nbsp;&nbsp; 날짜 &nbsp;&nbsp;&nbsp;</TH>
+          <TH>&nbsp;&nbsp;&nbsp; 시간 &nbsp;&nbsp;&nbsp;</TH>
+          <TH>&nbsp;&nbsp; 호기 ID &nbsp;&nbsp;</TH>
+          <TH>&nbsp; 판정 결과 &nbsp;</TH>
           <TH>&nbsp; FL &nbsp;</TH>
           <TH>&nbsp; FR &nbsp;</TH>
           <TH>&nbsp; RL &nbsp;</TH>
           <TH>&nbsp; RR &nbsp;</TH>
+          <TH>상세보기</TH>
         </TR>
       </THeadMain>
       {props.isActive ? (
@@ -58,6 +62,17 @@ function OHTResultMenu(props) {
                 <TD>{item.frCount ? item.frCount : "-"}</TD>
                 <TD>{item.rlCount ? item.rlCount : "-"}</TD>
                 <TD>{item.rrCount ? item.rrCount : "-"}</TD>
+                <TD>
+                  <Button
+                    width="50%"
+                    onClick={event => {
+                      event.preventDefault();
+                      navigate(`/${item.ohtCheckId}`);
+                    }}
+                  >
+                    상세보기
+                  </Button>
+                </TD>
               </TR>
             );
           })}
@@ -89,6 +104,17 @@ function OHTResultMenu(props) {
                   <TD>{item.frCount ? item.frCount : "-"}</TD>
                   <TD>{item.rlCount ? item.rlCount : "-"}</TD>
                   <TD>{item.rrCount ? item.rrCount : "-"}</TD>
+                  <TD>
+                    <Button
+                      width="50%"
+                      onClick={event => {
+                        event.preventDefault();
+                        navigate(`/${item.ohtCheckId}`);
+                      }}
+                    >
+                      상세보기
+                    </Button>
+                  </TD>
                 </TR>
               );
             }
