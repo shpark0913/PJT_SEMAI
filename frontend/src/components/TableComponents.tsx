@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+type TRType = {
+  NG?: number;
+};
+
 const TableContainer = styled.div`
   width: 100%;
   min-width: 950px;
@@ -11,14 +15,13 @@ const TableContainer = styled.div`
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  
+
   &.detail {
     border-left: 3px solid var(--emphasize-color);
-    //border-right: 1px solid var(--emphasize-color);
     & tr:last-of-type th {
       border-bottom: none;
     }
-    
+
     & th {
       width: 25%;
     }
@@ -78,8 +81,9 @@ const TFoot = styled.tfoot`
   background-color: var(--background-dark-color);
 `;
 
-const TR = styled.tr`
+const TR = styled.tr<TRType>`
   height: 35px;
+  background-color: ${props => (props.NG ? "rgba(255, 255, 10, 0.6)" : "none")};
 `;
 
 const TH = styled.th`

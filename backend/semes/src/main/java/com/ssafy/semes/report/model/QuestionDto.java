@@ -13,10 +13,13 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class QuestionDto {
     private String ohtSn;
-    private String date;
+    private String startDate;
+    private String endDate;
     private String time;
     private String wheelPosition;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private int page;
+    private int errorFlag;
+    private int descFlag;
 }

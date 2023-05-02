@@ -1,6 +1,6 @@
 import Axios from "./Axios";
 
-async function BoltImageListsLoader () {
+export async function BoltImageListsLoader () {
   let BoltImageLists = []
   try {
     let response = await Axios.get('transition');
@@ -13,11 +13,11 @@ async function BoltImageListsLoader () {
   return BoltImageLists;
 }
 
-async function ReportListsLoader ({request}: {request: any}) {
+export async function ReportListsLoader ({request}: {request: any}) {
   let ReportLists: string[] = [];
   const url = new URL(request.url);
   const search = url.search;
-  console.log(search);
+  // console.log(search);
 
   try {
     let response = await Axios.get(`report/list${search}`);
@@ -29,5 +29,3 @@ async function ReportListsLoader ({request}: {request: any}) {
   }
   return ReportLists;
 }
-
-export { BoltImageListsLoader, ReportListsLoader }

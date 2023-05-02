@@ -1,16 +1,15 @@
-import { DarkMode, LightMode } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { persistor } from '../index';
-
-import LogoutIcon from "@mui/icons-material/Logout";
-import { NavLink } from "react-router-dom";
-import { RootState } from "../_store/store";
-import { Switch } from "@mui/joy";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+import { RootState, persistor } from '../_store/store';
 import { toggleTheme } from "../_store/slices/themeSlice";
-import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../_hooks/hooks";
+
+import { Switch } from "@mui/joy";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { DarkMode, LightMode } from "@mui/icons-material";
 
 type ToggleThemeProps = {
   isDark: boolean;
@@ -127,7 +126,7 @@ function NavBar() {
         />
         <LogoutButton
           aria-label="logout"
-          onClick={ event => {
+          onClick={ () => {
             persistor.purge();
             navigate("/login");
           }}
