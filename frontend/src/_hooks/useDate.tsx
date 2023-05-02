@@ -19,7 +19,7 @@ function useDate() {
   }, [datePadStart]);
 
   const dateFormat = useCallback((arg: number[]) => {
-    return `${String(arg[0])}-${datePadStart(arg[1])}:${datePadStart(arg[2])}`
+    return `${String(arg[0])}-${datePadStart(arg[1])}-${datePadStart(arg[2])}`
   }, [datePadStart]);
 
   /** 그냥 형식을 date 형식으로 만들어줌. */
