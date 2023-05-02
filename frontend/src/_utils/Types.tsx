@@ -19,9 +19,7 @@ export type ReportTableProps = {   // 레포트 페이지의 테이블 중 모�
 
 export type ReportDetailType = {   // 디테일 페이지에 들어오는 값들의 type
   boltGoodCount?: number,
-  wheelStatus?: string,
-  wheelCheckDate?: string,
-  wheelCheckTime?: string,
+  wheelCheckDate?: number[] | undefined,
   wheelCheckId?: string,
   wheelPosition?: string,
   ohtSn?: string,
@@ -32,7 +30,6 @@ export type ReportModalProps = {
   handleModalClose: () => void;
   scrollY: number;
 }
-
 
 // 전이학습 페이지 type
 export type TransferTabProps = {   // 전이학습 페이지 모달 open

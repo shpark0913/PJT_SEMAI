@@ -40,14 +40,7 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
               <TD>{report.boltGoodCount === 11? "정상" : "NG"}</TD>
               <TD>11</TD>
               <TD>{report.boltGoodCount}</TD>
-              <TD><Button width="65px" height="23px" onClick={() => handleModalOpen({
-                boltGoodCount: report.boldGoodCount,
-                wheelStatus: '정상',
-                wheelCheckDate: "2023-04-20",
-                wheelCheckTime: "13:04:45",
-                wheelCheckId: "V30001-FL-1681704285",
-                wheelPosition: "FL",
-                ohtSn: "V30001"})}>상세보기</Button></TD>
+              <TD><Button width="65px" height="23px" onClick={() => handleModalOpen(report)}>상세보기</Button></TD>
             </TR>) }
         </TBody>
         <TFoot>

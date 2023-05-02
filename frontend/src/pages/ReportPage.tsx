@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
-import styled from "styled-components";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 import { RootState } from "../_store/store";
 import { ReportDetailType } from "../_utils/Types";
@@ -9,7 +9,7 @@ import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 import useDate from "../_hooks/useDate";
 
 import { Button, SemesButton } from "../components/ButtonComponents";
-import { Label } from "../components/ReportPage/FilterComponents"
+import { Label } from "../components/ReportPage/FilterComponents";
 import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
 import ReportModal from "../components/DetailModal/ReportModal";
@@ -24,9 +24,8 @@ function ReportPage() {
   let [query] = useSearchParams();
   let data = useLoaderData();
   let submit = useSubmit();
-  console.log(data);
-  let time=query.get('time') || "ALL";
 
+  let time=query.get('time') || "ALL";
   let theme = useSelector((state:RootState) => state.theme.theme);
 
   // ================== 페이지네이션 ======================
