@@ -4,17 +4,10 @@ import OHTAllResult from "../components/DashboardPage/OHTAllResult";
 import OHTCheck from "../components/DashboardPage/OHTCheck";
 import OHTResult from "../components/DashboardPage/OHTResult";
 import OHTTransition from "../components/DashboardPage/OHTTransition";
-import { createBrowserHistory } from "history";
 import styled from "styled-components";
 import { useLoaderData } from "react-router";
 
-export const history = createBrowserHistory();
-
-export function redirect(path) {
-  history.push(path);
-}
-
-export async function loader(history) {
+export async function loader() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   let dashboardData;
@@ -30,6 +23,7 @@ export async function loader(history) {
     });
     const response = await new Promise(resolve => {
       sse.addEventListener("dashboard", event => {
+        console.log("SSE 작동");
         dashboardData = JSON.parse(event.data);
         resolve(dashboardData);
       });
