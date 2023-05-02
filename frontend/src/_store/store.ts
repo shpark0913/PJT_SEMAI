@@ -1,27 +1,31 @@
-import {configureStore, combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
-import {persistReducer, PERSIST, PURGE, persistStore} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { Action, ThunkAction, combineReducers, configureStore } from "@reduxjs/toolkit";
+import { PERSIST, PURGE, persistReducer, persistStore } from "redux-persist";
 
-import userReducer from './slices/userSlice'
-import themeReducer from './slices/themeSlice'
+import checkIdSlice from "./slices/checkIdSlice";
+import storage from "redux-persist/lib/storage";
+import themeReducer from "./slices/themeSlice";
+import userReducer from "./slices/userSlice";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage: storage,
 };
 // 리듀서
 const rootReducers = combineReducers({
   user: userReducer,
   theme: themeReducer,
+  checkId: checkIdSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({ serializableCheck: {
+    getDefaultMiddleware({
+      serializableCheck: {
         ignoredActions: [PERSIST, PURGE],
-      }, }),
+      },
+    }),
   devTools: true,
 });
 export const persistor = persistStore(store);
