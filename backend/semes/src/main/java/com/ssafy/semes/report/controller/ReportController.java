@@ -173,6 +173,11 @@ public class ReportController {
         String headerNames[] = new String[]{sb.toString(), "검사 ID", "일자", "시간", "호기","검사 휠 위치"
         ,"검사 결과","기준값","결과값"};
 
+
+
+        /**
+         * header data push
+         */
         Row headerRow = null;
         Cell headerCell = null;
 
@@ -189,8 +194,7 @@ public class ReportController {
          * body data
          */
 
-        Row bodyRow = null;
-        Cell bodyCell = null;
+
         List<ReportListResponseDto> report =(List<ReportListResponseDto>)reportService.findReport(QuestionDto.builder()
                 .ohtSn(ohtSn)
                 .startDate(startDate)
@@ -224,6 +228,13 @@ public class ReportController {
             bodyDatass[t][8] = Integer.toString(val.getBoltGoodCount());
             t++;
         }
+
+        /**
+         * body data push
+         */
+        Row bodyRow = null;
+        Cell bodyCell = null;
+
         for(String[] bodyDatas : bodyDatass) {
             bodyRow = sheet.createRow(rowCount++);
             bodyCell = bodyRow.createCell(0);
