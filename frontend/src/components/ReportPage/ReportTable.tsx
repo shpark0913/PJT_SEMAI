@@ -7,10 +7,9 @@ import useDate from "../../_hooks/useDate";
 
 function ReportTable({ handleModalOpen }: ReportTableProps) {
   let data: any = useRouteLoaderData("reportLists");
-  let { result } = data.data;
-  let { createWheelCheckId, dateFormat, timeSecFormat } = useDate();
+  let { result } = data;
+  let { wheelCheckId, dateFormat, timeFormat } = useDate();
 
-  console.log(result);
   return (
     <TableContainer>
       <Table>
@@ -30,11 +29,11 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
         </THead>
         <TBody>
           { result.map((report:any, idx:number) =>
-            <TR key={`${report.ohtSn}-${report.wheelPosition}-${createWheelCheckId(report.wheelCheckDate)}`}>
+            <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelCheckId(report.wheelCheckDate)}`}>
               <TH className="idxNum">{idx + 1}</TH>
-              <TD>{`${report.ohtSn}-${report.wheelPosition}-${createWheelCheckId(report.wheelCheckDate)}`}</TD>
+              <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelCheckId(report.wheelCheckDate)}`}</TD>
               <TD>{`${dateFormat(report.wheelCheckDate.slice(0, 3))}`}</TD>
-              <TD>{`${timeSecFormat(report.wheelCheckDate.slice(3, 6))}`}</TD>
+              <TD>{`${timeFormat(report.wheelCheckDate.slice(3, 6))}`}</TD>
               <TD>{report.ohtSn}</TD>
               <TD>{report.wheelPosition}</TD>
               <TD>{report.boltGoodCount === 11? "정상" : "NG"}</TD>

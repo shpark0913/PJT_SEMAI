@@ -75,8 +75,8 @@ function NavBar() {
   let [isDark, setIsDark] = useState(
     useSelector((state: RootState) => state.theme.theme === "dark"),
   );
-  let {timestampFormat} = useDate();
-  let TodayDate = timestampFormat();
+  let { todayFormat } = useDate();
+  let TodayDate = todayFormat();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
