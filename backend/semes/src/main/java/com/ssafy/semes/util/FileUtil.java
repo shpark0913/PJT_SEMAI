@@ -21,11 +21,12 @@ public class FileUtil{
 		new File(new File(pwd).getParent()).getParent().concat(File.separator).concat("dataset");
 	static public void init(String baseDir) {
 		mkdir(ROOT);
-		mkdir(getBasePath(baseDir));
-		Directory[] subDirs = Directory.getBoltDirectories();
+		String base = getBasePath(baseDir);
+		mkdir(base);
+		Directory[] subDirs = Directory.getSubDirectories();
 		for (Directory dir:
 			subDirs) {
-			mkdir(baseDir.concat(File.separator).concat(dir.getPath()));
+			mkdir(base.concat(File.separator).concat(dir.getPath()));
 		}
 	}
 	static public String getBasePath(String dir){
@@ -38,8 +39,11 @@ public class FileUtil{
 			.concat(filename);
 	}
 	static public void mkdir(String dir){
+		System.out.println("FileUtil mkdir");
+		System.out.println(dir);
 		File folder = new File(dir);
 		if (!folder.exists()) {
+			System.out.println("execute mkdir");
 			folder.mkdirs();
 		}
 	}
@@ -47,10 +51,16 @@ public class FileUtil{
 		String ext = getFileExtension(file);
 		File dest = new File(getFilePath(baseDir,subDir,fileName.concat(".").concat(ext)));
 		if (!dest.exists()) {
-			dest.createNewFile();
+			try{
+
+				dest.createNewFile();
+			}catch (IOException e){
+				log.error("Try to create ".concat(dest.getPath()));
+				throw e;
+			}
 		}
 		file.transferTo(dest);
-		return dest.getPath();
+		return dest.getName();
 	}
 	static public void moveFile(String baseDir,String subDir, String nextBaseDir,String nextSubDir, String fileName)throws IOException {
 
