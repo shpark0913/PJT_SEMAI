@@ -22,4 +22,5 @@ public class QuestionDto {
     private int page;
     private int errorFlag;
     private int descFlag;
+    private boolean downloadFlag;
 }
