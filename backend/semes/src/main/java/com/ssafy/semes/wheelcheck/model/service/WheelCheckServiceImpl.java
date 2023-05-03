@@ -28,9 +28,10 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 	WheelCheckRepository wheelCheckRepository;
 	@Autowired
 	ImageRepository imageRepository;
+
 	public WheelCheckEntity checkWheel(MultipartFile file, FileNameUtil fileNameUtil, WheelPosition wheelPosition, OHTCheckEntity ohtCheck) throws
-		IOException,
-		InterruptedException {
+			IOException,
+			InterruptedException {
 
 		//바퀴 파일 생성
 		fileNameUtil.setWheelPositionVal(wheelPosition.getVal());
@@ -38,6 +39,7 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 
 		//바퀴 이미지 요청
 		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(savedFileName);
+
 		if(result.getStatus() == 400){
 			throw new IOException("잘못된 파일 명입니다.");
 		}
@@ -47,9 +49,10 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 
 		return saveResult(result,wheelPosition, ohtCheck);
 	}
+
 	@Transactional
 	public WheelCheckEntity saveResult(WheelCheckResultDto wheelCheckResult,WheelPosition wheelPosition, OHTCheckEntity ohtCheck) throws
-		IOException {
+			IOException {
 
 		if(wheelCheckResult.getData().getMarkedImage().equals("")){
 			throw new IOException("마킹 이미지가 존재하지 않습니다.");
@@ -72,22 +75,23 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 
 		//결과 저장
 		WheelCheckEntity wheelCheck = WheelCheckEntity.builder()
-			.ohtCheck(ohtCheck)
-			.image(markedImage)
-			.checkResult(checkResult)
-			.wheelPosition(wheelPosition.name())
-			.boltGoodCount(boltResults[0])
-			.boltOutCount(boltResults[1])
-			.boltLoseCount(boltResults[2])
-			.unclassifiedCount(boltResults[3])
-			.build();
+				.ohtCheck(ohtCheck)
+				.image(markedImage)
+				.checkResult(checkResult)
+				.wheelPosition(wheelPosition.name())
+				.boltGoodCount(boltResults[0])
+				.boltOutCount(boltResults[1])
+				.boltLoseCount(boltResults[2])
+				.unclassifiedCount(boltResults[3])
+				.build();
 		return wheelCheckRepository.save(wheelCheck);
 	}
+
 	public int[] saveBoltResults(String[] bolts){
 		int[] res = new int[4];
 
 		for (String bolt:
-			bolts) {
+				bolts) {
 			//bolt 이미지 저장
 			String[] path = bolt.split("/");
 			imageRepository.save(ImageEntity.builder().fileDir(path[0]).originName(path[1]).saveName(path[1]).status(1).build());

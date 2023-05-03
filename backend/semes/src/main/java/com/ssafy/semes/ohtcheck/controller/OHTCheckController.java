@@ -2,11 +2,10 @@ package com.ssafy.semes.ohtcheck.controller;
 
 import java.io.IOException;
 
+import com.ssafy.semes.util.SlackController;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.semes.common.ErrorCode;
@@ -35,7 +34,8 @@ public class OHTCheckController {
 	WheelCheckService wheelCheckService;
 	@Autowired
 	SseEmitters sseEmitters;
-
+	@Autowired
+	SlackController slackController;
 	@PostMapping("/{ohtSn}")
 	public ApiResponse<?> checkOht(@PathVariable String ohtSn, MultipartFile[] files){
 		log.info("OHTCheckController checkOht start");
@@ -45,6 +45,7 @@ public class OHTCheckController {
 			ohtCheck = ohtCheckService.createOhtCheck(ohtSn);
 		}catch (Exception e){
 			e.printStackTrace();
+			slackController.errorSend("OHTCheckController checkOht error INVALID_OHT_SERIAL_NO : "+e.getMessage());
 			log.info("OHTCheckController checkOht error INVALID_OHT_SERIAL_NO");
 			return ApiResponse.error(ErrorCode.INVALID_OHT_SERIAL_NO);
 		}
@@ -63,14 +64,17 @@ public class OHTCheckController {
 				wheelCheckService.checkWheel(file,ohtFileName, WheelPosition.values()[i],ohtCheck);
 
 			} catch (IOException | InterruptedException e) {
+				slackController.errorSend("OHTCheckController checkOht error checkWheel :"+e.getMessage());
 				log.info("OHTCheckController checkOht error checkWheel");
 				throw new RuntimeException(e);
 			}
 			// 끝날 때마다 검사상태 SSE로 보내주기
+			slackController.successSend(processStatusDto.getOhtSn()+"번 OHT "+i+"번 바퀴 검사 완료");
 			processStatusDto.wheelComplete(i);
 			sseEmitters.showProcessStatus(processStatusDto);
 		}
 		ohtCheckService.updateOhtCheckEndDate(ohtCheck);
+		slackController.successSend(processStatusDto.getOhtSn()+"번 OHT 검사 종료");
 		return ApiResponse.success(SuccessCode.CHECK_OHT_COMPLETE);
 	}
 }
