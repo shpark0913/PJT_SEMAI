@@ -88,8 +88,7 @@ function ReportPage() {
 
   // ================ form 제출 =================
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    query.set("page", "1");
-
+    setPage("1");
     console.log(`제출하면 page가 1로 바뀌어야해 : ${query}`);
     submit(e.currentTarget.form);
   }
