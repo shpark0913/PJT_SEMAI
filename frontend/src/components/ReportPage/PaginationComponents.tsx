@@ -42,7 +42,6 @@ const PaginationLabel=styled.label< {checked: boolean}>`
 `
 
 function PaginationComponents({paginationTotalPage, handleClickPage, page}: {paginationTotalPage: number, handleClickPage: (e: React.ChangeEvent<HTMLInputElement>) => void, page: string}) {
-
   console.log(page)
   const paginationButtons = [];
   for (let i:number =1; i<=paginationTotalPage; i++) {

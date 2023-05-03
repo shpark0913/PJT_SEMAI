@@ -1,9 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { RootState } from "../_store/store";
 import {ReportLoaderType, ReportObjectType} from "../_utils/Types";
 import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 import useDate from "../_hooks/useDate";
@@ -24,6 +22,15 @@ const ReportSection = styled.section`
   padding: 30px;
   display: flex;
   flex-direction: column;
+  height: 100%;
+`
+
+const NoData = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 function ReportPage() {
@@ -33,32 +40,23 @@ function ReportPage() {
   let data = useLoaderData() as ReportLoaderType;
   let { result, totalPage } = data;
 
-  let paginationTotalPage = Math.ceil(totalPage/20);
   let ohtSn = query.get('ohtSn') || "ALL";
   let time = query.get('time') || "ALL";
-  let page = query.get('page') || "1";
   let wheelPosition = query.get('wheelPosition') || "";
   let errorFlag = query.get('errorFlag') || "0";
   let descFlag = query.get('descFlag') || "0";
 
-  let theme = useSelector((state:RootState) => state.theme.theme);
-
   // ================== 페이지네이션 ======================
-  // let [page, setPage] = useState<string>(query.get('page') || "1");
+  let paginationTotalPage = Math.ceil(totalPage/20);
+  // let page = useRef<string>(query.get('page') || "1")
+  let [page, setPage] = useState<string>(query.get('page') || "1");
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setPage(e.currentTarget.value);
-    /*
-     * 여기서 searchUrl을 가져와서, page 제외 나머지 params가 변한게 있는지 찾으면 되지 않을까?
-     *
-     */
-    console.log(`현재 searchParams = ${window.location.search}`);
-
-    // submit(e.currentTarget.form);
+    setPage(e.target.value);
+    submit(e.currentTarget.form);
   }
 
-
   // =================== 달력 선택 관련 ===================
-  let { todayFormat, timeFormat } = useDate();
+  let { todayFormat } = useDate();
   let todayDate = todayFormat();
   let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
   let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
@@ -68,12 +66,6 @@ function ReportPage() {
   }
   const handleChangeEndDate = (e:any) => {
     setEndDate(e.target.value);
-  }
-
-  // =================== 시간 관련 ===================
-  const timeInput = []
-  for(let i=0; i<24; i++) {
-    timeInput.push(<option key={`time-key-${i+1}`} value={i}>{timeFormat([i, 0])}</option>)
   }
 
   // =================== 모달 관련 ===================
@@ -94,13 +86,21 @@ function ReportPage() {
     openScroll();
   }, [openScroll]);
 
+  // ================ form 제출 =================
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    query.set("page", "1");
+
+    console.log(`제출하면 page가 1로 바뀌어야해 : ${query}`);
+    submit(e.currentTarget.form);
+  }
+
   return (
     <ReportSection>
 
       { isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }
 
       <Title title="레포트" />
-      <Form replace={true} method="GET" style={{height :"30px", marginBottom: "15px", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
+      <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
         <div>
           <div>
             <InputOhtSn />
@@ -110,19 +110,23 @@ function ReportPage() {
             <InputWheelPosition wheelPosition={wheelPosition} />
             <InputDescFlag descFlag={descFlag} />
             <InputErrorFlag />
-            <SemesButton width="90px" height="100%" type="submit">조회하기</SemesButton>
+            <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="100%" type="submit">조회하기</SemesButton>
           </div>
           <div>
             <Button width="90px" height="100%">CSV 출력</Button>
           </div>
         </div>
 
-        <ReportTable handleModalOpen={handleModalOpen} />
-
-        <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
+        { result.length ?
+          <>
+            <ReportTable handleModalOpen={handleModalOpen} />
+            <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
+          </>
+          :
+          <NoData>데이터가 존재하지 않습니다.</NoData>
+        }
 
       </Form>
-
     </ReportSection>
   );
 }
