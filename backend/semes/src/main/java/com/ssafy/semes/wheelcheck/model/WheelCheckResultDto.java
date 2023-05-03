@@ -8,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
@@ -15,19 +16,28 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
+@ToString
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WheelCheckResultDto {
 	private int status;
 	private boolean success;
-	private boolean ng;
+	@Builder.Default
+	private boolean ng = false;
+	@Builder.Default
+	private String detail = "";
 
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class Data{
-		String markedImage;
+		@Builder.Default
+		String markedImage = "";
+
 		String[] bolts;
 
 		public String getMarkedImage() {
@@ -37,9 +47,18 @@ public class WheelCheckResultDto {
 		public String[] getBolts() {
 			return bolts;
 		}
+
+		@Override
+		public String toString() {
+			return "Data{" +
+				"markedImage='" + markedImage + '\'' +
+				", bolts=" + Arrays.toString(bolts) +
+				'}';
+		}
 	}
 
-	private Data data;
+	@Builder.Default
+	private Data data = new Data();
 
 	public static WheelCheckResultDto fromJson(String json) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -63,7 +82,7 @@ public class WheelCheckResultDto {
 
 	public static WheelCheckResultDto fromWheelImage(String originFilePath) throws IOException, InterruptedException {
 		String encodedFilePath = URLEncoder.encode(originFilePath, "UTF-8");
-		String url = "http://127.0.0.1:8000/infer?filePath=" + encodedFilePath;
+		String url = "http://localhost:8000/infer?filePath=" + encodedFilePath;
 
 		return  fromHttpGetRequest(url);
 	}
