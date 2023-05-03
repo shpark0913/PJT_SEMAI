@@ -4,7 +4,10 @@ import { LabelProps } from "../../_utils/Types";
 const Label = styled.label<LabelProps>`
   color: var(--emphasize-color);
   margin-right: 25px;
-  height: 100%;
+  height: 26px;
+  
+  display: flex;
+  align-items: center;
   
   // 선택 요소들의 공통사항
   & > * {
@@ -38,6 +41,9 @@ const Label = styled.label<LabelProps>`
                     fill="${props => props.theme === "dark" ? encodeURIComponent('#A3D1FF') : encodeURIComponent('#0052A4')}" 
                     d="M22 3h-3V1h-2v2H7V1H5v2H2v20h20V3zm-2 18H4V8h16v13z"/>
                   </svg>') left center no-repeat;
+  }
+  & > input[type="checkbox"] {
+    width: auto;
   }
 `
 
