@@ -19,11 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.Font;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 @RestController
@@ -75,7 +73,7 @@ public class ReportController {
             log.error("DashBoard Error : " + jpaException.getMessage());
             return ApiResponse.error(ErrorCode.JPA_NOT_FIND);
         } catch (Exception e) {
-            slackController.send("Report findReportDetail Error : " + e.getMessage());
+            slackController.errorSend("Report findReportDetail Error : " + e.getMessage());
             log.error("Report findReportDetail Error : " + e.getMessage());
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
         }
