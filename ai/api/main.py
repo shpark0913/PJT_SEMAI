@@ -12,6 +12,7 @@ import time
 
 NOW_DIR = os.getcwd()
 sys.path.append(NOW_DIR + '\\classification')
+sys.path.append(NOW_DIR + '\\detection')
 
 # detection
 # clssification

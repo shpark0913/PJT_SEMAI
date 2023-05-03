@@ -105,6 +105,7 @@ def ImgCrop(filePath, image, bboxes):
                 # draw.rectangle((10, 10, 100, 100), outline=(225, 240, 8), width=5, fill=None)
                 draw.rectangle((x_min, y_min, x_max, y_max), outline=LABEL_COLOR[classification_Result], width=5, fill=None)
             f.write(result_bbox + '\n')
+        print(os.path.exists(WHEEL_RESULT_PATH))
         result_image.save(WHEEL_RESULT_PATH + filePath + '.png')
         # 반복을 마쳤다면 텍스트 파일 작성 완료
         f.close()
