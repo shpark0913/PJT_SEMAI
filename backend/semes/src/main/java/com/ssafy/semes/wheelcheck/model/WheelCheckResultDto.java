@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import lombok.ToString;
 
 @NoArgsConstructor
@@ -24,6 +25,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Builder
+@Slf4j
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WheelCheckResultDto {
 	private int status;
@@ -51,9 +53,9 @@ public class WheelCheckResultDto {
 		@Override
 		public String toString() {
 			return "Data{" +
-				"markedImage='" + markedImage + '\'' +
-				", bolts=" + Arrays.toString(bolts) +
-				'}';
+					"markedImage='" + markedImage + '\'' +
+					", bolts=" + Arrays.toString(bolts) +
+					'}';
 		}
 	}
 
@@ -73,9 +75,9 @@ public class WheelCheckResultDto {
 	public static WheelCheckResultDto fromHttpGetRequest(String url) throws IOException, InterruptedException {
 		HttpClient httpClient = HttpClient.newHttpClient();
 		HttpRequest httpRequest = HttpRequest.newBuilder()
-			.uri(URI.create(url))
-			.GET()
-			.build();
+				.uri(URI.create(url))
+				.GET()
+				.build();
 		HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 		return fromHttpResponse(httpResponse);
 	}
@@ -83,15 +85,14 @@ public class WheelCheckResultDto {
 	public static WheelCheckResultDto fromWheelImage(String originFilePath) throws IOException, InterruptedException {
 		String encodedFilePath = URLEncoder.encode(originFilePath, "UTF-8");
 		String url = "http://localhost:8000/infer?filePath=" + encodedFilePath;
-
 		return  fromHttpGetRequest(url);
 	}
 
 	@Override
 	public String toString() {
 		return "WheelCheckResultDto{" +
-			"markedImage='" + data.markedImage + '\'' +
-			", bolts=" + Arrays.toString(data.bolts) +
-			'}';
+				"markedImage='" + data.markedImage + '\'' +
+				", bolts=" + Arrays.toString(data.bolts) +
+				'}';
 	}
 }
