@@ -1,3 +1,5 @@
+from classification import RegNet, Transfer
+from detection import yolo
 from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -13,30 +15,33 @@ sys.path.append(NOW_DIR + '\\classification')
 sys.path.append(NOW_DIR + '\\detection')
 
 # detection
-from detection import yolo
 # clssification
-from classification import RegNet, Transfer
 
 # GPU가 사용 가능한 경우 cuda를 0으로 초기화하여 사용 / GPU가 사용 불가능한 경우 CPU로 초기화하여 CPU 사용
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # FastAPI 설정
 app = FastAPI()
+
 
 class Item(BaseModel):
     name: str
     price: float
     is_offer: Union[bool, None] = None
 
+
 @app.get("/")
 def read_root():
     return {"Hello": "SEMES"}
 
+
 REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG|.PNG|.JPEG|.GIF|.BMP')
 
 # infer로 get 요청이 왔을 때
+
+
 @app.get("/infer")
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
-def detect_classification(filePath: str):
+async def detect_classification(filePath: str):
     try:
         # 추론 시작 시간 설정
         start_test = time.time()
@@ -59,7 +64,7 @@ def detect_classification(filePath: str):
         return {
             "status": 200,
             "success": True,
-            "reasoning_time" : reasoning_time,
+            "reasoning_time": reasoning_time,
             "data": data
         }
     except FileNotFoundError:
@@ -68,7 +73,7 @@ def detect_classification(filePath: str):
     except Exception as e:
         # 분류 작업 중 오류가 발생한 경우
         raise HTTPException(status_code=500, detail="서버 내 오류")
-    
+
 
 # train으로 get 요청이 왔을 때
 @app.get("/train")
