@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
 import styled from "styled-components";
 
+import {useAppSelector} from "../_hooks/hooks";
 import {ReportLoaderType, ReportObjectType} from "../_utils/Types";
 import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 import useDate from "../_hooks/useDate";
@@ -11,12 +12,15 @@ import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
 import ReportModal from "../components/DetailModal/ReportModal";
 import PaginationComponents from "../components/ReportPage/PaginationComponents";
+
 import InputOhtSn from "../components/ReportPage/InputOHTSn";
 import {InputEndDate, InputStartDate} from "../components/ReportPage/InputDate";
 import InputTime from "../components/ReportPage/InputTime";
 import InputWheelPosition from "../components/ReportPage/InputWheelPosition";
 import InputDescFlag from "../components/ReportPage/InputDescFlag";
 import InputErrorFlag from "../components/ReportPage/InputErrorFlag";
+
+
 
 const ReportSection = styled.section`
   padding: 30px;
@@ -39,6 +43,7 @@ function ReportPage() {
   let submit = useSubmit();
   let data = useLoaderData() as ReportLoaderType;
   let { result, totalPage } = data;
+  let userName = useAppSelector(state => state.user.userName);
 
   let ohtSn = query.get('ohtSn') || "ALL";
   let time = query.get('time') || "ALL";
@@ -109,6 +114,26 @@ function ReportPage() {
     }
   }
 
+  // ==================== CSV 파일 다운로드 ====================
+  const handleDownloadCSV = () => {
+    // let searchParams = new URL(window.location.search);
+    // console.log(searchParams);
+
+    console.log(window.location.search);
+    let searchParams = new URLSearchParams(window.location.search);
+    searchParams.delete('page');
+    searchParams.set('userName', userName);
+    console.log(searchParams)
+    console.log(window.location.search);
+    let newSearchParams :string[] = [];
+    searchParams.forEach((val, key) => {
+      newSearchParams.push(`${key}=${val}`);
+    })
+    console.log(newSearchParams);
+
+    window.location.href = `${process.env.REACT_APP_BASE_URL}report/download?${newSearchParams.join('&')}`
+  }
+
   return (
     <ReportSection>
 
@@ -128,11 +153,11 @@ function ReportPage() {
             <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="100%" >조회하기</SemesButton>
           </div>
           <div>
-            <Button width="90px" height="100%">CSV 출력</Button>
+            <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="100%">CSV 출력</Button>
           </div>
         </div>
 
-        { result.length ?
+        { result?.length ?
           <>
             <ReportTable handleModalOpen={handleModalOpen} />
             <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
