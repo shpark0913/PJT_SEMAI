@@ -59,7 +59,8 @@ public class TransitionServiceImpl implements  TransitionService {
 	@Transactional
 	public void moveFiles(TransitionUpdateRequestDto requestDto) throws IOException {
 		Iterator<ImageEntity> iterator = getIteratorByFileIds(requestDto.getFileIds());
-		String nextDirectory = Directory.values()[requestDto.getNextType()].getPath();
+		//0-> BOLT_NORMAL,1->BOLT_LOST,2->BOLT_LOOSE,3->BOLT_AMBIGUE
+		String nextDirectory = Directory.getBoltDirectories()[requestDto.getNextType()].getPath();
 
 		while(iterator.hasNext()){
 			ImageEntity image = iterator.next();

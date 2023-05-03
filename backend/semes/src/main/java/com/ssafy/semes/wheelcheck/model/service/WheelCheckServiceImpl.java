@@ -59,7 +59,9 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 		ImageEntity markedImage = imageRepository.save(ImageEntity.builder()
 			.fileDir(Directory.WHEEL_RESULT.getPath())
 			.originName(markedImagePath)
-			.saveName(markedImagePath).build());
+			.saveName(markedImagePath)
+			.status(1)
+			.build());
 
 		//각 볼트 이미지 데이터 저장 및 결과 카운트
 		String[] bolts = wheelCheckResult.getData().getBolts();
@@ -88,7 +90,7 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 			bolts) {
 			//bolt 이미지 저장
 			String[] path = bolt.split("/");
-			imageRepository.save(ImageEntity.builder().fileDir(path[0]).originName(path[1]).saveName(path[1]).build());
+			imageRepository.save(ImageEntity.builder().fileDir(path[0]).originName(path[1]).saveName(path[1]).status(1).build());
 			if(path[0].equals(Directory.BOLT_NORMAL.getPath())){
 				res[0]++;
 			}else if(path[0].equals(Directory.BOLT_LOST.getPath())){
