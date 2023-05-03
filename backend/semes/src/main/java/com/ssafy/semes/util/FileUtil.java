@@ -39,11 +39,8 @@ public class FileUtil{
 			.concat(filename);
 	}
 	static public void mkdir(String dir){
-		System.out.println("FileUtil mkdir");
-		System.out.println(dir);
 		File folder = new File(dir);
 		if (!folder.exists()) {
-			System.out.println("execute mkdir");
 			folder.mkdirs();
 		}
 	}
