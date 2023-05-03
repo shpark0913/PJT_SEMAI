@@ -1,24 +1,36 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { RootState } from "../_store/store";
 import {ReportLoaderType, ReportObjectType} from "../_utils/Types";
 import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 import useDate from "../_hooks/useDate";
 
 import { Button, SemesButton } from "../components/ButtonComponents";
-import { Label } from "../components/ReportPage/FilterComponents";
 import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
 import ReportModal from "../components/DetailModal/ReportModal";
 import PaginationComponents from "../components/ReportPage/PaginationComponents";
+import InputOhtSn from "../components/ReportPage/InputOHTSn";
+import {InputEndDate, InputStartDate} from "../components/ReportPage/InputDate";
+import InputTime from "../components/ReportPage/InputTime";
+import InputWheelPosition from "../components/ReportPage/InputWheelPosition";
+import InputDescFlag from "../components/ReportPage/InputDescFlag";
+import InputErrorFlag from "../components/ReportPage/InputErrorFlag";
 
 const ReportSection = styled.section`
   padding: 30px;
   display: flex;
   flex-direction: column;
+  height: 100%;
+`
+
+const NoData = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 function ReportPage() {
@@ -28,27 +40,33 @@ function ReportPage() {
   let data = useLoaderData() as ReportLoaderType;
   let { result, totalPage } = data;
 
-  let paginationTotalPage = Math.ceil(totalPage/20);
   let ohtSn = query.get('ohtSn') || "ALL";
   let time = query.get('time') || "ALL";
-  let page = query.get('page') || "1";
   let wheelPosition = query.get('wheelPosition') || "";
   let errorFlag = query.get('errorFlag') || "0";
   let descFlag = query.get('descFlag') || "0";
 
-  let theme = useSelector((state:RootState) => state.theme.theme);
-
   // ================== 페이지네이션 ======================
-  // let [page, setPage] = useState<string>(query.get('page') || "1");
+  let paginationTotalPage = Math.ceil(totalPage/20);
+  // let page = useRef<string>(query.get('page') || "1")
+  console.log(`page 가꼬와! : ${query.get("page")}`)
+  let [page, setPage] = useState<string>(query.get('page') || "1");
+  console.log(page)
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setPage(e.currentTarget.value);
-
-    submit(e.currentTarget.form);
+    if (e.currentTarget.form) {
+      let form = new FormData(e.currentTarget.form);
+      form.set('page', e.target.value);
+      setPage(e.target.value);
+      !form.has("errorFlag") && form.set("errorFlag", "0")
+      !form.has("time") && form.set("time", "ALL")
+      console.log(form);
+      submit(form);
+    }
+    // submit(e.currentTarget.form);
   }
 
-
   // =================== 달력 선택 관련 ===================
-  let { todayFormat, timeFormat } = useDate();
+  let { todayFormat } = useDate();
   let todayDate = todayFormat();
   let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
   let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
@@ -58,12 +76,6 @@ function ReportPage() {
   }
   const handleChangeEndDate = (e:any) => {
     setEndDate(e.target.value);
-  }
-
-  // =================== 시간 관련 ===================
-  const timeInput = []
-  for(let i=0; i<24; i++) {
-    timeInput.push(<option key={`time-key-${i+1}`} value={i}>{timeFormat([i, 0])}</option>)
   }
 
   // =================== 모달 관련 ===================
@@ -84,65 +96,52 @@ function ReportPage() {
     openScroll();
   }, [openScroll]);
 
+  // ================ form 제출 =================
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (e.currentTarget.form) {
+      let form = new FormData(e.currentTarget.form);
+      form.set('page', '1');
+      setPage("1");
+      !form.has("errorFlag") && form.set("errorFlag", "0")
+      !form.has("time") && form.set("time", "ALL")
+      console.log(form);
+      submit(form);
+    }
+  }
+
   return (
     <ReportSection>
 
       { isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }
 
       <Title title="레포트" />
-      <Form replace={true} method="GET" style={{height :"30px", marginBottom: "15px", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
+      <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
         <div>
           <div>
-            <Label theme={theme}> 장비 종류
-              <select name="ohtSn">
-                <option value="ALL">전체</option>
-                <option value="V30001">V30001</option>
-                <option value="V30002">V30002</option>
-                <option value="V30003">V30003</option>
-              </select>
-            </Label>
-            <Label theme={theme}> 검사 시작 일자
-              <input type="date" value={startDate} name="startDate" max={endDate} onChange={e => handleChangeStartDate(e)} />
-            </Label>
-            <Label theme={theme}> 검사 마감 일자
-              <input type="date" value={endDate} name="endDate" max={todayDate} min={startDate} onChange={e => handleChangeEndDate(e)} />
-            </Label>
-            <Label theme={theme}> 검사 시간
-              <select name="time" disabled={startDate !== endDate} defaultValue={ startDate !== endDate? "ALL" : time }>
-                <option value="ALL" >전체</option>
-                {timeInput.map(option => option)}
-              </select>
-            </Label>
-            <Label theme={theme}> 검사 휠 위치
-              <select name="wheelPosition" defaultValue={wheelPosition}>
-                <option value="ALL">전체</option>
-                <option value="FL">FL</option>
-                <option value="FR">FR</option>
-                <option value="RL">RL</option>
-                <option value="RR">RR</option>
-              </select>
-            </Label>
-            <Label theme={theme}> 정렬 기준
-              <select name="descFlag" defaultValue={descFlag}>
-                <option value="0">오래된 순</option>
-                <option value="1">최신 순</option>
-              </select>
-            </Label>
-            <Label theme={theme}> 오류 기록만 조회
-              <input type="checkbox" name="errorFlag" value={1} />
-            </Label>
-            <SemesButton width="90px" height="100%" type="submit">조회하기</SemesButton>
+            <InputOhtSn />
+            <InputStartDate startDate={startDate} endDate={endDate} handleChangeStartDate={handleChangeStartDate} />
+            <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} handleChangeEndDate={handleChangeEndDate} />
+            <InputTime startDate={startDate} endDate={endDate} time={time} />
+            <InputWheelPosition wheelPosition={wheelPosition} />
+            <InputDescFlag descFlag={descFlag} />
+            <InputErrorFlag />
+            <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="100%" >조회하기</SemesButton>
           </div>
           <div>
             <Button width="90px" height="100%">CSV 출력</Button>
           </div>
         </div>
-        <ReportTable handleModalOpen={handleModalOpen} />
-        <fieldset>
-          <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
-        </fieldset>
-      </Form>
 
+        { result.length ?
+          <>
+            <ReportTable handleModalOpen={handleModalOpen} />
+            <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
+          </>
+          :
+          <NoData>데이터가 존재하지 않습니다.</NoData>
+        }
+
+      </Form>
     </ReportSection>
   );
 }
