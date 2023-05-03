@@ -15,7 +15,6 @@ public class SemesApplication {
 	public static void main(String[] args) {
 		FileUtil.init(Directory.BASE.getPath());
 		FileUtil.init(Directory.ARCHIVE.getPath());
-		FileUtil.init(Directory.TRAIN.getPath());
 
 		SpringApplication.run(SemesApplication.class, args);
 	}

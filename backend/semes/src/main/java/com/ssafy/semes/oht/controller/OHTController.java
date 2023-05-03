@@ -29,6 +29,8 @@ public class OHTController {
 
 	@GetMapping
 	public ApiResponse<?> getAllOHT(){
+		log.info("OHTController getAllOHT start");
+
 		List<OHTResponseDto> ohts =ohtService.getAllOHT();
 
 		return ApiResponse.success(SuccessCode.READ_OHT,ohts);
