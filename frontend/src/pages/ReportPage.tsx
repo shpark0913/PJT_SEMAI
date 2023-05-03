@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
 import styled from "styled-components";
 
@@ -49,10 +49,20 @@ function ReportPage() {
   // ================== 페이지네이션 ======================
   let paginationTotalPage = Math.ceil(totalPage/20);
   // let page = useRef<string>(query.get('page') || "1")
+  console.log(`page 가꼬와! : ${query.get("page")}`)
   let [page, setPage] = useState<string>(query.get('page') || "1");
+  console.log(page)
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(e.target.value);
-    submit(e.currentTarget.form);
+    if (e.currentTarget.form) {
+      let form = new FormData(e.currentTarget.form);
+      form.set('page', e.target.value);
+      setPage(e.target.value);
+      !form.has("errorFlag") && form.set("errorFlag", "0")
+      !form.has("time") && form.set("time", "ALL")
+      console.log(form);
+      submit(form);
+    }
+    // submit(e.currentTarget.form);
   }
 
   // =================== 달력 선택 관련 ===================
@@ -88,8 +98,15 @@ function ReportPage() {
 
   // ================ form 제출 =================
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setPage("1");
-    submit(e.currentTarget.form);
+    if (e.currentTarget.form) {
+      let form = new FormData(e.currentTarget.form);
+      form.set('page', '1');
+      setPage("1");
+      !form.has("errorFlag") && form.set("errorFlag", "0")
+      !form.has("time") && form.set("time", "ALL")
+      console.log(form);
+      submit(form);
+    }
   }
 
   return (
@@ -108,7 +125,7 @@ function ReportPage() {
             <InputWheelPosition wheelPosition={wheelPosition} />
             <InputDescFlag descFlag={descFlag} />
             <InputErrorFlag />
-            <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="100%" type="submit">조회하기</SemesButton>
+            <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="100%" >조회하기</SemesButton>
           </div>
           <div>
             <Button width="90px" height="100%">CSV 출력</Button>
