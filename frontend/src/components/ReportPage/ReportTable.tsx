@@ -7,7 +7,7 @@ import useDate from "../../_hooks/useDate";
 
 function ReportTable({ handleModalOpen }: ReportTableProps) {
   let data: any = useRouteLoaderData("reportLists");
-  let { result } = data;
+  let { result, totalPage } = data;
   let { wheelCheckId, dateFormat, timeFormat } = useDate();
 
   return (
@@ -29,9 +29,9 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
         </THead>
         <TBody>
           { result.map((report:any, idx:number) =>
-            <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelCheckId(report.wheelCheckDate)}`}>
+            <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelCheckId(report.wheelCheckDate.slice(0, 6))}`}>
               <TH className="idxNum">{idx + 1}</TH>
-              <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelCheckId(report.wheelCheckDate)}`}</TD>
+              <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelCheckId(report.wheelCheckDate.slice(0, 6))}`}</TD>
               <TD>{`${dateFormat(report.wheelCheckDate.slice(0, 3))}`}</TD>
               <TD>{`${timeFormat(report.wheelCheckDate.slice(3, 6))}`}</TD>
               <TD>{report.ohtSn}</TD>
