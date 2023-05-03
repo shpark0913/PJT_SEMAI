@@ -21,6 +21,7 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 	OHTCheckRepository ohtCheckRepository;
 	@Autowired
 	OHTRepository ohtRepository;
+	int TOTAL_BOLT_COUNT = 11;
 
 	public OHTCheckEntity createOhtCheck(String ohtSn) throws InvaildOHTSerialNo{
 		Optional<OHTEntity> oht = ohtRepository.findByOhtSN(ohtSn);
@@ -46,16 +47,16 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 			wheelChecks) {
 				switch (wheelCheck.getWheelPosition()){
 					case "FL":
-						check.get().setFlBadCount(11-wheelCheck.getBoltGoodCount());
+						check.get().setFlBadCount(TOTAL_BOLT_COUNT-wheelCheck.getBoltGoodCount());
 						break;
 					case "FR":
-						check.get().setFrBadCount(11-wheelCheck.getBoltGoodCount());
+						check.get().setFrBadCount(TOTAL_BOLT_COUNT-wheelCheck.getBoltGoodCount());
 						break;
 					case "RL":
-						check.get().setRlBadCount(11-wheelCheck.getBoltGoodCount());
+						check.get().setRlBadCount(TOTAL_BOLT_COUNT-wheelCheck.getBoltGoodCount());
 						break;
 					case "RR":
-						check.get().setRrBadCount(11-wheelCheck.getBoltGoodCount());
+						check.get().setRrBadCount(TOTAL_BOLT_COUNT-wheelCheck.getBoltGoodCount());
 						break;
 				}
 			}
