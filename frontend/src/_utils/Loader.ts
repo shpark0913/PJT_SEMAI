@@ -16,7 +16,6 @@ export async function BoltImageListsLoader () {
 export async function ReportListsLoader ({request}: {request: any}) {
   let ReportLists: string[] = [];
   const url = new URL(request.url);
-  console.log(`쿼리 바뀜? ${url.searchParams}`)
 
   // errorFlag가 없으면 0으로 지정 (==전체를 보겠다)
   if (!url.searchParams.has("errorFlag")) {
@@ -29,8 +28,6 @@ export async function ReportListsLoader ({request}: {request: any}) {
     url.searchParams.set('page', "1");
   }
   const search = url.search;
-  console.log(`에러, 시간, 페이지 추가하고 나서 : ${search}`);
-
 
   try {
     let response = await Axios.get(`report/list${search}`);
