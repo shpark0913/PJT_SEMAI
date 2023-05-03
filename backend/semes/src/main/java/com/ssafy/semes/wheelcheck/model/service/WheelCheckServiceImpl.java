@@ -38,7 +38,6 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 
 		//바퀴 이미지 요청
 		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(savedFileName);
-		System.out.println(result.toString());
 		if(result.getStatus() == 400){
 			throw new IOException("잘못된 파일 명입니다.");
 		}

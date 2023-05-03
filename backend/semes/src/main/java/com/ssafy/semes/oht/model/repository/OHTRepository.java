@@ -13,6 +13,6 @@ import com.ssafy.semes.oht.model.OHTEntity;
 public interface OHTRepository extends JpaRepository<OHTEntity,Long> {
 	Optional<OHTEntity> findByOhtSN(String ohtSn);
 
-	@Query("select o from OHTEntity  o left join fetch OHTCheckEntity  oe on o=oe.oht")
+	@Query("select o from OHTEntity  o left join fetch o.ohtChecks")
 	List<OHTEntity> findAllFetch();
 }
