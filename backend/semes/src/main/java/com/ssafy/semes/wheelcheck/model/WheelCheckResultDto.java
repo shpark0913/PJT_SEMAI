@@ -15,12 +15,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @Builder
+@Slf4j
 public class WheelCheckResultDto {
 	private int status;
 	private boolean success;
@@ -48,6 +50,7 @@ public class WheelCheckResultDto {
 
 	public static WheelCheckResultDto fromHttpResponse(HttpResponse<String> response) throws IOException {
 		String json = response.body();
+		log.info("fromHttpResponse json check :" + json);
 		return fromJson(json);
 	}
 
