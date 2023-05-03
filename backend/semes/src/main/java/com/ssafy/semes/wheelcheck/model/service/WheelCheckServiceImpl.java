@@ -39,7 +39,6 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 
 		//바퀴 이미지 요청
 		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(savedFileName);
-
 		if(result.getStatus() == 400){
 			throw new IOException("잘못된 파일 명입니다.");
 		}
@@ -60,11 +59,11 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 		//마킹 이미지 저장
 		String markedImagePath = wheelCheckResult.getData().getMarkedImage().split("/")[1];
 		ImageEntity markedImage = imageRepository.save(ImageEntity.builder()
-			.fileDir(Directory.WHEEL_RESULT.getPath())
-			.originName(markedImagePath)
-			.saveName(markedImagePath)
-			.status(1)
-			.build());
+				.fileDir(Directory.WHEEL_RESULT.getPath())
+				.originName(markedImagePath)
+				.saveName(markedImagePath)
+				.status(1)
+				.build());
 
 		//각 볼트 이미지 데이터 저장 및 결과 카운트
 		String[] bolts = wheelCheckResult.getData().getBolts();
