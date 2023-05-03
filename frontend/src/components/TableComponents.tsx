@@ -5,7 +5,9 @@ type TRType = {
 };
 
 const TableContainer = styled.div`
+  margin-bottom: 10px;
   width: 100%;
+  
   min-width: 950px;
   overflow-y: auto;
   flex-grow: 1;
