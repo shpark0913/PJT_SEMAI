@@ -17,14 +17,20 @@ import com.ssafy.semes.image.model.ImageEntity;
 import com.ssafy.semes.image.model.ImageListResponseDto;
 import com.ssafy.semes.image.model.ImageResponseDto;
 import com.ssafy.semes.image.model.repository.ImageRepository;
+import com.ssafy.semes.transition.model.TransitionConfig;
 import com.ssafy.semes.transition.model.TransitionFileIdsDto;
+import com.ssafy.semes.transition.model.TransitionLearningResultDto;
 import com.ssafy.semes.transition.model.TransitionUpdateRequestDto;
+import com.ssafy.semes.transition.model.repository.TransitionRepository;
 import com.ssafy.semes.util.FileUtil;
 
 @Service
 public class TransitionServiceImpl implements  TransitionService {
 	@Autowired
 	ImageRepository imageRepository;
+
+	@Autowired
+	TransitionRepository transitionRepository;
 
 	@Override
 	public List<ImageListResponseDto> findAll(){
@@ -106,11 +112,41 @@ public class TransitionServiceImpl implements  TransitionService {
 		imageRepository.updateStatusByFileIds(requestDto.getFileIds(),2);
 	}
 
+	@Override
+	@Transactional
+	public void startTrain(){
+		//python에 전이학습 요청
+
+		TransitionConfig tc = transitionRepository.findAll().get(0);
+		System.out.println(tc);
+
+		StringBuilder quertString = new StringBuilder("?");
+		quertString.append("acc=").append(tc.getAccuracy()).append("&");
+		quertString.append("loss=").append(tc.getLoss()).append("&");
+		quertString.append("fscore=").append(tc.getFscore());
+
+		try {
+			TransitionLearningResultDto res = TransitionLearningResultDto.fromHttpGetRequest("http://localhost:8000/train".concat(quertString.toString()));
+			System.out.println(res);
+			if(res.getData().get("changed").equals("true")){
+				tc.setAccuracy(Double.valueOf(res.getData().get("acc")));
+				tc.setLoss(Double.valueOf(res.getData().get("loss")));
+				tc.setFscore(Double.valueOf(res.getData().get("fscore")));
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
 	Iterator<ImageEntity> getIteratorByFileIds(Long[] fileIds){
 		Iterable<Long> iterable = Arrays.asList(fileIds);
 
 		List<ImageEntity> images = imageRepository.findAllById(iterable);
 		return images.iterator();
 	}
+
 
 }
