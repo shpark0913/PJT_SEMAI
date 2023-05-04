@@ -1,7 +1,7 @@
 package com.ssafy.semes.common;
 
-import static com.ssafy.semes.common.StatusCode.SUCCESS;
-import static com.ssafy.semes.common.StatusCode.CREATED;
+import static com.ssafy.semes.common.StatusCode.*;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +22,7 @@ public enum SuccessCode {
     ,READ_REPORT_DETAIL(SUCCESS,"보고서 상세 조회 성공"),READ_DASHBOARD_MAIN(SUCCESS,"대시보드 메인 조회 성공")
     ,CHECK_OHT_COMPLETE(SUCCESS,"OHT 검사 종료")
     ,READ_USER_LOGIN(SUCCESS,"유저 로그인 성공")
-
-
-
-    ;
+    ,START_LEARNING(SUCCESS,"학습 시작 성공");
 
     private final StatusCode statusCode;
     private final String message;

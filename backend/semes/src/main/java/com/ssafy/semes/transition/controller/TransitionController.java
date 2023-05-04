@@ -73,5 +73,10 @@ public class TransitionController {
         }
         return ApiResponse.success(SuccessCode.DELETE_IMG,"볼트 이미지를 삭제 했습니다.");
     }
+    @GetMapping("/learning")
+    public ApiResponse<?> startTrain(){
+        transitionService.startTrain();
+        return ApiResponse.success(SuccessCode.START_LEARNING);
+    }
 
 }
