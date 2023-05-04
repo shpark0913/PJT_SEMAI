@@ -1,8 +1,11 @@
+import { useDispatch, useSelector } from "react-redux";
+
 import { Link } from "react-router-dom";
 import React from "react";
 import { ReactComponent as RefreshBtn } from "../../assets/refreshBtn.svg";
 import Title from "../Title";
 import { redirect } from "react-router";
+import { setInquire } from "../../_store/slices/dashboardSlice";
 import styled from "styled-components";
 
 type WheelNameType = {
@@ -109,15 +112,20 @@ const TitleContainer = styled.div`
 function OHTResult(props: any) {
   const data = props.data;
   const indexList = [0, 1, 2, 3];
+  const dispatch = useDispatch();
 
   return (
     <OHTResultSec>
       <TitleContainer>
         <Title title="OHT 휠 검사 결과" />
         <h1 style={{ marginLeft: "6px", paddingTop: "1px" }}>
-          <Link to={{ pathname: "/" }}>
-            <RefreshBtn fill="var(--emphasize-color)" style={{ cursor: "pointer" }} />
-          </Link>
+          <RefreshBtn
+            fill="var(--emphasize-color)"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              dispatch(setInquire(false));
+            }}
+          />
         </h1>
       </TitleContainer>
       <OHTResultContainer>
