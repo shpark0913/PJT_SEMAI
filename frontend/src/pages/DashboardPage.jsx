@@ -29,6 +29,11 @@ export async function loader() {
         dashboardData = JSON.parse(event.data);
         resolve(dashboardData);
       });
+      sse.addEventListener("state", event => {
+        const stateData = JSON.parse(event.data);
+        console.log("state", event);
+        resolve([...dashboardData, stateData]);
+      });
     });
     return response;
   }
@@ -58,7 +63,6 @@ function DashboardPage() {
   const isChecked = useSelector(state => {
     return state.dashboard.inquire;
   });
-  console.log("이즈췍크드", isChecked);
 
   useEffect(() => {
     async function fetchNewOHTCheckId() {

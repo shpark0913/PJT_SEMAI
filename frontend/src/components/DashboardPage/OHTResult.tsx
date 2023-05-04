@@ -77,7 +77,7 @@ const VoltInfoGrid = styled.div`
   width: 100%;
   height: 100%;
   grid-template-rows: 20% 20% 20% 20% auto;
-  grid-template-columns: 25% 25% 25% auto;
+  grid-template-columns: 20% 20% 20% 20% auto;
   row-gap: 1%;
   column-gap: 1%;
 `;
@@ -155,14 +155,16 @@ function OHTResult(props: any) {
               <VoltInfoGrid>
                 <InfoTitleDiv></InfoTitleDiv>
                 <InfoTitleDiv>유실</InfoTitleDiv>
+                <InfoTitleDiv>풀림</InfoTitleDiv>
                 <InfoTitleDiv>모호</InfoTitleDiv>
                 <InfoTitleDiv>양호</InfoTitleDiv>
                 {indexList.map((item, idx) => {
                   return (
                     <React.Fragment key={idx}>
                       <InfoTitleDiv>{data[item].wheelPosition}</InfoTitleDiv>
+                      <InfoContentDiv>{data[item].boltOutCount}</InfoContentDiv>
                       <InfoContentDiv>{data[item].boltLoseCount}</InfoContentDiv>
-                      <InfoContentDiv>{data[item].boltLoseCount}</InfoContentDiv>
+                      <InfoContentDiv>{data[item].unclassifiedCount}</InfoContentDiv>
                       <InfoContentDiv>{data[item].boltGoodCount}</InfoContentDiv>
                     </React.Fragment>
                   );
