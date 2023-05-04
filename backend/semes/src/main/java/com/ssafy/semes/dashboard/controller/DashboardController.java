@@ -36,7 +36,7 @@ public class DashboardController {
         List<OHTCheckResponseDto> list = null;
         try {
             list = dashboardService.findAllCheck();
-            SseEmitter emitter = new SseEmitter();
+            SseEmitter emitter = new SseEmitter(10*1000L);
             sseEmitters.add(emitter);
             emitter.send(SseEmitter.event()
                     .name("dashboard")
