@@ -1,4 +1,4 @@
-import { BoltImageListsLoader, ReportListsLoader } from "./_utils/Loader";
+import {BoltImageListsLoader, ReportDetailLoader, ReportListsLoader} from "./_utils/Loader";
 import DashboardPage, { loader as DashboardLoader } from "./pages/DashboardPage";
 import DashboardPageDetail, {
   loader as DashboardPageDetailLoader,
@@ -37,6 +37,7 @@ const router = createBrowserRouter(
           <Route
             path=":wheelCheckId"
             element={ <ReportDetailPage /> }
+            loader={ReportDetailLoader}
           />
         </Route>
 

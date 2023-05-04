@@ -131,6 +131,10 @@ function ReportPage() {
     window.location.href = `${process.env.REACT_APP_BASE_URL}report/download?${newSearchParams.join('&')}`
   }
 
+  // ======================== scroll restoration =======================
+  // window.history.scrollRestoration = "auto";
+  // console.log(window.history)
+
   return (
     <ReportSection>
 
@@ -157,7 +161,7 @@ function ReportPage() {
 
         { result?.length ?
           <>
-            <ReportTable handleModalOpen={handleModalOpen} />
+            <ReportTable handleModalOpen={handleModalOpen} nowPage={page} />
             <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
           </>
           :

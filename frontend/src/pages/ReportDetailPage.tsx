@@ -5,9 +5,11 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import Title from "../components/Title";
 import {Button} from "../components/ButtonComponents";
 // import DetailTable from "../components/Modal/DetailTable";
-import {useNavigate, useOutletContext} from "react-router-dom";
+import {useLoaderData, useNavigate, useOutletContext} from "react-router-dom";
 import styled from "styled-components";
 import {BlurBackground} from "../components/ReportDetail/ReportDetailComponents";
+import DetailTable from "../components/Modal/DetailTable";
+import {ReportObjectType} from "../_utils/Types";
 const TitleButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
@@ -16,6 +18,7 @@ const TitleButtonDiv = styled.div`
 
 function ReportDetailPage() {
   const navigate = useNavigate();
+  const reportDetail = useLoaderData() as ReportObjectType;
   const [scrollY] = useOutletContext<string[]>();
 
   return (
@@ -27,7 +30,7 @@ function ReportDetailPage() {
           <Title title="레포트 상세보기" />
           <Button width="90px" height="25px">CSV 출력</Button>
         </TitleButtonDiv>
-        {/*<DetailTable detailInfo={detailInfo} />*/}
+        <DetailTable detailInfo={reportDetail} />
       </ModalReportContainer>
     </>
   );
