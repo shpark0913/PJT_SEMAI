@@ -1,8 +1,9 @@
 import axios from "axios";
 
+
 const persistRoot = localStorage.getItem('persist:root');
-const store =  persistRoot ? JSON.parse(persistRoot) : "";
-const token = JSON.parse(store.user)?.token || "";
+const user = persistRoot ? JSON.parse(persistRoot).user : undefined;
+const token = user ? JSON.parse(user).token : "";
 
 const Axios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -10,6 +11,12 @@ const Axios = axios.create({
     'accesstoken' : token,
   }
 });
+
+// store.subscribe(() => {
+//   const token = store.getState().user.token;
+//   console.log(token);
+//   Axios.defaults.headers.common['accesstoken'] = token;
+// });
 
 export default Axios;
 
@@ -26,11 +33,6 @@ export default Axios;
 //   }
 // );
 
-// store.subscribe(() => {
-//   const token = store.getState().user.token;
-//   console.log(token);
-//   Axios.defaults.headers.common['accesstoken'] = token;
-// });
 
 // const Axios = () => {
 //   // 인증 토큰을 가져옴
