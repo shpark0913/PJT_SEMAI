@@ -18,6 +18,7 @@ import React from "react";
 import ReportPage from "./pages/ReportPage";
 import TransferPage from "./pages/TransferPage";
 import { store } from "./_store/store";
+import ReportDetailPage from "./pages/ReportDetailPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,7 +33,12 @@ const router = createBrowserRouter(
           id="reportLists"
           loader={ReportListsLoader}
           action={ReportListsAction}
-        />
+        >
+          <Route
+            path=":wheelCheckId"
+            element={ <ReportDetailPage /> }
+          />
+        </Route>
 
         <Route
           path=":checkId"
@@ -40,7 +46,6 @@ const router = createBrowserRouter(
           loader={DashboardPageDetailLoader}
         />
 
-        <Route path="report/:id" />
         <Route
           path="transfer"
           element={<TransferPage />}

@@ -2,13 +2,13 @@ import React from 'react';
 import {Table, TableContainer, TBody, TD, TFoot, TH, THead, TR} from "../TableComponents";
 import { ReportTableProps } from "../../_utils/Types";
 import { Button } from "../ButtonComponents";
-import {useRouteLoaderData} from "react-router-dom";
+import {Link, useRouteLoaderData} from "react-router-dom";
 import useDate from "../../_hooks/useDate";
 
 function ReportTable({ handleModalOpen }: ReportTableProps) {
   let data: any = useRouteLoaderData("reportLists");
   let { result, totalPage } = data;
-  let { wheelCheckId, dateFormat, timeFormat } = useDate();
+  let { wheelReportId, dateFormat, timeFormat } = useDate();
 
   return (
     <TableContainer>
@@ -29,18 +29,19 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
         </THead>
         <TBody>
           { result.map((report:any, idx:number) =>
-            <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelCheckId(report.wheelCheckDate.slice(0, 6))}`}>
-              <TH className="idxNum">{idx + 1}</TH>
-              <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelCheckId(report.wheelCheckDate.slice(0, 6))}`}</TD>
-              <TD>{`${dateFormat(report.wheelCheckDate.slice(0, 3))}`}</TD>
-              <TD>{`${timeFormat(report.wheelCheckDate.slice(3, 6))}`}</TD>
-              <TD>{report.ohtSn}</TD>
-              <TD>{report.wheelPosition}</TD>
-              <TD>{report.boltGoodCount === 11? "정상" : "NG"}</TD>
-              <TD>11</TD>
-              <TD>{report.boltGoodCount}</TD>
-              <TD><Button width="65px" height="23px" onClick={() => handleModalOpen(report)}>상세보기</Button></TD>
-            </TR>) }
+              <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}>
+                <TH className="idxNum">{idx + 1}</TH>
+                <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}</TD>
+                <TD>{`${dateFormat(report.wheelCheckDate.slice(0, 3))}`}</TD>
+                <TD>{`${timeFormat(report.wheelCheckDate.slice(3, 6))}`}</TD>
+                <TD>{report.ohtSn}</TD>
+                <TD>{report.wheelPosition}</TD>
+                <TD>{report.boltGoodCount === 11 ? "정상" : "NG"}</TD>
+                <TD>11</TD>
+                <TD>{report.boltGoodCount}</TD>
+                <TD><Link to={`${report.wheelCheckId}`}><Button width="65px" height="23px">{report.wheelCheckId}</Button></Link></TD>
+              </TR>
+          ) }
         </TBody>
         <TFoot>
           <TR>
