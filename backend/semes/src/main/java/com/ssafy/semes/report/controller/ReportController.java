@@ -210,7 +210,7 @@ public class ReportController {
             bodyDatass[t][0] =  Integer.toString(t+1);
             sb = new StringBuilder(40);
             sb.append(val.getOhtSn()).append("-").append(val.getWheelPosition())
-                    .append("-").append(val.getWheelChcekId());
+                    .append("-").append(val.getWheelCheckId());
             bodyDatass[t][1] = sb.toString();
             st = new StringTokenizer(String.valueOf(val.getWheelCheckDate()),"T");
 
