@@ -4,7 +4,7 @@ import Title from "../components/Title";
 import TransferTab from "../components/TransferPage/TransferTab";
 import { ModalImageType } from "../_utils/Types";
 import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
-import ImageModal from "../components/DetailModal/ImageModal";
+import ImageModal from "../components/Modal/ImageModal";
 
 const TransferSection = styled.section`
   padding: 30px;

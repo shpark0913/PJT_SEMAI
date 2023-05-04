@@ -46,7 +46,7 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
         <TFoot>
           <TR>
             <TD colSpan={8} />
-            <TD colSpan={2}>보기 1-20 / <span style={{color: "var(--emphasize-color)", fontWeight: "bold"}}>52</span></TD>
+            <TD colSpan={2}>보기 1-20 / <span style={{color: "var(--emphasize-color)", fontWeight: "bold"}}>{ totalPage }</span></TD>
           </TR>
         </TFoot>
       </Table>
