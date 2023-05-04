@@ -9,7 +9,6 @@ import OHTResult from "../components/DashboardPage/OHTResult";
 import OHTTransition from "../components/DashboardPage/OHTTransition";
 import { setCheckId } from "../_store/slices/dashboardSlice";
 import styled from "styled-components";
-import { useLoaderData } from "react-router-dom";
 
 export async function loader() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -27,7 +26,6 @@ export async function loader() {
     });
     const response = await new Promise(resolve => {
       sse.addEventListener("dashboard", event => {
-        console.log("SSE_dashboard 작동");
         dashboardData = JSON.parse(event.data);
         resolve(dashboardData);
       });
@@ -35,12 +33,10 @@ export async function loader() {
     return response;
   }
 
-  let newOHTCheckId;
-  fetchData().then(response => {
-    newOHTCheckId = response[0].ohtCheckId;
+  return fetchData().then(response => {
+    const newOHTCheckId = response[0].ohtCheckId;
+    return [newOHTCheckId];
   });
-
-  return [newOHTCheckId];
 }
 
 const MainGrid = styled.section`
@@ -55,23 +51,24 @@ function DashboardPage() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const dispatch = useDispatch();
 
-  console.log(
-    "넘어오나?",
-    useSelector(state => state.dashboard),
-  );
-
-  // SSE의 최상단 검사 ID (최신)
-  const newOHTCheckId = useLoaderData();
-  console.log("========newOHTCheckID========", newOHTCheckId);
-  dispatch(setCheckId(newOHTCheckId));
-
-  // 특정 ohtCheckId로 조회한 정보 (휠 4개의 상태)
-  const [wheelDataNew, setWheelDataNew] = useState(null);
-
   // store에 저장된 ohtCheckId를 ohtCheckId 변수에 저장
   const ohtCheckId = useSelector(state => {
     return state.dashboard.checkId;
   });
+  const isChecked = useSelector(state => {
+    return state.dashboard.inquire;
+  });
+  console.log("이즈췍크드", isChecked);
+
+  useEffect(() => {
+    async function fetchNewOHTCheckId() {
+      const newOHTCheckId = await loader();
+      if (isChecked === false) {
+        dispatch(setCheckId(newOHTCheckId));
+      }
+    }
+    fetchNewOHTCheckId();
+  }, [dispatch]);
 
   useEffect(() => {
     async function fetchWheelData() {
@@ -85,6 +82,8 @@ function DashboardPage() {
     }
     fetchWheelData();
   }, [ohtCheckId]);
+
+  const [wheelDataNew, setWheelDataNew] = useState(null);
 
   return (
     <MainGrid>
