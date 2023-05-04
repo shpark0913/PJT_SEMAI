@@ -10,6 +10,7 @@ import com.ssafy.semes.user.model.UserResponseDto;
 import com.ssafy.semes.user.model.service.UserSerivce;
 import com.ssafy.semes.util.JwtUtil;
 import com.ssafy.semes.util.SocketClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -28,6 +30,7 @@ public class UserController {
     private JwtUtil jwtUtil = new JwtUtil();
     @PostMapping()
     public ApiResponse<?> login(@RequestBody UserRequestDto userRequestDto){
+        log.info("UserController login start");
         try{
             UserEntity user =userSerivce.findUser(userRequestDto);
             return ApiResponse.success(SuccessCode.READ_USER_LOGIN,
@@ -41,11 +44,8 @@ public class UserController {
 
     @GetMapping("test")
     public ApiResponse<?> test() throws IOException {
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
+        log.info("UserController test start");
         return ApiResponse.success(SuccessCode.READ_DASHBOARD_MAIN);
     }
 }
