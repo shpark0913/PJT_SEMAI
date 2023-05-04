@@ -1,8 +1,5 @@
 import { BoltImageListsLoader, ReportListsLoader } from "./_utils/Loader";
 import DashboardPage, { loader as DashboardLoader } from "./pages/DashboardPage";
-import DashboardPageDetail, {
-  loader as DashboardPageDetailLoader,
-} from "./pages/DashboardPageDetail";
 import { ReportListsAction, TransferTestAction } from "./_utils/Action";
 import {
   Route,
@@ -32,12 +29,6 @@ const router = createBrowserRouter(
           id="reportLists"
           loader={ReportListsLoader}
           action={ReportListsAction}
-        />
-
-        <Route
-          path=":checkId"
-          element={<DashboardPageDetail />}
-          loader={DashboardPageDetailLoader}
         />
 
         <Route path="report/:id" />
