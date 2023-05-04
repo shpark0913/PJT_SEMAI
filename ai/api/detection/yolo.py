@@ -23,7 +23,7 @@ def load_detection_model(model_name, model_path=MODEL_PATH):
 
 ## 서버를 실행시킬 때 바로 model load ##
 model = load_detection_model('yolo_0501.pt')
-model.conf = 0.7
+model.conf = 0.5
 
 ## 전처리 함수 ##
 def preprocess_image(image, image_size=TARGET_IMAGE_SIZE, crop_size=CROP_SIZE, interpolation=Image.LANCZOS):
@@ -64,6 +64,7 @@ def detect_bolt(image_path, model=model):
     now_image = Image.fromarray(now_image)
 
     result = model(now_image, size=TARGET_IMAGE_SIZE)
+
     # left, upper, right, lower
     bboxes = result.xyxy[0].tolist()
     n_bboxes = len(bboxes)
@@ -83,8 +84,7 @@ def detect_bolt(image_path, model=model):
     with open(label_path + image_name + '.txt', 'w') as f:
         for i in range(n_bboxes):
             bbox_str = '{} {} {} {} {}'.format(int(bboxes_norm[i][-1]), bboxes_norm[i][0], bboxes_norm[i][1], bboxes_norm[i][2], bboxes_norm[i][3])
-            bbox_res_str = '{} {} {} {} {}'.format(int(bboxes[i][-1]), bboxes[i][0], bboxes[i][1], bboxes[i][2], bboxes[i][3])
-            bboxes_response.append(list(bbox_res_str.split()))
+            bboxes_response.append([int(bboxes[i][-1]), bboxes[i][0], bboxes[i][1], bboxes[i][2], bboxes[i][3]])
             f.write(bbox_str + '\n')
         f.close()
 
