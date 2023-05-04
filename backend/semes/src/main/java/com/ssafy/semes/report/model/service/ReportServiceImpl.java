@@ -1,23 +1,17 @@
 package com.ssafy.semes.report.model.service;
 
 import com.ssafy.semes.exception.JPAException;
-import com.ssafy.semes.oht.model.OHTEntity;
-import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
 import com.ssafy.semes.report.model.QuestionDto;
 import com.ssafy.semes.report.model.ReportListResponseDto;
 import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
 import com.ssafy.semes.wheelcheck.model.repository.WheelCheckRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -107,7 +101,7 @@ public class ReportServiceImpl implements ReportService {
                     .ohtSn(m.getOhtCheck().getOht().getOhtSN())
                     .boltGoodCount(m.getBoltGoodCount())
                     .wheelCheckDate(m.getCheckDate())
-                    .wheelChcekId(m.getWheelHistoryId())
+                    .wheelCheckId(m.getWheelHistoryId())
                     .wheelPosition(m.getWheelPosition())
                     .build();
         }).collect(Collectors.toList()));
@@ -127,7 +121,7 @@ public class ReportServiceImpl implements ReportService {
                 .ohtSn(wheel.getOhtCheck().getOht().getOhtSN())
                 .boltGoodCount(wheel.getBoltGoodCount())
                 .wheelCheckDate(wheel.getCheckDate())
-                .wheelChcekId(wheel.getWheelHistoryId())
+                .wheelCheckId(wheel.getWheelHistoryId())
                 .wheelPosition(wheel.getWheelPosition())
                 .build();
     }
