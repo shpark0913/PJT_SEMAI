@@ -7,7 +7,7 @@ function useDate() {
   }, []);
 
   /** 년월일시분초 합치는 함수 */
-  const wheelCheckId = useCallback((arg: number[]) => {
+  const wheelReportId = useCallback((arg: number[]) => {
     let idList = arg.map(num => datePadStart(num));
     return idList.join('');
   }, [datePadStart]);
@@ -32,7 +32,7 @@ function useDate() {
     return `${year}-${month}-${day}`;
   }, [datePadStart]);
 
-  return { dateFormat, todayFormat, timeFormat, wheelCheckId }
+  return { dateFormat, todayFormat, timeFormat, wheelReportId }
 }
 
 export default useDate;

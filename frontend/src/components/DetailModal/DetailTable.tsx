@@ -4,13 +4,13 @@ import {Table, TBody, TD, TH, TR} from "../TableComponents";
 import useDate from "../../_hooks/useDate";
 
 function DetailTable({detailInfo}: {detailInfo: ReportObjectType}) {
-  let { wheelCheckId, dateFormat, timeFormat } = useDate();
+  let { wheelReportId, dateFormat, timeFormat } = useDate();
   return (
     <Table className="detail">
       <TBody>
         <TR>
           <TH>검사 ID</TH>
-          <TD>{`${detailInfo.ohtSn}-${detailInfo.wheelPosition}-${wheelCheckId(detailInfo.wheelCheckDate)}`}</TD>
+          <TD>{`${detailInfo.ohtSn}-${detailInfo.wheelPosition}-${wheelReportId(detailInfo.wheelCheckDate)}`}</TD>
         </TR>
         <TR>
           <TH>일자</TH>
