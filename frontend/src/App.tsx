@@ -1,8 +1,5 @@
 import {BoltImageListsLoader, ReportDetailLoader, ReportListsLoader} from "./_utils/Loader";
 import DashboardPage, { loader as DashboardLoader } from "./pages/DashboardPage";
-import DashboardPageDetail, {
-  loader as DashboardPageDetailLoader,
-} from "./pages/DashboardPageDetail";
 import { ReportListsAction, TransferTestAction } from "./_utils/Action";
 import {
   Route,
