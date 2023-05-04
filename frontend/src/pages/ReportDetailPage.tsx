@@ -1,12 +1,13 @@
 import React from 'react';
-import {CloseButton, Modal, ModalBackground, ModalReportContainer} from "../components/DetailModal/ModalComponents";
+import {CloseButton, Modal, ModalBackground, ModalReportContainer} from "../components/Modal/ModalComponents";
+
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import Title from "../components/Title";
 import {Button} from "../components/ButtonComponents";
-// import DetailTable from "../components/DetailModal/DetailTable";
-import {useNavigate} from "react-router-dom";
+// import DetailTable from "../components/Modal/DetailTable";
+import {useNavigate, useOutletContext} from "react-router-dom";
 import styled from "styled-components";
-
+import {BlurBackground} from "../components/ReportDetail/ReportDetailComponents";
 const TitleButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
@@ -15,9 +16,11 @@ const TitleButtonDiv = styled.div`
 
 function ReportDetailPage() {
   const navigate = useNavigate();
+  const [scrollY] = useOutletContext<string[]>();
+
   return (
-    <Modal scrollY={0}>
-      <ModalBackground />
+    <>
+      <BlurBackground scrollY={scrollY} />
       <ModalReportContainer>
         <CloseButton onClick={() => navigate(-1)}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
         <TitleButtonDiv>
@@ -26,7 +29,7 @@ function ReportDetailPage() {
         </TitleButtonDiv>
         {/*<DetailTable detailInfo={detailInfo} />*/}
       </ModalReportContainer>
-    </Modal>
+    </>
   );
 }
 

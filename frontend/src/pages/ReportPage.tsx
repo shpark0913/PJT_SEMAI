@@ -10,7 +10,7 @@ import useDate from "../_hooks/useDate";
 import { Button, SemesButton } from "../components/ButtonComponents";
 import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
-// import ReportModal from "../components/DetailModal/ReportModal";
+// import ReportModal from "../components/Modal/ReportModal";
 import PaginationComponents from "../components/ReportPage/PaginationComponents";
 
 import InputOhtSn from "../components/ReportPage/InputOHTSn";
@@ -134,7 +134,7 @@ function ReportPage() {
   return (
     <ReportSection>
 
-      <Outlet />
+      <Outlet context={[scrollY]} />
       {/*{ isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }*/}
 
       <Title title="레포트" />
