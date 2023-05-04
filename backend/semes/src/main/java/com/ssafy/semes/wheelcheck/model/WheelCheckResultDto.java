@@ -84,7 +84,7 @@ public class WheelCheckResultDto {
 
 	public static WheelCheckResultDto fromWheelImage(String originFilePath) throws IOException, InterruptedException {
 		String encodedFilePath = URLEncoder.encode(originFilePath, "UTF-8");
-		String url = "http://localhost:8000/infer?filePath=" + encodedFilePath;
+		String url = "http://semes.info:8000/infer?filePath=" + encodedFilePath;
 		return  fromHttpGetRequest(url);
 	}
 
