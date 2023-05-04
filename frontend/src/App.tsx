@@ -1,4 +1,4 @@
-import { BoltImageListsLoader, ReportListsLoader } from "./_utils/Loader";
+import {BoltImageListsLoader, ReportDetailLoader, ReportListsLoader} from "./_utils/Loader";
 import DashboardPage, { loader as DashboardLoader } from "./pages/DashboardPage";
 import { ReportListsAction, TransferTestAction } from "./_utils/Action";
 import {
@@ -15,6 +15,7 @@ import React from "react";
 import ReportPage from "./pages/ReportPage";
 import TransferPage from "./pages/TransferPage";
 import { store } from "./_store/store";
+import ReportDetailPage from "./pages/ReportDetailPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,9 +30,20 @@ const router = createBrowserRouter(
           id="reportLists"
           loader={ReportListsLoader}
           action={ReportListsAction}
+        >
+          <Route
+            path=":wheelCheckId"
+            element={ <ReportDetailPage /> }
+            loader={ReportDetailLoader}
+          />
+        </Route>
+
+        <Route
+          path=":checkId"
+          element={<DashboardPageDetail />}
+          loader={DashboardPageDetailLoader}
         />
 
-        <Route path="report/:id" />
         <Route
           path="transfer"
           element={<TransferPage />}
