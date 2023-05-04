@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  checkId: 2,
+  inquire: false,
+};
+
 export const dashboardSlice = createSlice({
   name: "dashboard",
-  initialState: {
-    checkId: 2,
-    inquire: 0,
-  },
+  initialState,
   reducers: {
     setCheckId: (state, action) => {
       state.checkId = action.payload;
