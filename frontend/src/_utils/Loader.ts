@@ -15,11 +15,8 @@ export async function BoltImageListsLoader () {
 
 export async function ReportListsLoader ({request}: {request: any}) {
   let ReportLists: string[] = [];
-  console.log(request);
   const url = new URL(request.url);
-
   const search = url.search;
-  console.log(`searchParams는 : ${search}`)
 
   try {
     let response = await Axios.get(`report/list${search}`);
