@@ -13,6 +13,6 @@ public class ReportListResponseDto {
     private String ohtSn;
     private int boltGoodCount;
     private LocalDateTime wheelCheckDate;
-    private long wheelChcekId;
+    private long wheelCheckId;
     private String wheelPosition;
 }
