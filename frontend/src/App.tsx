@@ -1,6 +1,4 @@
-import {BoltImageListsLoader, ReportDetailLoader, ReportListsLoader} from "./_utils/Loader";
-import DashboardPage, { loader as DashboardLoader } from "./pages/DashboardPage";
-import { ReportListsAction, TransferTestAction } from "./_utils/Action";
+import React from "react";
 import {
   Route,
   RouterProvider,
@@ -8,13 +6,16 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
+import {BoltImageListsLoader, ReportDetailLoader, ReportListsLoader} from "./_utils/Loader";
+import { ReportListsAction, TransferTestAction } from "./_utils/Action";
+import { store } from "./_store/store";
+
 import GlobalStyle from "./components/globalStyle";
+import DashboardPage from "./pages/DashboardPage";
 import LayoutPage from "./pages/LayoutPage";
 import LoginPage from "./pages/LoginPage";
-import React from "react";
 import ReportPage from "./pages/ReportPage";
 import TransferPage from "./pages/TransferPage";
-import { store } from "./_store/store";
 import ReportDetailPage from "./pages/ReportDetailPage";
 
 const router = createBrowserRouter(
@@ -22,7 +23,7 @@ const router = createBrowserRouter(
     <Route>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<LayoutPage />}>
-        <Route index element={<DashboardPage />} loader={DashboardLoader} />
+        <Route index element={<DashboardPage />} />
 
         <Route
           path="report"
@@ -37,12 +38,6 @@ const router = createBrowserRouter(
             loader={ReportDetailLoader}
           />
         </Route>
-
-        <Route
-          path=":checkId"
-          element={<DashboardPageDetail />}
-          loader={DashboardPageDetailLoader}
-        />
 
         <Route
           path="transfer"
