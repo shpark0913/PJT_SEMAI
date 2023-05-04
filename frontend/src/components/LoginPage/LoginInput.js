@@ -4,14 +4,15 @@ import { setToken, setUserName } from "../../_store/slices/userSlice";
 
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import { useState } from "react";
+
 
 function LoginInput() {
   const [userId, setUserId] = useState("");
   const [userPwd, setUserPwd] = useState("");
   const [loginInfo, setLoginInfo] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const onSubmitHandler = event => {
     event.preventDefault();
@@ -25,18 +26,19 @@ function LoginInput() {
       .post(`${process.env.REACT_APP_BASE_URL}user`, body)
       .then(response => {
         if (response.data.status === 200) {
-          console.log(response.data);
-          // localStorage.setItem("token", response.data.data.accesstoken);
-          // localStorage.setItem("userName", response.data.data.userName);
-          dispatch(setUserName(response.data.data.userName));
-          dispatch(setToken(response.data.data.accesstoken));
-          navigate("/");
+          const token = response.data.data.accesstoken;
+          const userName = response.data.data.userName;
+          dispatch(setUserName(userName));
+          dispatch(setToken(token));
+
+          window.location.pathname = '/'
         } else {
           setUserId("");
           setUserPwd("");
           setLoginInfo("로그인 정보를 확인하십시오.");
         }
       })
+      // .then(() => navigate("/"))
       .catch(error => {
         // 로그인 실패 시 코드 작성(Id, Pwd 초기화 & 경고 문구)
         console.log(error);
