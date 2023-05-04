@@ -1,11 +1,13 @@
 import React from 'react';
-import {Table, TableContainer, TBody, TD, TFoot, TH, THead, TR} from "../TableComponents";
-import { ReportTableProps } from "../../_utils/Types";
-import { Button } from "../ButtonComponents";
 import {Link, useRouteLoaderData} from "react-router-dom";
+
+import { ReportTableProps } from "../../_utils/Types";
 import useDate from "../../_hooks/useDate";
 
-function ReportTable({ handleModalOpen }: ReportTableProps) {
+import {Table, TableContainer, TBody, TD, TFoot, TH, THead, TR} from "../TableComponents";
+import { Button } from "../ButtonComponents";
+
+function ReportTable({ handleModalOpen , nowPage }: ReportTableProps) {
   let data: any = useRouteLoaderData("reportLists");
   let { result, totalPage } = data;
   let { wheelReportId, dateFormat, timeFormat } = useDate();
@@ -39,14 +41,14 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
                 <TD>{report.boltGoodCount === 11 ? "정상" : "NG"}</TD>
                 <TD>11</TD>
                 <TD>{report.boltGoodCount}</TD>
-                <TD><Link to={`${report.wheelCheckId}`}><Button width="65px" height="23px">{report.wheelCheckId}</Button></Link></TD>
+                <TD><Link to={`./${report.wheelCheckId}`} preventScrollReset={true}><Button width="65px" height="23px">{report.wheelCheckId}</Button></Link></TD>
               </TR>
           ) }
         </TBody>
         <TFoot>
           <TR>
             <TD colSpan={8} />
-            <TD colSpan={2}>보기 1-20 / <span style={{color: "var(--emphasize-color)", fontWeight: "bold"}}>{ totalPage }</span></TD>
+            <TD colSpan={2}>보기 {(Number(nowPage)-1)*20+1}-{Number(nowPage)*20 > totalPage? totalPage : Number(nowPage)*20} / <span style={{color: "var(--emphasize-color)", fontWeight: "bold"}}>{ totalPage }</span></TD>
           </TR>
         </TFoot>
       </Table>
