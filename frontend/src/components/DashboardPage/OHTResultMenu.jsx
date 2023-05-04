@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 
 import { Button } from "../ButtonComponents";
 import { EventSourcePolyfill } from "event-source-polyfill";
+import { setCheckId } from "../../_store/slices/dashboardSlice";
 import { store } from "../../_store/store";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function OHTResultMenu(props) {
   const [dashboardData, setDashboardData] = useState([]);
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,7 +70,8 @@ function OHTResultMenu(props) {
                     width="50%"
                     onClick={event => {
                       event.preventDefault();
-                      navigate(`/${item.ohtCheckId}`);
+                      dispatch(setCheckId(item.ohtCheckId));
+                      // navigate(`/${item.ohtCheckId}`);
                     }}
                   >
                     상세보기
@@ -109,7 +113,8 @@ function OHTResultMenu(props) {
                       width="50%"
                       onClick={event => {
                         event.preventDefault();
-                        navigate(`/${item.ohtCheckId}`);
+                        dispatch(setCheckId(item.ohtCheckId));
+                        // navigate(`/${item.ohtCheckId}`);
                       }}
                     >
                       상세보기
