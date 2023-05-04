@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
+import {Form, Outlet, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
 import styled from "styled-components";
 
 import {useAppSelector} from "../_hooks/hooks";
@@ -10,7 +10,7 @@ import useDate from "../_hooks/useDate";
 import { Button, SemesButton } from "../components/ButtonComponents";
 import ReportTable from "../components/ReportPage/ReportTable";
 import Title from "../components/Title";
-import ReportModal from "../components/DetailModal/ReportModal";
+// import ReportModal from "../components/Modal/ReportModal";
 import PaginationComponents from "../components/ReportPage/PaginationComponents";
 
 import InputOhtSn from "../components/ReportPage/InputOHTSn";
@@ -53,10 +53,7 @@ function ReportPage() {
 
   // ================== 페이지네이션 ======================
   let paginationTotalPage = Math.ceil(totalPage/20);
-  // let page = useRef<string>(query.get('page') || "1")
-  console.log(`page 가꼬와! : ${query.get("page")}`)
   let [page, setPage] = useState<string>(query.get('page') || "1");
-  console.log(page)
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
@@ -134,10 +131,15 @@ function ReportPage() {
     window.location.href = `${process.env.REACT_APP_BASE_URL}report/download?${newSearchParams.join('&')}`
   }
 
+  // ======================== scroll restoration =======================
+  // window.history.scrollRestoration = "auto";
+  // console.log(window.history)
+
   return (
     <ReportSection>
 
-      { isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }
+      <Outlet context={[scrollY]} />
+      {/*{ isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }*/}
 
       <Title title="레포트" />
       <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
@@ -159,7 +161,7 @@ function ReportPage() {
 
         { result?.length ?
           <>
-            <ReportTable handleModalOpen={handleModalOpen} />
+            <ReportTable handleModalOpen={handleModalOpen} nowPage={page} />
             <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
           </>
           :
