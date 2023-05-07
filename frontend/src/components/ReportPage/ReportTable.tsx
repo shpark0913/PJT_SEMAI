@@ -41,7 +41,7 @@ function ReportTable({ handleModalOpen , nowPage }: ReportTableProps) {
                 <TD>{report.boltGoodCount === 11 ? "정상" : "NG"}</TD>
                 <TD>11</TD>
                 <TD>{report.boltGoodCount}</TD>
-              <TD><Button width="65px" height="23px" onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleModalOpen(e)}>{report.wheelCheckId}</Button></TD>
+              <TD><Button width="65px" height="23px" onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleModalOpen(e, report.wheelCheckId)}>{report.wheelCheckId}</Button></TD>
               </TR>
           ) }
         </TBody>

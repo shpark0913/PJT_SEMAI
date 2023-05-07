@@ -20,6 +20,7 @@ import InputWheelPosition from "../components/ReportPage/InputWheelPosition";
 import InputDescFlag from "../components/ReportPage/InputDescFlag";
 import InputErrorFlag from "../components/ReportPage/InputErrorFlag";
 import ReportDetail from "../components/ReportDetail/ReportDetail";
+import Axios from "../_utils/Axios";
 
 
 
@@ -96,13 +97,24 @@ function ReportPage() {
   // =================== 모달 관련 ===================
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // let [scrollY, setScrollY] = useState<number>(0);
-  // let [detailInfo, setDetailInfo] = useState<ReportObjectType>({wheelCheckDate: [2023, 5, 2, 4, 32, 10]});        // 선택한 레포트의 상세내역을 전달할 객체
+  let [detailInfo, setDetailInfo] = useState<ReportObjectType>({wheelCheckDate: [2023, 5, 2, 4, 32, 10]});        // 선택한 레포트의 상세내역을 전달할 객체
   // const { lockScroll, openScroll } = useBodyScrollLock();
   /** 모달이 열리면 실행되는 함수 */
-  const handleModalOpen = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
+  const handleModalOpen = useCallback(async (e:React.MouseEvent<HTMLButtonElement>, wheelCheckId: number) => {
     e.preventDefault();
+    let reportDetail: ReportObjectType = {wheelCheckDate: [2023, 5, 2, 4, 32, 10]};
+    try {
+      let response = await Axios.get(`report/detail/${wheelCheckId}`);
+      reportDetail = response.data.data;
+      console.log(reportDetail);
+    }
+    catch (err) {
+      console.log(err)
+    }
+    await setDetailInfo(reportDetail);
     setIsModalOpen(true);
   }, []);
+
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
   }, []);
@@ -172,7 +184,7 @@ function ReportPage() {
         </Form>
       </div>
 
-      { isModalOpen && <ReportDetail handleModalClose={handleModalClose}></ReportDetail>  }
+      { isModalOpen && <ReportDetail handleModalClose={handleModalClose} detailInfo={detailInfo}></ReportDetail>  }
     </ReportSection>
   );
 }
