@@ -1,4 +1,6 @@
 // ============== component types ================
+import React from "react";
+
 export type TitleProps = {
   title: string;
 };
@@ -24,7 +26,7 @@ export type ReportLoaderType = {
   totalPage: number;
 }
 export type ReportTableProps = {   // 레포트 페이지의 테이블 중 모달 open
-  handleModalOpen: (arg :ReportObjectType) => void;
+  handleModalOpen: (e :React.MouseEvent<HTMLButtonElement>) => void;
   nowPage: string
 }
 export type ReportModalProps = {
