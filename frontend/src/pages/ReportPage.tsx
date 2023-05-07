@@ -32,10 +32,14 @@ const ReportSection = styled.section`
 const FormTop = styled.div`
   display: flex;
   align-items: flex-end;
+  margin-bottom: 20px;
 `;
 const FormInputs = styled.div`
   display: flex;
   flex-wrap: wrap;
+`;
+const FormButtons = styled.div`
+  display: flex;
 `;
 
 const NoData = styled.div`
@@ -140,23 +144,24 @@ function ReportPage() {
 
       {/*<Title title="레포트" />*/}
       <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-        <div>
-          <FormTop>
-            <FormInputs>
-              <InputOhtSn />
-              <InputStartDate startDate={startDate} endDate={endDate} handleChangeStartDate={handleChangeStartDate} />
-              <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} handleChangeEndDate={handleChangeEndDate} />
-              <InputTime startDate={startDate} endDate={endDate} time={time} />
-              <InputWheelPosition wheelPosition={wheelPosition} />
-              <InputDescFlag descFlag={descFlag} />
-              <InputErrorFlag />
-            </FormInputs>
-            <SemesButton style={{flexShrink: "0"}} type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="26px" >조회하기</SemesButton>
-          </FormTop>
-          <div>
+        <FormTop>
+          <FormInputs>
+            <InputOhtSn />
+            <InputStartDate startDate={startDate} endDate={endDate} handleChangeStartDate={handleChangeStartDate} />
+            <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} handleChangeEndDate={handleChangeEndDate} />
+            <InputTime startDate={startDate} endDate={endDate} time={time} />
+            <InputWheelPosition wheelPosition={wheelPosition} />
+            <InputDescFlag descFlag={descFlag} />
+            <InputErrorFlag />
+            <SemesButton style={{marginRight: "20px"}} type="button" width="120px" height="26px" >최근 일주일 조회</SemesButton>
+            <SemesButton type="button" width="120px" height="26px" >최근 한 달 조회</SemesButton>
+
+          </FormInputs>
+          <FormButtons>
+            <SemesButton style={{marginRight: "10px"}} type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="26px" >조회하기</SemesButton>
             <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="26px">CSV 출력</Button>
-          </div>
-        </div>
+          </FormButtons>
+        </FormTop>
 
         { result?.length ?
           <>
