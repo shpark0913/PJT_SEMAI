@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, useRouteLoaderData} from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 
 import { ReportTableProps } from "../../_utils/Types";
 import useDate from "../../_hooks/useDate";
@@ -32,7 +32,7 @@ function ReportTable({ handleModalOpen , nowPage }: ReportTableProps) {
         <TBody>
           { result.map((report:any, idx:number) =>
               <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}>
-                <TH className="idxNum">{idx + 1}</TH>
+                <TH className="idxNum">{((parseInt(nowPage) - 1) * 20) + idx + 1}</TH>
                 <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}</TD>
                 <TD>{`${dateFormat(report.wheelCheckDate.slice(0, 3))}`}</TD>
                 <TD>{`${timeFormat(report.wheelCheckDate.slice(3, 6))}`}</TD>
@@ -41,7 +41,7 @@ function ReportTable({ handleModalOpen , nowPage }: ReportTableProps) {
                 <TD>{report.boltGoodCount === 11 ? "정상" : "NG"}</TD>
                 <TD>11</TD>
                 <TD>{report.boltGoodCount}</TD>
-                <TD><Link to={`./${report.wheelCheckId}`} preventScrollReset={true}><Button width="65px" height="23px">{report.wheelCheckId}</Button></Link></TD>
+              <TD><Button width="65px" height="23px" onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleModalOpen(e)}>{report.wheelCheckId}</Button></TD>
               </TR>
           ) }
         </TBody>
