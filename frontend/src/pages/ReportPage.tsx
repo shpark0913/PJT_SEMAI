@@ -29,6 +29,15 @@ const ReportSection = styled.section`
   height: 100%;
 `
 
+const FormTop = styled.div`
+  display: flex;
+  align-items: flex-end;
+`;
+const FormInputs = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 const NoData = styled.div`
   width: 100%;
   height: 100%;
@@ -64,7 +73,6 @@ function ReportPage() {
       console.log(form);
       submit(form);
     }
-    // submit(e.currentTarget.form);
   }
 
   // =================== 달력 선택 관련 ===================
@@ -113,27 +121,16 @@ function ReportPage() {
 
   // ==================== CSV 파일 다운로드 ====================
   const handleDownloadCSV = () => {
-    // let searchParams = new URL(window.location.search);
-    // console.log(searchParams);
-
-    console.log(window.location.search);
     let searchParams = new URLSearchParams(window.location.search);
     searchParams.delete('page');
     searchParams.set('userName', userName);
-    console.log(searchParams)
-    console.log(window.location.search);
     let newSearchParams :string[] = [];
     searchParams.forEach((val, key) => {
       newSearchParams.push(`${key}=${val}`);
     })
-    console.log(newSearchParams);
 
     window.location.href = `${process.env.REACT_APP_BASE_URL}report/download?${newSearchParams.join('&')}`
   }
-
-  // ======================== scroll restoration =======================
-  // window.history.scrollRestoration = "auto";
-  // console.log(window.history)
 
   return (
     <ReportSection>
@@ -141,21 +138,23 @@ function ReportPage() {
       <Outlet context={[scrollY]} />
       {/*{ isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }*/}
 
-      <Title title="레포트" />
+      {/*<Title title="레포트" />*/}
       <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
         <div>
+          <FormTop>
+            <FormInputs>
+              <InputOhtSn />
+              <InputStartDate startDate={startDate} endDate={endDate} handleChangeStartDate={handleChangeStartDate} />
+              <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} handleChangeEndDate={handleChangeEndDate} />
+              <InputTime startDate={startDate} endDate={endDate} time={time} />
+              <InputWheelPosition wheelPosition={wheelPosition} />
+              <InputDescFlag descFlag={descFlag} />
+              <InputErrorFlag />
+            </FormInputs>
+            <SemesButton style={{flexShrink: "0"}} type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="26px" >조회하기</SemesButton>
+          </FormTop>
           <div>
-            <InputOhtSn />
-            <InputStartDate startDate={startDate} endDate={endDate} handleChangeStartDate={handleChangeStartDate} />
-            <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} handleChangeEndDate={handleChangeEndDate} />
-            <InputTime startDate={startDate} endDate={endDate} time={time} />
-            <InputWheelPosition wheelPosition={wheelPosition} />
-            <InputDescFlag descFlag={descFlag} />
-            <InputErrorFlag />
-            <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="100%" >조회하기</SemesButton>
-          </div>
-          <div>
-            <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="100%">CSV 출력</Button>
+            <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="26px">CSV 출력</Button>
           </div>
         </div>
 
