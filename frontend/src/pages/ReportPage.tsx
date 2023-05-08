@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import {Form, Outlet, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
+import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
 import styled from "styled-components";
 
 import {useAppSelector} from "../_hooks/hooks";
 import {ReportLoaderType, ReportObjectType} from "../_utils/Types";
-import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
+// import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 import useDate from "../_hooks/useDate";
 
 import { Button, SemesButton } from "../components/ButtonComponents";
 import ReportTable from "../components/ReportPage/ReportTable";
-import Title from "../components/Title";
+// import Title from "../components/Title";
 // import ReportModal from "../components/Modal/ReportModal";
 import PaginationComponents from "../components/ReportPage/PaginationComponents";
 
@@ -111,8 +111,8 @@ function ReportPage() {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
-      form.set('page', '1');
       setPage("1");
+      form.set('page', '1');
       !form.has("errorFlag") && form.set("errorFlag", "0")
       !form.has("time") && form.set("time", "ALL")
       console.log(form);
@@ -133,6 +133,28 @@ function ReportPage() {
     window.location.href = `${process.env.REACT_APP_BASE_URL}report/download?${newSearchParams.join('&')}`
   }
 
+  // ======================= 일주일 조회, 30일 조회 ==========================
+  const handleSubmitPeriod = (e: React.MouseEvent<HTMLButtonElement>, day: number) => {
+    if (e.currentTarget.form) {
+      let form = new FormData(e.currentTarget.form);
+      setPage("1");
+      setStartDate(todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
+      setEndDate(todayDate);
+
+      form.set('page', "1");
+      form.set('startDate', todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
+      form.set('endDate', todayDate);
+      !form.has("errorFlag") && form.set("errorFlag", "0")
+      !form.has("time") && form.set("time", "ALL")
+
+      form.forEach((key, value) => {
+        console.log(`key: ${key} , value: ${value}`);
+      })
+      submit(form);
+    }
+  }
+
+
   return (
     <ReportSection>
 
@@ -150,8 +172,8 @@ function ReportPage() {
               <InputWheelPosition query={query} />
               <InputDescFlag query={query} />
               <InputErrorFlag query={query} />
-              <SemesButton style={{marginRight: "20px"}} type="button" width="120px" height="26px" >최근 일주일 조회</SemesButton>
-              <SemesButton type="button" width="120px" height="26px" >최근 한 달 조회</SemesButton>
+              <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 일주일 조회</SemesButton>
+              <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" >최근 한 달 조회</SemesButton>
 
             </FormInputs>
             <FormButtons>
