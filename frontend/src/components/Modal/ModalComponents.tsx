@@ -50,7 +50,7 @@ const CloseButton = styled.button`
   align-items: center;
   
   &:hover {
-    background-color: rgba(128, 128, 128, 0.3);
+    background-color: var(--shadow-color);
   }
 `
 

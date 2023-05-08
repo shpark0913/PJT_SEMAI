@@ -29,20 +29,41 @@ const ReportSection = styled.section`
   display: flex;
   //flex-direction: column;
   height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 `
+const ReportContainer = styled.div`
+  width: 100%;
+`;
 
 const FormTop = styled.div`
   display: flex;
   align-items: flex-end;
+  justify-content: space-between;
   margin-bottom: 20px;
+  
+  
 `;
 const FormInputs = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  //display: grid;
+  //flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, auto));
+  gap: 10px 20px;
+  
+  & div {
+    grid-column: span 2;
+    width: calc(2 * 220px + 20px);
+  }
+
+  & > button:last-child {
+    justify-self: end;
+  }
 `;
-const FormButtons = styled.div`
-  display: flex;
-`;
+// const FormButtons = styled.div`
+//   display: flex;
+//   flex-wrap: wrap;
+// `;
 
 const NoData = styled.div`
   width: 100%;
@@ -88,7 +109,7 @@ function ReportPage() {
   let [detailInfo, setDetailInfo] = useState<ReportObjectType>({wheelCheckDate: [2023, 5, 2, 4, 32, 10]});        // 선택한 레포트의 상세내역을 전달할 객체
   // const { lockScroll, openScroll } = useBodyScrollLock();
   /** 모달이 열리면 실행되는 함수 */
-  const handleModalOpen = useCallback(async (e:React.MouseEvent<HTMLButtonElement>, wheelCheckId: number) => {
+  const handleModalOpen = useCallback(async (e:React.MouseEvent<HTMLTableRowElement>, wheelCheckId: number) => {
     e.preventDefault();
     let reportDetail: ReportObjectType = {wheelCheckDate: [2023, 5, 2, 4, 32, 10]};
     try {
@@ -147,9 +168,6 @@ function ReportPage() {
       !form.has("errorFlag") && form.set("errorFlag", "0")
       !form.has("time") && form.set("time", "ALL")
 
-      form.forEach((key, value) => {
-        console.log(`key: ${key} , value: ${value}`);
-      })
       submit(form);
     }
   }
@@ -161,7 +179,7 @@ function ReportPage() {
       {/*{ isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }*/}
       {/*<Title title="레포트" />*/}
       
-      <div>
+      <ReportContainer>
         <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
           <FormTop>
             <FormInputs>
@@ -172,14 +190,15 @@ function ReportPage() {
               <InputWheelPosition query={query} />
               <InputDescFlag query={query} />
               <InputErrorFlag query={query} />
-              <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 일주일 조회</SemesButton>
-              <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" >최근 한 달 조회</SemesButton>
-
+              <div>
+                <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 일주일 조회</SemesButton>
+                <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 한 달 조회</SemesButton>
+              </div>
+              <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="120px" height="26px" >조회하기</SemesButton>
             </FormInputs>
-            <FormButtons>
-              <SemesButton style={{marginRight: "10px"}} type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="26px" >조회하기</SemesButton>
-              <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="26px">CSV 출력</Button>
-            </FormButtons>
+
+            <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="26px">CSV 출력</Button>
+
           </FormTop>
 
           { result?.length ?
@@ -191,9 +210,9 @@ function ReportPage() {
             <NoData>데이터가 존재하지 않습니다.</NoData>
           }
         </Form>
-      </div>
+      </ReportContainer>
 
-      { isModalOpen && <ReportDetail handleModalClose={handleModalClose} detailInfo={detailInfo}></ReportDetail> }
+      <ReportDetail className={isModalOpen? 'open' : 'close'} handleModalClose={handleModalClose} detailInfo={detailInfo}></ReportDetail>
     </ReportSection>
   );
 }
