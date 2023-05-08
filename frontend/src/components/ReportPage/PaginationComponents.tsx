@@ -6,6 +6,7 @@ const PaginationFieldset = styled.fieldset`
   justify-content: center;
   align-items: center;
   border: none;
+  padding: 0;
 `
 
 const PaginationLabel=styled.label< {checked: boolean}>`
