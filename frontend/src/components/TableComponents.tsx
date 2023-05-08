@@ -72,7 +72,13 @@ const TBody = styled.tbody`
     border-right: 1px solid var(--gray600-color);
     border-bottom: 1px solid var(--gray600-color);
   }
-  & tr:last-child td {
+  
+  & > tr:hover > td {   // 마우스 올리면 보이는 효과  
+    background-color: var(--table-hover-color);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  & > tr:last-child td {
     border-bottom: none;
   }
 `;

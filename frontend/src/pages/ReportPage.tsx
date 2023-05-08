@@ -109,7 +109,7 @@ function ReportPage() {
   let [detailInfo, setDetailInfo] = useState<ReportObjectType>({wheelCheckDate: [2023, 5, 2, 4, 32, 10]});        // 선택한 레포트의 상세내역을 전달할 객체
   // const { lockScroll, openScroll } = useBodyScrollLock();
   /** 모달이 열리면 실행되는 함수 */
-  const handleModalOpen = useCallback(async (e:React.MouseEvent<HTMLButtonElement>, wheelCheckId: number) => {
+  const handleModalOpen = useCallback(async (e:React.MouseEvent<HTMLTableRowElement>, wheelCheckId: number) => {
     e.preventDefault();
     let reportDetail: ReportObjectType = {wheelCheckDate: [2023, 5, 2, 4, 32, 10]};
     try {

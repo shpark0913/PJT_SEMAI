@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     --danger-color: #FF0A0A;
     --danger-color-light: #FF7070;
     --warning-color: #FFFF0A;
-  
+
     /* Navigation bar height */
     --nav-height: 50px;
 
@@ -30,13 +30,14 @@ const GlobalStyle = createGlobalStyle`
     --section-color: #E8EFF6;
     --background-color: #FCFCFC;
     --background-dark-color: #E4EDF5;
-    
+
     --tab-menu-color: #EDEDED;
     --tab-span-color: #0052A4;
     --tab-span-font-color: #FCFCFC;
 
     --font-color: #0E0E0E;
     --shadow-color: rgba(33, 35, 38, 0.2);
+    --table-hover-color: #E4EDF5;
   }
 
   :root[data-theme="dark"] {
@@ -51,7 +52,8 @@ const GlobalStyle = createGlobalStyle`
     --tab-span-font-color: #FCFCFC;
 
     --font-color: #FCFCFC;
-    --shadow-color: rgba(255, 255, 255, 0.3) ;
+    --shadow-color: rgba(255, 255, 255, 0.3);
+    --table-hover-color: rgba(228, 237, 245, 0.2);
   }
 
   *, *::before, *::after {
@@ -130,18 +132,21 @@ const GlobalStyle = createGlobalStyle`
   li {
     list-style-type: none;
   }
-  
+
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
   }
+
   ::-webkit-scrollbar-track {
     background-color: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     border-radius: 8px;
     background-color: var(--gray600-color);
   }
+
   ::-webkit-scrollbar-corner {
     background-color: transparent;
   }
