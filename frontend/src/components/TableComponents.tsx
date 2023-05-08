@@ -73,7 +73,7 @@ const TBody = styled.tbody`
     border-bottom: 1px solid var(--gray600-color);
   }
   
-  & > tr:hover > td {   // 마우스 올리면 보이는 효과  
+  &.report-table > tr:hover > td {   // 마우스 올리면 보이는 효과  
     background-color: var(--table-hover-color);
     text-decoration: underline;
     cursor: pointer;

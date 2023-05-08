@@ -29,7 +29,7 @@ function ReportTable({ handleModalOpen , nowPage }: ReportTableProps) {
             {/*<TH>상세보기</TH>*/}
           </TR>
         </THead>
-        <TBody>
+        <TBody className="report-table">
           { result.map((report:any, idx:number) =>
               <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`} onClick={(e: React.MouseEvent<HTMLTableRowElement>) => handleModalOpen(e, report.wheelCheckId)}>
                 <TH className="idxNum">{((parseInt(nowPage) - 1) * 20) + idx + 1}</TH>
