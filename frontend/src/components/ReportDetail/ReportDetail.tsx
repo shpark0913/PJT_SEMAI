@@ -18,7 +18,7 @@ const ReportDetailContainer = styled.div`
   &.open{
     width: 100%;
     transform: translateX(0);
-    box-shadow: -10px 0 10px -10px rgba(33, 35, 38, 0.1);
+    box-shadow: -15px 0 10px -10px var(--shadow-color);
   }
   &.close {
     width: 0;
