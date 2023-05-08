@@ -6,15 +6,28 @@ import { ReportObjectType } from "../../_utils/Types";
 import DetailTable from "../Modal/DetailTable";
 
 const ReportDetailContainer = styled.div`
-  background-color: #4a77d4;
-  
-  height: 100%;
+  background-color: var(--background-color);
   width: 100%;
+  height: 100%;
   padding-left: 30px;
+  margin-left: 30px;
+  transition: width 1000ms ease, transform 1000ms ease, box-shadow 1000ms ease;
+  
+  &.open{
+    width: 100%;
+    transform: translateX(0);
+    box-shadow: -15px 0 10px -10px var(--shadow-color);
+  }
+  &.close {
+    width: 0;
+    transform: translateX(150%);
+    box-shadow: none;
+  }
+  
 `
-function ReportDetail({handleModalClose, detailInfo}: {handleModalClose: any, detailInfo: ReportObjectType}) {
+function ReportDetail({handleModalClose, detailInfo, className}: {handleModalClose: any, detailInfo: ReportObjectType, className: string}) {
   return (
-    <ReportDetailContainer>
+    <ReportDetailContainer className={className}>
       <CloseButton onClick={handleModalClose}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
       <DetailTable detailInfo={detailInfo} />
     </ReportDetailContainer>
