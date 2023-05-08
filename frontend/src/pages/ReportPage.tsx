@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import {Form, Outlet, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
+import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
 import styled from "styled-components";
 
 import {useAppSelector} from "../_hooks/hooks";
 import {ReportLoaderType, ReportObjectType} from "../_utils/Types";
-import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
+// import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 import useDate from "../_hooks/useDate";
 
 import { Button, SemesButton } from "../components/ButtonComponents";
 import ReportTable from "../components/ReportPage/ReportTable";
-import Title from "../components/Title";
+// import Title from "../components/Title";
 // import ReportModal from "../components/Modal/ReportModal";
 import PaginationComponents from "../components/ReportPage/PaginationComponents";
 
@@ -19,15 +19,30 @@ import InputTime from "../components/ReportPage/InputTime";
 import InputWheelPosition from "../components/ReportPage/InputWheelPosition";
 import InputDescFlag from "../components/ReportPage/InputDescFlag";
 import InputErrorFlag from "../components/ReportPage/InputErrorFlag";
+import ReportDetail from "../components/ReportDetail/ReportDetail";
+import Axios from "../_utils/Axios";
 
 
 
 const ReportSection = styled.section`
   padding: 30px;
   display: flex;
-  flex-direction: column;
+  //flex-direction: column;
   height: 100%;
 `
+
+const FormTop = styled.div`
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 20px;
+`;
+const FormInputs = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+const FormButtons = styled.div`
+  display: flex;
+`;
 
 const NoData = styled.div`
   width: 100%;
@@ -38,72 +53,66 @@ const NoData = styled.div`
 `
 
 function ReportPage() {
-  // ================ 초기 필요한 값들 ================
+
+  // ================ 초기 값 ================
   let [query] = useSearchParams();
   let submit = useSubmit();
-  let data = useLoaderData() as ReportLoaderType;
-  let { result, totalPage } = data;
+  let { result, totalPage } = useLoaderData() as ReportLoaderType;
   let userName = useAppSelector(state => state.user.userName);
+  let { todayFormat } = useDate();
+  let todayDate = todayFormat();
 
-  let ohtSn = query.get('ohtSn') || "ALL";
-  let time = query.get('time') || "ALL";
-  let wheelPosition = query.get('wheelPosition') || "";
-  let errorFlag = query.get('errorFlag') || "0";
-  let descFlag = query.get('descFlag') || "0";
+  let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
+  let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
+
+  let [page, setPage] = useState<string>(query.get('page') || "1");
+
+
 
   // ================== 페이지네이션 ======================
   let paginationTotalPage = Math.ceil(totalPage/20);
-  let [page, setPage] = useState<string>(query.get('page') || "1");
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPage(e.target.value);
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
       form.set('page', e.target.value);
-      setPage(e.target.value);
-      !form.has("errorFlag") && form.set("errorFlag", "0")
-      !form.has("time") && form.set("time", "ALL")
-      console.log(form);
+      !form.has("errorFlag") && form.set("errorFlag", "0");
+      !form.has("time") && form.set("time", "ALL");
       submit(form);
     }
-    // submit(e.currentTarget.form);
-  }
-
-  // =================== 달력 선택 관련 ===================
-  let { todayFormat } = useDate();
-  let todayDate = todayFormat();
-  let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
-  let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
-  /** 달력에서 날짜를 클릭하면 변하는 함수 */
-  const handleChangeStartDate = (e:any) => {
-    setStartDate(e.target.value);
-  }
-  const handleChangeEndDate = (e:any) => {
-    setEndDate(e.target.value);
   }
 
   // =================== 모달 관련 ===================
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  let [scrollY, setScrollY] = useState<number>(0);
+  // let [scrollY, setScrollY] = useState<number>(0);
   let [detailInfo, setDetailInfo] = useState<ReportObjectType>({wheelCheckDate: [2023, 5, 2, 4, 32, 10]});        // 선택한 레포트의 상세내역을 전달할 객체
-  const { lockScroll, openScroll } = useBodyScrollLock();
+  // const { lockScroll, openScroll } = useBodyScrollLock();
   /** 모달이 열리면 실행되는 함수 */
-  const handleModalOpen = useCallback((detailInfo: ReportObjectType) => {
-    setScrollY(window.scrollY);
+  const handleModalOpen = useCallback(async (e:React.MouseEvent<HTMLButtonElement>, wheelCheckId: number) => {
+    e.preventDefault();
+    let reportDetail: ReportObjectType = {wheelCheckDate: [2023, 5, 2, 4, 32, 10]};
+    try {
+      let response = await Axios.get(`report/detail/${wheelCheckId}`);
+      reportDetail = response.data.data;
+      console.log(reportDetail);
+    }
+    catch (err) {
+      console.log(err)
+    }
+    await setDetailInfo(reportDetail);
     setIsModalOpen(true);
-    setDetailInfo(detailInfo);
-    lockScroll();
-  }, [lockScroll])
+  }, []);
+
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
-    setDetailInfo({wheelCheckDate: [2023, 5, 2, 4, 32, 10]});
-    openScroll();
-  }, [openScroll]);
+  }, []);
 
-  // ================ form 제출 =================
+  // ================ form 조회 =================
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
-      form.set('page', '1');
       setPage("1");
+      form.set('page', '1');
       !form.has("errorFlag") && form.set("errorFlag", "0")
       !form.has("time") && form.set("time", "ALL")
       console.log(form);
@@ -113,62 +122,78 @@ function ReportPage() {
 
   // ==================== CSV 파일 다운로드 ====================
   const handleDownloadCSV = () => {
-    // let searchParams = new URL(window.location.search);
-    // console.log(searchParams);
-
-    console.log(window.location.search);
     let searchParams = new URLSearchParams(window.location.search);
     searchParams.delete('page');
     searchParams.set('userName', userName);
-    console.log(searchParams)
-    console.log(window.location.search);
     let newSearchParams :string[] = [];
     searchParams.forEach((val, key) => {
       newSearchParams.push(`${key}=${val}`);
     })
-    console.log(newSearchParams);
 
     window.location.href = `${process.env.REACT_APP_BASE_URL}report/download?${newSearchParams.join('&')}`
   }
 
-  // ======================== scroll restoration =======================
-  // window.history.scrollRestoration = "auto";
-  // console.log(window.history)
+  // ======================= 일주일 조회, 30일 조회 ==========================
+  const handleSubmitPeriod = (e: React.MouseEvent<HTMLButtonElement>, day: number) => {
+    if (e.currentTarget.form) {
+      let form = new FormData(e.currentTarget.form);
+      setPage("1");
+      setStartDate(todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
+      setEndDate(todayDate);
+
+      form.set('page', "1");
+      form.set('startDate', todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
+      form.set('endDate', todayDate);
+      !form.has("errorFlag") && form.set("errorFlag", "0")
+      !form.has("time") && form.set("time", "ALL")
+
+      form.forEach((key, value) => {
+        console.log(`key: ${key} , value: ${value}`);
+      })
+      submit(form);
+    }
+  }
+
 
   return (
     <ReportSection>
 
-      <Outlet context={[scrollY]} />
       {/*{ isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }*/}
+      {/*<Title title="레포트" />*/}
+      
+      <div>
+        <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
+          <FormTop>
+            <FormInputs>
+              <InputOhtSn query={query} />
+              <InputStartDate startDate={startDate} endDate={endDate} setStartDate={setStartDate} />
+              <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} setEndDate={setEndDate} />
+              <InputTime query={query} startDate={startDate} endDate={endDate} />
+              <InputWheelPosition query={query} />
+              <InputDescFlag query={query} />
+              <InputErrorFlag query={query} />
+              <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 일주일 조회</SemesButton>
+              <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" >최근 한 달 조회</SemesButton>
 
-      <Title title="레포트" />
-      <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-        <div>
-          <div>
-            <InputOhtSn />
-            <InputStartDate startDate={startDate} endDate={endDate} handleChangeStartDate={handleChangeStartDate} />
-            <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} handleChangeEndDate={handleChangeEndDate} />
-            <InputTime startDate={startDate} endDate={endDate} time={time} />
-            <InputWheelPosition wheelPosition={wheelPosition} />
-            <InputDescFlag descFlag={descFlag} />
-            <InputErrorFlag />
-            <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="100%" >조회하기</SemesButton>
-          </div>
-          <div>
-            <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="100%">CSV 출력</Button>
-          </div>
-        </div>
+            </FormInputs>
+            <FormButtons>
+              <SemesButton style={{marginRight: "10px"}} type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="26px" >조회하기</SemesButton>
+              <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="26px">CSV 출력</Button>
+            </FormButtons>
+          </FormTop>
 
-        { result?.length ?
-          <>
-            <ReportTable handleModalOpen={handleModalOpen} nowPage={page} />
-            <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
-          </>
-          :
-          <NoData>데이터가 존재하지 않습니다.</NoData>
-        }
+          { result?.length ?
+            <>
+              <ReportTable handleModalOpen={handleModalOpen} nowPage={page} />
+              <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
+            </>
+            :
+            <NoData>데이터가 존재하지 않습니다.</NoData>
+          }
+        </Form>
+      </div>
 
-      </Form>
+      { isModalOpen && <ReportDetail handleModalClose={handleModalClose} detailInfo={detailInfo}></ReportDetail> }
     </ReportSection>
   );
 }

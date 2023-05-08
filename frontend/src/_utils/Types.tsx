@@ -1,4 +1,6 @@
 // ============== component types ================
+import React from "react";
+
 export type TitleProps = {
   title: string;
 };
@@ -19,12 +21,15 @@ export type ReportObjectType = {   // 디테일 페이지에 들어오는 값들
   wheelCheckId?: number,
   wheelPosition?: string,
 }
+export type QueryType = {
+  query: URLSearchParams,
+}
 export type ReportLoaderType = {
   result: ReportObjectType[],
   totalPage: number;
 }
 export type ReportTableProps = {   // 레포트 페이지의 테이블 중 모달 open
-  handleModalOpen: (arg :ReportObjectType) => void;
+  handleModalOpen: (e :React.MouseEvent<HTMLButtonElement>, wheelCheckId: number) => void;
   nowPage: string
 }
 export type ReportModalProps = {

@@ -93,7 +93,6 @@ public class move : MonoBehaviour
     }
     IEnumerator UnityWebRequestGETTest()
     {
-        //
         List<IMultipartFormSection> files = new List<IMultipartFormSection>();
         files.Add(new MultipartFormFileSection
             (System.IO.File.ReadAllBytes(Application.dataPath + "/Resources/aug_1_inner_and_outer_8_11.jpg")));
