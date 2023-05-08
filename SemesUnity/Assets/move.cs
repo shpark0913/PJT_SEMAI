@@ -8,8 +8,7 @@ public class move : MonoBehaviour
 {
     public GameObject gameObject;
     public Image mFlashImage;
-    Vector3 destination = new Vector3(-1.0f, 8.5f, 0.2f);
-    Vector3 endDestination = new Vector3(4f, 8.5f, 0.2f);
+    Vector3 destination = new Vector3(0f, 6.7f, 0.2f);
     public bool tr = true;
     public bool changed = false;
     public bool cam = false;
@@ -19,7 +18,12 @@ public class move : MonoBehaviour
     public float timer;
     public int waitingTime = 10;
     string url = "http://localhost:8888/dev/ohtcheck/P4";
-    public Image [] image = new Image[4];
+    public bool is_fitin;
+    public bool is_go;
+    private void Start()
+    {
+        mFlashImage = GameObject.Find("r").GetComponent<Image>();
+    }
     private void Update()
     {
         if (changed)
@@ -34,39 +38,62 @@ public class move : MonoBehaviour
     }
     void FixedUpdate()
     {
-
-        if (tr)
+        if (is_fitin)
         {
-            transform.position = Vector3.Lerp(transform.position, destination, 0.03f);
-            if (gameObject.transform.position.x > -1.01)
+            if (tr)
             {
-                tr = false;
-            }
+                    if (gameObject.transform.position.x < -12.00f)
+                    {
+                        transform.position = Vector3.Lerp(transform.position, destination, 0.03f);
+                    }
+                    else if (gameObject.transform.position.x > -12.00f && gameObject.transform.position.x < -10f)
+                    {
+                        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, -40f, 0)), 0.05f);
+                        transform.position = Vector3.Lerp(transform.position, new Vector3(-9.5f, 6.7f, 1.7f), 0.02f);
+
+                    }
+                    else if (gameObject.transform.position.x > -10f && gameObject.transform.position.x < -3.9)
+                    {
+                        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, 0, 0)), 0.05f);
+                        transform.position = Vector3.Lerp(transform.position, new Vector3(-3.8f, 6.7f, 1.45f), 0.01f);
+
+                    }
+                    else if (gameObject.transform.position.x > -3.9)
+                    {
+                        tr = false;
+                    }
                 
-        }
-        else
-        {
-            timer += Time.deltaTime;
-
-            if (timer > 3&& !cam)
-            {
-                cam = true;
-                changed = true;
-                StartCoroutine(UnityWebRequestGETTest());
             }
-            if (timer > 6)
+            else
             {
-                transform.position = Vector3.Lerp(transform.position, endDestination, 0.01f);
-                if (gameObject.transform.position.x > 3.8)
-                {
+                timer += Time.deltaTime;
 
+                if (timer > 3 && !cam)
+                {
+                    cam = true;
+                    changed = true;
+                    //StartCoroutine(UnityWebRequestGETTest());
+                }
+                if (timer > 6)
+                {
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(4f, 6.7f, transform.position.z), 0.01f);
+                    
                 }
             }
         }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(4f, 6.7f, transform.position.z), 0.01f);
+        }
 
+        if (gameObject.transform.position.x > 3.8)
+        {
+            Destroy(this.gameObject);
+        }
     }
     IEnumerator UnityWebRequestGETTest()
     {
+        //
         List<IMultipartFormSection> files = new List<IMultipartFormSection>();
         files.Add(new MultipartFormFileSection
             (System.IO.File.ReadAllBytes(Application.dataPath + "/Resources/aug_1_inner_and_outer_8_11.jpg")));
