@@ -5,7 +5,7 @@ import { ReportTableProps } from "../../_utils/Types";
 import useDate from "../../_hooks/useDate";
 
 import {Table, TableContainer, TBody, TD, TFoot, TH, THead, TR} from "../TableComponents";
-import { Button } from "../ButtonComponents";
+// import { Button } from "../ButtonComponents";
 
 function ReportTable({ handleModalOpen , nowPage }: ReportTableProps) {
   let data: any = useRouteLoaderData("reportLists");
@@ -26,12 +26,12 @@ function ReportTable({ handleModalOpen , nowPage }: ReportTableProps) {
             <TH>검사 결과</TH>
             <TH>기준값</TH>
             <TH>결과값</TH>
-            <TH>상세보기</TH>
+            {/*<TH>상세보기</TH>*/}
           </TR>
         </THead>
         <TBody>
           { result.map((report:any, idx:number) =>
-              <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}>
+              <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`} onClick={(e: React.MouseEvent<HTMLTableRowElement>) => handleModalOpen(e, report.wheelCheckId)}>
                 <TH className="idxNum">{((parseInt(nowPage) - 1) * 20) + idx + 1}</TH>
                 <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}</TD>
                 <TD>{`${dateFormat(report.wheelCheckDate.slice(0, 3))}`}</TD>
@@ -41,7 +41,7 @@ function ReportTable({ handleModalOpen , nowPage }: ReportTableProps) {
                 <TD>{report.boltGoodCount === 11 ? "정상" : "NG"}</TD>
                 <TD>11</TD>
                 <TD>{report.boltGoodCount}</TD>
-              <TD><Button width="65px" height="23px" onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleModalOpen(e, report.wheelCheckId)}>{report.wheelCheckId}</Button></TD>
+              {/*<TD><Button width="65px" height="23px" onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleModalOpen(e, report.wheelCheckId)}>{report.wheelCheckId}</Button></TD>*/}
               </TR>
           ) }
         </TBody>
