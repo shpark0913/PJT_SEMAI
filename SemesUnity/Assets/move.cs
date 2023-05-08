@@ -42,27 +42,27 @@ public class move : MonoBehaviour
         {
             if (tr)
             {
-                    if (gameObject.transform.position.x < -12.00f)
-                    {
-                        transform.position = Vector3.Lerp(transform.position, destination, 0.03f);
-                    }
-                    else if (gameObject.transform.position.x > -12.00f && gameObject.transform.position.x < -10f)
-                    {
-                        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, -40f, 0)), 0.05f);
-                        transform.position = Vector3.Lerp(transform.position, new Vector3(-9.5f, 6.7f, 1.7f), 0.02f);
+                if (gameObject.transform.position.x < -12.00f)
+                {
+                    transform.position = Vector3.Lerp(transform.position, destination, 0.03f);
+                }
+                else if (gameObject.transform.position.x > -12.00f && gameObject.transform.position.x < -10f)
+                {
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, -40f, 0)), 0.05f);
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(-9.5f, 6.7f, 1.7f), 0.02f);
 
-                    }
-                    else if (gameObject.transform.position.x > -10f && gameObject.transform.position.x < -3.9)
-                    {
-                        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, 0, 0)), 0.05f);
-                        transform.position = Vector3.Lerp(transform.position, new Vector3(-3.8f, 6.7f, 1.45f), 0.01f);
+                }
+                else if (gameObject.transform.position.x > -10f && gameObject.transform.position.x < -3.9)
+                {
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, 0, 0)), 0.05f);
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(-3.8f, 6.7f, 1.45f), 0.01f);
 
-                    }
-                    else if (gameObject.transform.position.x > -3.9)
-                    {
-                        tr = false;
-                    }
-                
+                }
+                else if (gameObject.transform.position.x > -3.9)
+                {
+                    tr = false;
+                }
+
             }
             else
             {
@@ -77,7 +77,7 @@ public class move : MonoBehaviour
                 if (timer > 6)
                 {
                     transform.position = Vector3.Lerp(transform.position, new Vector3(4f, 6.7f, transform.position.z), 0.01f);
-                    
+
                 }
             }
         }
