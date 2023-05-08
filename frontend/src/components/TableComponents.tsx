@@ -7,23 +7,24 @@ type TRType = {
 const TableContainer = styled.div`
   margin-bottom: 10px;
   width: 100%;
-  
+  height: 100%;
   min-width: 800px;
   overflow-y: auto;
-  flex-grow: 1;
-  flex-shrink: 0;
+  //flex-grow: 1;
+  //flex-shrink: 1;
 `;
 
 const Table = styled.table`
   width: 100%;
-  border-collapse: collapse;
-
+  border-collapse: separate; /* Don't collapse */
+  border-spacing: 0;
+  
+  //border-collapse: separate;
   &.detail {
     border-left: 3px solid var(--emphasize-color);
     & tr:last-of-type th {
       border-bottom: none;
     }
-
     & th {
       width: 25%;
     }
@@ -35,8 +36,15 @@ const Table = styled.table`
 `;
 
 const THead = styled.thead`
-  border-top: 3px solid var(--emphasize-color);
-  border-bottom: 1px solid var(--emphasize-color);
+  //border-top: 3px solid var(--emphasize-color);
+  //border-bottom: 1px solid var(--emphasize-color);
+  position: sticky;
+  top: 0;
+  
+  & > tr:first-child > th {
+    border-top: 3px solid var(--emphasize-color);
+    border-bottom: 1px solid var(--emphasize-color);
+  }
 `;
 
 const THeadMain = styled.thead`
@@ -72,16 +80,33 @@ const TBody = styled.tbody`
     border-right: 1px solid var(--gray600-color);
     border-bottom: 1px solid var(--gray600-color);
   }
-  & tr:last-child td {
+  
+  &.report-table > tr:hover > td {   // 마우스 올리면 보이는 효과  
+    background-color: var(--table-hover-color);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  & > tr:last-child td {
+    border-bottom: none;
+  }
+  & > tr:last-child th {
     border-bottom: none;
   }
 `;
 
 const TFoot = styled.tfoot`
   text-align: center;
-  border-top: 1px solid var(--emphasize-color);
-  border-bottom: 3px solid var(--emphasize-color);
+  //border-top: 1px solid var(--emphasize-color);
+  //border-bottom: 3px solid var(--emphasize-color);
   background-color: var(--background-dark-color);
+
+  position: sticky;
+  bottom: 0;
+
+  & > tr:first-child > td {
+    border-top: 1px solid var(--emphasize-color);
+    border-bottom: 3px solid var(--emphasize-color);
+  }
 `;
 
 const TR = styled.tr<TRType>`

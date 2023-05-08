@@ -8,8 +8,8 @@ function InputOhtSn({query}: QueryType) {
   let [ohtSn, setOhtSn] = useState<string>(query.get('ohtSn') || "ALL");
 
   return (
-    <Label theme={theme}> 장비 종류
-      <select name="ohtSn" defaultValue={ohtSn}>
+    <Label theme={theme} style={{display: "none"}} > 장비 종류
+      <select name="ohtSn" defaultValue={ohtSn} >
         <option value="ALL">전체</option>
         <option value="P1">P1</option>
         <option value="P2">P2</option>
