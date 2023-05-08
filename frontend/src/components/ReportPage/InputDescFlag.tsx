@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useAppSelector} from "../../_hooks/hooks";
 import {Label} from "./FilterComponents";
+import {QueryType} from "../../_utils/Types";
 
-function InputDescFlag({descFlag}: {descFlag: string}) {
+function InputDescFlag({query}: QueryType) {
   const theme=useAppSelector(state => state.theme.theme)
+  let [descFlag, setDescFlag] = useState<string>(query.get('descFlag') || "0");
 
   return (
     <Label theme={theme}> 정렬 기준
