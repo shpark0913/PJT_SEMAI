@@ -4,6 +4,7 @@ import { LabelProps } from "../../_utils/Types";
 const Label = styled.label<LabelProps>`
   color: var(--emphasize-color);
   margin-right: 25px;
+  margin-bottom: 5px;
   height: 26px;
   
   display: flex;
