@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useAppSelector} from "../../_hooks/hooks";
 import {Label} from "./FilterComponents";
+import {QueryType} from "../../_utils/Types";
 
-function InputWheelPosition({wheelPosition}: {wheelPosition:string}) {
-  const theme=useAppSelector(state => state.theme.theme)
+function InputWheelPosition({query}: QueryType) {
+  const theme = useAppSelector(state => state.theme.theme);
+  let [wheelPosition, setWheelPosition] = useState<string>(query.get('wheelPosition') || "ALL");
+
   return (
     <Label theme={theme}> 검사 휠 위치
       <select name="wheelPosition" defaultValue={wheelPosition}>
