@@ -113,6 +113,7 @@ function OHTResultMenu(props) {
                         event.preventDefault();
                         dispatch(setCheckId(item.ohtCheckId));
                         dispatch(setInquire(true));
+                        console.log("클릭클릭");
                       }}
                     >
                       상세보기

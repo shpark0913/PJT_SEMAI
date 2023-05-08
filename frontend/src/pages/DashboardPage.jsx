@@ -1,3 +1,4 @@
+import { setCheckId, setSSEId } from "../_store/slices/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -7,42 +8,7 @@ import OHTAllResult from "../components/DashboardPage/OHTAllResult";
 import OHTCheck from "../components/DashboardPage/OHTCheck";
 import OHTResult from "../components/DashboardPage/OHTResult";
 import OHTTransition from "../components/DashboardPage/OHTTransition";
-import { setCheckId } from "../_store/slices/dashboardSlice";
 import styled from "styled-components";
-
-export async function loader() {
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
-
-  let dashboardData;
-  const persistRoot = localStorage.getItem("persist:root");
-  const store = persistRoot ? JSON.parse(persistRoot) : "";
-  const token = JSON.parse(store.user)?.token || "";
-
-  async function fetchData() {
-    const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
-      headers: {
-        accesstoken: token,
-      },
-    });
-    const response = await new Promise(resolve => {
-      sse.addEventListener("dashboard", event => {
-        dashboardData = JSON.parse(event.data);
-        resolve(dashboardData);
-      });
-      sse.addEventListener("state", event => {
-        const stateData = JSON.parse(event.data);
-        console.log("state", event);
-        resolve([...dashboardData, stateData]);
-      });
-    });
-    return response;
-  }
-
-  return fetchData().then(response => {
-    const newOHTCheckId = response[0].ohtCheckId;
-    return [newOHTCheckId];
-  });
-}
 
 const MainGrid = styled.section`
   display: grid;
@@ -56,25 +22,57 @@ function DashboardPage() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const dispatch = useDispatch();
 
-  // store에 저장된 ohtCheckId를 ohtCheckId 변수에 저장
+  let dashboardData;
+  const persistRoot = localStorage.getItem("persist:root");
+  const store = persistRoot ? JSON.parse(persistRoot) : "";
+  const token = JSON.parse(store.user)?.token || "";
+
   const ohtCheckId = useSelector(state => {
     return state.dashboard.checkId;
   });
   const isChecked = useSelector(state => {
     return state.dashboard.inquire;
   });
+  const isSSEId = useSelector(state => {
+    return state.dashboard.sseId;
+  });
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // 대시보드 SSE 연결
+  async function fetchData() {
+    const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
+      headers: {
+        accesstoken: token,
+      },
+    });
+    const response = await new Promise(resolve => {
+      sse.addEventListener("dashboard", event => {
+        dashboardData = JSON.parse(event.data);
+        resolve(dashboardData);
+        console.log("dashboard SSE 발생 🔆", dashboardData);
+        console.log("isChecked", isChecked);
+      });
+    });
+    const newOHTCheckId = response[0].ohtCheckId;
+    dispatch(setSSEId(newOHTCheckId));
 
+    return newOHTCheckId;
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // isChecked가 false라면 화면 좌측 최신화
   useEffect(() => {
+    console.log("fetchNewOHTCheckId 실행");
     async function fetchNewOHTCheckId() {
-      const newOHTCheckId = await loader();
+      const newOHTCheckId = await fetchData();
       if (isChecked === false) {
         dispatch(setCheckId(newOHTCheckId));
       }
     }
     fetchNewOHTCheckId();
-  }, [dispatch]);
-
+  }, [isChecked]);
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // store의 checkId가 변하면 실행돼서 정보를 불러옴
   useEffect(() => {
+    console.log("fetchWheelData 실행");
     async function fetchWheelData() {
       try {
         const response = await Axios.get(`${BASE_URL}dashboard/main/${ohtCheckId}`);
@@ -86,7 +84,7 @@ function DashboardPage() {
     }
     fetchWheelData();
   }, [ohtCheckId]);
-
+  ////////////////////////////////////////////////////////////////////////////////////////////////
   const [wheelDataNew, setWheelDataNew] = useState(null);
 
   return (
@@ -98,5 +96,4 @@ function DashboardPage() {
     </MainGrid>
   );
 }
-
 export default DashboardPage;
