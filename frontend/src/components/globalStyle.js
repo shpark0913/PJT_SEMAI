@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
     --tab-span-font-color: #FCFCFC;
 
     --font-color: #0E0E0E;
+    --shadow-color: rgba(33, 35, 38, 0.2);
   }
 
   :root[data-theme="dark"] {
@@ -50,6 +51,7 @@ const GlobalStyle = createGlobalStyle`
     --tab-span-font-color: #FCFCFC;
 
     --font-color: #FCFCFC;
+    --shadow-color: rgba(255, 255, 255, 0.3) ;
   }
 
   *, *::before, *::after {
