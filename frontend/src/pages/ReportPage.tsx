@@ -38,46 +38,33 @@ const NoData = styled.div`
 `
 
 function ReportPage() {
-  // ================ 초기 필요한 값들 ================
+
+  // ================ 초기 값 ================
   let [query] = useSearchParams();
   let submit = useSubmit();
-  let data = useLoaderData() as ReportLoaderType;
-  let { result, totalPage } = data;
+  let { result, totalPage } = useLoaderData() as ReportLoaderType;
   let userName = useAppSelector(state => state.user.userName);
+  let { todayFormat } = useDate();
+  let todayDate = todayFormat();
 
-  let ohtSn = query.get('ohtSn') || "ALL";
-  let time = query.get('time') || "ALL";
-  let wheelPosition = query.get('wheelPosition') || "";
-  let errorFlag = query.get('errorFlag') || "0";
-  let descFlag = query.get('descFlag') || "0";
+  let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
+  let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
+
+  let [page, setPage] = useState<string>(query.get('page') || "1");
+
+
 
   // ================== 페이지네이션 ======================
   let paginationTotalPage = Math.ceil(totalPage/20);
-  let [page, setPage] = useState<string>(query.get('page') || "1");
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPage(e.target.value);
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
       form.set('page', e.target.value);
-      setPage(e.target.value);
-      !form.has("errorFlag") && form.set("errorFlag", "0")
-      !form.has("time") && form.set("time", "ALL")
-      console.log(form);
+      !form.has("errorFlag") && form.set("errorFlag", "0");
+      !form.has("time") && form.set("time", "ALL");
       submit(form);
     }
-    // submit(e.currentTarget.form);
-  }
-
-  // =================== 달력 선택 관련 ===================
-  let { todayFormat } = useDate();
-  let todayDate = todayFormat();
-  let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
-  let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
-  /** 달력에서 날짜를 클릭하면 변하는 함수 */
-  const handleChangeStartDate = (e:any) => {
-    setStartDate(e.target.value);
-  }
-  const handleChangeEndDate = (e:any) => {
-    setEndDate(e.target.value);
   }
 
   // =================== 모달 관련 ===================
@@ -98,7 +85,7 @@ function ReportPage() {
     openScroll();
   }, [openScroll]);
 
-  // ================ form 제출 =================
+  // ================ form 조회 =================
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
@@ -145,13 +132,13 @@ function ReportPage() {
       <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
         <div>
           <div>
-            <InputOhtSn />
-            <InputStartDate startDate={startDate} endDate={endDate} handleChangeStartDate={handleChangeStartDate} />
-            <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} handleChangeEndDate={handleChangeEndDate} />
-            <InputTime startDate={startDate} endDate={endDate} time={time} />
-            <InputWheelPosition wheelPosition={wheelPosition} />
-            <InputDescFlag descFlag={descFlag} />
-            <InputErrorFlag />
+            <InputOhtSn query={query} />
+            <InputStartDate startDate={startDate} endDate={endDate} setStartDate={setStartDate} />
+            <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} setEndDate={setEndDate} />
+            <InputTime query={query} startDate={startDate} endDate={endDate} />
+            <InputWheelPosition query={query} />
+            <InputDescFlag query={query} />
+            <InputErrorFlag query={query} />
             <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="90px" height="100%" >조회하기</SemesButton>
           </div>
           <div>
