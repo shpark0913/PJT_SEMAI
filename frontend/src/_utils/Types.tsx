@@ -19,6 +19,9 @@ export type ReportObjectType = {   // 디테일 페이지에 들어오는 값들
   wheelCheckId?: number,
   wheelPosition?: string,
 }
+export type QueryType = {
+  query: URLSearchParams,
+}
 export type ReportLoaderType = {
   result: ReportObjectType[],
   totalPage: number;
