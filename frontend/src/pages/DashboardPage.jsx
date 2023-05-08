@@ -21,6 +21,7 @@ const MainGrid = styled.section`
 function DashboardPage() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const dispatch = useDispatch();
+  const [wheelDataNew, setWheelDataNew] = useState(null);
 
   let dashboardData;
   const persistRoot = localStorage.getItem("persist:root");
@@ -48,6 +49,7 @@ function DashboardPage() {
       sse.addEventListener("dashboard", event => {
         dashboardData = JSON.parse(event.data);
         resolve(dashboardData);
+        console.log("==========================");
         console.log("dashboard SSE 발생 🔆", dashboardData);
         console.log("isChecked", isChecked);
       });
@@ -64,6 +66,7 @@ function DashboardPage() {
     async function fetchNewOHTCheckId() {
       const newOHTCheckId = await fetchData();
       if (isChecked === false) {
+        console.log("isChecked가 false일 때, checkId 바꾸기");
         dispatch(setCheckId(newOHTCheckId));
       }
     }
@@ -85,7 +88,6 @@ function DashboardPage() {
     fetchWheelData();
   }, [ohtCheckId]);
   ////////////////////////////////////////////////////////////////////////////////////////////////
-  const [wheelDataNew, setWheelDataNew] = useState(null);
 
   return (
     <MainGrid>
