@@ -29,6 +29,7 @@ const ReportSection = styled.section`
   display: flex;
   //flex-direction: column;
   height: 100%;
+  overflow-x: hidden;
 `
 
 const FormTop = styled.div`
@@ -147,9 +148,6 @@ function ReportPage() {
       !form.has("errorFlag") && form.set("errorFlag", "0")
       !form.has("time") && form.set("time", "ALL")
 
-      form.forEach((key, value) => {
-        console.log(`key: ${key} , value: ${value}`);
-      })
       submit(form);
     }
   }
@@ -193,7 +191,7 @@ function ReportPage() {
         </Form>
       </div>
 
-      { isModalOpen && <ReportDetail handleModalClose={handleModalClose} detailInfo={detailInfo}></ReportDetail> }
+      <ReportDetail className={isModalOpen? 'open' : 'close'} handleModalClose={handleModalClose} detailInfo={detailInfo}></ReportDetail>
     </ReportSection>
   );
 }
