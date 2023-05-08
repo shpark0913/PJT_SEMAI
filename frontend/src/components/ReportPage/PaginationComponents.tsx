@@ -6,6 +6,7 @@ const PaginationFieldset = styled.fieldset`
   justify-content: center;
   align-items: center;
   border: none;
+  padding: 0;
 `
 
 const PaginationLabel=styled.label< {checked: boolean}>`
@@ -25,7 +26,7 @@ const PaginationLabel=styled.label< {checked: boolean}>`
   
   ${ props => !props.checked && css`
     &:hover {
-      background-color: rgba(128, 128, 128, 0.3);
+      background-color: var(--shadow-color);
       cursor: pointer;
     }`
   }
