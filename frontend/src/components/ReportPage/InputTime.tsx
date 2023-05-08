@@ -13,7 +13,7 @@ function InputTime({startDate, endDate, query}: {
   let {timeFormat} = useDate();
   const timeInput = []
   for(let i=0; i<24; i++) {
-    timeInput.push(<option key={`time-key-${i + 1}`} selected={startDate !== endDate} value={i}>{timeFormat([i, 0])}</option>)
+    timeInput.push(<option key={`time-key-${i + 1}`} value={i}>{timeFormat([i, 0])}</option>)
   }
   let theme= useAppSelector(state => state.theme.theme)
 
