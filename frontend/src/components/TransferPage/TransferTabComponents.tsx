@@ -1,4 +1,4 @@
-import styled, {keyframes} from "styled-components";
+import styled from "styled-components";
 
 const TransferContainer = styled.div`
   display: flex;
@@ -77,6 +77,8 @@ const TransferImagesDetailWrapper = styled.div`
 `;
 export const TransferImageDetailContainer = styled.div`
   display: none;
+  padding-left: 30px;
+  box-shadow: -15px 0 10px -10px var(--shadow-color);
   &.active {
     display: inline-block;
     grid-column: 3/4;
