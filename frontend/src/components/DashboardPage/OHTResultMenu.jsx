@@ -69,7 +69,7 @@ function OHTResultMenu(props) {
                     width="50%"
                     onClick={event => {
                       event.preventDefault();
-                      console.log("item.ohtCheckId", item.ohtCheckId);
+                      console.log("현재 조회 중인 checkId", item.ohtCheckId);
                       dispatch(setCheckId(item.ohtCheckId));
                       dispatch(setInquire(true));
                     }}
@@ -113,9 +113,9 @@ function OHTResultMenu(props) {
                       width="50%"
                       onClick={event => {
                         event.preventDefault();
+                        console.log("현재 조회 중인 checkId", item.ohtCheckId);
                         dispatch(setCheckId(item.ohtCheckId));
                         dispatch(setInquire(true));
-                        console.log("클릭클릭");
                       }}
                     >
                       상세보기
