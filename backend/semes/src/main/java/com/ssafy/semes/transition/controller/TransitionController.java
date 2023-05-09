@@ -33,7 +33,7 @@ public class TransitionController {
     public ApiResponse<?> findAllBolt(){
         log.info("ImageController getImages start");
         List<ImageListResponseDto> responseDto = transitionService.findAll();
-        return 	ApiResponse.success(SuccessCode.CREATE_FILE,responseDto);
+        return 	ApiResponse.success(SuccessCode.READ_IMG_LIST,responseDto);
 
     }
     @DeleteMapping

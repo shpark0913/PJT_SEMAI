@@ -39,9 +39,9 @@ public class TransitionServiceImpl implements  TransitionService {
 
 		String path;
 
-		for (int i = 0; i < 4; i++) {
-			path = Directory.getBoltDirectories()[i].getPath();
-			List<ImageEntity> images =  imageRepository.findByFileDirAndStatus(path,1);
+		for (int i = 0; i < 3; i++) {
+			path = Directory.getBoltListDirectories()[i].getPath();
+			List<ImageEntity> images =  imageRepository.findTop100ByFileDirAndStatusOrderByFileIdDesc(path,1);
 
 			List<ImageResponseDto> imageResponseDtoList =
 				images.stream().map(m ->
