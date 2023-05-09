@@ -7,9 +7,11 @@ import {TransferLoaderType} from "../../_utils/Types";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import {CloseButton} from "../Modal/ModalComponents";
 
-function TransferImage({tabIndex, BoltImageLists}: {tabIndex: number, BoltImageLists: TransferLoaderType[] }) {
+function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetailOpen}: {tabIndex: number, BoltImageLists: TransferLoaderType[],
+  isDetailOpen: boolean, setIsDetailOpen: (arg: boolean) => void
+}) {
   console.log(BoltImageLists)
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
+
 
   const tabComponent = BoltImageLists.map((status) => {
     return {
@@ -17,7 +19,10 @@ function TransferImage({tabIndex, BoltImageLists}: {tabIndex: number, BoltImageL
         <> {
           status.images.map((image) =>
             <TransferBoltImage key={`bolt_images-${image.fileId}`}><img src={image.imgUrl} alt="bolt" />
-              <div onClick={() => setIsDetailOpen(true) }>
+              <div onClick={() => {
+                setIsDetailOpen(true);
+                setDetailInfo({imgUrl: image.imgUrl, originName: image.originName})
+              } }>
                 {image.originName}
               </div>
             </TransferBoltImage>
@@ -48,6 +53,11 @@ function TransferImage({tabIndex, BoltImageLists}: {tabIndex: number, BoltImageL
     <RedButton>삭제하기</RedButton>
   </>];
 
+  const [detailInfo, setDetailInfo] = useState<{imgUrl: string, originName: string}>({
+    imgUrl: "",
+    originName: "",
+  })
+
   return (
     <Form style={{display: "flex", flexDirection: "column", height: "100%"}}>
       <label>전체 선택 <input type="checkbox" /></label>
@@ -57,7 +67,8 @@ function TransferImage({tabIndex, BoltImageLists}: {tabIndex: number, BoltImageL
         </TransferImageGridContainer>
         <TransferImageDetailContainer className={isDetailOpen? "active" : ""}>
           <CloseButton onClick={() => setIsDetailOpen(false)}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
-          이미지 미리보기 영역
+          <img src={detailInfo.imgUrl} alt="bolt detail"/>
+          <div>{detailInfo.originName}</div>
         </TransferImageDetailContainer>
       </TransferImagesDetailWrapper>
       <div>
@@ -68,4 +79,4 @@ function TransferImage({tabIndex, BoltImageLists}: {tabIndex: number, BoltImageL
   );
 }
 
-export default TransferImage;
+export default TransferBoltImages;
