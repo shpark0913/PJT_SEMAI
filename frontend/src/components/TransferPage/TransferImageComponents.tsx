@@ -21,7 +21,7 @@ const TransferImageGrid = styled.div`
   gap: 20px;
 `
 
-const TransferImage = styled.div`
+const TransferBoltImage = styled.div`
   width: 100%;
   //background-color: #e6e6e6;
   display: flex;
@@ -44,4 +44,4 @@ const TransferImage = styled.div`
   }
 `
 
-export { TransferImageGridContainer, TransferImageGrid, TransferImage }
+export { TransferImageGridContainer, TransferImageGrid, TransferBoltImage }
