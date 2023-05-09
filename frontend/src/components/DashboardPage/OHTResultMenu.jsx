@@ -11,6 +11,9 @@ function OHTResultMenu(props) {
   const [dashboardData, setDashboardData] = useState([]);
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const dispatch = useDispatch();
+  const inquire = useSelector(state => {
+    return state.dashboard.inquire;
+  });
 
   useEffect(() => {
     console.log("menu 실행");
@@ -22,6 +25,11 @@ function OHTResultMenu(props) {
 
     sse.addEventListener("dashboard", event => {
       setDashboardData(JSON.parse(event.data));
+      console.log("datadata", JSON.parse(event.data)[0].ohtCheckId);
+      console.log("inquire", inquire);
+      if (inquire === false) {
+        dispatch(setCheckId(JSON.parse(event.data)[0].ohtCheckId));
+      }
     });
   }, []);
 
