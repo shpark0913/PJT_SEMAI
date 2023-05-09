@@ -3,7 +3,7 @@ import styled from "styled-components";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { CloseButton } from "../Modal/ModalComponents";
 import { ReportObjectType } from "../../_utils/Types";
-import DetailTable from "../Modal/DetailTable";
+import DetailTable from "./DetailTable";
 
 const ReportDetailContainer = styled.div`
   background-color: var(--background-color);
