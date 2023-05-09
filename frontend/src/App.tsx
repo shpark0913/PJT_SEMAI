@@ -33,6 +33,7 @@ const router = createBrowserRouter(
 
         <Route
           path="transfer"
+          id="transfer"
           element={<TransferPage />}
           loader={BoltImageListsLoader}
           action={TransferTestAction}
