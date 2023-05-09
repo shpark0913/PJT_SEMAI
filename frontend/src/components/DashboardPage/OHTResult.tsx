@@ -116,7 +116,7 @@ function OHTResult(props: any) {
   const sseId = useSelector((state: any) => {
     return state.dashboard.sseId;
   });
-
+  const isInquire = useSelector((state: any) => state.dashboard.inquire);
   return (
     <OHTResultSec>
       <TitleContainer>
@@ -128,6 +128,7 @@ function OHTResult(props: any) {
             onClick={() => {
               dispatch(setInquire(false));
               dispatch(setCheckId(sseId));
+              console.log("isInquire", isInquire);
             }}
           />
         </h1>
