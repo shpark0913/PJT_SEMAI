@@ -1,11 +1,11 @@
 import { TBody, TD, TH, THeadMain, TR, Table } from "../TableComponents";
 import { setCheckId, setInquire } from "../../_store/slices/dashboardSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import { Button } from "../ButtonComponents";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { store } from "../../_store/store";
-import { useDispatch } from "react-redux";
 
 function OHTResultMenu(props) {
   const [dashboardData, setDashboardData] = useState([]);
@@ -13,6 +13,7 @@ function OHTResultMenu(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("menu 실행");
     const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
       headers: {
         accesstoken: store.getState().user.token,
@@ -68,6 +69,7 @@ function OHTResultMenu(props) {
                     width="50%"
                     onClick={event => {
                       event.preventDefault();
+                      console.log("item.ohtCheckId", item.ohtCheckId);
                       dispatch(setCheckId(item.ohtCheckId));
                       dispatch(setInquire(true));
                     }}
