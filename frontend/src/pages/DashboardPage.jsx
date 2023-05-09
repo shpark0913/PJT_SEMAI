@@ -1,4 +1,4 @@
-import { setCheckId, setSSEId } from "../_store/slices/dashboardSlice";
+import { setCheckId, setSSEId, setSSEState } from "../_store/slices/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -20,6 +20,7 @@ const MainGrid = styled.section`
 
 function DashboardPage() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const SSE_URL = process.env.REACT_APP_SSE_URL;
   const dispatch = useDispatch();
   const [wheelDataNew, setWheelDataNew] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
@@ -42,15 +43,28 @@ function DashboardPage() {
       const persistRoot = localStorage.getItem("persist:root");
       const store = persistRoot ? JSON.parse(persistRoot) : {};
       const token = JSON.parse(store.user)?.token || "";
-      const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
+      const sse = new EventSourcePolyfill(`${SSE_URL}dashboard`, {
         headers: {
           accesstoken: token,
         },
       });
+      sse.addEventListener("state", event => {
+        const stateData = JSON.parse(event.data);
+        console.log("==========================");
+        console.log("state SSE 발생");
+        console.log("stateData", stateData);
+        dispatch(
+          setSSEState({ ohtSn: stateData.ohtSn, isWheelsProceeding: stateData.isWheelsProceeding }),
+        );
+      });
       sse.addEventListener("dashboard", event => {
         const dashboardData = JSON.parse(event.data);
+        const persistRoot = localStorage.getItem("persist:root");
+        const store = persistRoot ? JSON.parse(persistRoot) : {};
+        const isinquire = JSON.parse(store.dashboard)?.inquire || "";
         console.log("==========================");
         console.log("dashboard SSE 발생, 최신 checkId는", dashboardData[0].ohtCheckId);
+        console.log("isinquire", isinquire);
         setDashboardData(dashboardData);
       });
     }
