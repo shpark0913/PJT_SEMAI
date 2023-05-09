@@ -38,10 +38,9 @@ REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG|.PNG|.JPEG|.GIF|.BMP')
 
 # infer로 get 요청이 왔을 때
 
-
 @app.get("/infer")
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
-async def detect_classification(filePath: str):
+async def detect_classification(filePath: str, binary: bool):
     try:
         # 추론 시작 시간 설정
         start_test = time.time()
@@ -50,7 +49,7 @@ async def detect_classification(filePath: str):
         # 확장자 삭제
         filePath = re.sub(REGEX, '', filePath)
         # 이미지 크롭 후 분류하여 이미지 저장 및 분류 결과 텍스트로 저장
-        result = RegNet.ImgCrop(filePath, image, bboxes)
+        result = RegNet.ImgCrop(filePath, image, bboxes, binary)
         # 추론 종료 시간 저장
         reasoning_time = round(time.time() - start_test, 3)
 
