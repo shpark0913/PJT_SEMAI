@@ -126,7 +126,7 @@ public class TransitionServiceImpl implements  TransitionService {
 		quertString.append("fscore=").append(tc.getFscore());
 
 		try {
-			TransitionLearningResultDto res = TransitionLearningResultDto.fromHttpGetRequest("http://semes.info:8000/train".concat(quertString.toString()));
+			TransitionLearningResultDto res = TransitionLearningResultDto.fromHttpGetRequest("http://localhost:8000/train".concat(quertString.toString()));
 			System.out.println(res);
 			if(res.getData().get("changed").equals("true")){
 				tc.setAccuracy(Double.valueOf(res.getData().get("acc")));
