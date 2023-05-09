@@ -13,7 +13,7 @@ import com.ssafy.semes.transition.model.TransitionUpdateRequestDto;
 
 @Service
 public interface TransitionService {
-	List<ImageListResponseDto> findAll();
+	List<ImageListResponseDto> findAll(boolean isTrainSet);
 
 	void moveFiles(TransitionUpdateRequestDto requestDto) throws IOException;
 	void deleteFiles(TransitionFileIdsDto requestDto) throws  IOException;

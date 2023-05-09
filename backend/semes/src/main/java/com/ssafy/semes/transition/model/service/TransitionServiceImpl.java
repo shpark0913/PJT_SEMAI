@@ -33,7 +33,7 @@ public class TransitionServiceImpl implements  TransitionService {
 	TransitionRepository transitionRepository;
 
 	@Override
-	public List<ImageListResponseDto> findAll(){
+	public List<ImageListResponseDto> findAll(boolean isTrainSet){
 
 		List<ImageListResponseDto> list = new ArrayList<>();
 
@@ -41,7 +41,12 @@ public class TransitionServiceImpl implements  TransitionService {
 
 		for (int i = 0; i < 3; i++) {
 			path = Directory.getBoltListDirectories()[i].getPath();
-			List<ImageEntity> images =  imageRepository.findTop100ByFileDirAndStatusOrderByFileIdDesc(path,1);
+			List<ImageEntity> images;
+			if(isTrainSet){
+				images= imageRepository.findTop100ByFileDirAndStatusOrderByFileIdDesc(path,2);
+			}else{
+				images= imageRepository.findTop100ByFileDirAndStatusOrderByFileIdDesc(path,1);
+			}
 
 			List<ImageResponseDto> imageResponseDtoList =
 				images.stream().map(m ->
@@ -133,9 +138,9 @@ public class TransitionServiceImpl implements  TransitionService {
 				tc.setLoss(Double.valueOf(res.getData().get("loss")));
 				tc.setFscore(Double.valueOf(res.getData().get("fscore")));
 			}
-		} catch (IOException e) {
+		}catch (InterruptedException e) {
 			throw new RuntimeException(e);
-		} catch (InterruptedException e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 
