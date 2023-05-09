@@ -16,7 +16,8 @@ import lombok.ToString;
 @ToString
 public class TransitionConfig {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="tc_id", nullable = false)
 	private Long tcId;
 
 	@Column(name = "accuracy")
