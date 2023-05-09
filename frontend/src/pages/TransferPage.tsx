@@ -38,7 +38,6 @@ function TransferPage() {
     <TransferSection>
       { isModalOpen && <ImageModal detailInfo={detailInfo} handleModalClose={handleModalClose} /> }
 
-      {/*<Title title="전이학습" />*/}
       <TransferTab handleModalOpen={handleModalOpen}></TransferTab>
     </TransferSection>
   );
