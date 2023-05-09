@@ -43,6 +43,16 @@ export type TransferTabProps = {   // 전이학습 페이지 모달 open
   handleModalOpen: (arg :ModalImageType) => void;
 }
 
+export type TransferBoltImageObject = {
+  fileId: number,
+  imgUrl: string,
+  originName: string
+}
+export type TransferLoaderType = {
+  images: TransferBoltImageObject[],
+  status: number
+}
+
 export type ImageModalProps = {
   detailInfo: ModalImageType;
   handleModalClose: () => void;

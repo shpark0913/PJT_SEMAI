@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import styled from "styled-components";
-import Title from "../components/Title";
+// import Title from "../components/Title";
 import TransferTab from "../components/TransferPage/TransferTab";
 import { ModalImageType } from "../_utils/Types";
 import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
@@ -14,6 +14,7 @@ const TransferSection = styled.section`
 `
 
 function TransferPage() {
+
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   let [scrollY, setScrollY] = useState<number>(0);
   let [detailInfo, setDetailInfo] = useState<ModalImageType>({});        // 선택한 레포트의 상세내역을 전달할 객체
@@ -37,7 +38,7 @@ function TransferPage() {
     <TransferSection>
       { isModalOpen && <ImageModal detailInfo={detailInfo} handleModalClose={handleModalClose} /> }
 
-      <Title title="전이학습" />
+      {/*<Title title="전이학습" />*/}
       <TransferTab handleModalOpen={handleModalOpen}></TransferTab>
     </TransferSection>
   );
