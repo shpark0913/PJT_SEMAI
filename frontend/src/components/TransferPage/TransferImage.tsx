@@ -4,6 +4,8 @@ import {TransferBoltImage, TransferImageGrid, TransferImageGridContainer} from "
 import {Form} from "react-router-dom";
 import {Button, RedButton, SemesButton} from "../ButtonComponents";
 import {TransferLoaderType} from "../../_utils/Types";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import {CloseButton} from "../Modal/ModalComponents";
 
 function TransferImage({tabIndex, BoltImageLists}: {tabIndex: number, BoltImageLists: TransferLoaderType[] }) {
   console.log(BoltImageLists)
@@ -54,6 +56,7 @@ function TransferImage({tabIndex, BoltImageLists}: {tabIndex: number, BoltImageL
           <TransferImageGrid className={isDetailOpen? "active" : ""}>{tabComponent[tabIndex].content}</TransferImageGrid>
         </TransferImageGridContainer>
         <TransferImageDetailContainer className={isDetailOpen? "active" : ""}>
+          <CloseButton onClick={() => setIsDetailOpen(false)}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
           이미지 미리보기 영역
         </TransferImageDetailContainer>
       </TransferImagesDetailWrapper>
