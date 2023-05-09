@@ -37,7 +37,7 @@ function DashboardPage() {
   const isSSEId = useSelector(state => {
     return state.dashboard.sseId;
   });
-  ////////////////////////////////////////////////////////////////////////////////////////////////
+
   // 대시보드 SSE 연결
   async function fetchData() {
     const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
@@ -59,23 +59,20 @@ function DashboardPage() {
 
     return newOHTCheckId;
   }
-  ////////////////////////////////////////////////////////////////////////////////////////////////
+
   // isChecked가 false라면 화면 좌측 최신화
   useEffect(() => {
-    console.log("fetchNewOHTCheckId 실행");
     async function fetchNewOHTCheckId() {
       const newOHTCheckId = await fetchData();
       if (isChecked === false) {
-        console.log("isChecked가 false일 때, checkId 바꾸기");
         dispatch(setCheckId(newOHTCheckId));
       }
     }
     fetchNewOHTCheckId();
   }, [isChecked]);
-  ////////////////////////////////////////////////////////////////////////////////////////////////
+
   // store의 checkId가 변하면 실행돼서 정보를 불러옴
   useEffect(() => {
-    console.log("fetchWheelData 실행");
     async function fetchWheelData() {
       try {
         const response = await Axios.get(`${BASE_URL}dashboard/main/${ohtCheckId}`);
@@ -87,7 +84,6 @@ function DashboardPage() {
     }
     fetchWheelData();
   }, [ohtCheckId]);
-  ////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <MainGrid>

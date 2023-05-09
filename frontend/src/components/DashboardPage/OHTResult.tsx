@@ -1,3 +1,4 @@
+import { setCheckId, setInquire } from "../../_store/slices/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
@@ -5,7 +6,6 @@ import React from "react";
 import { ReactComponent as RefreshBtn } from "../../assets/refreshBtn.svg";
 import Title from "../Title";
 import { redirect } from "react-router";
-import { setInquire } from "../../_store/slices/dashboardSlice";
 import styled from "styled-components";
 
 type WheelNameType = {
@@ -113,6 +113,9 @@ function OHTResult(props: any) {
   const data = props.data;
   const indexList = [0, 1, 2, 3];
   const dispatch = useDispatch();
+  const sseId = useSelector((state: any) => {
+    return state.dashboard.sseId;
+  });
 
   return (
     <OHTResultSec>
@@ -124,6 +127,7 @@ function OHTResult(props: any) {
             style={{ cursor: "pointer" }}
             onClick={() => {
               dispatch(setInquire(false));
+              dispatch(setCheckId(sseId));
             }}
           />
         </h1>
