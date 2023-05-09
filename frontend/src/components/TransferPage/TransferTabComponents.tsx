@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 const TransferContainer = styled.div`
   display: flex;
@@ -80,6 +80,7 @@ export const TransferImageDetailContainer = styled.div`
   &.active {
     display: inline-block;
     grid-column: 3/4;
+    width: 100%;
   }
 `;
 
