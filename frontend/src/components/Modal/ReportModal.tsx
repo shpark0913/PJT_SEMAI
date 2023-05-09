@@ -3,7 +3,7 @@ import {ModalReportContainer, ModalBackground, CloseButton, Modal} from "./Modal
 import { ReportModalProps } from "../../_utils/Types";
 import Title from "../Title";
 import {Button} from "../ButtonComponents";
-import DetailTable from "./DetailTable";
+import DetailTable from "../ReportDetail/DetailTable";
 import styled from "styled-components";
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
