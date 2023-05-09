@@ -6,8 +6,8 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import {BoltImageListsLoader,  ReportListsLoader} from "./_utils/Loader";
-import { TransferTestAction } from "./_utils/Action";
+import { BoltImageListsLoader,  ReportListsLoader } from "./_utils/Loader";
+import { TransferBoltImageAction } from "./_utils/Action";
 import { store } from "./_store/store";
 
 import GlobalStyle from "./components/globalStyle";
@@ -36,7 +36,7 @@ const router = createBrowserRouter(
           id="transfer"
           element={<TransferPage />}
           loader={BoltImageListsLoader}
-          action={TransferTestAction}
+          action={TransferBoltImageAction}
         />
       </Route>
     </Route>,
