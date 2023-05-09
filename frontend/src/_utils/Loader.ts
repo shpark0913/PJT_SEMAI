@@ -4,8 +4,8 @@ export async function BoltImageListsLoader () {
   let BoltImageLists = []
   try {
     let response = await Axios.get('transition');
-    BoltImageLists = response.data;
-    console.log(BoltImageLists);
+    BoltImageLists = response.data.data;
+    // console.log(BoltImageLists);
   }
   catch (err) {
     console.log(err)
