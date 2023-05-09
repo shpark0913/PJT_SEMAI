@@ -1,10 +1,13 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
-// import Title from "../components/Title";
-import TransferTab from "../components/TransferPage/TransferTab";
-import { ModalImageType } from "../_utils/Types";
-import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
-import ImageModal from "../components/Modal/ImageModal";
+import {
+  TransferContainer,
+  TransferImageContainer,
+  TransferMenuContainer
+} from "../components/TransferPage/TransferTabComponents";
+import TransferBoltImages from "../components/TransferPage/TransferBoltImages";
+import {useLoaderData} from "react-router-dom";
+import {TransferLoaderType} from "../_utils/Types";
 
 const TransferSection = styled.section`
   padding: 30px;
@@ -14,32 +17,36 @@ const TransferSection = styled.section`
 `
 
 function TransferPage() {
-
-  let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  let [scrollY, setScrollY] = useState<number>(0);
-  let [detailInfo, setDetailInfo] = useState<ModalImageType>({});        // 선택한 레포트의 상세내역을 전달할 객체
-  const { lockScroll, openScroll } = useBodyScrollLock();
-
-  /** 모달이 열리면 실행되는 함수 */
-  const handleModalOpen = useCallback((detailInfo: ModalImageType) => {
-    setScrollY(window.scrollY);
-    setIsModalOpen(true);
-    setDetailInfo(detailInfo);
-    lockScroll();
-  }, [lockScroll])
-
-  const handleModalClose = useCallback(() => {
-    setIsModalOpen(false);
-    setDetailInfo({});
-    openScroll();
-  }, [openScroll]);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  let BoltImageLists = useLoaderData() as TransferLoaderType[];
+  console.log(BoltImageLists);
+  const TabMenuList = ['양호', '유실', '풀림', '모호'];
 
   return (
     <TransferSection>
-      { isModalOpen && <ImageModal detailInfo={detailInfo} handleModalClose={handleModalClose} /> }
 
-      {/*<Title title="전이학습" />*/}
-      <TransferTab handleModalOpen={handleModalOpen}></TransferTab>
+      <TransferContainer>
+        <TransferMenuContainer>
+          { TabMenuList.map((menu, idx) =>
+            <li
+              key={`transfer-tab-menu-${idx}`}
+              className={idx === tabIndex ? "isActive" : "" }
+              onClick={ () => {
+                setTabIndex(idx);
+                setIsDetailOpen(false);
+              } }
+            >
+              {TabMenuList[idx]}<span>{BoltImageLists[idx].images.length}</span>
+            </li>
+          ) }
+        </TransferMenuContainer>
+
+        <TransferImageContainer>
+          <TransferBoltImages tabIndex={tabIndex} BoltImageLists={BoltImageLists} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+        </TransferImageContainer>
+      </TransferContainer>
+
     </TransferSection>
   );
 }
