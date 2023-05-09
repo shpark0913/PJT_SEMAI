@@ -9,6 +9,7 @@ import {
 import { Button, RedButton, SemesButton } from "../ButtonComponents";
 import { TransferLoaderType } from "../../_utils/Types";
 import {Form, useRouteLoaderData} from "react-router-dom";
+import TransferImage from "./TransferImage";
 
 
 const TransferTab = () => {
@@ -38,7 +39,7 @@ const TransferTab = () => {
       </TransferMenuContainer>
 
       <TransferImageContainer>
-        <TransferBoltImage tabIndex={tabIndex} BoltImageLists={BoltImageLists} />
+        <TransferImage tabIndex={tabIndex} BoltImageLists={BoltImageLists} />
       </TransferImageContainer>
     </TransferContainer>
   );
