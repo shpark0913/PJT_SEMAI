@@ -4,10 +4,12 @@ const TransferImageGridContainer = styled.div`
   flex: 1;
   overflow-y: auto;
   padding-right: 10px;
+  width: 100%;
 `;
 
 const TransferImageGrid = styled.div`
   display: grid;
+  width: 100%;
   grid-template-columns: repeat(6, 1fr);
   gap: 20px;
 `
@@ -26,6 +28,8 @@ const TransferImage = styled.div`
     cursor: pointer;
   }
   & > div {
+    word-break:break-word;
+    font-size: 15px;
     &:hover {
       text-decoration: underline;
       cursor: pointer;
