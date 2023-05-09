@@ -7,11 +7,11 @@ import {
   TransferImagesDetailWrapper, TransferImageDetailContainer
 } from "./TransferTabComponents"
 import { Button, RedButton, SemesButton } from "../ButtonComponents";
-import { TransferLoaderType, TransferTabProps} from "../../_utils/Types";
+import { TransferLoaderType } from "../../_utils/Types";
 import {Form, useRouteLoaderData} from "react-router-dom";
 
 
-const TransferTab = ({handleModalOpen}: TransferTabProps) => {
+const TransferTab = () => {
   const [tabIdx, setTabIdx] = useState(0);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   let BoltImageLists = useRouteLoaderData("transfer") as TransferLoaderType[];
