@@ -106,7 +106,12 @@ const WheelDiv = styled.div<WheelDivType>`
 const OHTWheel = ({ wheelName, url, goodCnt }: WheelNameType) => {
   const IMG_URL = process.env.REACT_APP_IMG_URL;
   return (
-    <WheelDiv url={`${IMG_URL}${url}`} goodCnt={goodCnt}>
+    <WheelDiv
+      url={`${IMG_URL}${url}`}
+      goodCnt={goodCnt}
+      onClick={() => alert(`${IMG_URL}${url}`)}
+      style={{ cursor: "pointer" }}
+    >
       <h4>{wheelName}</h4>
     </WheelDiv>
   );
