@@ -7,6 +7,8 @@ using UnityEngine.Networking;
 public class move : MonoBehaviour
 {
     public GameObject gameObject;
+    public GameObject doorL;
+    public GameObject doorR;
     public Image mFlashImage;
     Vector3 destination = new Vector3(0f, 6.7f, 0.2f);
     public bool tr = true;
@@ -20,9 +22,12 @@ public class move : MonoBehaviour
     string url = "http://localhost:8888/dev/ohtcheck/P4";
     public bool is_fitin;
     public bool is_go;
+    public bool is_StopDoor;
     private void Start()
     {
         mFlashImage = GameObject.Find("r").GetComponent<Image>();
+        doorL = GameObject.Find("doorL").gameObject;
+        doorR = GameObject.Find("doorR").gameObject;
     }
     private void Update()
     {
@@ -66,20 +71,42 @@ public class move : MonoBehaviour
             }
             else
             {
+                if (is_StopDoor)
+                {
+                    doorL.transform.rotation = Quaternion.Lerp(doorL.transform.rotation, Quaternion.Euler(new Vector3(0, 90, 0)), 0.05f);
+                    doorL.transform.position = Vector3.Lerp(doorL.transform.position, new Vector3(-2.233f, 8.529f, 1.155f), 0.04f);
+
+                    doorR.transform.rotation = Quaternion.Lerp(doorR.transform.rotation, Quaternion.Euler(new Vector3(0, 90, 0)), 0.05f);
+                    doorR.transform.position = Vector3.Lerp(doorR.transform.position, new Vector3(-2.233f, 8.529f, 1.707f), 0.04f);
+                }
+                else
+                {
+                    doorL.transform.rotation = Quaternion.Lerp(doorL.transform.rotation, Quaternion.Euler(new Vector3(0, 180, 0)), 0.05f);
+                    doorL.transform.position = Vector3.Lerp(doorL.transform.position, new Vector3(-2.233f, 8.529f, 0.876f), 0.04f);
+
+                    doorR.transform.rotation = Quaternion.Lerp(doorR.transform.rotation, Quaternion.Euler(new Vector3(0, 0, 0)), 0.05f);
+                    doorR.transform.position = Vector3.Lerp(doorR.transform.position, new Vector3(-2.233f, 8.529f, 1.958f), 0.04f);
+                }
                 timer += Time.deltaTime;
 
+                if(timer < 3)
+                {
+                    is_StopDoor = true;
+                }
                 if (timer > 3 && !cam)
                 {
                     cam = true;
                     changed = true;
                     //StartCoroutine(UnityWebRequestGETTest());
                 }
-                if (timer > 6)
+                if (timer > 4)
                 {
-                    transform.position = Vector3.Lerp(transform.position, new Vector3(4f, 6.7f, transform.position.z), 0.01f);
-
+                    is_StopDoor = false;
+                    if (timer >6)
+                        transform.position = Vector3.Lerp(transform.position, new Vector3(4f, 6.7f, transform.position.z), 0.01f);
                 }
             }
+           
         }
         else
         {
