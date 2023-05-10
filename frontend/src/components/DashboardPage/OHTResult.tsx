@@ -118,7 +118,6 @@ const TitleContainer = styled.div`
 
 function OHTResult(props: any) {
   const data = props.data;
-  console.log("data", data);
   const indexList = [0, 1, 2, 3];
   const dispatch = useDispatch();
   const sseId = useSelector((state: any) => {
@@ -133,7 +132,6 @@ function OHTResult(props: any) {
             fill="var(--emphasize-color)"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              console.log("checkId", sseId);
               dispatch(setCheckId(sseId));
               dispatch(setInquire(false));
             }}
