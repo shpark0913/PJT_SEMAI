@@ -99,7 +99,7 @@ def ImgCrop(filePath, image, bboxes, binary):
             # 크롭된 이미지 분류
             classification_Result = classification(cropped)
             # 분류된 이미지를 저장할 변수를 생성하고
-            image_name = filePath + f'_{i+1}.png' 
+            image_name = filePath + f'_{i+1}.jpg' 
             # 정상인 볼트로 분류되었을 경우
             if classification_Result == 2:
                 if binary == True:
@@ -139,7 +139,7 @@ def ImgCrop(filePath, image, bboxes, binary):
                 draw.rectangle((x_min, y_min, x_max, y_max), outline=LABEL_COLOR[classification_Result], width=5, fill=None)
             f.write(result_bbox + '\n')
         print(os.path.exists(WHEEL_RESULT_PATH))
-        result_image.save(WHEEL_RESULT_PATH + filePath + '.png')
+        result_image.save(WHEEL_RESULT_PATH + filePath + '.jpg')
         # 반복을 마쳤다면 텍스트 파일 작성 완료
         f.close()
     
