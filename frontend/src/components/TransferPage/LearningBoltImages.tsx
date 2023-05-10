@@ -5,7 +5,6 @@ import {TransferBoltImage, TransferImageGrid, TransferImageGridContainer} from "
 import {CloseButton} from "../Modal/ModalComponents";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import {Form} from "react-router-dom";
-import Title from "../Title";
 
 function LearningBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetailOpen, TabMenuList}:
                               { tabIndex: number,
@@ -14,6 +13,7 @@ function LearningBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
                                 setIsDetailOpen: (arg: boolean) => void,
                                 TabMenuList: string[] }) {
 
+  const [isTabOpen, setIsTabOpen] = useState<boolean[]>([true, true, true]);
   const [detailInfo, setDetailInfo] = useState<TransferBoltImageObject>({
     imgUrl: "",
     originName: "",
@@ -23,8 +23,18 @@ function LearningBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
   console.log(BoltImageLists)
   const BoltImageElement = BoltImageLists.map((data) =>
     <>
-      <Title title={TabMenuList[data.status]} />
-      <TransferImageGrid className={isDetailOpen? "active" : ""}>{ data.images.map((image) =>
+      <h1 onClick={() => {
+        setIsTabOpen(prev => {
+          let newList = [...prev];
+          newList[data.status] = !newList[data.status];
+          return [...newList]
+        });
+      }}>
+        {TabMenuList[data.status]}
+      </h1>
+      <TransferImageGrid className={isDetailOpen?
+        isTabOpen[data.status]? "active open" : "active"
+        : isTabOpen[data.status]? "open" : "" }>{ data.images.map((image) =>
         <TransferBoltImage key={`bolt_images-${image.fileId}`}>
           <img src={image.imgUrl} alt="bolt" />
           <div onClick={() => {
@@ -36,6 +46,7 @@ function LearningBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
           </div>
         </TransferBoltImage> )
       }</TransferImageGrid>
+      <hr />
 
     </>
   )
