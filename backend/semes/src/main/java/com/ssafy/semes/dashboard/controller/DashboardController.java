@@ -6,6 +6,7 @@ import com.ssafy.semes.common.SuccessCode;
 import com.ssafy.semes.common.dto.ApiResponse;
 import com.ssafy.semes.dashboard.model.DashboardMainResponseDto;
 import com.ssafy.semes.dashboard.model.OHTCheckResponseDto;
+import com.ssafy.semes.dashboard.model.ProcessStatusDto;
 import com.ssafy.semes.dashboard.model.SseEmitters;
 import com.ssafy.semes.dashboard.model.service.DashboardService;
 import com.ssafy.semes.exception.JPAException;
@@ -36,11 +37,28 @@ public class DashboardController {
         List<OHTCheckResponseDto> list = null;
         try {
             list = dashboardService.findAllCheck();
+
+            //sse 생성
             SseEmitter emitter = new SseEmitter(10*1000L);
             sseEmitters.add(emitter);
             emitter.send(SseEmitter.event()
                     .name("dashboard")
                     .data(list));
+
+            //오른쪽 상단 업데이트 코드
+            ProcessStatusDto processStatusDto = ProcessStatusDto.builder()
+                    .ohtSn(list.get(0).getOhtSn())
+                    .isProceeding(true)
+                    .isWheelsProceeding(new boolean[4]).build();
+            if(list.get(0).getFlCount()!=-1)
+                    processStatusDto.wheelComplete(0);
+            if(list.get(0).getFrCount()!=-1)
+                processStatusDto.wheelComplete(1);
+            if(list.get(0).getRlCount()!=-1)
+                processStatusDto.wheelComplete(2);
+            if(list.get(0).getRrCount()!=-1)
+                processStatusDto.wheelComplete(3);
+            sseEmitters.showProcessStatus(processStatusDto);
 
             return ResponseEntity.ok(emitter);
         }catch (JPAException jpaException){
