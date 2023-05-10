@@ -8,7 +8,8 @@ export async function TransferTestAction () {
 export async function TransferBoltImageAction({ request }: {request: any}) {
   let form = await request.formData();
   let data = Object.fromEntries(form);
-  data.fileIds = data.fildIds.split(',').map(Number)
+  // console.log(data.fileIds);
+  data.fileIds = data.fileIds.split(',').map(Number)
 
   if (request.method === "PATCH") {
     data.preType = Number(data.preType)
@@ -36,5 +37,6 @@ export async function TransferBoltImageAction({ request }: {request: any}) {
       fileId: [1, 2, 3, 4]
     })
   }
+  // window.location.reload();
   return null;
 }
