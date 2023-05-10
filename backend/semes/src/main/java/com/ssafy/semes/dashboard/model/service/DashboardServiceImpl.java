@@ -1,25 +1,24 @@
 package com.ssafy.semes.dashboard.model.service;
 
-import com.ssafy.semes.dashboard.model.DashboardMainResponseDto;
-import com.ssafy.semes.dashboard.model.OHTCheckResponseDto;
-import com.ssafy.semes.exception.JPAException;
-import com.ssafy.semes.oht.model.OHTEntity;
-import com.ssafy.semes.oht.model.OHTResponseDto;
-import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
-import com.ssafy.semes.ohtcheck.model.repository.OHTCheckRepository;
-import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
-import com.ssafy.semes.wheelcheck.model.repository.WheelCheckRepository;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.Transient;
-import java.sql.Array;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.ssafy.semes.common.Directory;
+import com.ssafy.semes.dashboard.model.DashboardMainResponseDto;
+import com.ssafy.semes.dashboard.model.OHTCheckResponseDto;
+import com.ssafy.semes.exception.JPAException;
+import com.ssafy.semes.image.model.ImageEntity;
+import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
+import com.ssafy.semes.ohtcheck.model.repository.OHTCheckRepository;
+import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
+import com.ssafy.semes.wheelcheck.model.repository.WheelCheckRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -66,6 +65,13 @@ public class DashboardServiceImpl implements DashboardService{
         String oht_sn = list.get(0).getOhtCheck().getOht().getOhtSN();
 
         return list.stream().map(m->{
+            ImageEntity i = m.getImage();
+            StringBuilder imageUrl = new StringBuilder();
+            imageUrl
+                .append('/').append(Directory.getBaseDirectories()[i.getStatus()].getPath())
+                .append('/').append(i.getFileDir())
+                .append('/').append(i.getSaveName());
+
             return DashboardMainResponseDto.builder()
                     .ohtCheckDatetime(ohtCheckDatetime)
                     .ohtChangeDate(ohtChangeDate)
