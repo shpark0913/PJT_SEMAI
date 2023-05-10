@@ -11,6 +11,7 @@ import styled from "styled-components";
 type WheelNameType = {
   wheelName: string;
   url: string;
+  goodCnt: number;
 };
 
 type OHTResultDivType = {
@@ -19,6 +20,7 @@ type OHTResultDivType = {
 
 type WheelDivType = {
   url: string;
+  goodCnt: number;
 };
 
 const OHTResultSec = styled.section`
@@ -99,11 +101,12 @@ const WheelDiv = styled.div<WheelDivType>`
   background-image: url(${props => props.url});
   background-size: cover;
   background-position: center;
+  border: ${props => (props.goodCnt === 11 ? "none" : "4px red solid")};
 `;
-const OHTWheel = ({ wheelName, url }: WheelNameType) => {
+const OHTWheel = ({ wheelName, url, goodCnt }: WheelNameType) => {
   const IMG_URL = process.env.REACT_APP_IMG_URL;
   return (
-    <WheelDiv url={`${IMG_URL}${url}`}>
+    <WheelDiv url={`${IMG_URL}${url}`} goodCnt={goodCnt}>
       <h4>{wheelName}</h4>
     </WheelDiv>
   );
@@ -120,7 +123,6 @@ function OHTResult(props: any) {
   const sseId = useSelector((state: any) => {
     return state.dashboard.sseId;
   });
-  const isInquire = useSelector((state: any) => state.dashboard.inquire);
   return (
     <OHTResultSec>
       <TitleContainer>
@@ -187,7 +189,12 @@ function OHTResult(props: any) {
           <OHTWheelsDiv>
             {indexList.map((item, idx) => {
               return (
-                <OHTWheel wheelName={data[item].wheelPosition} key={idx} url={data[item].image} />
+                <OHTWheel
+                  wheelName={data[item].wheelPosition}
+                  key={idx}
+                  url={data[item].image}
+                  goodCnt={data[item].boltGoodCount}
+                />
               );
             })}
           </OHTWheelsDiv>
