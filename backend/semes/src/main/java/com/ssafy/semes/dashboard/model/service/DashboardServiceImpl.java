@@ -81,6 +81,7 @@ public class DashboardServiceImpl implements DashboardService{
                     .boltLoseCount(m.getBoltLoseCount())
                     .unclassifiedCount(m.getUnclassifiedCount())
                     .wheelPosition(m.getWheelPosition())
+                    .image(imageUrl.toString())
                     .build();
         }).collect(Collectors.toList());
     }
