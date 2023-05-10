@@ -51,17 +51,19 @@ function OHTResultMenu(props) {
             return (
               <TR key={idx} NG={item.flCount + item.frCount + item.rlCount + item.rrCount}>
                 <TD>
-                  {item.ohtCheckStartDatetime[0]}-
-                  {String(item.ohtCheckStartDatetime[1]).padStart(2, "0")}-
-                  {String(item.ohtCheckStartDatetime[2]).padStart(2, "0")}
+                  {item.ohtCheckEndDatetime[0]}-
+                  {String(item.ohtCheckEndDatetime[1]).padStart(2, "0")}-
+                  {String(item.ohtCheckEndDatetime[2]).padStart(2, "0")}
                 </TD>
                 <TD>
                   {" "}
-                  {String(item.ohtCheckStartDatetime[3]).padStart(2, "0")}:
-                  {String(item.ohtCheckStartDatetime[4]).padStart(2, "0")}:
-                  {String(item.ohtCheckStartDatetime[5]).padStart(2, "0")}
+                  {String(item.ohtCheckEndDatetime[3]).padStart(2, "0")}:
+                  {String(item.ohtCheckEndDatetime[4]).padStart(2, "0")}:
+                  {item.ohtCheckEndDatetime.length === 5
+                    ? "00"
+                    : String(item.ohtCheckEndDatetime[5]).padStart(2, "0")}
                 </TD>
-                <TD>{item.ohtId}</TD>
+                <TD>{item.ohtSn}</TD>
                 <TD>
                   {item.flCount + item.frCount + item.rlCount + item.rrCount === 0 ? "정상" : "NG"}
                 </TD>
@@ -92,15 +94,17 @@ function OHTResultMenu(props) {
               return (
                 <TR key={idx} NG={item.flCount + item.frCount + item.rlCount + item.rrCount}>
                   <TD>
-                    {item.ohtCheckStartDatetime[0]}-
-                    {String(item.ohtCheckStartDatetime[1]).padStart(2, "0")}-
-                    {String(item.ohtCheckStartDatetime[2]).padStart(2, "0")}
+                    {item.ohtCheckEndDatetime[0]}-
+                    {String(item.ohtCheckEndDatetime[1]).padStart(2, "0")}-
+                    {String(item.ohtCheckEndDatetime[2]).padStart(2, "0")}
                   </TD>
                   <TD>
                     {" "}
-                    {String(item.ohtCheckStartDatetime[3]).padStart(2, "0")}:
-                    {String(item.ohtCheckStartDatetime[4]).padStart(2, "0")}:
-                    {String(item.ohtCheckStartDatetime[5]).padStart(2, "0")}
+                    {String(item.ohtCheckEndDatetime[3]).padStart(2, "0")}:
+                    {String(item.ohtCheckEndDatetime[4]).padStart(2, "0")}:
+                    {item.ohtCheckEndDatetime.length === 5
+                      ? "00"
+                      : String(item.ohtCheckEndDatetime[5]).padStart(2, "0")}
                   </TD>
                   <TD>{item.ohtId}</TD>
                   <TD>
