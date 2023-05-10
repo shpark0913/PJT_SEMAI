@@ -6,9 +6,8 @@ import {CloseButton} from "../Modal/ModalComponents";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import {Form} from "react-router-dom";
 
-function LearningBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetailOpen, TabMenuList}:
-                              { tabIndex: number,
-                                BoltImageLists: TransferLoaderType[],
+function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabMenuList}:
+                              { BoltImageLists: TransferLoaderType[],
                                 isDetailOpen: boolean,
                                 setIsDetailOpen: (arg: boolean) => void,
                                 TabMenuList: string[] }) {

@@ -6,16 +6,21 @@ export async function TransferTestAction () {
 }
 
 export async function TransferBoltImageAction({ request }: {request: any}) {
-  console.log("액션 발동!")
   let form = await request.formData();
+  let data = Object.fromEntries(form);
+  data.fileIds = data.fildIds.split(',').map(Number)
 
   if (request.method === "PATCH") {
-
-    // await Axios.patch('transition', {
-    //   preType: "어쩌구",
-    //   nextType: "저쩌구",
-    //   fileId: [1, 2, 3],
-    // })
+    data.preType = Number(data.preType)
+    data.nextType = Number(data.nextType)
+    console.log(data);
+    try {
+      let response = await Axios.patch('transition', data)
+      console.log(response);
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
   else if (request.method === "DELETE") {
     console.log('이미지를 삭제하자')
