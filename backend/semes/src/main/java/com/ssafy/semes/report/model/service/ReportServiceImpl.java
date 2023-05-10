@@ -1,6 +1,7 @@
 package com.ssafy.semes.report.model.service;
 
 import com.ssafy.semes.exception.JPAException;
+import com.ssafy.semes.image.model.ImageEntity;
 import com.ssafy.semes.report.model.QuestionDto;
 import com.ssafy.semes.report.model.ReportListResponseDto;
 import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
@@ -113,6 +114,7 @@ public class ReportServiceImpl implements ReportService {
     @Transactional
     public ReportListResponseDto findReportDetail(long wheelChcekId) throws Exception {
         WheelCheckEntity wheel = wheelCheckRepository.findByWheelHistoryId(wheelChcekId);
+        ImageEntity image = wheel.getImage();
         if (wheel == null) {
             throw new JPAException();
         }
@@ -123,6 +125,8 @@ public class ReportServiceImpl implements ReportService {
                 .wheelCheckDate(wheel.getCheckDate())
                 .wheelCheckId(wheel.getWheelHistoryId())
                 .wheelPosition(wheel.getWheelPosition())
+                .markingUrl(image.markingUrl())
+                .originUrl(image.originUrl())
                 .build();
     }
 }
