@@ -41,6 +41,7 @@ public class DashboardServiceImpl implements DashboardService{
                     .ohtCheckStartDatetime(m.getOhtCheckStartDatetime())
                     .ohtCheckEndDatetime(m.getOhtCheckEndDatetime())
                     .ohtId(m.getOht().getOhtId())
+                    .ohtSn(m.getOht().getOhtSN())
                     .build();
             ohtDto.setFlCount(m.getFlBadCount());
             ohtDto.setFrCount(m.getFrBadCount());

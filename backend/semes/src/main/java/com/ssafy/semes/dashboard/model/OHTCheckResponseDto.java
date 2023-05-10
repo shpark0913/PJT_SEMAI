@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OHTCheckResponseDto {
     private long ohtCheckId;
+    private String ohtSn;
     private LocalDateTime ohtCheckStartDatetime;
     private LocalDateTime ohtCheckEndDatetime;
     private int flCount;
