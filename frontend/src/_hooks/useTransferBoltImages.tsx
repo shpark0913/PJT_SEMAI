@@ -34,7 +34,7 @@ function useTransferBoltImages() {
     const form = new FormData();
     form.append('preType', `${preType}`);
     form.append('nextType', `${nextType}`);
-    form.append('fileIds', `[${fileIds. join(', ')}]`);
+    form.append('fileIds', `${fileIds}`);
     form.forEach((val, key) => console.log(`${key} ${val}`))
     submit(form, {
       method: "PATCH"
