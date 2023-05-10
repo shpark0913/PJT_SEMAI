@@ -3,36 +3,21 @@ import {TransferImageDetailContainer, TransferImagesDetailWrapper} from "./Trans
 import {TransferBoltImage, TransferImageGrid, TransferImageGridContainer} from "./TransferImageComponents";
 import {Form} from "react-router-dom";
 import {Button, RedButton, SemesButton} from "../ButtonComponents";
-import {TransferLoaderType} from "../../_utils/Types";
+import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import {CloseButton} from "../Modal/ModalComponents";
+import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
 
-function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetailOpen}: {tabIndex: number, BoltImageLists: TransferLoaderType[],
-  isDetailOpen: boolean, setIsDetailOpen: (arg: boolean) => void
-}) {
-  console.log(BoltImageLists)
+function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetailOpen}:
+                              { tabIndex: number,
+                                BoltImageLists: TransferLoaderType[],
+                                isDetailOpen: boolean,
+                                setIsDetailOpen: (arg: boolean) => void }) {
 
 
-  const tabComponent = BoltImageLists.map((status) => {
-    return {
-      content:
-        <> {
-          status.images.map((image) =>
-            <TransferBoltImage key={`bolt_images-${image.fileId}`}><img src={image.imgUrl} alt="bolt" />
-              <div onClick={() => {
-                setIsDetailOpen(true);
-                setDetailInfo({imgUrl: image.imgUrl, originName: image.originName})
-              } }>
-                {image.originName}
-              </div>
-            </TransferBoltImage>
-          )
-        } </>
-    }
-  })
-
-  const ButtonList: JSX.Element[] = [<>
-    <Button>유실로 이동</Button>
+  const { TransferClass } = useTransferBoltImages()
+  const ButtonLists: JSX.Element[] = [<>
+    <Button onClick={() => TransferClass(0, 1, [3123, 246])}>유실로 이동</Button>
     <Button>풀림으로 이동</Button>
     <SemesButton>학습으로 이동</SemesButton>
     <RedButton>삭제하기</RedButton>
@@ -52,10 +37,25 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
     <Button>풀림으로 이동</Button>
     <RedButton>삭제하기</RedButton>
   </>];
+  const BoltImageElement = BoltImageLists.map((status) =>
+        <> {
+          status.images.map((image) =>
+            <TransferBoltImage key={`bolt_images-${image.fileId}`}><img src={image.imgUrl} alt="bolt" />
+              <div onClick={() => {
+                setIsDetailOpen(true);
+                setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId})
+              } }>
+                {image.originName}
+              </div>
+            </TransferBoltImage>
+          )
+        } </>
+  )
 
-  const [detailInfo, setDetailInfo] = useState<{imgUrl: string, originName: string}>({
+  const [detailInfo, setDetailInfo] = useState<TransferBoltImageObject>({
     imgUrl: "",
     originName: "",
+    fileId: 0
   })
 
   return (
@@ -63,7 +63,7 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
       <label>전체 선택 <input type="checkbox" /></label>
       <TransferImagesDetailWrapper>
         <TransferImageGridContainer className={isDetailOpen? "active" : ""}>
-          <TransferImageGrid className={isDetailOpen? "active" : ""}>{tabComponent[tabIndex].content}</TransferImageGrid>
+          <TransferImageGrid className={isDetailOpen? "active" : ""}>{BoltImageElement[tabIndex]}</TransferImageGrid>
         </TransferImageGridContainer>
         <TransferImageDetailContainer className={isDetailOpen? "active" : ""}>
           <CloseButton onClick={() => setIsDetailOpen(false)}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
@@ -72,7 +72,7 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
         </TransferImageDetailContainer>
       </TransferImagesDetailWrapper>
       <div>
-        { ButtonList[tabIndex] }
+        { ButtonLists[tabIndex] }
         <div>현재 선택 : 1/100</div>
       </div>
     </Form>

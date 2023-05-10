@@ -71,6 +71,7 @@ const TransferImageContainer = styled.div`
 
 const TransferImagesDetailWrapper = styled.div`
   height: 100%;
+  width: 100%;
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);

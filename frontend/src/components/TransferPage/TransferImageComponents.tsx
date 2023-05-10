@@ -11,10 +11,14 @@ const TransferImageGridContainer = styled.div`
 `;
 
 const TransferImageGrid = styled.div`
-  display: grid;
+
   width: 100%;
   grid-template-columns: repeat(6, 1fr);
   
+  display: none;
+  &.open{
+    display: grid;
+  }
   &.active {
     grid-template-columns: repeat(4, 1fr);
   }

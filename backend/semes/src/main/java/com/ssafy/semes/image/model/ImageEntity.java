@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.ssafy.semes.common.Directory;
 import org.hibernate.annotations.Comment;
 
 import lombok.AllArgsConstructor;
@@ -39,5 +40,16 @@ public class ImageEntity {
     @Comment("0 : 삭제, 1: 기본, 2:학습용 데이터")
     private int status;
 
-
+    public String markingUrl(){
+        StringBuilder sb = new StringBuilder();
+        return sb.append('/').append(Directory.getBaseDirectories()[status].getPath())
+                .append('/').append(fileDir)
+                .append('/').append(saveName).toString();
+    }
+    public String originUrl(){
+        StringBuilder sb = new StringBuilder();
+        return sb.append('/').append(Directory.getBaseDirectories()[status].getPath())
+                .append('/').append(Directory.WHEEL_ORIGIN)
+                .append('/').append(saveName).toString();
+    }
 }

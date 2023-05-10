@@ -1,15 +1,24 @@
 import { setCheckId, setInquire } from "../../_store/slices/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Fade from "@mui/material/Fade";
 import { Link } from "react-router-dom";
+import Modal from "@mui/material/Modal";
 import React from "react";
 import { ReactComponent as RefreshBtn } from "../../assets/refreshBtn.svg";
 import Title from "../Title";
+import Typography from "@mui/material/Typography";
 import { redirect } from "react-router";
 import styled from "styled-components";
+import { useState } from "react";
 
 type WheelNameType = {
   wheelName: string;
+  url: string;
+  goodCnt: number;
 };
 
 type OHTResultDivType = {
@@ -18,6 +27,7 @@ type OHTResultDivType = {
 
 type WheelDivType = {
   url: string;
+  goodCnt: number;
 };
 
 const OHTResultSec = styled.section`
@@ -88,7 +98,7 @@ const OHTWheelsDiv = styled.div`
   width: 100%;
   height: 100%;
   grid-template-rows: 48% 48%;
-  grid-template-columns: 48% 48%;
+  grid-template-columns: 47% 47%;
   gap: 4%;
 `;
 const WheelDiv = styled.div<WheelDivType>`
@@ -96,14 +106,10 @@ const WheelDiv = styled.div<WheelDivType>`
   flex-direction: column;
   border-radius: 5px;
   background-image: url(${props => props.url});
+  background-size: cover;
+  background-position: center;
+  border: ${props => (props.goodCnt === 11 ? "none" : "4px red solid")};
 `;
-const OHTWheel = ({ wheelName }: WheelNameType) => {
-  return (
-    <WheelDiv url="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20200420_40%2F1587370627039aLqHU_JPEG%2FETC1868%25283%2529.jpg&type=a340">
-      <h4>{wheelName}</h4>
-    </WheelDiv>
-  );
-};
 
 const TitleContainer = styled.div`
   display: flex;
@@ -113,12 +119,62 @@ function OHTResult(props: any) {
   const data = props.data;
   const indexList = [0, 1, 2, 3];
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const sseId = useSelector((state: any) => {
     return state.dashboard.sseId;
   });
-  const isInquire = useSelector((state: any) => state.dashboard.inquire);
+  const OHTWheel = ({ wheelName, url, goodCnt }: WheelNameType) => {
+    const IMG_URL = process.env.REACT_APP_IMG_URL;
+    return (
+      <WheelDiv
+        url={`${IMG_URL}${url}`}
+        goodCnt={goodCnt}
+        onClick={() => {
+          setOpen(true);
+        }}
+        style={{ cursor: "pointer" }}
+      >
+        <h4>{wheelName}</h4>
+      </WheelDiv>
+    );
+  };
   return (
     <OHTResultSec>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Fade in={open}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "400",
+              backgroundColor: "white",
+              // bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: "24",
+              p: "4",
+              color: "black",
+            }}
+          >
+            <div style={{ width: "600px", height: "600px" }}></div>
+          </Box>
+        </Fade>
+      </Modal>
       <TitleContainer>
         <Title title="OHT 휠 검사 결과" />
         <h1 style={{ marginLeft: "6px", paddingTop: "1px" }}>
@@ -126,9 +182,8 @@ function OHTResult(props: any) {
             fill="var(--emphasize-color)"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              dispatch(setInquire(false));
               dispatch(setCheckId(sseId));
-              console.log("isInquire", isInquire);
+              dispatch(setInquire(false));
             }}
           />
         </h1>
@@ -142,10 +197,12 @@ function OHTResult(props: any) {
             <InfoTitleDiv>검사 일시</InfoTitleDiv>
             <InfoContentDiv>
               {data[0].ohtCheckDatetime[0]}-{String(data[0].ohtCheckDatetime[1]).padStart(2, "0")}-
-              {String(data[0].ohtCheckDatetime[2]).padStart(2, "0")}{" "}
-              {String(data[0].ohtCheckDatetime[3]).padStart(2, "0")}:
-              {String(data[0].ohtCheckDatetime[4]).padStart(2, "0")}:
-              {String(data[0].ohtCheckDatetime[5]).padStart(2, "0")}
+              {String(data[0].ohtChangeDate[2]).padStart(2, "0")}{" "}
+              {String(data[0].ohtChangeDate[3]).padStart(2, "0")}:
+              {String(data[0].ohtChangeDate[4]).padStart(2, "0")}:
+              {data[0].ohtChangeDate.length === 5
+                ? "00"
+                : String(data[0].ohtChangeDate[5]).padStart(2, "0")}
             </InfoContentDiv>
             <InfoTitleDiv>최종 교체</InfoTitleDiv>
             <InfoContentDiv>
@@ -153,7 +210,9 @@ function OHTResult(props: any) {
               {String(data[0].ohtChangeDate[2]).padStart(2, "0")}{" "}
               {String(data[0].ohtChangeDate[3]).padStart(2, "0")}:
               {String(data[0].ohtChangeDate[4]).padStart(2, "0")}:
-              {String(data[0].ohtChangeDate[5]).padStart(2, "0")}
+              {data[0].ohtChangeDate.length === 5
+                ? "00"
+                : String(data[0].ohtChangeDate[5]).padStart(2, "0")}
             </InfoContentDiv>
             <InfoTitleDiv>볼트 현황</InfoTitleDiv>
             <InfoContentDiv>
@@ -182,7 +241,14 @@ function OHTResult(props: any) {
           <h3 style={{ color: "var(--emphasize-color)" }}>휠 상세 이미지</h3>
           <OHTWheelsDiv>
             {indexList.map((item, idx) => {
-              return <OHTWheel wheelName={data[item].wheelPosition} key={idx} />;
+              return (
+                <OHTWheel
+                  wheelName={data[item].wheelPosition}
+                  key={idx}
+                  url={data[item].image}
+                  goodCnt={data[item].boltGoodCount}
+                />
+              );
             })}
           </OHTWheelsDiv>
         </OHTResultDiv>
