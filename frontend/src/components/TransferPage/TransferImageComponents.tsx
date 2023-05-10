@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 const TransferImageGridContainer = styled.div`
-  grid-column: 1/4;
+  grid-column: 1/9;
   &.active {
-    grid-column: 1/3;
+    grid-column: 1/6;
   }
   overflow-y: auto;
   padding-right: 10px;
@@ -13,14 +13,14 @@ const TransferImageGridContainer = styled.div`
 const TransferImageGrid = styled.div`
 
   width: 100%;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   
   display: none;
   &.open{
     display: grid;
   }
   &.active {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
   gap: 20px;
 `

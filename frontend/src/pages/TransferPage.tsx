@@ -52,7 +52,7 @@ function TransferPage() {
           { tabIndex < 3 ?
             <TransferBoltImages tabIndex={tabIndex} BoltImageLists={BoltImageLists[0]} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} /> :
             // 이거 나중에 BoltImageLists[1]로 변경해야됨!!
-            <LearningBoltImages tabIndex={tabIndex} BoltImageLists={BoltImageLists[0]} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} TabMenuList={TabMenuList} />
+            <LearningBoltImages tabIndex={tabIndex} BoltImageLists={BoltImageLists[1]} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} TabMenuList={TabMenuList} />
           }
 
         </TransferImageContainer>
