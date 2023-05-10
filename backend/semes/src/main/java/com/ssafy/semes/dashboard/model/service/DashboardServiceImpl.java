@@ -27,6 +27,7 @@ public class DashboardServiceImpl implements DashboardService{
     private OHTCheckRepository ohtCheckRepository;
     @Autowired
     private WheelCheckRepository wheelCheckRepository;
+
     @Override
     @Transactional
     public List<OHTCheckResponseDto> findAllCheck() throws Exception {
@@ -66,11 +67,11 @@ public class DashboardServiceImpl implements DashboardService{
 
         return list.stream().map(m->{
             ImageEntity i = m.getImage();
-            StringBuilder imageUrl = new StringBuilder();
-            imageUrl
-                .append('/').append(Directory.getBaseDirectories()[i.getStatus()].getPath())
-                .append('/').append(i.getFileDir())
-                .append('/').append(i.getSaveName());
+//            StringBuilder imageUrl = new StringBuilder();
+//            imageUrl
+//                .append('/').append(Directory.getBaseDirectories()[i.getStatus()].getPath())
+//                .append('/').append(i.getFileDir())
+//                .append('/').append(i.getSaveName());
 
             return DashboardMainResponseDto.builder()
                     .ohtCheckDatetime(ohtCheckDatetime)
@@ -81,7 +82,7 @@ public class DashboardServiceImpl implements DashboardService{
                     .boltLoseCount(m.getBoltLoseCount())
                     .unclassifiedCount(m.getUnclassifiedCount())
                     .wheelPosition(m.getWheelPosition())
-                    .image(imageUrl.toString())
+                    .image(i.markingUrl())
                     .build();
         }).collect(Collectors.toList());
     }
