@@ -62,7 +62,7 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 			}
 			LocalDateTime ldt = LocalDateTime.now();
 			check.get().setOhtCheckEndDatetime(ldt);
-			check.get().getOht().setChangeDate(ldt);
+			check.get().getOht().setCheckDate(ldt);
 
 		}
 	}
