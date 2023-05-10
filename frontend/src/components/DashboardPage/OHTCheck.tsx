@@ -43,11 +43,18 @@ const OHTCheckContent = styled.div`
 `;
 
 const OHTCheckGaugeDiv = styled.div`
-  flex: 0.6;
+  flex: 0.45;
   width: 100%;
   display: flex;
   justify-content: space-evenly;
   position: relative;
+  align-items: center;
+`;
+
+const OHTCheckNameDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 `;
 
 const OHTCheckGauge = styled.div<OHTCheckGaugeType>`
@@ -63,7 +70,6 @@ const OHTCheckBar = styled.div`
   background-color: var(--background-color);
   position: absolute;
   height: 7px;
-  top: 31%;
   z-index: 1;
 `;
 
@@ -94,7 +100,6 @@ function OHTCheck() {
     return (
       <OHTCheckGauge isSuccessed={isSuccessed} wheel={wheel}>
         {isSuccessed ? <Check /> : <NotCheck fill="var(--background-color)" />}
-        <p>{wheel}</p>
       </OHTCheckGauge>
     );
   };
@@ -118,6 +123,12 @@ function OHTCheck() {
           <OHTCheckGaugeFtn isSuccessed={checkBar[2]} wheel="RL" />
           <OHTCheckGaugeFtn isSuccessed={checkBar[3]} wheel="RR" />
         </OHTCheckGaugeDiv>
+        <OHTCheckNameDiv>
+          <div>FL</div>
+          <div>FF</div>
+          <div>RL</div>
+          <div>RR</div>
+        </OHTCheckNameDiv>
       </OHTCheckContainer>
     </OHTCheckSec>
   );
