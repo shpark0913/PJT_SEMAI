@@ -10,6 +10,7 @@ import styled from "styled-components";
 
 type WheelNameType = {
   wheelName: string;
+  url: string;
 };
 
 type OHTResultDivType = {
@@ -88,7 +89,7 @@ const OHTWheelsDiv = styled.div`
   width: 100%;
   height: 100%;
   grid-template-rows: 48% 48%;
-  grid-template-columns: 48% 48%;
+  grid-template-columns: 47% 47%;
   gap: 4%;
 `;
 const WheelDiv = styled.div<WheelDivType>`
@@ -96,10 +97,13 @@ const WheelDiv = styled.div<WheelDivType>`
   flex-direction: column;
   border-radius: 5px;
   background-image: url(${props => props.url});
+  background-size: cover;
+  background-position: center;
 `;
-const OHTWheel = ({ wheelName }: WheelNameType) => {
+const OHTWheel = ({ wheelName, url }: WheelNameType) => {
+  const IMG_URL = process.env.REACT_APP_IMG_URL;
   return (
-    <WheelDiv url="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20200420_40%2F1587370627039aLqHU_JPEG%2FETC1868%25283%2529.jpg&type=a340">
+    <WheelDiv url={`${IMG_URL}${url}`}>
       <h4>{wheelName}</h4>
     </WheelDiv>
   );
@@ -126,9 +130,9 @@ function OHTResult(props: any) {
             fill="var(--emphasize-color)"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              dispatch(setInquire(false));
+              console.log("checkId", sseId);
               dispatch(setCheckId(sseId));
-              console.log("isInquire", isInquire);
+              dispatch(setInquire(false));
             }}
           />
         </h1>
@@ -182,7 +186,9 @@ function OHTResult(props: any) {
           <h3 style={{ color: "var(--emphasize-color)" }}>휠 상세 이미지</h3>
           <OHTWheelsDiv>
             {indexList.map((item, idx) => {
-              return <OHTWheel wheelName={data[item].wheelPosition} key={idx} />;
+              return (
+                <OHTWheel wheelName={data[item].wheelPosition} key={idx} url={data[item].image} />
+              );
             })}
           </OHTWheelsDiv>
         </OHTResultDiv>

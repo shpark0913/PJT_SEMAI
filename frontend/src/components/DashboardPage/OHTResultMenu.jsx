@@ -16,7 +16,6 @@ function OHTResultMenu(props) {
   });
 
   useEffect(() => {
-    console.log("menu 실행");
     const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
       headers: {
         accesstoken: store.getState().user.token,
@@ -25,8 +24,6 @@ function OHTResultMenu(props) {
 
     sse.addEventListener("dashboard", event => {
       setDashboardData(JSON.parse(event.data));
-      console.log("datadata", JSON.parse(event.data)[0].ohtCheckId);
-      console.log("inquire", inquire);
       if (inquire === false) {
         dispatch(setCheckId(JSON.parse(event.data)[0].ohtCheckId));
       }
@@ -77,7 +74,6 @@ function OHTResultMenu(props) {
                     width="50%"
                     onClick={event => {
                       event.preventDefault();
-                      console.log("현재 조회 중인 checkId", item.ohtCheckId);
                       dispatch(setCheckId(item.ohtCheckId));
                       dispatch(setInquire(true));
                     }}
@@ -121,7 +117,6 @@ function OHTResultMenu(props) {
                       width="50%"
                       onClick={event => {
                         event.preventDefault();
-                        console.log("현재 조회 중인 checkId", item.ohtCheckId);
                         dispatch(setCheckId(item.ohtCheckId));
                         dispatch(setInquire(true));
                       }}
