@@ -51,12 +51,6 @@ const OHTCheckGaugeDiv = styled.div`
   align-items: center;
 `;
 
-const OHTCheckNameDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-`;
-
 const OHTCheckGauge = styled.div<OHTCheckGaugeType>`
   display: flex;
   flex-direction: column;
@@ -88,6 +82,12 @@ const OHTCheckPercentBar = styled.div<OHTCheckPercentBarType>`
   height: 100%;
   top: 29%;
   z-index: 3;
+`;
+
+const OHTCheckNameDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 `;
 
 function OHTCheck() {
