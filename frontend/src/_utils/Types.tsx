@@ -20,6 +20,8 @@ export type ReportObjectType = {   // 디테일 페이지에 들어오는 값들
   wheelCheckDate: number[],
   wheelCheckId?: number,
   wheelPosition?: string,
+  markingUrl? :string,
+  originUrl?: string
 }
 export type QueryType = {
   query: URLSearchParams,

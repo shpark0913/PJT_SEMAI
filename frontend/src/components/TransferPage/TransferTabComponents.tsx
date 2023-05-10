@@ -74,7 +74,7 @@ const TransferImagesDetailWrapper = styled.div`
   width: 100%;
   overflow-y: auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(8, 1fr);
 `;
 export const TransferImageDetailContainer = styled.div`
   display: none;
@@ -82,7 +82,7 @@ export const TransferImageDetailContainer = styled.div`
   box-shadow: -15px 0 10px -10px var(--shadow-color);
   &.active {
     display: inline-block;
-    grid-column: 3/4;
+    grid-column: 6/9;
     width: 100%;
   }
 `;
