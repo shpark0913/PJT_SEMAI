@@ -16,7 +16,6 @@ function ChartDark({ myScore, name, order }: Props) {
   const gaugeData = [
     {
       value: myScore,
-      // name: name, // 이 부분은 점수에 따라 다른 데이터 보여주자
       detail: {
         valueAnimation: true,
         offsetCenter: ["0%", "0%"],
@@ -34,7 +33,6 @@ function ChartDark({ myScore, name, order }: Props) {
                 type: "linear",
                 colorStops: [
                   { offset: 0, color: "#C741C6" }, // 시작 색상
-                  // { offset: 0.5, color: 'yellow' }, // 중간 색상
                   { offset: 1, color: "#F22778" }, // 끝 색상
                 ],
               }
@@ -112,7 +110,6 @@ function ChartLight({ myScore, name, order }: Props) {
   const gaugeData = [
     {
       value: myScore,
-      // name: name, // 이 부분은 점수에 따라 다른 데이터 보여주자
       detail: {
         valueAnimation: true,
         offsetCenter: ["0%", "0%"],
@@ -130,7 +127,6 @@ function ChartLight({ myScore, name, order }: Props) {
                 type: "linear",
                 colorStops: [
                   { offset: 0, color: "#C741C6" }, // 시작 색상
-                  // { offset: 0.5, color: 'yellow' }, // 중간 색상
                   { offset: 1, color: "#F22778" }, // 끝 색상
                 ],
               }
