@@ -130,8 +130,9 @@ function OHTResult(props: any) {
             fill="var(--emphasize-color)"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              dispatch(setInquire(false));
+              console.log("checkId", sseId);
               dispatch(setCheckId(sseId));
+              dispatch(setInquire(false));
             }}
           />
         </h1>
