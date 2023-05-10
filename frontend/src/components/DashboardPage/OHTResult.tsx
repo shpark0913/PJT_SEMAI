@@ -1,12 +1,19 @@
 import { setCheckId, setInquire } from "../../_store/slices/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Fade from "@mui/material/Fade";
 import { Link } from "react-router-dom";
+import Modal from "@mui/material/Modal";
 import React from "react";
 import { ReactComponent as RefreshBtn } from "../../assets/refreshBtn.svg";
 import Title from "../Title";
+import Typography from "@mui/material/Typography";
 import { redirect } from "react-router";
 import styled from "styled-components";
+import { useState } from "react";
 
 type WheelNameType = {
   wheelName: string;
@@ -103,19 +110,6 @@ const WheelDiv = styled.div<WheelDivType>`
   background-position: center;
   border: ${props => (props.goodCnt === 11 ? "none" : "4px red solid")};
 `;
-const OHTWheel = ({ wheelName, url, goodCnt }: WheelNameType) => {
-  const IMG_URL = process.env.REACT_APP_IMG_URL;
-  return (
-    <WheelDiv
-      url={`${IMG_URL}${url}`}
-      goodCnt={goodCnt}
-      onClick={() => alert(`${IMG_URL}${url}`)}
-      style={{ cursor: "pointer" }}
-    >
-      <h4>{wheelName}</h4>
-    </WheelDiv>
-  );
-};
 
 const TitleContainer = styled.div`
   display: flex;
@@ -125,11 +119,62 @@ function OHTResult(props: any) {
   const data = props.data;
   const indexList = [0, 1, 2, 3];
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const sseId = useSelector((state: any) => {
     return state.dashboard.sseId;
   });
+  const OHTWheel = ({ wheelName, url, goodCnt }: WheelNameType) => {
+    const IMG_URL = process.env.REACT_APP_IMG_URL;
+    return (
+      <WheelDiv
+        url={`${IMG_URL}${url}`}
+        goodCnt={goodCnt}
+        onClick={() => {
+          setOpen(true);
+        }}
+        style={{ cursor: "pointer" }}
+      >
+        <h4>{wheelName}</h4>
+      </WheelDiv>
+    );
+  };
   return (
     <OHTResultSec>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Fade in={open}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "400",
+              backgroundColor: "white",
+              // bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: "24",
+              p: "4",
+              color: "black",
+            }}
+          >
+            <div style={{ width: "600px", height: "600px" }}></div>
+          </Box>
+        </Fade>
+      </Modal>
       <TitleContainer>
         <Title title="OHT 휠 검사 결과" />
         <h1 style={{ marginLeft: "6px", paddingTop: "1px" }}>
