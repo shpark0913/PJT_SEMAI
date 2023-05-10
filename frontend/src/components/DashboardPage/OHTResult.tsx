@@ -128,7 +128,6 @@ function OHTResult(props: any) {
             onClick={() => {
               dispatch(setInquire(false));
               dispatch(setCheckId(sseId));
-              console.log("isInquire", isInquire);
             }}
           />
         </h1>
