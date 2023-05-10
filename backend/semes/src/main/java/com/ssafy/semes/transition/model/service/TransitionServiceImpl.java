@@ -1,6 +1,5 @@
 package com.ssafy.semes.transition.model.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +51,7 @@ public class TransitionServiceImpl implements  TransitionService {
 				images.stream().map(m ->
 					 ImageResponseDto.builder()
 						.fileId(m.getFileId())
-						.imgUrl(m.getFileDir()+ File.separator+m.getSaveName())
+						.imgUrl(m.markingUrl())
 						.originName(m.getOriginName()).build()
 				).collect(
 					Collectors.toList());
