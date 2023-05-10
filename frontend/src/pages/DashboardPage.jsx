@@ -1,4 +1,4 @@
-import { setCheckId, setSSEId } from "../_store/slices/dashboardSlice";
+import { setCheckId, setSSEId, setSSEState } from "../_store/slices/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -20,66 +20,84 @@ const MainGrid = styled.section`
 
 function DashboardPage() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const SSE_URL = process.env.REACT_APP_SSE_URL;
   const dispatch = useDispatch();
   const [wheelDataNew, setWheelDataNew] = useState(null);
-
-  let dashboardData;
-  const persistRoot = localStorage.getItem("persist:root");
-  const store = persistRoot ? JSON.parse(persistRoot) : "";
-  const token = JSON.parse(store.user)?.token || "";
+  const [dashboardData, setDashboardData] = useState(null);
 
   const ohtCheckId = useSelector(state => {
     return state.dashboard.checkId;
   });
+
   const isChecked = useSelector(state => {
     return state.dashboard.inquire;
   });
+
   const isSSEId = useSelector(state => {
     return state.dashboard.sseId;
   });
 
   // 대시보드 SSE 연결
-  async function fetchData() {
-    const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
-      headers: {
-        accesstoken: token,
-      },
-    });
-    const response = await new Promise(resolve => {
-      sse.addEventListener("dashboard", event => {
-        dashboardData = JSON.parse(event.data);
-        resolve(dashboardData);
-        console.log("==========================");
-        console.log("dashboard SSE 발생 🔆", dashboardData);
-        console.log("isChecked", isChecked);
-      });
-    });
-    const newOHTCheckId = response[0].ohtCheckId;
-    dispatch(setSSEId(newOHTCheckId));
-
-    return newOHTCheckId;
-  }
-
-  // isChecked가 false라면 화면 좌측 최신화
   useEffect(() => {
-    async function fetchNewOHTCheckId() {
-      const newOHTCheckId = await fetchData();
+    async function fetchData() {
+      const persistRoot = localStorage.getItem("persist:root");
+      const store = persistRoot ? JSON.parse(persistRoot) : {};
+      const token = JSON.parse(store.user)?.token || "";
+      const sse = new EventSourcePolyfill(`${SSE_URL}dashboard`, {
+        headers: {
+          accesstoken: token,
+        },
+      });
+      sse.addEventListener("state", event => {
+        const stateData = JSON.parse(event.data);
+        console.log("==========================");
+        console.log("state SSE 발생");
+        console.log("stateData", stateData);
+        dispatch(
+          setSSEState({ ohtSn: stateData.ohtSn, isWheelsProceeding: stateData.isWheelsProceeding }),
+        );
+      });
+      sse.addEventListener("dashboard", event => {
+        const dashboardData = JSON.parse(event.data);
+        const persistRoot = localStorage.getItem("persist:root");
+        const store = persistRoot ? JSON.parse(persistRoot) : {};
+        const isinquire = JSON.parse(store.dashboard)?.inquire || "";
+        console.log("==========================");
+        console.log("dashboard SSE 발생, 최신 checkId는", dashboardData[0].ohtCheckId);
+        console.log("isinquire", isinquire);
+        setDashboardData(dashboardData);
+        dispatch(setSSEId(dashboardData[0].ohtCheckId));
+        if (isinquire === false) {
+          console.log("자동 변경!");
+          dispatch(setCheckId(dashboardData[0].ohtCheckId));
+        }
+      });
+    }
+    fetchData();
+  }, []);
+
+  // SSE에서 데이터를 받아와서 store의 checkId를 변경
+  useEffect(() => {
+    if (dashboardData) {
+      const newOHTCheckId = dashboardData[0].ohtCheckId;
+      dispatch(setSSEId(newOHTCheckId));
       if (isChecked === false) {
         dispatch(setCheckId(newOHTCheckId));
       }
     }
-    fetchNewOHTCheckId();
-  }, [isChecked]);
+  }, [dashboardData, isChecked]);
 
   // store의 checkId가 변하면 실행돼서 정보를 불러옴
   useEffect(() => {
     async function fetchWheelData() {
-      try {
-        const response = await Axios.get(`${BASE_URL}dashboard/main/${ohtCheckId}`);
-        const wheelData = response.data.data;
-        setWheelDataNew(wheelData);
-      } catch (error) {
-        console.log("error", error);
+      if (ohtCheckId) {
+        try {
+          const response = await Axios.get(`${BASE_URL}dashboard/main/${ohtCheckId}`);
+          const wheelData = response.data.data;
+          setWheelDataNew(wheelData);
+        } catch (error) {
+          console.log("error", error);
+        }
       }
     }
     fetchWheelData();
@@ -94,4 +112,5 @@ function DashboardPage() {
     </MainGrid>
   );
 }
+
 export default DashboardPage;

@@ -11,6 +11,9 @@ function OHTResultMenu(props) {
   const [dashboardData, setDashboardData] = useState([]);
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const dispatch = useDispatch();
+  const inquire = useSelector(state => {
+    return state.dashboard.inquire;
+  });
 
   useEffect(() => {
     console.log("menu 실행");
@@ -22,6 +25,11 @@ function OHTResultMenu(props) {
 
     sse.addEventListener("dashboard", event => {
       setDashboardData(JSON.parse(event.data));
+      console.log("datadata", JSON.parse(event.data)[0].ohtCheckId);
+      console.log("inquire", inquire);
+      if (inquire === false) {
+        dispatch(setCheckId(JSON.parse(event.data)[0].ohtCheckId));
+      }
     });
   }, []);
 
@@ -69,7 +77,7 @@ function OHTResultMenu(props) {
                     width="50%"
                     onClick={event => {
                       event.preventDefault();
-                      console.log("item.ohtCheckId", item.ohtCheckId);
+                      console.log("현재 조회 중인 checkId", item.ohtCheckId);
                       dispatch(setCheckId(item.ohtCheckId));
                       dispatch(setInquire(true));
                     }}
@@ -113,9 +121,9 @@ function OHTResultMenu(props) {
                       width="50%"
                       onClick={event => {
                         event.preventDefault();
+                        console.log("현재 조회 중인 checkId", item.ohtCheckId);
                         dispatch(setCheckId(item.ohtCheckId));
                         dispatch(setInquire(true));
-                        console.log("클릭클릭");
                       }}
                     >
                       상세보기

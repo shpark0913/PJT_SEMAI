@@ -39,10 +39,6 @@ export type ReportModalProps = {
 }
 
 // 전이학습 페이지 type
-export type TransferTabProps = {   // 전이학습 페이지 모달 open
-  handleModalOpen: (arg :ModalImageType) => void;
-}
-
 export type TransferBoltImageObject = {
   fileId: number,
   imgUrl: string,
