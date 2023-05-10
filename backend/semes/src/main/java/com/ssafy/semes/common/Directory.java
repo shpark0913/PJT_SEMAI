@@ -26,4 +26,7 @@ public enum Directory {
 		return new Directory[]{Directory.BOLT_NORMAL,Directory.BOLT_LOST,Directory.BOLT_LOOSE,Directory.BOLT_AMBIGUE,Directory.BOLT_BREAK
 			,Directory.WHEEL_ORIGIN,Directory.WHEEL_RESULT,Directory.DETECTION_NORMAL,Directory.DETECTION_PROBLEM,Directory.DETECTION_RESULT};
 	}
+	public static Directory[] getBaseDirectories(){
+		return new Directory[]{Directory.ARCHIVE,Directory.BASE,Directory.TRAIN};
+	}
 }
