@@ -15,4 +15,6 @@ public class ReportListResponseDto {
     private LocalDateTime wheelCheckDate;
     private long wheelCheckId;
     private String wheelPosition;
+    private String markingUrl;
+    private String originUrl;
 }
