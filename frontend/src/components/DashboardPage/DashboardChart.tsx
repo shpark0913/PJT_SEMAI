@@ -32,8 +32,8 @@ function ChartDark({ myScore, name, order }: Props) {
             ? {
                 type: "linear",
                 colorStops: [
-                  { offset: 0, color: "#C741C6" }, // 시작 색상
-                  { offset: 1, color: "#F22778" }, // 끝 색상
+                  { offset: 0, color: "#bedd80" }, // 시작 색상
+                  { offset: 1, color: "#0cd348" }, // 끝 색상
                 ],
               }
             : order === "2"
@@ -47,8 +47,8 @@ function ChartDark({ myScore, name, order }: Props) {
             : {
                 type: "linear",
                 colorStops: [
-                  { offset: 0, color: "#18D6E9" }, // 시작 색상
-                  { offset: 1, color: "#4B6FFE" }, // 끝 색상
+                  { offset: 0, color: "#C741C6" }, // 시작 색상
+                  { offset: 1, color: "#F22778" }, // 끝 색상
                 ],
               },
         startAngle: 90, // 시작점
@@ -126,8 +126,8 @@ function ChartLight({ myScore, name, order }: Props) {
             ? {
                 type: "linear",
                 colorStops: [
-                  { offset: 0, color: "#C741C6" }, // 시작 색상
-                  { offset: 1, color: "#F22778" }, // 끝 색상
+                  { offset: 0, color: "#bedd80" }, // 시작 색상
+                  { offset: 1, color: "#0cd348" }, // 끝 색상
                 ],
               }
             : order === "2"
@@ -141,8 +141,8 @@ function ChartLight({ myScore, name, order }: Props) {
             : {
                 type: "linear",
                 colorStops: [
-                  { offset: 0, color: "#18D6E9" }, // 시작 색상
-                  { offset: 1, color: "#4B6FFE" }, // 끝 색상
+                  { offset: 0, color: "#C741C6" }, // 시작 색상
+                  { offset: 1, color: "#F22778" }, // 끝 색상
                 ],
               },
         startAngle: 90, // 시작점
