@@ -15,6 +15,12 @@ else:
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
 classification_model = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+
+
+BINARY_MODEL_DIR  = os.path.join(os.path.join(BASE_DIR, "models"), "binary_model.pth")
+bianry_classification_model = torch.load(BINARY_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+
+
 # 분류 결과 텍스트파일이 저장될 경로
 RESULT_PATH = '../../dataset/semes_bolt/DETECTION_RESULT/'
 
@@ -24,10 +30,12 @@ WHEEL_RESULT_PATH = '../../dataset/semes_bolt/WHEEL_RESULT/'
 LABEL_COLOR = {
     0: (225, 240, 8),   # 파손
     1: (255, 0, 0),     # 유실
+    3: (59, 85, 193),   # 풀림
 }
 
 # 모델을 평가 모드 설정
 classification_model.eval()
+bianry_classification_model.eval()
 
 # 분류를 위한 볼트 이미지 파일 전처리
 transformations = transforms.Compose([
@@ -38,6 +46,20 @@ transformations = transforms.Compose([
     # 흑백 이미지이기 때문에 1개의 채널을 정규화
     transforms.Normalize([0.5], [0.5])
 ])
+
+def bianry_classification(image):
+    # 이미지를 전처리(unsqueeze를 이용해 배치 차원을 추가하고, GPU를 사용)
+    image = image.convert('RGB')
+    image = transformations(image).unsqueeze(0).to(device)
+    # 모델의 파라미터가 업데이트 되지 않고 연산의 중복을 막아 빠른 결과를 출력
+    with torch.no_grad():
+        # classification_model image를 넣어 예측
+        outputs = bianry_classification_model(image)
+        # torch.max 함수를 이용해 출력값 중 가장 큰 값을 가지는 인덱스
+        _, preds = torch.max(outputs, 1)
+    # 예측한 결과 preds에서 가장 확률이 높은 클래스를 class_names 리스트에서 찾아 반환
+    return int(preds[0])
+
 
 # 볼트 이미지를 읽어 결과를 반환하는 함수
 def classification(image):
@@ -54,7 +76,7 @@ def classification(image):
     return int(preds[0])
 
 
-def ImgCrop(filePath, image, bboxes):
+def ImgCrop(filePath, image, bboxes, binary):
     # blot 이미지 저장
     result = []
 
@@ -80,9 +102,21 @@ def ImgCrop(filePath, image, bboxes):
             image_name = filePath + f'_{i+1}.png' 
             # 정상인 볼트로 분류되었을 경우
             if classification_Result == 2:
+                if binary == True:
+                    # 이진 분류
+                    binary_Result = bianry_classification(cropped)
+                    # 이진 분류 결과
+                    if binary_Result == 0:
+                        classification_Result = 3
+                        save_directory = '../../dataset/semes_bolt/BOLT_LOOSE/'
+                        classification_directory = 'BOLT_LOOSE/'
+                    else:
+                        save_directory = '../../dataset/semes_bolt/BOLT_NORMAL/'
+                        classification_directory = 'BOLT_NORMAL/'
                 # BOLT_NORMAL 폴더로 경로 설정
-                save_directory = '../../dataset/semes_bolt/BOLT_NORMAL/'
-                classification_directory = 'BOLT_NORMAL/'
+                else:
+                    save_directory = '../../dataset/semes_bolt/BOLT_NORMAL/'
+                    classification_directory = 'BOLT_NORMAL/'
             # 유실된 볼트로 분류되었을 경우
             elif classification_Result == 1:
                 # BOLT_LOST 폴더로 경로 설정
@@ -102,7 +136,6 @@ def ImgCrop(filePath, image, bboxes):
             # 볼트 상태가 정상이 아닐 경우
             if classification_Result != 2:
                 # 박스 그리기
-                # draw.rectangle((10, 10, 100, 100), outline=(225, 240, 8), width=5, fill=None)
                 draw.rectangle((x_min, y_min, x_max, y_max), outline=LABEL_COLOR[classification_Result], width=5, fill=None)
             f.write(result_bbox + '\n')
         print(os.path.exists(WHEEL_RESULT_PATH))
