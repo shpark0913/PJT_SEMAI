@@ -118,6 +118,7 @@ const TitleContainer = styled.div`
 
 function OHTResult(props: any) {
   const data = props.data;
+  console.log("data", data);
   const indexList = [0, 1, 2, 3];
   const dispatch = useDispatch();
   const sseId = useSelector((state: any) => {
@@ -148,10 +149,12 @@ function OHTResult(props: any) {
             <InfoTitleDiv>검사 일시</InfoTitleDiv>
             <InfoContentDiv>
               {data[0].ohtCheckDatetime[0]}-{String(data[0].ohtCheckDatetime[1]).padStart(2, "0")}-
-              {String(data[0].ohtCheckDatetime[2]).padStart(2, "0")}{" "}
-              {String(data[0].ohtCheckDatetime[3]).padStart(2, "0")}:
-              {String(data[0].ohtCheckDatetime[4]).padStart(2, "0")}:
-              {String(data[0].ohtCheckDatetime[5]).padStart(2, "0")}
+              {String(data[0].ohtChangeDate[2]).padStart(2, "0")}{" "}
+              {String(data[0].ohtChangeDate[3]).padStart(2, "0")}:
+              {String(data[0].ohtChangeDate[4]).padStart(2, "0")}:
+              {data[0].ohtChangeDate.length === 5
+                ? "00"
+                : String(data[0].ohtChangeDate[5]).padStart(2, "0")}
             </InfoContentDiv>
             <InfoTitleDiv>최종 교체</InfoTitleDiv>
             <InfoContentDiv>
@@ -159,7 +162,9 @@ function OHTResult(props: any) {
               {String(data[0].ohtChangeDate[2]).padStart(2, "0")}{" "}
               {String(data[0].ohtChangeDate[3]).padStart(2, "0")}:
               {String(data[0].ohtChangeDate[4]).padStart(2, "0")}:
-              {String(data[0].ohtChangeDate[5]).padStart(2, "0")}
+              {data[0].ohtChangeDate.length === 5
+                ? "00"
+                : String(data[0].ohtChangeDate[5]).padStart(2, "0")}
             </InfoContentDiv>
             <InfoTitleDiv>볼트 현황</InfoTitleDiv>
             <InfoContentDiv>
