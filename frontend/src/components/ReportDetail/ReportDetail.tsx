@@ -9,6 +9,7 @@ const ReportDetailContainer = styled.div`
   background-color: var(--background-color);
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   padding-left: 30px;
   margin-left: 30px;
   transition: width 1000ms ease, transform 1000ms ease, box-shadow 1000ms ease;

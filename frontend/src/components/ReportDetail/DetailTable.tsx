@@ -5,6 +5,7 @@ import useDate from "../../_hooks/useDate";
 
 function DetailTable({detailInfo}: {detailInfo: ReportObjectType}) {
   let { wheelReportId, dateFormat, timeFormat } = useDate();
+  const IMG_URL = process.env.REACT_APP_IMG_URL
   return (
     <Table className="detail">
       <TBody>
@@ -42,11 +43,11 @@ function DetailTable({detailInfo}: {detailInfo: ReportObjectType}) {
         </TR>
         <TR>
           <TH>Raw Image</TH>
-          <TD></TD>
+          <TD><img width="100%" src={`${IMG_URL}${detailInfo.originUrl}`} alt=""/></TD>
         </TR>
         <TR>
           <TH>Marked Image</TH>
-          <TD></TD>
+          <TD><img width="100%" src={`${IMG_URL}${detailInfo.markingUrl}`} alt=""/></TD>
         </TR>
       </TBody>
     </Table>
