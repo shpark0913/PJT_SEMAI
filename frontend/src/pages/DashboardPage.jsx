@@ -57,7 +57,6 @@ function DashboardPage() {
         setDashboardData(dashboardData);
         dispatch(setSSEId(dashboardData[0].ohtCheckId));
         if (isinquire === false) {
-          console.log("자동 변경!");
           dispatch(setCheckId(dashboardData[0].ohtCheckId));
         }
       });
