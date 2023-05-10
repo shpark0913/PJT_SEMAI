@@ -11,18 +11,18 @@ const TransferImageGridContainer = styled.div`
 `;
 
 const TransferImageGrid = styled.div`
-
-  width: 100%;
-  grid-template-columns: repeat(8, 1fr);
-  
   display: none;
+  width: 100%;
+
+  grid-template-columns: repeat(8, 1fr);
+  gap: 20px;
+  
   &.open{
     display: grid;
   }
   &.active {
     grid-template-columns: repeat(5, 1fr);
   }
-  gap: 20px;
 `
 
 const TransferBoltImage = styled.div`
@@ -30,21 +30,30 @@ const TransferBoltImage = styled.div`
   //background-color: #e6e6e6;
   display: flex;
   flex-direction: column;
+  position: relative;
   
-  & > img {
+  & img {
     width: 100%;
     aspect-ratio: 1;
     object-fit: cover;
     margin-bottom: 5px;
     cursor: pointer;
   }
-  & > div {
+  & div {
     word-break:break-word;
     font-size: 15px;
     &:hover {
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+  & > input[type="checkbox"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 5px 0 0 5px;
+    width: 30px;
+    height: 30px;
   }
 `
 
