@@ -61,7 +61,7 @@ function OHTResultMenu(props) {
                   {String(item.ohtCheckStartDatetime[4]).padStart(2, "0")}:
                   {String(item.ohtCheckStartDatetime[5]).padStart(2, "0")}
                 </TD>
-                <TD>{item.ohtId}</TD>
+                <TD>{item.ohtSn}</TD>
                 <TD>
                   {item.flCount + item.frCount + item.rlCount + item.rrCount === 0 ? "정상" : "NG"}
                 </TD>
