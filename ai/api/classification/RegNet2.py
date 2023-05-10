@@ -13,7 +13,7 @@ else:
 
 # 볼트 분석 모델 load
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "classification_model.pth")
+CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(BASE_DIR, "models"), "4개.pth")
 classification_model = torch.load(CLASSIFICATION_MODEL_DIR, map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
 # 분류 결과 텍스트파일이 저장될 경로
 RESULT_PATH = '../../dataset/semes_bolt/DETECTION_RESULT/'

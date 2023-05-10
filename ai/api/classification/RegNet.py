@@ -103,24 +103,18 @@ def ImgCrop(filePath, image, bboxes, binary):
             # 정상인 볼트로 분류되었을 경우
             if classification_Result == 2:
                 if binary == True:
-                    print(1111)
                     # 이진 분류
                     binary_Result = bianry_classification(cropped)
-                    print(2222)
                     # 이진 분류 결과
-                    print(99999999999999999999,binary_Result)
                     if binary_Result == 0:
-                        print(33333)
                         classification_Result = 3
                         save_directory = '../../dataset/semes_bolt/BOLT_LOOSE/'
                         classification_directory = 'BOLT_LOOSE/'
                     else:
-                        print(44444444)
                         save_directory = '../../dataset/semes_bolt/BOLT_NORMAL/'
                         classification_directory = 'BOLT_NORMAL/'
                 # BOLT_NORMAL 폴더로 경로 설정
                 else:
-                    print(5555555555)
                     save_directory = '../../dataset/semes_bolt/BOLT_NORMAL/'
                     classification_directory = 'BOLT_NORMAL/'
             # 유실된 볼트로 분류되었을 경우

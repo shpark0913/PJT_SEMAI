@@ -40,7 +40,7 @@ REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG|.PNG|.JPEG|.GIF|.BMP')
 
 @app.get("/infer")
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
-async def detect_classification(filePath: str, binary: bool):
+async def detect_classification(filePath: str):
     try:
         # 추론 시작 시간 설정
         start_test = time.time()
