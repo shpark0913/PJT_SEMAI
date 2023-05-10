@@ -1,6 +1,7 @@
 package com.ssafy.semes.transition.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,13 @@ public class TransitionController {
     @GetMapping
     public ApiResponse<?> findAllBolt(){
         log.info("ImageController getImages start");
-        List<ImageListResponseDto> responseDto = transitionService.findAll();
-        return 	ApiResponse.success(SuccessCode.CREATE_FILE,responseDto);
+        List<ImageListResponseDto> responseDtoImages = transitionService.findAll(false);
+        List<ImageListResponseDto> responseDtoTrain = transitionService.findAll(true);
+
+        List<List<ImageListResponseDto>> response = new ArrayList<>();
+        response.add(responseDtoImages);
+        response.add(responseDtoTrain);
+        return 	ApiResponse.success(SuccessCode.READ_IMG_LIST,response);
 
     }
     @DeleteMapping
@@ -71,7 +77,7 @@ public class TransitionController {
             e.printStackTrace();
             return ApiResponse.error(ErrorCode.FILE_NOT_FOUND);
         }
-        return ApiResponse.success(SuccessCode.DELETE_IMG,"볼트 이미지를 삭제 했습니다.");
+        return ApiResponse.success(SuccessCode.UPDATE_IMG,"볼트 학습 이미지 선택 성공.");
     }
     @GetMapping("/learning")
     public ApiResponse<?> startTrain(){

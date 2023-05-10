@@ -2,6 +2,7 @@ import { ReactComponent as Check } from "../../assets/Check.svg";
 import { ReactComponent as NotCheck } from "../../assets/NotCheck.svg";
 import Title from "../Title";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 type OHTCheckGaugeType = {
   isSuccessed: boolean;
@@ -84,8 +85,11 @@ const OHTCheckPercentBar = styled.div<OHTCheckPercentBarType>`
 `;
 
 function OHTCheck() {
-  const checkBar: boolean[] = [true, true, true, false];
+  const sseData = useSelector((state: any) => {
+    return state.dashboard.sseState;
+  });
 
+  const checkBar: boolean[] = sseData.isWheelsProceeding;
   const OHTCheckGaugeFtn = ({ isSuccessed, wheel }: OHTCheckGaugeType) => {
     return (
       <OHTCheckGauge isSuccessed={isSuccessed} wheel={wheel}>
@@ -103,7 +107,7 @@ function OHTCheck() {
           <OHTCheckContent style={{ color: "var(--emphasize-color)", marginRight: "5px" }}>
             호기 ID
           </OHTCheckContent>
-          <OHTCheckContent>V30001-FL-1681704285</OHTCheckContent>
+          <OHTCheckContent>{sseData.ohtSn}</OHTCheckContent>
         </OHTCheckTitle>
         <OHTCheckGaugeDiv>
           <OHTCheckBar>

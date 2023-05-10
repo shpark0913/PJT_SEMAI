@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
 const TransferImageGridContainer = styled.div`
-  flex: 1;
+  grid-column: 1/4;
+  &.active {
+    grid-column: 1/3;
+  }
   overflow-y: auto;
   padding-right: 10px;
   width: 100%;
@@ -11,10 +14,14 @@ const TransferImageGrid = styled.div`
   display: grid;
   width: 100%;
   grid-template-columns: repeat(6, 1fr);
+  
+  &.active {
+    grid-template-columns: repeat(4, 1fr);
+  }
   gap: 20px;
 `
 
-const TransferImage = styled.div`
+const TransferBoltImage = styled.div`
   width: 100%;
   //background-color: #e6e6e6;
   display: flex;
@@ -37,4 +44,4 @@ const TransferImage = styled.div`
   }
 `
 
-export { TransferImageGridContainer, TransferImageGrid, TransferImage }
+export { TransferImageGridContainer, TransferImageGrid, TransferBoltImage }
