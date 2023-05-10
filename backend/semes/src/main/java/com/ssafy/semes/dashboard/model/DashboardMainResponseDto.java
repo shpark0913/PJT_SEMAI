@@ -1,9 +1,12 @@
 package com.ssafy.semes.dashboard.model;
 
-import com.ssafy.semes.image.model.ImageEntity;
-import lombok.*;
-
 import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -19,4 +22,5 @@ public class DashboardMainResponseDto {
     private int boltLoseCount;
     private int unclassifiedCount;
     private String wheelPosition;
+    private String image;
 }
