@@ -55,7 +55,7 @@ async def detect_classification(filePath: str, binary: bool):
 
         # 데이터를 JSON 형식으로 구성
         data = {
-            "markedImage": "WHEEL_RESULT/{}.png".format(filePath),
+            "markedImage": "WHEEL_RESULT/{}.jpg".format(filePath),
             "bolts": result,
             "word": "저장중"
         }
