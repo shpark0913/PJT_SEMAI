@@ -1,11 +1,13 @@
 package com.ssafy.semes.ohtcheck.controller;
 
 import java.io.IOException;
+import java.net.ConnectException;
 
-import com.ssafy.semes.util.SlackController;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.semes.common.ErrorCode;
@@ -18,6 +20,7 @@ import com.ssafy.semes.image.model.service.ImageService;
 import com.ssafy.semes.ohtcheck.model.OHTCheckEntity;
 import com.ssafy.semes.ohtcheck.model.service.OHTCheckService;
 import com.ssafy.semes.util.FileNameUtil;
+import com.ssafy.semes.util.SlackController;
 import com.ssafy.semes.wheelcheck.model.service.WheelCheckService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +66,11 @@ public class OHTCheckController {
 			try {
 				wheelCheckService.checkWheel(file,ohtFileName, WheelPosition.values()[i],ohtCheck);
 
-			} catch (IOException | InterruptedException e) {
+			}catch (ConnectException e){
+				log.info("OHTCheckController checkOht error AI server 오류");
+				return ApiResponse.error(ErrorCode.AI_SERVER_CONNECTION_ERROR);
+			}
+			catch (IOException | InterruptedException e) {
 				slackController.errorSend("OHTCheckController checkOht error checkWheel :"+e.getMessage());
 				log.info("OHTCheckController checkOht error checkWheel");
 				throw new RuntimeException(e);

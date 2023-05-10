@@ -17,13 +17,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
 @Builder
 @Slf4j
 @JsonIgnoreProperties(ignoreUnknown = true)
