@@ -7,14 +7,15 @@ export async function TransferTestAction () {
 
 export async function TransferBoltImageAction({ request }: {request: any}) {
   console.log("액션 발동!")
+  let form = await request.formData();
 
   if (request.method === "PATCH") {
-    console.log('클래스 이동하자')
-    await Axios.patch('transition', {
-      preType: "어쩌구",
-      nextType: "저쩌구",
-      fileId: [1, 2, 3],
-    })
+
+    // await Axios.patch('transition', {
+    //   preType: "어쩌구",
+    //   nextType: "저쩌구",
+    //   fileId: [1, 2, 3],
+    // })
   }
   else if (request.method === "DELETE") {
     console.log('이미지를 삭제하자')
@@ -30,5 +31,5 @@ export async function TransferBoltImageAction({ request }: {request: any}) {
       fileId: [1, 2, 3, 4]
     })
   }
-
+  return null;
 }
