@@ -6,6 +6,7 @@ import {Button, RedButton, SemesButton} from "../ButtonComponents";
 import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import {CloseButton} from "../Modal/ModalComponents";
+import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
 
 function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetailOpen}:
                               { tabIndex: number,
@@ -13,8 +14,10 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
                                 isDetailOpen: boolean,
                                 setIsDetailOpen: (arg: boolean) => void }) {
 
+
+  const { TransferClass } = useTransferBoltImages()
   const ButtonLists: JSX.Element[] = [<>
-    <Button>유실로 이동</Button>
+    <Button onClick={() => TransferClass(0, 1, [3123, 246])}>유실로 이동</Button>
     <Button>풀림으로 이동</Button>
     <SemesButton>학습으로 이동</SemesButton>
     <RedButton>삭제하기</RedButton>
