@@ -39,9 +39,11 @@ public class OHTCheckController {
 	SseEmitters sseEmitters;
 	@Autowired
 	SlackController slackController;
+
 	@PostMapping("/{ohtSn}")
 	public ApiResponse<?> checkOht(@PathVariable String ohtSn, MultipartFile[] files){
 		log.info("OHTCheckController checkOht start");
+		System.out.println(files[0].toString());
 		//OHT 검사기록 생성
 		OHTCheckEntity ohtCheck;
 		try {
@@ -56,9 +58,9 @@ public class OHTCheckController {
 		FileNameUtil ohtFileName = new FileNameUtil(ohtSn);
 
 		ProcessStatusDto processStatusDto = ProcessStatusDto.builder()
-			.ohtSn(ohtSn)
-			.isProceeding(true)
-			.isWheelsProceeding(new boolean[4]).build();
+				.ohtSn(ohtSn)
+				.isProceeding(true)
+				.isWheelsProceeding(new boolean[4]).build();
 
 		//바퀴 별 처리
 		for (int i=0;i<4;i++) {
@@ -69,8 +71,7 @@ public class OHTCheckController {
 			}catch (ConnectException e){
 				log.info("OHTCheckController checkOht error AI server 오류");
 				return ApiResponse.error(ErrorCode.AI_SERVER_CONNECTION_ERROR);
-			}
-			catch (IOException | InterruptedException e) {
+			} catch (IOException | InterruptedException e) {
 				slackController.errorSend("OHTCheckController checkOht error checkWheel :"+e.getMessage());
 				log.info("OHTCheckController checkOht error checkWheel");
 				throw new RuntimeException(e);
