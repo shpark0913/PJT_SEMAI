@@ -6,6 +6,7 @@ import com.ssafy.semes.common.SuccessCode;
 import com.ssafy.semes.common.dto.ApiResponse;
 import com.ssafy.semes.dashboard.controller.DashboardController;
 import com.ssafy.semes.ohtcheck.controller.OHTCheckController;
+import com.ssafy.semes.report.controller.ReportController;
 import com.ssafy.semes.user.controller.UserController;
 import com.ssafy.semes.user.model.UserRequestDto;
 import com.ssafy.semes.user.model.UserResponseDto;
@@ -34,9 +35,11 @@ class SemesApplicationTests {
 	DashboardController dashboardController;
 	@Autowired
 	OHTCheckController ohtCheckController;
+	@Autowired
+	ReportController reportController;
 
 	@BeforeEach
-	void UserLogin() throws IOException {
+	void userLogin() throws IOException {
 		UserRequestDto user = UserRequestDto.builder().userId("admin").userPwd("ssafy!1234").build();
 		ApiResponse temp =userController.login(user);
 		UserResponseDto usertemp = (UserResponseDto) temp.getData();
@@ -46,7 +49,7 @@ class SemesApplicationTests {
 	}
 
 	@Test
-	void  DashBoardTest() throws Exception {
+	void  dashBoardTest() throws Exception {
 		assertEquals(dashboardController.connect().getStatusCode(), HttpStatus.OK);
 		assertEquals(dashboardController.showMain(228).getMessage(),SuccessCode.READ_DASHBOARD_MAIN.getMessage());
 		MultipartFile [] multipartFiles = new MultipartFile [4];
@@ -63,14 +66,15 @@ class SemesApplicationTests {
 	}
 
 	@Test
-	void  o3(){
-		System.out.println("3");
+	void  report(){
+		assertEquals(reportController.findReport("ALL",
+						"2023-04-11",
+						"2023-05-11",
+						"ALL",
+						"ALL",
+						0,
+						1,
+						1).getMessage()
+				,SuccessCode.READ_REPORT_LIST.getMessage());
 	}
-
-	@Test
-	void  o2(){
-		System.out.println("2");
-	}
-
-
 }
