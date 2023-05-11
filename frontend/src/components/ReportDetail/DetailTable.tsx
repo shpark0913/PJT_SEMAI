@@ -2,10 +2,11 @@ import React from 'react';
 import {ReportObjectType} from "../../_utils/Types";
 import {Table, TBody, TD, TH, TR} from "../TableComponents";
 import useDate from "../../_hooks/useDate";
+import ImageUrl from "../../_utils/ImageUrl";
 
 function DetailTable({detailInfo}: {detailInfo: ReportObjectType}) {
   let { wheelReportId, dateFormat, timeFormat } = useDate();
-  const IMG_URL = process.env.REACT_APP_IMG_URL
+
   return (
     <Table className="detail">
       <TBody>
@@ -43,11 +44,11 @@ function DetailTable({detailInfo}: {detailInfo: ReportObjectType}) {
         </TR>
         <TR>
           <TH>Raw Image</TH>
-          <TD><img width="100%" src={`${IMG_URL}${detailInfo.originUrl}`} alt=""/></TD>
+          <TD><img width="100%" src={ImageUrl(detailInfo.originUrl)} alt=""/></TD>
         </TR>
         <TR>
           <TH>Marked Image</TH>
-          <TD><img width="100%" src={`${IMG_URL}${detailInfo.markingUrl}`} alt=""/></TD>
+          <TD><img width="100%" src={ImageUrl(detailInfo.markingUrl)} alt=""/></TD>
         </TR>
       </TBody>
     </Table>

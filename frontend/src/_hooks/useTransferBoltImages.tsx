@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import {useSubmit} from "react-router-dom";
 
 function useTransferBoltImages() {
@@ -42,16 +42,14 @@ function useTransferBoltImages() {
   }
   const TransferLearning = (fileIds: number[]) => {
     const form = new FormData();
-    form.append('fileIds', `[${fileIds. join(', ')}]`);
-    form.forEach((val, key) => console.log(`${key} ${val}`))
+    form.append('fileIds', `${fileIds}`);
     submit(form, {
       method: "POST"
     });
   }
   const DeleteImages = (fileIds: number[]) => {
     const form = new FormData();
-    form.append('fileIds', `[${fileIds. join(', ')}]`);
-    form.forEach((val, key) => console.log(`${key} ${val}`))
+    form.append('fileIds', `${fileIds}`);
     submit(form, {
       method: "DELETE"
     });
