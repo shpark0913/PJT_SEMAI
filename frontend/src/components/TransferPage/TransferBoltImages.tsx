@@ -8,19 +8,26 @@ import {CloseButton} from "../Modal/ModalComponents";
 // import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
 import TransferButtons from "./TransferButtons";
 import ImageUrl from "../../_utils/ImageUrl";
+import {setIsDetailOpen} from "../../_store/slices/transferPageSlice";
+import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
 
-function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetailOpen}:
+
+
+function TransferBoltImages({tabIndex, BoltImageLists}:
                               { tabIndex: number,
                                 BoltImageLists: TransferLoaderType[],
-                                isDetailOpen: boolean,
+                                // isDetailOpen: boolean,
                                 // setIsDetailOpen: (arg: (prev:boolean) => boolean) => void,
-                                setIsDetailOpen: (arg: boolean) => void }) {
+                                // setIsDetailOpen: (arg: boolean) => void
+                              }) {
 
   const [detailInfo, setDetailInfo] = useState<TransferBoltImageObject>({
     imgUrl: "",
     originName: "",
     fileId: 0
   })
+  const dispatch = useAppDispatch();
+  const isDetailOpen = useAppSelector(state => state.transferPage.isDetailOpen)
   const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], []]);
 
   const { TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
@@ -62,8 +69,7 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
                 }
               }} />
               <div onClick={() => {
-                // setIsDetailOpen(prev => prev = !prev);
-                setIsDetailOpen(true);
+                dispatch(setIsDetailOpen(true));
                 setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId})
               } }>
                 <img src={ImageUrl(image.imgUrl)} alt="bolt" />
@@ -87,7 +93,7 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
           </TransferImageGrid>
         </TransferImageGridContainer>
         <TransferImageDetailContainer className={isDetailOpen? "active" : ""}>
-          <CloseButton onClick={() => setIsDetailOpen(false)}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
+          <CloseButton onClick={() => dispatch(setIsDetailOpen(false))}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
           <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
           <div>{detailInfo.originName}</div>
         </TransferImageDetailContainer>
