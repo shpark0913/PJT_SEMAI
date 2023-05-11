@@ -1,13 +1,17 @@
 import React from 'react';
 import {TransferMenuContainer} from "./TabMenuComponents";
+import {useAppDispatch} from "../../_hooks/hooks";
+import {setTabIndex} from "../../_store/slices/transferPageSlice";
 
-function TabMenu({TabMenuList, tabIndex, setTabIndex, imageLengthList, setIsDetailOpen}: {
+function TabMenu({TabMenuList, tabIndex, imageLengthList, setIsDetailOpen}: {
   TabMenuList: string[],
   imageLengthList: number[],
   tabIndex: number,
-  setTabIndex: React.Dispatch<React.SetStateAction<number>>
   setIsDetailOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
+
+  const dispatch = useAppDispatch();
+
   return (
     <TransferMenuContainer>
       { TabMenuList.map((menu, idx) =>
@@ -15,7 +19,7 @@ function TabMenu({TabMenuList, tabIndex, setTabIndex, imageLengthList, setIsDeta
           key={`transfer-tab-menu_${idx}`}
           className={idx === tabIndex ? "isActive" : "" }
           onClick={ () => {
-            setTabIndex(idx);
+            dispatch(setTabIndex(idx));
             setIsDetailOpen(false);
           } }
         >
