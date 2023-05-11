@@ -20,7 +20,7 @@ const ClassName = styled.div`
     margin-right: 5px;
   }
   &~hr {
-    border: 1px solid var(--emphasize-color);
+    border: 0.5px solid var(--background-color);
     margin: 15px 0;
     &:last-of-type {
       display: none;
