@@ -1,11 +1,25 @@
 import React, {useState} from 'react';
 import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
-import {TransferImageDetailContainer, TransferImagesDetailWrapper} from "./TransferTabComponents";
+import {NumberSpan, TransferImageDetailContainer, TransferImagesDetailWrapper} from "./TransferTabComponents";
 import {TransferBoltImage, TransferImageGrid, TransferImageGridContainer} from "./TransferImageComponents";
 import {CloseButton} from "../Modal/ModalComponents";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import {Form} from "react-router-dom";
+import styled from "styled-components";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+const ClassName = styled.div`
+  display: flex;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+  
+  & > h1 {
+    margin-bottom: 0;
+    margin-right: 5px;
+  }
+`
 function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabMenuList}:
                               { BoltImageLists: TransferLoaderType[],
                                 isDetailOpen: boolean,
@@ -20,18 +34,31 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
   })
   const IMG_URL = process.env.REACT_APP_IMG_URL;
 
+  const styleFunc = (status: number): React.CSSProperties => {
+    return {
+      width: "24px",
+      fill: "var(--emphasize-color)",
+      transition: "transform 200ms ease-in",
+      transform: isTabOpen[status] ? "rotate(0)" : "rotate(-90deg)",
+    }
+  }
+  
   console.log(BoltImageLists)
   const BoltImageElement = BoltImageLists.map((data) =>
     <>
-      <h1 onClick={() => {
+      <ClassName onClick={() => {
         setIsTabOpen(prev => {
           let newList = [...prev];
           newList[data.status] = !newList[data.status];
           return [...newList]
         });
       }}>
-        {TabMenuList[data.status]}
-      </h1>
+        <ExpandMoreIcon sx={styleFunc(data.status)} />
+        <h1>
+          {TabMenuList[data.status]}
+        </h1>
+        <NumberSpan>{data.images.length}</NumberSpan>
+      </ClassName>
       <TransferImageGrid className={isDetailOpen?
         isTabOpen[data.status]? "active open" : "active"
         : isTabOpen[data.status]? "open" : "" }>{ data.images.map((image) =>

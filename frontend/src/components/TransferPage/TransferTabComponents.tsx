@@ -87,4 +87,13 @@ export const TransferImageDetailContainer = styled.div`
   }
 `;
 
-export { TransferContainer, TransferMenuContainer, TransferImageContainer, TransferImagesDetailWrapper }
+const NumberSpan = styled.span`
+  font-size: 13px;
+  color: var(--tab-span-font-color);
+  background-color: var(--tab-span-color);
+  border-radius: 20px;
+  padding: 2px 7px;
+  margin-left: 5px;
+`;
+
+export { TransferContainer, TransferMenuContainer, TransferImageContainer, TransferImagesDetailWrapper, NumberSpan }
