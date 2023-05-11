@@ -6,6 +6,7 @@ import {CloseButton} from "../Modal/ModalComponents";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import styled from "styled-components";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ImageUrl from "../../_utils/ImageUrl";
 
 const ClassName = styled.div`
   display: flex;
@@ -39,7 +40,6 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
     originName: "",
     fileId: 0
   })
-  const IMG_URL = process.env.REACT_APP_IMG_URL;
 
   const styleFunc = (status: number): React.CSSProperties => {
     return {
@@ -75,7 +75,7 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
       <TransferImageGrid className={`${isDetailOpen? "active" : ""} ${isTabOpen[data.status] ? "open" : ""}`}>
         { data.images.map((image) =>
         <TransferBoltImage key={`bolt_images-${image.fileId}`}>
-          <img src={`${IMG_URL}/${image.imgUrl}`} alt="bolt" />
+          <img src={ImageUrl(image.imgUrl)} alt="bolt" />
           <div onClick={() => {
             setIsDetailOpen(true);
             setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId})
@@ -103,7 +103,7 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
         </TransferImageGridContainer>
         <TransferImageDetailContainer className={isDetailOpen? "active" : ""}>
           <CloseButton onClick={() => setIsDetailOpen(false)}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
-          <img src={`${IMG_URL}/${detailInfo.imgUrl}`} alt="bolt detail"/>
+          <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
           <div>{detailInfo.originName}</div>
         </TransferImageDetailContainer>
       </TransferImagesDetailWrapper>

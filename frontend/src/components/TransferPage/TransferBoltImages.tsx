@@ -7,6 +7,7 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import {CloseButton} from "../Modal/ModalComponents";
 // import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
 import TransferButtons from "./TransferButtons";
+import ImageUrl from "../../_utils/ImageUrl";
 
 function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetailOpen}:
                               { tabIndex: number,
@@ -15,7 +16,6 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
                                 // setIsDetailOpen: (arg: (prev:boolean) => boolean) => void,
                                 setIsDetailOpen: (arg: boolean) => void }) {
 
-  const IMG_URL = process.env.REACT_APP_IMG_URL;
   const [detailInfo, setDetailInfo] = useState<TransferBoltImageObject>({
     imgUrl: "",
     originName: "",
@@ -74,7 +74,7 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
                 setIsDetailOpen(true);
                 setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId})
               } }>
-                <img src={`${IMG_URL}${image.imgUrl}`} alt="bolt" />
+                <img src={ImageUrl(image.imgUrl)} alt="bolt" />
                 <div >
                   {image.originName}
                 </div>
@@ -96,7 +96,7 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
         </TransferImageGridContainer>
         <TransferImageDetailContainer className={isDetailOpen? "active" : ""}>
           <CloseButton onClick={() => setIsDetailOpen(false)}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
-          <img src={`${IMG_URL}/${detailInfo.imgUrl}`} alt="bolt detail"/>
+          <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
           <div>{detailInfo.originName}</div>
         </TransferImageDetailContainer>
       </TransferImagesDetailWrapper>
