@@ -184,7 +184,10 @@ function OHTResult(props: any) {
             }}
           >
             <div style={divStyle}>
-              <CloseButton style={{ position: "absolute", right: "0" }} onClick={handleClose}>
+              <CloseButton
+                style={{ position: "absolute", right: "1.5vw", top: "1.5vw" }}
+                onClick={handleClose}
+              >
                 <CloseIcon sx={{ width: "35px", height: "35px" }} />
               </CloseButton>
             </div>
