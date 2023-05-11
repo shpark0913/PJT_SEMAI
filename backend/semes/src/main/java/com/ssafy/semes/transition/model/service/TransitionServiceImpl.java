@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,12 +26,16 @@ import com.ssafy.semes.transition.model.repository.TransitionRepository;
 import com.ssafy.semes.util.FileUtil;
 
 @Service
+@PropertySource("classpath:config.properties")
 public class TransitionServiceImpl implements  TransitionService {
 	@Autowired
 	ImageRepository imageRepository;
 
 	@Autowired
 	TransitionRepository transitionRepository;
+
+	@Value("${Ai-Api-Server-Ip}")
+	private String ip;
 
 	@Override
 	public List<ImageListResponseDto> findAll(boolean isTrainSet){
@@ -130,7 +136,7 @@ public class TransitionServiceImpl implements  TransitionService {
 		quertString.append("fscore=").append(tc.getFscore());
 
 		try {
-			TransitionLearningResultDto res = TransitionLearningResultDto.fromHttpGetRequest("http://semes.info:8000/train".concat(quertString.toString()));
+			TransitionLearningResultDto res = TransitionLearningResultDto.fromHttpGetRequest("http://"+ip+":8000/train".concat(quertString.toString()));
 			System.out.println(res);
 			if(res.getData().get("changed").equals("true")){
 				tc.setAccuracy(Double.valueOf(res.getData().get("acc")));
