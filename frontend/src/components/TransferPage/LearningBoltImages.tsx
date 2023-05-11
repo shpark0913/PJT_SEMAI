@@ -7,6 +7,8 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import styled from "styled-components";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ImageUrl from "../../_utils/ImageUrl";
+import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
+import {setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 
 const ClassName = styled.div`
   display: flex;
@@ -28,18 +30,17 @@ const ClassName = styled.div`
     }
   }
 `
-function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabMenuList}:
-                              { BoltImageLists: TransferLoaderType[],
-                                isDetailOpen: boolean,
-                                setIsDetailOpen: (arg: boolean) => void,
-                                TabMenuList: string[] }) {
+function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderType[] }) {
 
+  const dispatch = useAppDispatch();
+  const isDetailOpen = useAppSelector(state => state.transferPage.isDetailOpen)
   const [isTabOpen, setIsTabOpen] = useState<boolean[]>([false, false, false]);
   const [detailInfo, setDetailInfo] = useState<TransferBoltImageObject>({
     imgUrl: "",
     originName: "",
     fileId: 0
   })
+  const { tabMenuList } = useAppSelector(state => state.transferPage );
 
   const styleFunc = (status: number): React.CSSProperties => {
     return {
@@ -63,7 +64,7 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
       }}>
         <ExpandMoreIcon sx={styleFunc(data.status)} />
         <h1>
-          {TabMenuList[data.status]}
+          {tabMenuList[data.status]}
         </h1>
         <NumberSpan>{data.images.length}</NumberSpan>
       </ClassName>
@@ -77,7 +78,7 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
         <TransferBoltImage key={`bolt_images-${image.fileId}`}>
           <img src={ImageUrl(image.imgUrl)} alt="bolt" />
           <div onClick={() => {
-            setIsDetailOpen(true);
+            dispatch(setIsDetailOpen(true));
             setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId})
           }}
           >
@@ -102,7 +103,7 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
           { BoltImageElement }
         </TransferImageGridContainer>
         <TransferImageDetailContainer className={isDetailOpen? "active" : ""}>
-          <CloseButton onClick={() => setIsDetailOpen(false)}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
+          <CloseButton onClick={() => dispatch(setIsDetailOpen(false))}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
           <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
           <div>{detailInfo.originName}</div>
         </TransferImageDetailContainer>
