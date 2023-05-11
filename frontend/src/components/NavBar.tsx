@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { RootState, persistor } from "../_store/store";
 import { useDispatch, useSelector } from "react-redux";
 
+import BuildIcon from "@mui/icons-material/Build";
+import { Checkbox } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -40,14 +42,17 @@ const StyledMenu = muistyled(Menu)`
     display: flex;
     flex-direction: column;
     align-items: center;
+    
   }
 `;
 
 const CenteredMenuItem = muistyled(MenuItem)`
   && {
     display: flex;
+    width: 8vw;
     align-items: center;
     justify-content: center; /* 아이콘을 가운데 정렬하기 위해 추가 */
+    transition: 'none !important'
   }
 `;
 
@@ -74,7 +79,9 @@ const LogoutButton = styled.button`
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  color: var(--emphasize-color);
+  /* color: var(--emphasize-color); */
+  color: #3d9eff;
+  font-weight: bold;
 `;
 
 function handleToggleTheme({ isDark, setIsDark, dispatch }: ToggleThemeProps) {
@@ -127,16 +134,6 @@ function NavBar() {
           {userName} <span style={{ fontSize: "15px", fontWeight: "normal" }}>님</span>
         </Profile>
 
-        <LogoutButton
-          aria-label="logout"
-          onClick={() => {
-            persistor.purge();
-            navigate("/login");
-          }}
-        >
-          <LogoutIcon />
-        </LogoutButton>
-
         <button
           style={{ backgroundColor: "transparent", display: "flex" }}
           id="basic-button"
@@ -145,7 +142,11 @@ function NavBar() {
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          <SettingsIcon sx={{ color: "var(--emphasize-color)" }} />
+          {anchorEl ? (
+            <SettingsIcon sx={{ color: "var(--emphasize-color)", transform: "rotate( 90deg )" }} />
+          ) : (
+            <SettingsIcon sx={{ color: "var(--emphasize-color)" }} />
+          )}
         </button>
         <StyledMenu
           id="basic-menu"
@@ -178,8 +179,32 @@ function NavBar() {
             />
           </CenteredMenuItem>
           <CenteredMenuItem>
-            <label htmlFor="loseCheck">풀림</label>
-            <input type="checkbox" id="loseCheck" />
+            <BuildIcon sx={{ width: "18px", color: "#003870", fontWeight: "thin" }} />
+            <span
+              style={{
+                marginLeft: "3px",
+                color: "#003870",
+                fontWeight: "bold",
+                // fontSize: "13.3333px",
+              }}
+            >
+              풀림
+            </span>
+            <Checkbox size="small" sx={{ padding: "0", marginLeft: "3px" }} />
+            {/* <input type="checkbox" id="loseCheck" /> */}
+          </CenteredMenuItem>
+          <CenteredMenuItem>
+            <LogoutButton
+              aria-label="logout"
+              style={{ color: "#003870" }}
+              onClick={() => {
+                persistor.purge();
+                navigate("/login");
+              }}
+            >
+              <LogoutIcon />
+              <span style={{ marginLeft: "3px" }}>로그아웃</span>
+            </LogoutButton>
           </CenteredMenuItem>
         </StyledMenu>
       </NavRightDiv>
