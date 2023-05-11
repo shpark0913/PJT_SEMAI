@@ -62,9 +62,9 @@ const TransferImageContainer = styled.div`
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      & > * {
-        margin-right: 15px;
-      }
+      //& > * {
+      //  margin-right: 15px;
+      //}
     }
   }
 `
