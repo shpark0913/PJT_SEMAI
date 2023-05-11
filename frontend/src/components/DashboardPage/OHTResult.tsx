@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { CloseButton } from "../Modal/ModalComponents";
+import CloseIcon from "@mui/icons-material/Close";
 import Fade from "@mui/material/Fade";
 import { Link } from "react-router-dom";
 import Modal from "@mui/material/Modal";
@@ -129,8 +131,8 @@ function OHTResult(props: any) {
     return state.dashboard.sseId;
   });
   const divStyle = {
-    width: "600px",
-    height: "600px",
+    width: "45vw",
+    height: "45vw",
     backgroundImage: `url(${imgUrl})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -181,7 +183,11 @@ function OHTResult(props: any) {
               color: "black",
             }}
           >
-            <div style={divStyle}></div>
+            <div style={divStyle}>
+              <CloseButton style={{ position: "absolute", right: "0" }} onClick={handleClose}>
+                <CloseIcon sx={{ width: "35px", height: "35px" }} />
+              </CloseButton>
+            </div>
           </Box>
         </Fade>
       </Modal>
