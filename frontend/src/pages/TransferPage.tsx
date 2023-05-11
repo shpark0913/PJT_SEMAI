@@ -11,6 +11,7 @@ import {
 import TransferBoltImages from "../components/TransferPage/TransferBoltImages";
 import LearningBoltImages from "../components/TransferPage/LearningBoltImages";
 import TabMenu from "../components/TransferPage/TabMenu";
+import {useAppSelector} from "../_hooks/hooks";
 
 
 const TransferSection = styled.section`
@@ -22,7 +23,7 @@ const TransferSection = styled.section`
 
 function TransferPage() {
   let BoltImageLists = useLoaderData() as TransferLoaderType[][];
-  const [tabIndex, setTabIndex] = useState<number>(0);
+  const tabIndex = useAppSelector(state => state.transferPage.tabIndex);
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
   const TabMenuList: string[] = useMemo(() => ['양호', '유실', '파단', '학습'], []);
   const ImageLengthList: number[] = useMemo(() => BoltImageLists[0].map((data) => data.images.length)
@@ -38,7 +39,6 @@ function TransferPage() {
           TabMenuList={TabMenuList}
           imageLengthList={ImageLengthList}
           tabIndex={tabIndex}
-          setTabIndex={setTabIndex}
           setIsDetailOpen={setIsDetailOpen}
         />
 
