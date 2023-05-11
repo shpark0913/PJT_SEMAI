@@ -5,6 +5,7 @@ import { RootState, persistor } from "../_store/store";
 import { useDispatch, useSelector } from "react-redux";
 
 import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { Switch } from "@mui/joy";
 import { ToggleThemeProps } from "../_utils/Types";
 import styled from "styled-components";
@@ -98,6 +99,7 @@ function NavBar() {
         <Profile>
           {userName} <span style={{ fontSize: "15px", fontWeight: "normal" }}>님</span>
         </Profile>
+        <SettingsIcon style={{ cursor: "pointer" }} />
         <Switch
           checked={isDark}
           onChange={(): void => handleToggleTheme({ isDark, setIsDark, dispatch })}
