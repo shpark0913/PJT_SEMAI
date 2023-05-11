@@ -1,9 +1,11 @@
-import { setCheckId, setInquire } from "../../_store/slices/dashboardSlice";
+import { setCheckId, setInquire, setWheelImgUrl } from "../../_store/slices/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { CloseButton } from "../Modal/ModalComponents";
+import CloseIcon from "@mui/icons-material/Close";
 import Fade from "@mui/material/Fade";
 import { Link } from "react-router-dom";
 import Modal from "@mui/material/Modal";
@@ -117,6 +119,9 @@ const TitleContainer = styled.div`
 
 function OHTResult(props: any) {
   const data = props.data;
+  const imgUrl = useSelector((state: any) => {
+    return state.dashboard.imgUrl;
+  });
   const indexList = [0, 1, 2, 3];
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -125,6 +130,13 @@ function OHTResult(props: any) {
   const sseId = useSelector((state: any) => {
     return state.dashboard.sseId;
   });
+  const divStyle = {
+    width: "45vw",
+    height: "45vw",
+    backgroundImage: `url(${imgUrl})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  };
   const OHTWheel = ({ wheelName, url, goodCnt }: WheelNameType) => {
     const IMG_URL = process.env.REACT_APP_IMG_URL;
     return (
@@ -132,6 +144,7 @@ function OHTResult(props: any) {
         url={`${IMG_URL}${url}`}
         goodCnt={goodCnt}
         onClick={() => {
+          dispatch(setWheelImgUrl(`${IMG_URL}${url}`));
           setOpen(true);
         }}
         style={{ cursor: "pointer" }}
@@ -164,14 +177,17 @@ function OHTResult(props: any) {
               transform: "translate(-50%, -50%)",
               width: "400",
               backgroundColor: "white",
-              // bgcolor: "background.paper",
               border: "2px solid #000",
               boxShadow: "24",
               p: "4",
               color: "black",
             }}
           >
-            <div style={{ width: "600px", height: "600px" }}></div>
+            <div style={divStyle}>
+              <CloseButton style={{ position: "absolute", right: "0" }} onClick={handleClose}>
+                <CloseIcon sx={{ width: "35px", height: "35px" }} />
+              </CloseButton>
+            </div>
           </Box>
         </Fade>
       </Modal>
