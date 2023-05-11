@@ -38,10 +38,10 @@ public class ReportController {
     private StringTokenizer st;
     private StringBuilder sb;
     @GetMapping("/list")
-    private ApiResponse<?> findReport(@RequestParam("ohtSn") String ohtSn
+    public ApiResponse<?> findReport(@RequestParam("ohtSn") String ohtSn
             , @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("time") String time
-            ,@RequestParam("wheelPosition") String wheelPosition,@RequestParam("errorFlag") int errorFlag,@RequestParam("page") int page
-            ,@RequestParam("descFlag") int descFlag) {
+            , @RequestParam("wheelPosition") String wheelPosition, @RequestParam("errorFlag") int errorFlag, @RequestParam("page") int page
+            , @RequestParam("descFlag") int descFlag) {
         log.info("Report FindReport Start");
         try {
             return ApiResponse.success(SuccessCode.READ_REPORT_LIST, reportService.findReport(QuestionDto.builder()
