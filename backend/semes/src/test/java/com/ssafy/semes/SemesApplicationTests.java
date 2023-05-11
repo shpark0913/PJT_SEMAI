@@ -26,9 +26,6 @@ import java.io.*;
 @SpringBootTest
 class SemesApplicationTests {
 
-	String accesstoken;
-
-
 	@Autowired
 	UserController userController;
 	@Autowired
@@ -38,12 +35,12 @@ class SemesApplicationTests {
 	@Autowired
 	ReportController reportController;
 
-	@BeforeEach
+	@Test
 	void userLogin() throws IOException {
 		UserRequestDto user = UserRequestDto.builder().userId("admin").userPwd("ssafy!1234").build();
 		ApiResponse temp =userController.login(user);
 		UserResponseDto usertemp = (UserResponseDto) temp.getData();
-		accesstoken = usertemp.getAccesstoken();
+		String accesstoken = usertemp.getAccesstoken();
 		assertEquals(temp.getMessage(),SuccessCode.READ_USER_LOGIN.getMessage());
 		assertNotEquals(null,accesstoken);
 	}
@@ -76,5 +73,7 @@ class SemesApplicationTests {
 						1,
 						1).getMessage()
 				,SuccessCode.READ_REPORT_LIST.getMessage());
+		assertEquals(reportController.findReportDetail(452).getMessage(),SuccessCode.READ_REPORT_DETAIL.getMessage());
+
 	}
 }
