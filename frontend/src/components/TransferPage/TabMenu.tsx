@@ -1,13 +1,12 @@
 import React from 'react';
-import {TransferMenuContainer} from "./TabMenuComponents";
+import {TabMenuLi, TransferMenuContainer, TabMenuImageLengthSpan} from "./TabMenuComponents";
 import {useAppDispatch} from "../../_hooks/hooks";
-import {setTabIndex} from "../../_store/slices/transferPageSlice";
+import {setTabIndex, setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 
-function TabMenu({TabMenuList, tabIndex, imageLengthList, setIsDetailOpen}: {
+function TabMenu({TabMenuList, tabIndex, imageLengthList}: {
   TabMenuList: string[],
   imageLengthList: number[],
   tabIndex: number,
-  setIsDetailOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
 
   const dispatch = useAppDispatch();
@@ -15,16 +14,16 @@ function TabMenu({TabMenuList, tabIndex, imageLengthList, setIsDetailOpen}: {
   return (
     <TransferMenuContainer>
       { TabMenuList.map((menu, idx) =>
-        <li
+        <TabMenuLi
           key={`transfer-tab-menu_${idx}`}
           className={idx === tabIndex ? "isActive" : "" }
           onClick={ () => {
             dispatch(setTabIndex(idx));
-            setIsDetailOpen(false);
+            dispatch(setIsDetailOpen(false));
           } }
         >
-          { TabMenuList[idx] } <span>{ imageLengthList[idx] }</span>
-        </li>
+          { TabMenuList[idx] } <TabMenuImageLengthSpan>{ imageLengthList[idx] }</TabMenuImageLengthSpan>
+        </TabMenuLi>
       ) }
     </TransferMenuContainer>
   );
