@@ -4,20 +4,27 @@ import {NumberSpan, TransferImageDetailContainer, TransferImagesDetailWrapper} f
 import {TransferBoltImage, TransferImageGrid, TransferImageGridContainer} from "./TransferImageComponents";
 import {CloseButton} from "../Modal/ModalComponents";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import {Form} from "react-router-dom";
 import styled from "styled-components";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const ClassName = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 15px;
+  
   &:hover {
     cursor: pointer;
   }
-  
   & > h1 {
     margin-bottom: 0;
     margin-right: 5px;
+  }
+  &~hr {
+    border: 1px solid var(--emphasize-color);
+    margin: 15px 0;
+    &:last-of-type {
+      display: none;
+    }
   }
 `
 function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabMenuList}:
@@ -42,10 +49,11 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
       transform: isTabOpen[status] ? "rotate(0)" : "rotate(-90deg)",
     }
   }
-  
+
   console.log(BoltImageLists)
   const BoltImageElement = BoltImageLists.map((data) =>
     <>
+      {/* 클래스 이름.. */}
       <ClassName onClick={() => {
         setIsTabOpen(prev => {
           let newList = [...prev];
@@ -59,9 +67,13 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
         </h1>
         <NumberSpan>{data.images.length}</NumberSpan>
       </ClassName>
-      <TransferImageGrid className={isDetailOpen?
-        isTabOpen[data.status]? "active open" : "active"
-        : isTabOpen[data.status]? "open" : "" }>{ data.images.map((image) =>
+
+      {/* 클래스별 이미지 */}
+      {/*<TransferImageGrid className={isDetailOpen?*/}
+      {/*  isTabOpen[data.status]? "active open" : "active"*/}
+      {/*  : isTabOpen[data.status]? "open" : "" }>*/}
+      <TransferImageGrid className={`${isDetailOpen? "active" : ""} ${isTabOpen[data.status] ? "open" : ""}`}>
+        { data.images.map((image) =>
         <TransferBoltImage key={`bolt_images-${image.fileId}`}>
           <img src={`${IMG_URL}/${image.imgUrl}`} alt="bolt" />
           <div onClick={() => {
@@ -69,10 +81,10 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
             setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId})
           }}
           >
-            {image.originName}
+          {image.originName}
           </div>
-        </TransferBoltImage> )
-      }</TransferImageGrid>
+        </TransferBoltImage> )}
+      </TransferImageGrid>
       <hr />
 
     </>
@@ -82,12 +94,11 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
 
 
   return (
-    <Form style={{display: "flex", flexDirection: "column", height: "100%"}}>
+    <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
       <label>전체 선택 <input type="checkbox" /></label>
       <TransferImagesDetailWrapper>
 
         <TransferImageGridContainer className={isDetailOpen? "active" : ""}>
-          {/*<TransferImageGrid className={isDetailOpen? "active" : ""}>{BoltImageElement}</TransferImageGrid>*/}
           { BoltImageElement }
         </TransferImageGridContainer>
         <TransferImageDetailContainer className={isDetailOpen? "active" : ""}>
@@ -100,7 +111,7 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
         {/*{ ButtonList[tabIndex] }*/}
         {/*<div>현재 선택 : 1/100</div>*/}
       </div>
-    </Form>
+    </div>
   );
 }
 
