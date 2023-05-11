@@ -10,7 +10,7 @@ import transferPageReducer from "./slices/transferPageSlice"
 const persistConfig = {
   key: "root",
   storage: storage,
-  blacklist: ['transferPageReducer'],
+  blacklist: ['transferPage'],
 };
 // 리듀서
 const rootReducers = combineReducers({
