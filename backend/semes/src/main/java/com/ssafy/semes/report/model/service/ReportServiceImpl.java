@@ -57,7 +57,7 @@ public class ReportServiceImpl implements ReportService {
         dto.setPage((dto.getPage() - 1) * PAGE_SIZE);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT e FROM WheelCheckEntity e join fetch e.ohtCheck oe join fetch oe.oht o ")
+        sb.append("SELECT e FROM WheelCheckEntity e join fetch e.ohtCheck oe join fetch oe.oht o join fetch e.image img ")
                 .append(" where (e.checkDate BETWEEN :start and :end)");
 
         if (!dto.getOhtSn().equals("ALL")) {
