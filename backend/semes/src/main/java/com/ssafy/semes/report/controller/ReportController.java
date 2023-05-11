@@ -65,7 +65,7 @@ public class ReportController {
     }
 
     @GetMapping("/detail/{wheelChcekId}")
-    private ApiResponse<?> findReportDetail(@PathVariable("wheelChcekId") long wheelChcekId) {
+    public ApiResponse<?> findReportDetail(@PathVariable("wheelChcekId") long wheelChcekId) {
         log.info("Report findReportDetail Start");
         try {
             return ApiResponse.success(SuccessCode.READ_REPORT_DETAIL, reportService.findReportDetail(wheelChcekId));
