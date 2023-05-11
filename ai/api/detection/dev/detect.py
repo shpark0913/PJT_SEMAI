@@ -162,10 +162,13 @@ def run(
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
                     if save_txt:  # Write to file
+                        xyxy_value = torch.tensor(xyxy).view(1, 4).view(-1).tolist()
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
                         line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
                         with open(f'{txt_path}.txt', 'a') as f:
                             f.write(('%g ' * len(line)).rstrip() % line + '\n')
+                        with open(f'{txt_path}_px.txt', 'a') as f2:
+                            f2.write(' '.join(str(item) for item in xyxy_value) + '\n')
 
                     if save_img or save_crop or view_img:  # Add bbox to image
                         c = int(cls)  # integer class
@@ -250,6 +253,17 @@ def parse_opt():
     print_args(vars(opt))
     return opt
 
+# def infer(**kargs):
+#     run(
+#         weights = kargs['weights'],
+#         imgsz = kargs['imgsz'],
+#         conf_thres = kargs['conf_thres'],
+#         source = kargs['source'],
+#         save_txt = kargs['save_txt'],
+#         save_crop = kargs['save_crop'],
+#         project = kargs['project'],
+#         exist_ok=True
+#     )
 
 def main(opt):
     check_requirements(exclude=('tensorboard', 'thop'))
