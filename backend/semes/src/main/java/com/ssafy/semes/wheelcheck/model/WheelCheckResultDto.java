@@ -17,6 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -80,9 +82,9 @@ public class WheelCheckResultDto {
 		return fromHttpResponse(httpResponse);
 	}
 
-	public static WheelCheckResultDto fromWheelImage(String originFilePath) throws IOException, InterruptedException {
+	public static WheelCheckResultDto fromWheelImage(String originFilePath,String ip) throws IOException, InterruptedException {
 		String encodedFilePath = URLEncoder.encode(originFilePath, "UTF-8");
-		String url = "http://semes.info:8000/infer?filePath=" + encodedFilePath+"&binary=False";// 추후 수정
+		String url = "http://"+ip+":8000/infer?filePath=" + encodedFilePath+"&binary=False";// 추후 수정
 		return  fromHttpGetRequest(url);
 	}
 
