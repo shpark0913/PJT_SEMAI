@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { RootState, persistor } from "../_store/store";
 import { useDispatch, useSelector } from "react-redux";
 
+import BuildIcon from "@mui/icons-material/Build";
+import { CheckBox } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -48,6 +50,7 @@ const CenteredMenuItem = muistyled(MenuItem)`
     display: flex;
     align-items: center;
     justify-content: center; /* 아이콘을 가운데 정렬하기 위해 추가 */
+    transition: 'none !important'
   }
 `;
 
@@ -178,8 +181,10 @@ function NavBar() {
             />
           </CenteredMenuItem>
           <CenteredMenuItem>
+            <BuildIcon sx={{ width: "15px", fontWeight: "bold" }} />
             <label htmlFor="loseCheck">풀림</label>
             <input type="checkbox" id="loseCheck" />
+            <CheckBox />
           </CenteredMenuItem>
         </StyledMenu>
       </NavRightDiv>
