@@ -66,9 +66,6 @@ public class WheelCheckResultDto {
 	}
 
 	public static WheelCheckResultDto fromHttpResponse(HttpResponse<String> response) throws IOException {
-		System.out.println("===========================================================");
-		System.out.println(response.body());
-		System.out.println("===========================================================");
 		String json = response.body();
 		return fromJson(json);
 	}
