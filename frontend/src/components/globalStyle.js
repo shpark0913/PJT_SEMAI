@@ -105,11 +105,14 @@ const GlobalStyle = createGlobalStyle`
 
   a,
   div,
-  span,
   input,
   button,
   textarea {
     font-family: inherit;
+  }
+
+  span {
+    font-size: 13px;
   }
 
   h1 {
