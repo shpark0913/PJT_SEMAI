@@ -5,6 +5,7 @@ const initialState = {
   sseId: 2,
   inquire: false,
   sseState: { ohtSn: "P2", isWheelsProceeding: [true, true, true, true] },
+  imgUrl: false,
 };
 
 export const dashboardSlice = createSlice({
@@ -23,10 +24,14 @@ export const dashboardSlice = createSlice({
     setSSEState: (state, action) => {
       state.sseState = action.payload;
     },
+    setWheelImgUrl: (state, action) => {
+      state.imgUrl = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCheckId, setSSEId, setInquire, setSSEState } = dashboardSlice.actions;
+export const { setCheckId, setSSEId, setInquire, setSSEState, setWheelImgUrl } =
+  dashboardSlice.actions;
 
 export default dashboardSlice.reducer;
