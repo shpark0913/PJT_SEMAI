@@ -22,7 +22,7 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
     fileId: 0
   })
   const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], []]);
-  // const { TransferClass } = useTransferBoltImages();
+
   const { TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
   const ButtonLists: JSX.Element[] = [<>
     { selected[0].length && TransferClassButton(0, 1, selected[0].map(d => d.fileId)) }
@@ -79,7 +79,7 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
 
   return (
     <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
-      <label>전체 선택 <input type="checkbox" /></label>
+      <label>전체 선택 <input type="checkbox"  /></label>
       <TransferImagesDetailWrapper>
         <TransferImageGridContainer className={isDetailOpen? "active" : ""}>
           <TransferImageGrid className={isDetailOpen? "active open" : "open"}>
