@@ -3,6 +3,8 @@ package com.ssafy.semes.wheelcheck.model.service;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,11 +25,14 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@PropertySource("classpath:config.properties")
 public class WheelCheckServiceImpl implements WheelCheckService {
 	@Autowired
 	WheelCheckRepository wheelCheckRepository;
 	@Autowired
 	ImageRepository imageRepository;
+	@Value("${Ai-Api-Server-Ip}")
+	private String ip;
 
 	public WheelCheckEntity checkWheel(MultipartFile file, FileNameUtil fileNameUtil, WheelPosition wheelPosition, OHTCheckEntity ohtCheck) throws
 			IOException,
@@ -38,7 +43,7 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 		String savedFileName = FileUtil.createFile(Directory.BASE.getPath(),Directory.WHEEL_ORIGIN.getPath(),fileNameUtil.getFilename(),file);
 
 		//바퀴 이미지 요청
-		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(savedFileName);
+		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(savedFileName,ip);
 		if(result.getStatus() == 400){
 			throw new IOException("잘못된 파일 명입니다.");
 		}
