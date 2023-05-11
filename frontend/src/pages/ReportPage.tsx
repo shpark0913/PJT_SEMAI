@@ -3,15 +3,14 @@ import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom"
 import styled from "styled-components";
 
 import {useAppSelector} from "../_hooks/hooks";
-import {ReportLoaderType, ReportObjectType} from "../_utils/Types";
-// import {useBodyScrollLock} from "../_hooks/useBodyScrollLock";
 import useDate from "../_hooks/useDate";
+import {ReportLoaderType, ReportObjectType} from "../_utils/Types";
+import Axios from "../_utils/Axios";
 
 import { Button, SemesButton } from "../components/ButtonComponents";
 import ReportTable from "../components/ReportPage/ReportTable";
-// import Title from "../components/Title";
-// import ReportModal from "../components/Modal/ReportModal";
 import PaginationComponents from "../components/ReportPage/PaginationComponents";
+import ReportDetail from "../components/ReportDetail/ReportDetail";
 
 import InputOhtSn from "../components/ReportPage/InputOHTSn";
 import {InputEndDate, InputStartDate} from "../components/ReportPage/InputDate";
@@ -19,15 +18,11 @@ import InputTime from "../components/ReportPage/InputTime";
 import InputWheelPosition from "../components/ReportPage/InputWheelPosition";
 import InputDescFlag from "../components/ReportPage/InputDescFlag";
 import InputErrorFlag from "../components/ReportPage/InputErrorFlag";
-import ReportDetail from "../components/ReportDetail/ReportDetail";
-import Axios from "../_utils/Axios";
-
 
 
 const ReportSection = styled.section`
   padding: 30px;
   display: flex;
-  //flex-direction: column;
   height: 100%;
   width: 100%;
   overflow-x: hidden;
@@ -191,10 +186,10 @@ function ReportPage() {
               <InputDescFlag query={query} />
               <InputErrorFlag query={query} />
               <div>
+                <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="120px" height="26px" style={{marginRight: "20px"}} >조회하기</SemesButton>
                 <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 일주일 조회</SemesButton>
                 <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 한 달 조회</SemesButton>
               </div>
-              <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="120px" height="26px" >조회하기</SemesButton>
             </FormInputs>
 
             <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="26px">CSV 출력</Button>
