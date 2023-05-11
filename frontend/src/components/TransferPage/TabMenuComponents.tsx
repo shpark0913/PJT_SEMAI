@@ -29,7 +29,7 @@ export const TabMenuLi = styled.li`
   }
 `;
 
-export const TabMenuImageLengthSpan = styled.span`
+export const LengthSpan = styled.span`
   font-size: 13px;
   color: var(--tab-span-font-color);
   background-color: var(--gray400-color);

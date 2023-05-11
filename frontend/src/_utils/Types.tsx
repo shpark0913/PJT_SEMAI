@@ -16,6 +16,7 @@ export type LabelProps = {   // 레포트 페이지 - form 태그들의 label �
 export type TransferPageSliceType = {
   tabIndex: number,
   isDetailOpen: boolean,
+  tabMenuList: string[],
 }
 
 // ==================== Report page types ==================

@@ -25,7 +25,7 @@ function TransferPage() {
   let BoltImageLists = useLoaderData() as TransferLoaderType[][];
   const tabIndex = useAppSelector(state => state.transferPage.tabIndex);
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
-  const TabMenuList: string[] = useMemo(() => ['양호', '유실', '파단', '학습'], []);
+
   const ImageLengthList: number[] = useMemo(() => BoltImageLists[0].map((data) => data.images.length)
         .concat((BoltImageLists[1].reduce((acc, cur) => acc + cur.images.length, 0))
     ), [BoltImageLists]);
@@ -36,15 +36,13 @@ function TransferPage() {
     <TransferSection>
       <TransferContainer>
         <TabMenu
-          TabMenuList={TabMenuList}
           imageLengthList={ImageLengthList}
-          tabIndex={tabIndex}
         />
 
         <TransferImageContainer>
           { tabIndex < 3 ?
             <TransferBoltImages tabIndex={tabIndex} BoltImageLists={BoltImageLists[0]} /> :
-            <LearningBoltImages BoltImageLists={BoltImageLists[0]} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} TabMenuList={TabMenuList} />
+            <LearningBoltImages BoltImageLists={BoltImageLists[0]} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen}/>
           }
 
         </TransferImageContainer>

@@ -7,6 +7,7 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import styled from "styled-components";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ImageUrl from "../../_utils/ImageUrl";
+import {useAppSelector} from "../../_hooks/hooks";
 
 const ClassName = styled.div`
   display: flex;
@@ -28,11 +29,11 @@ const ClassName = styled.div`
     }
   }
 `
-function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabMenuList}:
+function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen}:
                               { BoltImageLists: TransferLoaderType[],
                                 isDetailOpen: boolean,
                                 setIsDetailOpen: (arg: boolean) => void,
-                                TabMenuList: string[] }) {
+                                 }) {
 
   const [isTabOpen, setIsTabOpen] = useState<boolean[]>([false, false, false]);
   const [detailInfo, setDetailInfo] = useState<TransferBoltImageObject>({
@@ -40,6 +41,7 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
     originName: "",
     fileId: 0
   })
+  const { tabMenuList } = useAppSelector(state => state.transferPage );
 
   const styleFunc = (status: number): React.CSSProperties => {
     return {
@@ -63,7 +65,7 @@ function LearningBoltImages({BoltImageLists, isDetailOpen, setIsDetailOpen, TabM
       }}>
         <ExpandMoreIcon sx={styleFunc(data.status)} />
         <h1>
-          {TabMenuList[data.status]}
+          {tabMenuList[data.status]}
         </h1>
         <NumberSpan>{data.images.length}</NumberSpan>
       </ClassName>
