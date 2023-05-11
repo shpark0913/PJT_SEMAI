@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, { useMemo } from 'react';
 import {useLoaderData} from "react-router-dom";
 import styled from "styled-components";
 
@@ -23,12 +23,10 @@ const TransferSection = styled.section`
 
 function TransferPage() {
   let BoltImageLists = useLoaderData() as TransferLoaderType[][];
-  const tabIndex = useAppSelector(state => state.transferPage.tabIndex);
-  const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
-
   const ImageLengthList: number[] = useMemo(() => BoltImageLists[0].map((data) => data.images.length)
         .concat((BoltImageLists[1].reduce((acc, cur) => acc + cur.images.length, 0))
     ), [BoltImageLists]);
+  const tabIndex = useAppSelector(state => state.transferPage.tabIndex);
 
   console.log(BoltImageLists);
 
@@ -42,7 +40,7 @@ function TransferPage() {
         <TransferImageContainer>
           { tabIndex < 3 ?
             <TransferBoltImages tabIndex={tabIndex} BoltImageLists={BoltImageLists[0]} /> :
-            <LearningBoltImages BoltImageLists={BoltImageLists[0]} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen}/>
+            <LearningBoltImages BoltImageLists={BoltImageLists[0]} />
           }
 
         </TransferImageContainer>
