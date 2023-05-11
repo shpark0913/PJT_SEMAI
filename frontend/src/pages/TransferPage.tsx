@@ -1,14 +1,17 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
+import {useLoaderData} from "react-router-dom";
 import styled from "styled-components";
+
+import {TransferLoaderType} from "../_utils/Types";
+
 import {
   TransferContainer,
   TransferImageContainer,
-  TransferMenuContainer
 } from "../components/TransferPage/TransferTabComponents";
 import TransferBoltImages from "../components/TransferPage/TransferBoltImages";
-import {useLoaderData} from "react-router-dom";
-import {TransferLoaderType} from "../_utils/Types";
 import LearningBoltImages from "../components/TransferPage/LearningBoltImages";
+import TabMenu from "../components/TransferPage/TabMenu";
+import {useAppSelector} from "../_hooks/hooks";
 
 
 const TransferSection = styled.section`
@@ -19,34 +22,25 @@ const TransferSection = styled.section`
 `
 
 function TransferPage() {
-  const [tabIndex, setTabIndex] = useState<number>(0);
-  const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
   let BoltImageLists = useLoaderData() as TransferLoaderType[][];
-  const TabMenuList = ['양호', '유실', '파단', '학습'];
+  const tabIndex = useAppSelector(state => state.transferPage.tabIndex);
+  const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
+  const TabMenuList: string[] = useMemo(() => ['양호', '유실', '파단', '학습'], []);
+  const ImageLengthList: number[] = useMemo(() => BoltImageLists[0].map((data) => data.images.length)
+        .concat((BoltImageLists[1].reduce((acc, cur) => acc + cur.images.length, 0))
+    ), [BoltImageLists]);
+
   console.log(BoltImageLists);
 
   return (
     <TransferSection>
-
       <TransferContainer>
-        <TransferMenuContainer>
-          { TabMenuList.map((menu, idx) =>
-            <li
-              key={`transfer-tab-menu_${idx}`}
-              className={idx === tabIndex ? "isActive" : "" }
-              onClick={ () => {
-                setTabIndex(idx);
-                setIsDetailOpen(false);
-              } }
-            >
-              {TabMenuList[idx]}
-              <span>{idx < 3 ?
-                BoltImageLists[0][idx].images.length :
-                BoltImageLists[1].reduce((acc, cur) => acc + cur.images.length, 0) }
-              </span>
-            </li>
-          ) }
-        </TransferMenuContainer>
+        <TabMenu
+          TabMenuList={TabMenuList}
+          imageLengthList={ImageLengthList}
+          tabIndex={tabIndex}
+          setIsDetailOpen={setIsDetailOpen}
+        />
 
         <TransferImageContainer>
           { tabIndex < 3 ?
@@ -56,7 +50,6 @@ function TransferPage() {
 
         </TransferImageContainer>
       </TransferContainer>
-
     </TransferSection>
   );
 }

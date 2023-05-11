@@ -1,20 +1,23 @@
 import { Action, ThunkAction, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { PERSIST, PURGE, persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 import dashboardReducer from "./slices/dashboardSlice";
-import storage from "redux-persist/lib/storage";
 import themeReducer from "./slices/themeSlice";
 import userReducer from "./slices/userSlice";
+import transferPageReducer from "./slices/transferPageSlice"
 
 const persistConfig = {
   key: "root",
   storage: storage,
+  blacklist: ['transferPageReducer'],
 };
 // 리듀서
 const rootReducers = combineReducers({
   user: userReducer,
   theme: themeReducer,
   dashboard: dashboardReducer,
+  transferPage: transferPageReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 

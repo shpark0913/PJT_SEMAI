@@ -7,43 +7,6 @@ const TransferContainer = styled.div`
   height: 80%;
 `;
 
-const TransferMenuContainer = styled.menu`
-  padding: 0;
-  margin: 0;
-  width: 150px;
-  flex-shrink: 0;
-  
-  & > li {
-    padding: 12px 20px;
-    background-color: var(--tab-menu-color);
-    text-align: center;
-    margin-bottom: 5px;
-    border-radius: 100px 0 0 100px;
-    & > span {
-      font-size: 13px;
-      color: var(--tab-span-font-color);
-      background-color: var(--gray400-color);
-      border-radius: 20px;
-      padding: 2px 7px;
-      margin-left: 5px;
-    }
-    &:hover {
-      cursor: pointer;
-      font-weight: bold;
-    }
-  }
-  
-  & >li.isActive {
-    background-color: var(--section-color);
-    color: var(--emphasize-color);
-    font-weight: bold;
-
-    & > span {
-      background-color: var(--tab-span-color);
-    }
-  }
-`
-
 const TransferImageContainer = styled.div`
   width: 100%;
   height: auto;
@@ -96,4 +59,4 @@ const NumberSpan = styled.span`
   margin-left: 5px;
 `;
 
-export { TransferContainer, TransferMenuContainer, TransferImageContainer, TransferImagesDetailWrapper, NumberSpan }
+export { TransferContainer, TransferImageContainer, TransferImagesDetailWrapper, NumberSpan }
