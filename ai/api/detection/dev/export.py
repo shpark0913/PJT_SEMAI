@@ -532,7 +532,7 @@ def pipeline_coreml(model, im, file, names, y, prefix=colorstr('CoreML Pipeline:
     import coremltools as ct
     from PIL import Image
 
-    print(f'{prefix} starting pipeline with coremltools {ct.__version__}...')
+    # print(f'{prefix} starting pipeline with coremltools {ct.__version__}...')
     batch_size, ch, h, w = list(im.shape)  # BCHW
     t = time.time()
 
@@ -571,7 +571,7 @@ def pipeline_coreml(model, im, file, names, y, prefix=colorstr('CoreML Pipeline:
     # flexible_shape_utils.update_image_size_range(spec, feature_name='image', size_range=r)
 
     # Print
-    print(spec.description)
+    # print(spec.description)
 
     # Model from spec
     model = ct.models.MLModel(spec)
@@ -647,7 +647,7 @@ def pipeline_coreml(model, im, file, names, y, prefix=colorstr('CoreML Pipeline:
     model.output_description['confidence'] = 'Boxes × Class confidence (see user-defined metadata "classes")'
     model.output_description['coordinates'] = 'Boxes × [x, y, width, height] (relative to image size)'
     model.save(f)  # pipelined
-    print(f'{prefix} pipeline success ({time.time() - t:.2f}s), saved as {f} ({file_size(f):.1f} MB)')
+    # print(f'{prefix} pipeline success ({time.time() - t:.2f}s), saved as {f} ({file_size(f):.1f} MB)')
 
 
 @smart_inference_mode()
