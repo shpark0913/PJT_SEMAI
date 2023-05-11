@@ -74,7 +74,7 @@ function TransferBoltImages({tabIndex, BoltImageLists, isDetailOpen, setIsDetail
                 setIsDetailOpen(true);
                 setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId})
               } }>
-                <img src={`${IMG_URL}/${image.imgUrl}`} alt="bolt" />
+                <img src={`${IMG_URL}${image.imgUrl}`} alt="bolt" />
                 <div >
                   {image.originName}
                 </div>
