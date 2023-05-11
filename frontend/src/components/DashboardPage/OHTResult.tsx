@@ -149,7 +149,7 @@ function OHTResult(props: any) {
         }}
         style={{ cursor: "pointer" }}
       >
-        <h4>{wheelName}</h4>
+        <h4 style={{ color: "#A3D1FF" }}>{wheelName}</h4>
       </WheelDiv>
     );
   };
@@ -184,7 +184,10 @@ function OHTResult(props: any) {
             }}
           >
             <div style={divStyle}>
-              <CloseButton style={{ position: "absolute", right: "0" }} onClick={handleClose}>
+              <CloseButton
+                style={{ position: "absolute", right: "1.5vw", top: "1.5vw", color: "#A3D1FF" }}
+                onClick={handleClose}
+              >
                 <CloseIcon sx={{ width: "35px", height: "35px" }} />
               </CloseButton>
             </div>
