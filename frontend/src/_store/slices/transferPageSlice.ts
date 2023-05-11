@@ -4,6 +4,7 @@ import {TransferPageSliceType} from "../../_utils/Types";
 const initialState: TransferPageSliceType = {
   tabIndex: 0,
   isDetailOpen: false,
+  tabMenuList: ['양호', '유실', '파단', '학습'],
 }
 
 export const TransferPageSlice = createSlice({
