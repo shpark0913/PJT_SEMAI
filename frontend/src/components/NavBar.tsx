@@ -5,9 +5,12 @@ import { RootState, persistor } from "../_store/store";
 import { useDispatch, useSelector } from "react-redux";
 
 import LogoutIcon from "@mui/icons-material/Logout";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Switch } from "@mui/joy";
 import { ToggleThemeProps } from "../_utils/Types";
+import { styled as muistyled } from "@mui/system";
 import styled from "styled-components";
 import { toggleTheme } from "../_store/slices/themeSlice";
 import { useAppSelector } from "../_hooks/hooks";
@@ -32,6 +35,22 @@ const Nav = styled.nav`
   }
 `;
 
+const StyledMenu = muistyled(Menu)`
+  && {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const CenteredMenuItem = muistyled(MenuItem)`
+  && {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 아이콘을 가운데 정렬하기 위해 추가 */
+  }
+`;
+
 const NavLeftDiv = styled.div``;
 
 const NavRightDiv = styled.div`
@@ -39,7 +58,7 @@ const NavRightDiv = styled.div`
   flex-direction: row;
   align-items: center;
   & > * {
-    margin-right: 30px;
+    margin-right: 20px;
   }
   & > *:last-child {
     margin-right: 0;
@@ -80,6 +99,14 @@ function NavBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userName = useAppSelector(state => state.user.userName);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Nav>
@@ -99,26 +126,7 @@ function NavBar() {
         <Profile>
           {userName} <span style={{ fontSize: "15px", fontWeight: "normal" }}>님</span>
         </Profile>
-        <SettingsIcon style={{ cursor: "pointer" }} />
-        <Switch
-          checked={isDark}
-          onChange={(): void => handleToggleTheme({ isDark, setIsDark, dispatch })}
-          slotProps={{
-            input: { "aria-label": "Dark mode" },
-            thumb: {
-              children: isDark ? (
-                <DarkMode sx={{ fontSize: "20px" }} />
-              ) : (
-                <LightMode sx={{ fontSize: "20px" }} />
-              ),
-            },
-          }}
-          size="sm"
-          color={isDark ? "primary" : "neutral"}
-          sx={{
-            "--Switch-thumbSize": "25px",
-          }}
-        />
+
         <LogoutButton
           aria-label="logout"
           onClick={() => {
@@ -128,6 +136,52 @@ function NavBar() {
         >
           <LogoutIcon />
         </LogoutButton>
+
+        <button
+          style={{ backgroundColor: "transparent", display: "flex" }}
+          id="basic-button"
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+        >
+          <SettingsIcon sx={{ color: "var(--emphasize-color)" }} />
+        </button>
+        <StyledMenu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <CenteredMenuItem>
+            <Switch
+              checked={isDark}
+              onChange={(): void => handleToggleTheme({ isDark, setIsDark, dispatch })}
+              slotProps={{
+                input: { "aria-label": "Dark mode" },
+                thumb: {
+                  children: isDark ? (
+                    <DarkMode sx={{ fontSize: "20px" }} />
+                  ) : (
+                    <LightMode sx={{ fontSize: "20px" }} />
+                  ),
+                },
+              }}
+              size="sm"
+              color={isDark ? "primary" : "neutral"}
+              sx={{
+                "--Switch-thumbSize": "25px",
+              }}
+            />
+          </CenteredMenuItem>
+          <CenteredMenuItem>
+            <label htmlFor="loseCheck">풀림</label>
+            <input type="checkbox" id="loseCheck" />
+          </CenteredMenuItem>
+        </StyledMenu>
       </NavRightDiv>
     </Nav>
   );
