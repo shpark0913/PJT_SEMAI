@@ -1,17 +1,12 @@
-import React, {useMemo, useState} from 'react';
-import {useLoaderData} from "react-router-dom";
+import React, { useMemo } from 'react';
+import { useLoaderData } from "react-router-dom";
 import styled from "styled-components";
 
-import {TransferLoaderType} from "../_utils/Types";
+import { TransferLoaderType } from "../_utils/Types";
 
-import {
-  TransferContainer,
-  TransferImageContainer,
-} from "../components/TransferPage/TransferTabComponents";
-import TransferBoltImages from "../components/TransferPage/TransferBoltImages";
-import LearningBoltImages from "../components/TransferPage/LearningBoltImages";
+import { TransferContainer } from "../components/TransferPage/TransferTabComponents";
 import TabMenu from "../components/TransferPage/TabMenu";
-import {useAppSelector} from "../_hooks/hooks";
+import TabContent from "../components/TransferPage/TabContent";
 
 
 const TransferSection = styled.section`
@@ -23,9 +18,6 @@ const TransferSection = styled.section`
 
 function TransferPage() {
   let BoltImageLists = useLoaderData() as TransferLoaderType[][];
-  const tabIndex = useAppSelector(state => state.transferPage.tabIndex);
-  const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
-  const TabMenuList: string[] = useMemo(() => ['양호', '유실', '파단', '학습'], []);
   const ImageLengthList: number[] = useMemo(() => BoltImageLists[0].map((data) => data.images.length)
         .concat((BoltImageLists[1].reduce((acc, cur) => acc + cur.images.length, 0))
     ), [BoltImageLists]);
@@ -35,20 +27,8 @@ function TransferPage() {
   return (
     <TransferSection>
       <TransferContainer>
-        <TabMenu
-          TabMenuList={TabMenuList}
-          imageLengthList={ImageLengthList}
-          tabIndex={tabIndex}
-          setIsDetailOpen={setIsDetailOpen}
-        />
-
-        <TransferImageContainer>
-          { tabIndex < 3 ?
-            <TransferBoltImages tabIndex={tabIndex} BoltImageLists={BoltImageLists[0]} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} /> :
-            <LearningBoltImages BoltImageLists={BoltImageLists[0]} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} TabMenuList={TabMenuList} />
-          }
-
-        </TransferImageContainer>
+        <TabMenu imageLengthList={ImageLengthList} />
+        <TabContent BoltImageLists={BoltImageLists} />
       </TransferContainer>
     </TransferSection>
   );

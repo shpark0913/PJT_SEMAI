@@ -12,6 +12,12 @@ export type LabelProps = {   // 레포트 페이지 - form 태그들의 label �
   theme: string;
 }
 
+// ==================== slice types ========================
+export type TransferPageSliceType = {
+  tabIndex: number,
+  isDetailOpen: boolean,
+  tabMenuList: string[],
+}
 
 // ==================== Report page types ==================
 export type ReportObjectType = {   // 디테일 페이지에 들어오는 값들의 type
