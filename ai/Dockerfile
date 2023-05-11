@@ -4,7 +4,8 @@ WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt
 # COPY . /code/
-
+RUN apt-get update
+RUN apt-get -y install libgl1-mesa-glx
 RUN pip install --upgrade pip && pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # CMD ["pwd"]
