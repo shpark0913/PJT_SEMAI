@@ -17,6 +17,7 @@ export type TransferPageSliceType = {
   tabIndex: number,
   isDetailOpen: boolean,
   tabMenuList: string[],
+  detailInfo: TransferBoltImageObject,
 }
 
 // ==================== Report page types ==================

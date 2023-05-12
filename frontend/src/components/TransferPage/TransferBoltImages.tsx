@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {TransferImageDetailContainer, TransferImagesDetailWrapper} from "./TransferTabComponents";
-import {TransferBoltImage, TransferImageGrid, TransferImageGridContainer} from "./TransferImageComponents";
+import {BoltImageDetailContainer, TabContentMain} from "./TransferTabComponents";
+import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./TransferImageComponents";
 // import {Button, RedButton, SemesButton} from "../ButtonComponents";
 import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
@@ -8,31 +8,21 @@ import {CloseButton} from "../Modal/ModalComponents";
 // import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
 import TransferButtons from "./TransferButtons";
 import ImageUrl from "../../_utils/ImageUrl";
-import {setIsDetailOpen} from "../../_store/slices/transferPageSlice";
+import {setDetailInfo, setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
+import {TabContentFlex, TabContentInfos} from "./TabContentComponents";
 
 
 
-function TransferBoltImages({tabIndex, BoltImageLists}:
-                              { tabIndex: number,
-                                BoltImageLists: TransferLoaderType[],
-                                // isDetailOpen: boolean,
-                                // setIsDetailOpen: (arg: (prev:boolean) => boolean) => void,
-                                // setIsDetailOpen: (arg: boolean) => void
-                              }) {
+function TransferBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderType[] }) {
 
-  const [detailInfo, setDetailInfo] = useState<TransferBoltImageObject>({
-    imgUrl: "",
-    originName: "",
-    fileId: 0
-  })
   const dispatch = useAppDispatch();
-  const isDetailOpen = useAppSelector(state => state.transferPage.isDetailOpen)
+  const { isDetailOpen, tabIndex, detailInfo } = useAppSelector(state => state.transferPage);
   const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], []]);
 
   const { TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
   const ButtonLists: JSX.Element[] = [<>
-    { selected[0].length && TransferClassButton(0, 1, selected[0].map(d => d.fileId)) }
+    { selected[0].length ? TransferClassButton(0, 1, selected[0].map(d => d.fileId)) : null }
     { selected[0].length && TransferClassButton(0, 2, selected[0].map(d => d.fileId)) }
     { selected[0].length && TransferLearningButton(selected[0].map(d => d.fileId)) }
     { selected[0].length && DeleteImagesButton(selected[0].map(d => d.fileId)) }
@@ -47,6 +37,7 @@ function TransferBoltImages({tabIndex, BoltImageLists}:
     { selected[2].length && TransferLearningButton(selected[2].map(d => d.fileId)) }
     { selected[2].length && DeleteImagesButton(selected[2].map(d => d.fileId)) }
   </>];
+
   const BoltImageElement = BoltImageLists.map((data) =>
         <>
           {data.images.map((image) =>
@@ -70,7 +61,7 @@ function TransferBoltImages({tabIndex, BoltImageLists}:
               }} />
               <div onClick={() => {
                 dispatch(setIsDetailOpen(true));
-                setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId})
+                dispatch(setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId}))
               } }>
                 <img src={ImageUrl(image.imgUrl)} alt="bolt" />
                 <div >
@@ -84,25 +75,27 @@ function TransferBoltImages({tabIndex, BoltImageLists}:
 
 
   return (
-    <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
-      <label>전체 선택 <input type="checkbox"  /></label>
-      <TransferImagesDetailWrapper>
-        <TransferImageGridContainer className={isDetailOpen? "active" : ""}>
-          <TransferImageGrid className={isDetailOpen? "active open" : "open"}>
+    <TabContentFlex>
+      <TabContentInfos>
+        <div>
+          <label>전체 선택 <input type="checkbox"  /></label>
+          <div>{`현재 선택 : ${selected[tabIndex].length}/${BoltImageLists[tabIndex].images.length}`}</div>
+        </div>
+        <div>{ ButtonLists[tabIndex] }</div>
+      </TabContentInfos>
+      <TabContentMain>
+        <BoltImagesGridContainer className={isDetailOpen? "active" : ""}>
+          <BoltImagesGrid className={isDetailOpen? "active open" : "open"}>
             {BoltImageElement[tabIndex]}
-          </TransferImageGrid>
-        </TransferImageGridContainer>
-        <TransferImageDetailContainer className={isDetailOpen? "active" : ""}>
+          </BoltImagesGrid>
+        </BoltImagesGridContainer>
+        <BoltImageDetailContainer className={isDetailOpen? "active" : ""}>
           <CloseButton onClick={() => dispatch(setIsDetailOpen(false))}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
           <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
           <div>{detailInfo.originName}</div>
-        </TransferImageDetailContainer>
-      </TransferImagesDetailWrapper>
-      <div>
-        { ButtonLists[tabIndex] }
-        <div>현재 선택 : 1/100</div>
-      </div>
-    </div>
+        </BoltImageDetailContainer>
+      </TabContentMain>
+    </TabContentFlex>
   );
 }
 

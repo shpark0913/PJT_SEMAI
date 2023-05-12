@@ -5,6 +5,11 @@ const initialState: TransferPageSliceType = {
   tabIndex: 0,
   isDetailOpen: false,
   tabMenuList: ['양호', '유실', '파단', '학습'],
+  detailInfo: {
+    imgUrl: "",
+    originName: "",
+    fileId: 0
+  },
 }
 
 export const TransferPageSlice = createSlice({
@@ -16,11 +21,14 @@ export const TransferPageSlice = createSlice({
     },
     setIsDetailOpen: (state, action) => {
       state.isDetailOpen = action.payload;
+    },
+    setDetailInfo: (state, action) => {
+      state.detailInfo = action.payload;
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setTabIndex, setIsDetailOpen } = TransferPageSlice.actions
+export const { setTabIndex, setIsDetailOpen, setDetailInfo } = TransferPageSlice.actions
 
 export default TransferPageSlice.reducer

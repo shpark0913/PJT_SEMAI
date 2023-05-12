@@ -7,10 +7,10 @@ const TransferContainer = styled.div`
   height: 80%;
 `;
 
-const TransferImageContainer = styled.div`
+const TransferContentContainer = styled.div`
   width: 100%;
   height: auto;
-  padding: 30px 20px 20px 30px;
+  padding: 30px;
   
   background-color: var(--section-color);
   border-radius: 0 10px 10px 10px;
@@ -32,14 +32,14 @@ const TransferImageContainer = styled.div`
   }
 `
 
-const TransferImagesDetailWrapper = styled.div`
+const TabContentMain = styled.div`
   height: 100%;
   width: 100%;
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
 `;
-export const TransferImageDetailContainer = styled.div`
+export const BoltImageDetailContainer = styled.div`
   display: none;
   padding-left: 30px;
   box-shadow: -15px 0 10px -10px var(--shadow-color);
@@ -59,4 +59,4 @@ const NumberSpan = styled.span`
   margin-left: 5px;
 `;
 
-export { TransferContainer, TransferImageContainer, TransferImagesDetailWrapper, NumberSpan }
+export { TransferContainer, TransferContentContainer, TabContentMain, NumberSpan }

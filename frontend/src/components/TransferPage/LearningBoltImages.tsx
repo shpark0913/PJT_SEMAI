@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
-import {NumberSpan, TransferImageDetailContainer, TransferImagesDetailWrapper} from "./TransferTabComponents";
-import {TransferBoltImage, TransferImageGrid, TransferImageGridContainer} from "./TransferImageComponents";
+import {NumberSpan, BoltImageDetailContainer, TabContentMain} from "./TransferTabComponents";
+import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./TransferImageComponents";
 import {CloseButton} from "../Modal/ModalComponents";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import styled from "styled-components";
@@ -73,7 +73,7 @@ function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
       {/*<TransferImageGrid className={isDetailOpen?*/}
       {/*  isTabOpen[data.status]? "active open" : "active"*/}
       {/*  : isTabOpen[data.status]? "open" : "" }>*/}
-      <TransferImageGrid className={`${isDetailOpen? "active" : ""} ${isTabOpen[data.status] ? "open" : ""}`}>
+      <BoltImagesGrid className={`${isDetailOpen? "active" : ""} ${isTabOpen[data.status] ? "open" : ""}`}>
         { data.images.map((image) =>
         <TransferBoltImage key={`bolt_images-${image.fileId}`}>
           <img src={ImageUrl(image.imgUrl)} alt="bolt" />
@@ -85,7 +85,7 @@ function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
           {image.originName}
           </div>
         </TransferBoltImage> )}
-      </TransferImageGrid>
+      </BoltImagesGrid>
       <hr />
 
     </>
@@ -97,17 +97,17 @@ function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
   return (
     <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
       <label>전체 선택 <input type="checkbox" /></label>
-      <TransferImagesDetailWrapper>
+      <TabContentMain>
 
-        <TransferImageGridContainer className={isDetailOpen? "active" : ""}>
+        <BoltImagesGridContainer className={isDetailOpen? "active" : ""}>
           { BoltImageElement }
-        </TransferImageGridContainer>
-        <TransferImageDetailContainer className={isDetailOpen? "active" : ""}>
+        </BoltImagesGridContainer>
+        <BoltImageDetailContainer className={isDetailOpen? "active" : ""}>
           <CloseButton onClick={() => dispatch(setIsDetailOpen(false))}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
           <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
           <div>{detailInfo.originName}</div>
-        </TransferImageDetailContainer>
-      </TransferImagesDetailWrapper>
+        </BoltImageDetailContainer>
+      </TabContentMain>
       <div>
         {/*{ ButtonList[tabIndex] }*/}
         {/*<div>현재 선택 : 1/100</div>*/}
