@@ -14,6 +14,6 @@ import java.util.List;
 @Repository
 public interface OHTCheckRepository extends JpaRepository<OHTCheckEntity,Long> {
 
-    @Query("select o from OHTCheckEntity o join fetch o.oht where o.ohtCheckEndDatetime is not null And o.ohtCheckStartDatetime >:start And o.ohtCheckEndDatetime <:end order by o.ohtCheckStartDatetime desc")
+    @Query("select o from OHTCheckEntity o join fetch o.oht where o.ohtCheckStartDatetime >:start And o.ohtCheckEndDatetime <:end order by o.ohtCheckStartDatetime desc")
     List<OHTCheckEntity> findAllJoinFetch(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }
