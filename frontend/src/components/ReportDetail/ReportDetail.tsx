@@ -21,7 +21,7 @@ const ReportDetailContainer = styled.div`
   }
   &.close {
     width: 0;
-    transform: translateX(150%);
+    transform: translateX(200%);
     box-shadow: none;
   }
   
