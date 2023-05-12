@@ -3,6 +3,7 @@ package com.ssafy.semes.ohtcheck.controller;
 import java.io.IOException;
 import java.net.ConnectException;
 
+import com.ssafy.semes.dashboard.controller.DashboardController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,6 +80,7 @@ public class OHTCheckController {
 			// 끝날 때마다 검사상태 SSE로 보내주기
 			slackController.successSend(processStatusDto.getOhtSn()+"번 OHT "+i+"번 바퀴 검사 완료");
 			processStatusDto.wheelComplete(i);
+			DashboardController.nowNum = i;
 			sseEmitters.showProcessStatus(processStatusDto);
 		}
 		ohtCheckService.updateOhtCheckEndDate(ohtCheck);
