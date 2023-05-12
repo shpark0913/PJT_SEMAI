@@ -61,8 +61,8 @@ test_datasets = datasets.ImageFolder(os.path.join(data_dir, 'val'), test_transfo
 
 # DataLoader를 이용 / 데이터셋에서 미니배치(minibatch)를 추출 
 # (batch_size==미니배치의 크기 / shuffle==데이터셋을 섞을지 여부 / num_workers==데이터셋을 불러올 때 사용할 프로세스 수)
-train_loader = DataLoader(train_datasets, batch_size=128, shuffle=True, num_workers=4)
-test_loader = DataLoader(test_datasets, batch_size=128, shuffle=True, num_workers=4)
+train_loader = DataLoader(train_datasets, batch_size=32, shuffle=True, num_workers=4)
+test_loader = DataLoader(test_datasets, batch_size=32, shuffle=True, num_workers=4)
 
 
 
@@ -103,28 +103,15 @@ def loadModel():
     # 불러온 네트워크 모델의 출력 뉴런 수를 저장
     num_features = classification_model.fc.in_features
     # 새로운 Fully Connected 레이어 추가
-    classification_model.fc = nn.Linear(num_features, 4)
+    classification_model.fc = nn.Linear(num_features, 3)
     # GPU를 사용하기 위해 모델을 CUDA 디바이스로 보냄
     classification_model.to(device)
     # 손실 함수와 최적화 알고리즘 정의
     criterion = nn.CrossEntropyLoss()
     # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-    optimizer = optim.Adam(classification_model.parameters(), lr=0.001)
+    optimizer = optim.SGD(classification_model.parameters(), lr=0.01, momentum=0.9)
 
     return classification_model, criterion, optimizer
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def learning(origin_acc, origin_loss, origin_fscore):
@@ -135,7 +122,7 @@ def learning(origin_acc, origin_loss, origin_fscore):
     transfer_classification_model, criterion, optimizer = loadModel()
 
     # 학습 epochs 설정
-    num_epochs = 1
+    num_epochs = 10
 
     # epoch에 따른 손실 값과 정확도를 저장하는 리스트
     train_loss_list = []
