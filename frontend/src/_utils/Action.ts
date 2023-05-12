@@ -25,17 +25,35 @@ export async function TransferBoltImageAction({ request }: {request: any}) {
   }
   else if (request.method === "DELETE") {
     console.log('이미지를 삭제하자')
-    await Axios.delete('transition', {
-      data: {
-        fileId: [1, 2, 3, 4]
-      }
-    })
+
+    try {
+      let response = await Axios.delete('transition', {
+        data: data
+      })
+      console.log(response);
+    }
+    catch (err) {
+      console.log(err);
+    }
+
+    // await Axios.delete('transition', {
+    //   data: {
+    //     fileId: [1, 2, 3, 4]
+    //   }
+    // })
   }
   else if (request.method === "POST") {
     console.log('이미지를 학습폴더로 이동하자')
-    await Axios.post('transition', {
-      fileId: [1, 2, 3, 4]
-    })
+    try {
+      let response = await Axios.post('transition/train', data)
+      console.log(response);
+    }
+    catch (err) {
+      console.log(err);
+    }
+    // await Axios.post('transition', {
+    //   fileId: [1, 2, 3, 4]
+    // })
   }
   // window.location.reload();
   return null;
