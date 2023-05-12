@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Button, RedButton, SemesButton} from "../ButtonComponents";
 import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
+import {TransferBoltImageObject} from "../../_utils/Types";
 
 
 function TransferButtons() {
@@ -43,8 +44,17 @@ function TransferButtons() {
   const TransferLearningButton = (fileIds: number[]) => {
     return <SemesButton onClick={ () => TransferLearning(fileIds) }>{ TransferValue[3] }</SemesButton>
   }
-  const DeleteImagesButton = (fileIds: number[]) => {
-    return <RedButton onClick={() => DeleteImages(fileIds)}>{TransferValue[4]}</RedButton>
+  const DeleteImagesButton = (preType: number,
+                              selected: TransferBoltImageObject[],
+                              setSelected: React.Dispatch<React.SetStateAction<TransferBoltImageObject[][]>>) => {
+    return <RedButton onClick={() => {
+      DeleteImages(selected.map(d => d.fileId))
+      setSelected(prev => {
+        const tmp = [...prev]
+        tmp[preType] = []
+        return [...tmp]
+      });
+    }}>{TransferValue[4]}</RedButton>
   }
   return { OpenConfirmModal, CancelButton, TransferClassButton, TransferLearningButton, DeleteImagesButton }
 }
