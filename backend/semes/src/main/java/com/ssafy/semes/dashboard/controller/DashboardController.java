@@ -43,12 +43,13 @@ public class DashboardController {
                 list.remove(0);
             }
             //sse 생성
-            SseEmitter emitter = new SseEmitter(10*1000L);
+            SseEmitter emitter = new SseEmitter(1*1000L);
             sseEmitters.add(emitter);
             emitter.send(SseEmitter.event()
                     .name("dashboard")
                     .data(list));
 
+            System.out.println(right.getOhtSn());
             //오른쪽 상단 업데이트 코드
             ProcessStatusDto processStatusDto = ProcessStatusDto.builder()
                     .ohtSn(right.getOhtSn())
