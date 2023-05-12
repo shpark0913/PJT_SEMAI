@@ -31,7 +31,7 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 		}
 
 		OHTCheckEntity ohtCheck = OHTCheckEntity.builder()
-			.oht(oht.get())
+			.oht(oht.get()).flBadCount(-1).frBadCount(-1).rlBadCount(-1).rrBadCount(-1)
 			.build();
 
 		return ohtCheckRepository.save(ohtCheck);
