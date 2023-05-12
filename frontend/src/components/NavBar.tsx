@@ -79,7 +79,6 @@ const LogoutButton = styled.button`
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  /* color: var(--emphasize-color); */
   color: #3d9eff;
   font-weight: bold;
 `;
@@ -192,7 +191,6 @@ function NavBar() {
               풀림
             </span>
             <Checkbox size="small" sx={{ padding: "0" }} />
-            {/* <input type="checkbox" id="loseCheck" /> */}
           </CenteredMenuItem>
           <CenteredMenuItem>
             <LogoutButton
