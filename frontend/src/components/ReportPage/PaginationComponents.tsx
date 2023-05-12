@@ -63,18 +63,27 @@ function PaginationComponents({paginationTotalPage, handleClickPage, page}: {pag
   let lastPageDivTen = Math.floor(paginationTotalPage / 10);
 
   const LeftArrow =
-    <PaginationLabel key={`pagination-left_Arrow`}>{`<`}
+    <PaginationLabel key={`pagination-left_arrow`}>{`<`}
       <input type="radio" name="page" value={ (nowPageDivTen - 1) * 10 + 1 } onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)}/>
+    </PaginationLabel>
+  const ToFirstArrow =
+    <PaginationLabel key={`pagination-first_arrow`}>{`<<`}
+      <input type="radio" name="page" value={ 1 } onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)}/>
     </PaginationLabel>
 
   const RightArrow =
-    <PaginationLabel key={`pagination-right_Arrow`}>{`>`}
+    <PaginationLabel key={`pagination-right_arrow`}>{`>`}
       <input type="radio" name="page" value={ ( nowPageDivTen + 1 ) * 10 + 1 } onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)}/>
+    </PaginationLabel>
+  const ToLastArrow =
+    <PaginationLabel key={`pagination-last_arrow`}>{`>>`}
+      <input type="radio" name="page" value={ paginationTotalPage } onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)}/>
     </PaginationLabel>
 
   console.log(nowPageDivTen)
   return (
     <PaginationFieldset>
+      { nowPageDivTen > 0 ? ToFirstArrow : <></> }
       { nowPageDivTen > 0 ? LeftArrow : <></> }
       {
         paginationButtons.filter((button, idx) => {
@@ -83,6 +92,7 @@ function PaginationComponents({paginationTotalPage, handleClickPage, page}: {pag
         })
       }
       { nowPageDivTen < lastPageDivTen ? RightArrow : <></> }
+      { nowPageDivTen < lastPageDivTen ? ToLastArrow : <></> }
     </PaginationFieldset>
   );
 }
