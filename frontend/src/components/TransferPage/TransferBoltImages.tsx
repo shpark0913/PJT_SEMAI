@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
-import {BoltImageDetailContainer, TabContentMain} from "./TransferTabComponents";
-import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./TransferImageComponents";
-// import {Button, RedButton, SemesButton} from "../ButtonComponents";
+
 import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import {CloseButton} from "../Modal/ModalComponents";
-// import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
-import TransferButtons from "./TransferButtons";
 import ImageUrl from "../../_utils/ImageUrl";
 import {setDetailInfo, setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
+
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import {CloseButton} from "../Modal/ModalComponents";
+import TransferButtons from "./TransferButtons";
+import {BoltImageDetailContainer, TabContentMain} from "./TransferTabComponents";
+import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./TransferImageComponents";
 import {TabContentFlex, TabContentInfos} from "./TabContentComponents";
 
 
@@ -42,31 +42,32 @@ function TransferBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
         <>
           {data.images.map((image) =>
             <TransferBoltImage key={`bolt_images-${image.fileId}`} >
-              <input type="checkbox" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                console.log(e.target.checked);
-                if (e.target.checked) {
-                  setSelected(prev => {
-                    const tmp = [...prev];
-                    tmp[data.status] = [...tmp[data.status], image];
-                    return tmp;
-                  })
-                }
-                else {
-                  setSelected(prev => {
-                    const tmp = [...prev];
-                    tmp[data.status] = tmp[data.status].filter((tmpData) => tmpData.fileId !== image.fileId);
-                    return tmp;
-                  })
-                }
-              }} />
+              <label>
+                <input type="checkbox" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  console.log(e.target.checked);
+                  if (e.target.checked) {
+                    setSelected(prev => {
+                      const tmp = [...prev];
+                      tmp[data.status] = [...tmp[data.status], image];
+                      return tmp;
+                    })
+                  }
+                  else {
+                    setSelected(prev => {
+                      const tmp = [...prev];
+                      tmp[data.status] = tmp[data.status].filter((tmpData) => tmpData.fileId !== image.fileId);
+                      return tmp;
+                    })
+                  }
+                }} />
+                <img src={ImageUrl(image.imgUrl)} alt="bolt" />
+              </label>
+
               <div onClick={() => {
                 dispatch(setIsDetailOpen(true));
                 dispatch(setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId}))
               } }>
-                <img src={ImageUrl(image.imgUrl)} alt="bolt" />
-                <div >
-                  {image.originName}
-                </div>
+                {image.originName}
               </div>
             </TransferBoltImage>
           )}
