@@ -49,9 +49,9 @@ const StyledMenu = muistyled(Menu)`
 const CenteredMenuItem = muistyled(MenuItem)`
   && {
     display: flex;
-    width: 8vw;
+    width: 120px;
     align-items: center;
-    justify-content: center; /* 아이콘을 가운데 정렬하기 위해 추가 */
+    justify-content: space-around;
     transition: 'none !important'
   }
 `;
@@ -79,7 +79,6 @@ const LogoutButton = styled.button`
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  /* color: var(--emphasize-color); */
   color: #3d9eff;
   font-weight: bold;
 `;
@@ -142,11 +141,13 @@ function NavBar() {
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          {anchorEl ? (
-            <SettingsIcon sx={{ color: "var(--emphasize-color)", transform: "rotate( 90deg )" }} />
-          ) : (
-            <SettingsIcon sx={{ color: "var(--emphasize-color)" }} />
-          )}
+          <SettingsIcon
+            sx={{
+              color: "var(--emphasize-color)",
+              transform: anchorEl ? "rotate(45deg)" : "none",
+              transition: "transform 0.3s ease-in-out",
+            }}
+          />
         </button>
         <StyledMenu
           id="basic-menu"
@@ -179,19 +180,17 @@ function NavBar() {
             />
           </CenteredMenuItem>
           <CenteredMenuItem>
-            <BuildIcon sx={{ width: "18px", color: "#003870", fontWeight: "thin" }} />
+            <BuildIcon sx={{ width: "21px", color: "#003870", fontWeight: "100" }} />
             <span
               style={{
                 marginLeft: "3px",
                 color: "#003870",
                 fontWeight: "bold",
-                // fontSize: "13.3333px",
               }}
             >
               풀림
             </span>
-            <Checkbox size="small" sx={{ padding: "0", marginLeft: "3px" }} />
-            {/* <input type="checkbox" id="loseCheck" /> */}
+            <Checkbox size="small" sx={{ padding: "0" }} />
           </CenteredMenuItem>
           <CenteredMenuItem>
             <LogoutButton
@@ -203,7 +202,7 @@ function NavBar() {
               }}
             >
               <LogoutIcon />
-              <span style={{ marginLeft: "3px" }}>로그아웃</span>
+              <span style={{ marginLeft: "5px" }}>로그아웃</span>
             </LogoutButton>
           </CenteredMenuItem>
         </StyledMenu>
