@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const TransferImageGridContainer = styled.div`
+const BoltImagesGridContainer = styled.div`
   grid-column: 1/9;
   &.active {
     grid-column: 1/6;
@@ -10,7 +10,7 @@ const TransferImageGridContainer = styled.div`
   width: 100%;
 `;
 
-const TransferImageGrid = styled.div`
+const BoltImagesGrid = styled.div`
   display: none;
   width: 100%;
 
@@ -57,4 +57,4 @@ const TransferBoltImage = styled.div`
   }
 `
 
-export { TransferImageGridContainer, TransferImageGrid, TransferBoltImage }
+export { BoltImagesGridContainer, BoltImagesGrid, TransferBoltImage }
