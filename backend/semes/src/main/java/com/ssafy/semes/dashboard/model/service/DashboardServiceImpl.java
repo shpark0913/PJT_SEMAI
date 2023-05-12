@@ -41,12 +41,7 @@ public class DashboardServiceImpl implements DashboardService{
         if(list==null){
             throw  new JPAException();
         }
-        List<OHTCheckResponseDto> retrunList = new ArrayList<>();
-        for(OHTCheckEntity m : list){
-            if(m.getOhtCheckStartDatetime()== null)
-                continue;
-
-
+        return list.stream().map(m->{
                 OHTCheckResponseDto ohtDto = OHTCheckResponseDto.builder()
                         .ohtCheckId(m.getOhtCheckId())
                         .ohtCheckStartDatetime(m.getOhtCheckStartDatetime())
@@ -59,9 +54,8 @@ public class DashboardServiceImpl implements DashboardService{
                 ohtDto.setRlCount(m.getRlBadCount());
                 ohtDto.setRrCount(m.getRrBadCount());
 
-                retrunList.add(ohtDto) ;
-        }
-        return retrunList;
+                return ohtDto;
+        }).collect(Collectors.toList());
     }
 
     @Override

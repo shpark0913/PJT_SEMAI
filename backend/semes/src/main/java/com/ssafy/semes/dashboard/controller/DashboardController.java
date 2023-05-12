@@ -37,7 +37,11 @@ public class DashboardController {
         List<OHTCheckResponseDto> list = null;
         try {
             list = dashboardService.findAllCheck();
-
+            OHTCheckResponseDto right = null;
+            right = list.get(0);
+            if(list.get(0).getOhtCheckEndDatetime() == null){
+                list.remove(0);
+            }
             //sse 생성
             SseEmitter emitter = new SseEmitter(10*1000L);
             sseEmitters.add(emitter);
@@ -47,16 +51,16 @@ public class DashboardController {
 
             //오른쪽 상단 업데이트 코드
             ProcessStatusDto processStatusDto = ProcessStatusDto.builder()
-                    .ohtSn(list.get(0).getOhtSn())
+                    .ohtSn(right.getOhtSn())
                     .isProceeding(true)
                     .isWheelsProceeding(new boolean[4]).build();
-            if(list.get(0).getFlCount()!=-1)
+            if(right.getFlCount()!=-1)
                     processStatusDto.wheelComplete(0);
-            if(list.get(0).getFrCount()!=-1)
+            if(right.getFrCount()!=-1)
                 processStatusDto.wheelComplete(1);
-            if(list.get(0).getRlCount()!=-1)
+            if(right.getRlCount()!=-1)
                 processStatusDto.wheelComplete(2);
-            if(list.get(0).getRrCount()!=-1)
+            if(right.getRrCount()!=-1)
                 processStatusDto.wheelComplete(3);
             sseEmitters.showProcessStatus(processStatusDto);
 
