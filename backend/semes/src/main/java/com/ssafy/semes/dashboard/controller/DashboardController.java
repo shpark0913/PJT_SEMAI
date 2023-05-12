@@ -28,6 +28,7 @@ public class DashboardController {
     @Autowired
     private DashboardService dashboardService;
 
+    public static int nowNum;
     public DashboardController(SseEmitters sseEmitters) {
         this.sseEmitters = sseEmitters;
     }
@@ -55,14 +56,9 @@ public class DashboardController {
                     .ohtSn(right.getOhtSn())
                     .isProceeding(true)
                     .isWheelsProceeding(new boolean[4]).build();
-            if(right.getFlCount()!=-1)
-                    processStatusDto.wheelComplete(0);
-            if(right.getFrCount()!=-1)
-                processStatusDto.wheelComplete(1);
-            if(right.getRlCount()!=-1)
-                processStatusDto.wheelComplete(2);
-            if(right.getRrCount()!=-1)
-                processStatusDto.wheelComplete(3);
+            for(int i = 0 ; i<= DashboardController.nowNum;i++){
+                processStatusDto.wheelComplete(i);
+            }
             sseEmitters.showProcessStatus(processStatusDto);
 
             return ResponseEntity.ok(emitter);
