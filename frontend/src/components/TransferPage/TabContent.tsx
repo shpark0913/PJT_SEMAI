@@ -124,7 +124,7 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
         <TabContentMain>
           { tabIndex < 3 ?
             <TransferBoltImages BoltImageLists={BoltImageLists[0]} selected={selected[tabIndex]} setSelected={setSelected} /> :
-            <LearningBoltImages BoltImageLists={BoltImageLists[0]} imageLength={imageLengthList[3]} selected={selected[tabIndex]} setSelected={setSelected} />
+            <LearningBoltImages BoltImageLists={BoltImageLists[1]} imageLength={imageLengthList[3]} selected={selected[tabIndex]} setSelected={setSelected} />
           }
           <BoltImageDetailContainer className={isDetailOpen? "active" : ""}>
             <CloseButton onClick={() => dispatch(setIsDetailOpen(false))}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
