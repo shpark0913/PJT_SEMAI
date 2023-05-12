@@ -3,6 +3,7 @@ package com.ssafy.semes.dashboard.model.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,21 +41,27 @@ public class DashboardServiceImpl implements DashboardService{
         if(list==null){
             throw  new JPAException();
         }
-        return list.stream().map(m->{
-            OHTCheckResponseDto ohtDto = OHTCheckResponseDto.builder()
-                    .ohtCheckId(m.getOhtCheckId())
-                    .ohtCheckStartDatetime(m.getOhtCheckStartDatetime())
-                    .ohtCheckEndDatetime(m.getOhtCheckEndDatetime())
-                    .ohtId(m.getOht().getOhtId())
-                    .ohtSn(m.getOht().getOhtSN())
-                    .build();
-            ohtDto.setFlCount(m.getFlBadCount());
-            ohtDto.setFrCount(m.getFrBadCount());
-            ohtDto.setRlCount(m.getRlBadCount());
-            ohtDto.setRrCount(m.getRrBadCount());
+        List<OHTCheckResponseDto> retrunList = new ArrayList<>();
+        for(OHTCheckEntity m : list){
+            if(m.getOhtCheckStartDatetime()== null)
+                continue;
 
-            return ohtDto;
-        }).collect(Collectors.toList());
+
+                OHTCheckResponseDto ohtDto = OHTCheckResponseDto.builder()
+                        .ohtCheckId(m.getOhtCheckId())
+                        .ohtCheckStartDatetime(m.getOhtCheckStartDatetime())
+                        .ohtCheckEndDatetime(m.getOhtCheckEndDatetime())
+                        .ohtId(m.getOht().getOhtId())
+                        .ohtSn(m.getOht().getOhtSN())
+                        .build();
+                ohtDto.setFlCount(m.getFlBadCount());
+                ohtDto.setFrCount(m.getFrBadCount());
+                ohtDto.setRlCount(m.getRlBadCount());
+                ohtDto.setRrCount(m.getRrBadCount());
+
+                retrunList.add(ohtDto) ;
+        }
+        return retrunList;
     }
 
     @Override
