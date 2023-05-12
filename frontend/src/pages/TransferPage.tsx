@@ -28,7 +28,7 @@ function TransferPage() {
     <TransferSection>
       <TransferContainer>
         <TabMenu imageLengthList={ImageLengthList} />
-        <TabContent BoltImageLists={BoltImageLists} />
+        <TabContent BoltImageLists={BoltImageLists} ImageLength={ImageLengthList[3]} />
       </TransferContainer>
     </TransferSection>
   );

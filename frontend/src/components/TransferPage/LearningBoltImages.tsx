@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
-import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
-import {NumberSpan, BoltImageDetailContainer, TabContentMain} from "./TransferTabComponents";
-import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./TransferImageComponents";
-import {CloseButton} from "../Modal/ModalComponents";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import styled from "styled-components";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
 import ImageUrl from "../../_utils/ImageUrl";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
-import {setIsDetailOpen} from "../../_store/slices/transferPageSlice";
+import {setDetailInfo, setIsDetailOpen} from "../../_store/slices/transferPageSlice";
+
+import {NumberSpan, BoltImageDetailContainer, TabContentMain} from "./TransferTabComponents";
+import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./TransferImageComponents";
+import {TabContentFlex, TabContentInfos} from "./TabContentComponents";
+import {CloseButton} from "../Modal/ModalComponents";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const ClassName = styled.div`
   display: flex;
@@ -30,17 +33,12 @@ const ClassName = styled.div`
     }
   }
 `
-function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderType[] }) {
+function LearningBoltImages({BoltImageLists, ImageLength}: { BoltImageLists: TransferLoaderType[], ImageLength: number }) {
 
   const dispatch = useAppDispatch();
-  const isDetailOpen = useAppSelector(state => state.transferPage.isDetailOpen)
+  const { isDetailOpen, detailInfo, tabMenuList } = useAppSelector(state => state.transferPage);
   const [isTabOpen, setIsTabOpen] = useState<boolean[]>([false, false, false]);
-  const [detailInfo, setDetailInfo] = useState<TransferBoltImageObject>({
-    imgUrl: "",
-    originName: "",
-    fileId: 0
-  })
-  const { tabMenuList } = useAppSelector(state => state.transferPage );
+  const [selected, setSelected] = useState<TransferBoltImageObject[]>([]);
 
   const styleFunc = (status: number): React.CSSProperties => {
     return {
@@ -51,7 +49,6 @@ function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
     }
   }
 
-  console.log(BoltImageLists)
   const BoltImageElement = BoltImageLists.map((data) =>
     <>
       {/* 클래스 이름.. */}
@@ -69,17 +66,13 @@ function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
         <NumberSpan>{data.images.length}</NumberSpan>
       </ClassName>
 
-      {/* 클래스별 이미지 */}
-      {/*<TransferImageGrid className={isDetailOpen?*/}
-      {/*  isTabOpen[data.status]? "active open" : "active"*/}
-      {/*  : isTabOpen[data.status]? "open" : "" }>*/}
       <BoltImagesGrid className={`${isDetailOpen? "active" : ""} ${isTabOpen[data.status] ? "open" : ""}`}>
         { data.images.map((image) =>
         <TransferBoltImage key={`bolt_images-${image.fileId}`}>
           <img src={ImageUrl(image.imgUrl)} alt="bolt" />
           <div onClick={() => {
             dispatch(setIsDetailOpen(true));
-            setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId})
+            dispatch(setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId}))
           }}
           >
           {image.originName}
@@ -95,10 +88,16 @@ function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
 
 
   return (
-    <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
-      <label>전체 선택 <input type="checkbox" /></label>
-      <TabContentMain>
+    <TabContentFlex>
+      <TabContentInfos>
+        <div>
+          <label>전체 선택 <input type="checkbox"  /></label>
+          <div>{`현재 선택 : ${selected.length}/${ ImageLength }`}</div>
+        </div>
+        <div>학습하기 삭제하기 버튼 2개</div>
+      </TabContentInfos>
 
+      <TabContentMain>
         <BoltImagesGridContainer className={isDetailOpen? "active" : ""}>
           { BoltImageElement }
         </BoltImagesGridContainer>
@@ -108,11 +107,8 @@ function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
           <div>{detailInfo.originName}</div>
         </BoltImageDetailContainer>
       </TabContentMain>
-      <div>
-        {/*{ ButtonList[tabIndex] }*/}
-        {/*<div>현재 선택 : 1/100</div>*/}
-      </div>
-    </div>
+
+    </TabContentFlex>
   );
 }
 
