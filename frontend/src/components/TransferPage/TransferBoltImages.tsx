@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
 import ImageUrl from "../../_utils/ImageUrl";
@@ -10,11 +10,15 @@ import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./Tran
 
 
 
-function TransferBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderType[] }) {
+function TransferBoltImages({BoltImageLists, selected, setSelected}: 
+                              { BoltImageLists: TransferLoaderType[],
+                                selected: TransferBoltImageObject[],
+                                setSelected: React.Dispatch<React.SetStateAction<TransferBoltImageObject[][]>>
+                              }) {
 
   const dispatch = useAppDispatch();
   const { isDetailOpen, tabIndex } = useAppSelector(state => state.transferPage);
-  const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], []]);
+  // const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], []]);
 
   // const { TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
   // const ButtonLists: JSX.Element[] = [<>
@@ -55,7 +59,7 @@ function TransferBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
                       return tmp;
                     })
                   }
-                }} />
+                }} checked={ !!selected.find(val => val.fileId === image.fileId) } />
                 <img src={ImageUrl(image.imgUrl)} alt="bolt" />
               </label>
 

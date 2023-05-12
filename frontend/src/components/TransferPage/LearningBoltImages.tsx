@@ -30,12 +30,17 @@ const ClassName = styled.div`
     }
   }
 `
-function LearningBoltImages({BoltImageLists, imageLength}: { BoltImageLists: TransferLoaderType[], imageLength: number }) {
+function LearningBoltImages({BoltImageLists, imageLength, selected, setSelected}:
+                              { BoltImageLists: TransferLoaderType[],
+                                imageLength: number,
+                                selected: TransferBoltImageObject[],
+                                setSelected: React.Dispatch<React.SetStateAction<TransferBoltImageObject[][]>>
+                              }) {
 
   const dispatch = useAppDispatch();
   const { isDetailOpen, tabMenuList } = useAppSelector(state => state.transferPage);
   const [isTabOpen, setIsTabOpen] = useState<boolean[]>([false, false, false]);
-  const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], [], []]);
+  // const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], [], []]);
 
   const styleFunc = (status: number): React.CSSProperties => {
     return {
@@ -65,7 +70,7 @@ function LearningBoltImages({BoltImageLists, imageLength}: { BoltImageLists: Tra
 
       <BoltImagesGrid className={`${isDetailOpen? "active" : ""} ${isTabOpen[data.status] ? "open" : ""}`}>
         { data.images.map((image) =>
-          <TransferBoltImage key={`bolt_images-${image.fileId}`} >
+          <TransferBoltImage key={`bolt_images_learn-${image.fileId}`} >
             <label>
               <input type="checkbox" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 console.log(e.target.checked);
@@ -83,7 +88,7 @@ function LearningBoltImages({BoltImageLists, imageLength}: { BoltImageLists: Tra
                     return tmp;
                   })
                 }
-              }} />
+              }} checked={ !!selected.find(val => val.fileId === image.fileId) } />
               <img src={ImageUrl(image.imgUrl)} alt="bolt" />
             </label>
 
@@ -101,7 +106,7 @@ function LearningBoltImages({BoltImageLists, imageLength}: { BoltImageLists: Tra
     </>
   )
 
-  console.log(BoltImageElement);
+  // console.log(BoltImageElement);
 
 
   return (

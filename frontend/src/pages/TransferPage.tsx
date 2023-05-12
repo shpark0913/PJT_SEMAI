@@ -18,7 +18,8 @@ const TransferSection = styled.section`
 
 function TransferPage() {
   let BoltImageLists = useLoaderData() as TransferLoaderType[][];
-  const ImageLengthList: number[] = useMemo(() => BoltImageLists[0].map((data) => data.images.length)
+  const ImageLengthList: number[] = useMemo(() =>
+      BoltImageLists[0].map((data) => data.images.length)
         .concat((BoltImageLists[1].reduce((acc, cur) => acc + cur.images.length, 0))
     ), [BoltImageLists]);
 
