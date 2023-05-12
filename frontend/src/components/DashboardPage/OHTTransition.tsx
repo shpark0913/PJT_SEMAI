@@ -40,7 +40,7 @@ function OHTTransition() {
       <OHTTransitionSec>
         <ChartLight name="양호" myScore={94} order="1" />
         <ChartLight name="유실" myScore={28} order="2" />
-        <ChartLight name="모호" myScore={7} order="3" />
+        <ChartLight name="파단" myScore={7} order="3" />
       </OHTTransitionSec>
     );
   } else {
@@ -48,7 +48,7 @@ function OHTTransition() {
       <OHTTransitionSec>
         <ChartDark name="양호" myScore={94} order="1" />
         <ChartDark name="유실" myScore={28} order="2" />
-        <ChartDark name="모호" myScore={7} order="3" />
+        <ChartDark name="파단" myScore={7} order="3" />
       </OHTTransitionSec>
     );
   }
@@ -60,7 +60,7 @@ function OHTTransition() {
       <TransitionSortDiv>
         <h4>양호</h4>
         <h4>유실</h4>
-        <h4>모호</h4>
+        <h4>파단</h4>
       </TransitionSortDiv>
     </OHTTransitionContainer>
   );
