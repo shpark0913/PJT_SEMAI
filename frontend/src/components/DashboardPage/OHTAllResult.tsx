@@ -20,7 +20,7 @@ const OHTAllResultContainer = styled.section`
 
 const TitleContainer = styled.div`
   display: flex;
-  width: 15%;
+  width: 230px;
   justify-content: space-between;
   align-items: flex-start;
 `;
