@@ -7,7 +7,7 @@ const TransferContainer = styled.div`
   height: 80%;
 `;
 
-const TransferContentContainer = styled.div`
+const TabContentContainer = styled.div`
   width: 100%;
   height: auto;
   padding: 30px;
@@ -59,4 +59,4 @@ const NumberSpan = styled.span`
   margin-left: 5px;
 `;
 
-export { TransferContainer, TransferContentContainer, TabContentMain, NumberSpan }
+export { TransferContainer, TabContentContainer, TabContentMain, NumberSpan }

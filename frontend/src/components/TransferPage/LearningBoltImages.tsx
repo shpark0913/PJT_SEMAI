@@ -6,11 +6,8 @@ import ImageUrl from "../../_utils/ImageUrl";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
 import {setDetailInfo, setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 
-import {NumberSpan, BoltImageDetailContainer, TabContentMain} from "./TransferTabComponents";
+import { NumberSpan } from "./TransferTabComponents";
 import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./TransferImageComponents";
-import {TabContentFlex, TabContentInfos} from "./TabContentComponents";
-import {CloseButton} from "../Modal/ModalComponents";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const ClassName = styled.div`
@@ -33,12 +30,12 @@ const ClassName = styled.div`
     }
   }
 `
-function LearningBoltImages({BoltImageLists, ImageLength}: { BoltImageLists: TransferLoaderType[], ImageLength: number }) {
+function LearningBoltImages({BoltImageLists, imageLength}: { BoltImageLists: TransferLoaderType[], imageLength: number }) {
 
   const dispatch = useAppDispatch();
-  const { isDetailOpen, detailInfo, tabMenuList } = useAppSelector(state => state.transferPage);
+  const { isDetailOpen, tabMenuList } = useAppSelector(state => state.transferPage);
   const [isTabOpen, setIsTabOpen] = useState<boolean[]>([false, false, false]);
-  const [selected, setSelected] = useState<TransferBoltImageObject[]>([]);
+  const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], [], []]);
 
   const styleFunc = (status: number): React.CSSProperties => {
     return {
@@ -68,16 +65,36 @@ function LearningBoltImages({BoltImageLists, ImageLength}: { BoltImageLists: Tra
 
       <BoltImagesGrid className={`${isDetailOpen? "active" : ""} ${isTabOpen[data.status] ? "open" : ""}`}>
         { data.images.map((image) =>
-        <TransferBoltImage key={`bolt_images-${image.fileId}`}>
-          <img src={ImageUrl(image.imgUrl)} alt="bolt" />
-          <div onClick={() => {
-            dispatch(setIsDetailOpen(true));
-            dispatch(setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId}))
-          }}
-          >
-          {image.originName}
-          </div>
-        </TransferBoltImage> )}
+          <TransferBoltImage key={`bolt_images-${image.fileId}`} >
+            <label>
+              <input type="checkbox" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                console.log(e.target.checked);
+                if (e.target.checked) {
+                  setSelected(prev => {
+                    const tmp = [...prev];
+                    tmp[3] = [...tmp[3], image];
+                    return tmp;
+                  })
+                }
+                else {
+                  setSelected(prev => {
+                    const tmp = [...prev];
+                    tmp[3] = tmp[3].filter((tmpData) => tmpData.fileId !== image.fileId);
+                    return tmp;
+                  })
+                }
+              }} />
+              <img src={ImageUrl(image.imgUrl)} alt="bolt" />
+            </label>
+
+            <div onClick={() => {
+              dispatch(setIsDetailOpen(true));
+              dispatch(setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId}))
+            } }>
+              {image.originName}
+            </div>
+          </TransferBoltImage>
+        )}
       </BoltImagesGrid>
       <hr />
 
@@ -88,27 +105,30 @@ function LearningBoltImages({BoltImageLists, ImageLength}: { BoltImageLists: Tra
 
 
   return (
-    <TabContentFlex>
-      <TabContentInfos>
-        <div>
-          <label>전체 선택 <input type="checkbox"  /></label>
-          <div>{`현재 선택 : ${selected.length}/${ ImageLength }`}</div>
-        </div>
-        <div>학습하기 삭제하기 버튼 2개</div>
-      </TabContentInfos>
-
-      <TabContentMain>
-        <BoltImagesGridContainer className={isDetailOpen? "active" : ""}>
-          { BoltImageElement }
-        </BoltImagesGridContainer>
-        <BoltImageDetailContainer className={isDetailOpen? "active" : ""}>
-          <CloseButton onClick={() => dispatch(setIsDetailOpen(false))}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
-          <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
-          <div>{detailInfo.originName}</div>
-        </BoltImageDetailContainer>
-      </TabContentMain>
-
-    </TabContentFlex>
+    // <TabContentFlex>
+    //   <TabContentInfos>
+    //     <div>
+    //       <label>전체 선택 <input type="checkbox"  /></label>
+    //       <div>{`현재 선택 : ${selected.length}/${ imageLength }`}</div>
+    //     </div>
+    //     <div>학습하기 삭제하기 버튼 2개</div>
+    //   </TabContentInfos>
+    //
+    //   <TabContentMain>
+    //     <BoltImagesGridContainer className={isDetailOpen? "active" : ""}>
+    //       { BoltImageElement }
+    //     </BoltImagesGridContainer>
+    //     <BoltImageDetailContainer className={isDetailOpen? "active" : ""}>
+    //       <CloseButton onClick={() => dispatch(setIsDetailOpen(false))}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
+    //       <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
+    //       <div>{detailInfo.originName}</div>
+    //     </BoltImageDetailContainer>
+    //   </TabContentMain>
+    //
+    // </TabContentFlex>
+    <BoltImagesGridContainer className={isDetailOpen? "active" : ""}>
+      { BoltImageElement }
+    </BoltImagesGridContainer>
   );
 }
 
