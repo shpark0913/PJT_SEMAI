@@ -1,6 +1,8 @@
 package com.ssafy.semes.dashboard.model.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +33,10 @@ public class DashboardServiceImpl implements DashboardService{
     @Override
     @Transactional
     public List<OHTCheckResponseDto> findAllCheck() throws Exception {
-        List<OHTCheckEntity> list = ohtCheckRepository.findAllJoinFetch();
+        List<OHTCheckEntity> list = ohtCheckRepository.findAllJoinFetch(
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(0,0,0)),
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59))
+        );
         if(list==null){
             throw  new JPAException();
         }
