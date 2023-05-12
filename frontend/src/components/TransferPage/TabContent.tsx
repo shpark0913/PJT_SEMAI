@@ -31,26 +31,26 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
         { TransferClassButton(0, 1, selected[0].map(d => d.fileId)) }
         { TransferClassButton(0, 2, selected[0].map(d => d.fileId)) }
         { TransferLearningButton(selected[0].map(d => d.fileId)) }
-        { DeleteImagesButton(selected[0].map(d => d.fileId)) }
+        { DeleteImagesButton(0, selected[0], setSelected) }
       </> : <></>,
     selected[1].length ?
       <>
         { TransferClassButton(1, 0, selected[1].map(d => d.fileId)) }
         { TransferClassButton(1, 2, selected[1].map(d => d.fileId)) }
         { TransferLearningButton(selected[1].map(d => d.fileId)) }
-        { DeleteImagesButton(selected[1].map(d => d.fileId)) }
+        { DeleteImagesButton(1, selected[1], setSelected) }
       </> : <></>,
     selected[2].length ?
       <>
         { TransferClassButton(2, 0, selected[2].map(d => d.fileId)) }
         { TransferClassButton(2, 1, selected[2].map(d => d.fileId)) }
         { TransferLearningButton(selected[2].map(d => d.fileId)) }
-        { DeleteImagesButton(selected[2].map(d => d.fileId)) }
+        { DeleteImagesButton(2, selected[2], setSelected) }
       </> : <></>,
     selected[3].length ?
       <>
         { TransferLearningButton(selected[3].map(d => d.fileId)) }
-        { DeleteImagesButton(selected[3].map(d => d.fileId)) }
+        { DeleteImagesButton(3, selected[3], setSelected) }
       </> : <></>,
   // <>
   //   { selected[1].length && TransferClassButton(1, 0, selected[1].map(d => d.fileId)) }
