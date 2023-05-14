@@ -11,6 +11,14 @@ function TransferButtons() {
   // 제출 버튼
   // 0: 양호 , 1: 유실, 2: 파단
 
+  const ConfirmModal = isConfirmOpen ?
+    <div>
+      <div style={{position: "absolute", top: "100px", left: "100px"}}>
+        안녕하세요
+      </div>
+    </div> :
+    <></>
+
   const OpenConfirmModal = (nextType: number) => {
     switch (nextType) {
       case 0:
@@ -56,7 +64,7 @@ function TransferButtons() {
       });
     }}>{TransferValue[4]}</RedButton>
   }
-  return { OpenConfirmModal, CancelButton, TransferClassButton, TransferLearningButton, DeleteImagesButton }
+  return { ConfirmModal, OpenConfirmModal, CancelButton, TransferClassButton, TransferLearningButton, DeleteImagesButton }
 }
 
 export default TransferButtons;
