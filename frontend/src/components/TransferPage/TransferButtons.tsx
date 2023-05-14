@@ -1,29 +1,32 @@
-import React, {useState} from "react";
+import React from "react";
 import {Button, RedButton, SemesButton} from "../ButtonComponents";
 import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
 import {TransferBoltImageObject} from "../../_utils/Types";
+import { useAppDispatch, useAppSelector } from "../../_hooks/hooks";
+import { setIsConfirmModalOpen, setType } from "../../_store/slices/transferPageSlice";
 // import useConfirmModal from "../../_hooks/useConfirmModal";
 // import ConfirmModal from "./ConfirmModal";
 
 
 function TransferButtons() {
+  const dispatch = useAppDispatch();
   // const { setIsConfirmModalOpen } = useConfirmModal();
-  let [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  let { isConfirmModalOpen, type } = useAppSelector(state => state.transferPage)
+  // let [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const { TransferClass, TransferLearning, DeleteImages } = useTransferBoltImages();
   // let [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
 
-  let [type, setType] = useState<{preType: number, nextType: number}>({preType: 0, nextType: 1});
   let TransferValue = ['양호로 이동', '유실로 이동', '파단으로 이동', '학습으로 이동', '삭제하기'];
 
   // type에 대해서
   // 0: 양호, 1: 유실, 2: 파단, 3: 학습, 4: 삭제
 
   const handleOpenConfirmModal = (preType: number, nextType: number) => {
-    setIsConfirmModalOpen(true);
-    setType({
+    dispatch(setIsConfirmModalOpen(true));
+    dispatch(setType({
       preType: preType,
       nextType: nextType
-    });
+    }));
   }
 
   /** 모달창 띄우는 버튼 */
@@ -50,38 +53,46 @@ function TransferButtons() {
     }
   }
   const CancelConfirmModalButton = () => {
-    return <Button onClick={ () => setIsConfirmModalOpen(false) }>취소하기</Button>
+    return <Button onClick={() => dispatch(setIsConfirmModalOpen(false)) }>취소하기</Button>
   }
 
-  // const OpenConfirmModal = (nextType: number) => {
-  //   switch (nextType) {
-  //     case 0:
-  //       return <Button onClick={ () => setIsConfirmOpen(true) }>{ TransferValue[0] }</Button>
-  //     case 1:
-  //       return <Button onClick={ () => setIsConfirmOpen(true) }>{ TransferValue[1] }</Button>
-  //     case 2:
-  //       return <Button onClick={ () => setIsConfirmOpen(true) }>{ TransferValue[2] }</Button>
-  //     case 3:
-  //       return <SemesButton onClick={ () => setIsConfirmOpen(true) }>{ TransferValue[3] }</SemesButton>
-  //     case 4:
-  //       return <RedButton onClick={ () => setIsConfirmOpen(true) }>{ TransferValue[4] }</RedButton>
-  //   }
-  // }
 
   /** 다른 클래스로 이동하기  */
-  const TransferClassButton = (preType: number, nextType: number, fileIds: number[]) => {
-    switch (nextType) {
-      case 0:
-        return <Button onClick={ () => TransferClass(preType, nextType, fileIds) }>{ TransferValue[0] }</Button>
-      case 1:
-        return <Button onClick={ () => TransferClass(preType, nextType, fileIds) }>{ TransferValue[1] }</Button>
-      case 2:
-        return <Button onClick={ () => TransferClass(preType, nextType, fileIds) }>{ TransferValue[2] }</Button>
-    }
+  const TransferClassButton = (preType: number,
+                               nextType: number,
+                               selected: TransferBoltImageObject[],
+                               setSelected: React.Dispatch<React.SetStateAction<TransferBoltImageObject[][]>>) => {
+
+    return <SemesButton
+      onClick={ () => {
+        TransferClass(preType, nextType, selected.map(d => d.fileId));
+        setSelected(prev => {
+          const tmp = [...prev]
+          tmp[preType] = []
+          return [...tmp]
+        });
+        dispatch(setIsConfirmModalOpen(false));
+      }}
+    >
+      {TransferValue[nextType]}
+    </SemesButton>
   }
 
-  const TransferLearningButton = (fileIds: number[]) => {
-    return <SemesButton onClick={ () => TransferLearning(fileIds) }>{ TransferValue[3] }</SemesButton>
+  const TransferLearningButton = (selected: TransferBoltImageObject[],
+                                  setSelected: React.Dispatch<React.SetStateAction<TransferBoltImageObject[][]>>) => {
+    return <SemesButton
+      onClick={ () => {
+        TransferLearning(selected.map(d => d.fileId));
+        setSelected(prev => {
+          const tmp = [...prev]
+          tmp[type.preType] = []
+          return [...tmp]
+        });
+        dispatch(setIsConfirmModalOpen(false));
+      }}
+    >
+      { TransferValue[3] }
+    </SemesButton>
   }
   const DeleteImagesButton = (preType: number,
                               selected: TransferBoltImageObject[],
@@ -93,6 +104,7 @@ function TransferButtons() {
         tmp[preType] = []
         return [...tmp]
       });
+      dispatch(setIsConfirmModalOpen(false));
     }}>{TransferValue[4]}</RedButton>
   }
   return { isConfirmModalOpen, ConfirmTransferClassButton, CancelConfirmModalButton, TransferClassButton, TransferLearningButton, DeleteImagesButton }

@@ -16,12 +16,13 @@ import LayoutPage from "./pages/LayoutPage";
 import LoginPage from "./pages/LoginPage";
 import ReportPage from "./pages/ReportPage";
 import TransferPage from "./pages/TransferPage";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<LayoutPage />}>
+      <Route path="/" element={<LayoutPage />} errorElement={<ErrorPage />}>
         <Route index element={<DashboardPage />} />
 
         <Route
