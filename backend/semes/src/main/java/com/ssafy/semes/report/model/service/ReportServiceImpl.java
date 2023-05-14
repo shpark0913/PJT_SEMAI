@@ -2,6 +2,7 @@ package com.ssafy.semes.report.model.service;
 
 import com.ssafy.semes.exception.JPAException;
 import com.ssafy.semes.image.model.ImageEntity;
+import com.ssafy.semes.oht.model.OHTEntity;
 import com.ssafy.semes.report.model.QuestionDto;
 import com.ssafy.semes.report.model.ReportListResponseDto;
 import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
@@ -13,9 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,7 +35,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     @Transactional
     public Map<String,Object> findReport(QuestionDto dto) throws Exception {
-        System.out.println(dto.getWheelPosition());
+        //System.out.println(dto.getWheelPosition());
         StringTokenizer st = new StringTokenizer(dto.getStartDate(),"-");
         int startyy =  Integer.parseInt(st.nextToken());
         int startmm =  Integer.parseInt(st.nextToken());
@@ -114,16 +117,33 @@ public class ReportServiceImpl implements ReportService {
     @Transactional
     public ReportListResponseDto findReportDetail(long wheelChcekId) throws Exception {
         WheelCheckEntity wheel = wheelCheckRepository.findByWheelHistoryId(wheelChcekId);
+        int yy = Integer.parseInt(DateTimeFormatter.ofPattern("yyyy").format(wheel.getCheckDate()));
+        int mm =  Integer.parseInt(DateTimeFormatter.ofPattern("MM").format(wheel.getCheckDate()));
+
+        LocalDateTime start = LocalDateTime.of(LocalDate.of(yy,mm,1),LocalTime.of(0,0,0));
+        LocalDateTime end = LocalDateTime.of(LocalDate.of(yy,mm,31),LocalTime.of(23,59,59));
+
+        OHTEntity oht = wheel.getOhtCheck().getOht();
+        List<WheelCheckEntity> wheels = wheelCheckRepository.findDate(start,end,oht.getOhtSN(),wheel.getWheelPosition());
+        int tg=0,to=0,tl=0;
+        for(WheelCheckEntity val : wheels){
+            tg += val.getBoltGoodCount();
+            to += val.getBoltOutCount();
+            tl +=val.getBoltLoseCount();
+        }
         ImageEntity image = wheel.getImage();
         if (wheel == null) {
             throw new JPAException();
         }
         log.info("WheelCheckEntity : " + wheel);
         return ReportListResponseDto.builder()
-                .ohtSn(wheel.getOhtCheck().getOht().getOhtSN())
+                .ohtSn(oht.getOhtSN())
                 .boltGoodCount(wheel.getBoltGoodCount())
                 .boltOutCount(wheel.getBoltOutCount())
                 .boltLoseCount(wheel.getBoltLoseCount())
+                .totalGoodCount(tg)
+                .totalOutCount(to)
+                .totalLostCoutn(tl)
                 .wheelCheckDate(wheel.getCheckDate())
                 .wheelCheckId(wheel.getWheelHistoryId())
                 .wheelPosition(wheel.getWheelPosition())

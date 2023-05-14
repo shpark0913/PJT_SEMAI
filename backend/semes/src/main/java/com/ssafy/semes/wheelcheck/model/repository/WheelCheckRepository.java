@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -20,6 +21,8 @@ public interface WheelCheckRepository extends JpaRepository<WheelCheckEntity,Lon
     @Transactional(readOnly = true)
     List<WheelCheckEntity> findByOhtCheck(OHTCheckEntity ohtCheck);
 
+    @Query("select e from WheelCheckEntity  e join fetch e.ohtCheck oc join fetch oc.oht o where (e.checkDate between  :start  and :end) and o.ohtSN = :sn and e.wheelPosition = :position ")
+    List<WheelCheckEntity> findDate(@Param("start")LocalDateTime start ,@Param("end") LocalDateTime end , @Param("sn")String sn, @Param("position")String position);
     WheelCheckEntity findByWheelHistoryId(long wheelHistoryId);
 
 //    @Query(value = "SELECT * FROM semes.wheel_check_entity e join ohtcheck_entity oe on e.oht_check_id = oe.oht_check_id join ohtentity o on oe.oht_id = o.oht_id" +
