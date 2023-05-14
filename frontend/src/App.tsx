@@ -15,13 +15,16 @@ import React from "react";
 import ReportPage from "./pages/ReportPage";
 import { TransferBoltImageAction } from "./_utils/Action";
 import TransferPage from "./pages/TransferPage";
+import ErrorPage from "./pages/ErrorPage";
+
 import { store } from "./_store/store";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<LayoutPage />}>
+      <Route path="/" element={<LayoutPage />} errorElement={<ErrorPage />}>
         <Route index element={<DashboardPage />} />
 
         <Route path="report" element={<ReportPage />} id="reportLists" loader={ReportListsLoader} />

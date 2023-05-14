@@ -5,121 +5,70 @@ import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
 import ImageUrl from "../../_utils/ImageUrl";
 import {setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 
-import {BoltImageDetailContainer, TabContentContainer, TabContentMain} from "./TransferTabComponents";
+import { TabContentFlex,
+  TabContentInfos,
+  TabContentContainer,
+  TabContentMain,
+  BoltImageDetailContainer } from "./TabContentComponents";
 import TransferBoltImages from "./TransferBoltImages";
 import LearningBoltImages from "./LearningBoltImages";
 import TransferButtons from "./TransferButtons";
-import {TabContentFlex, TabContentInfos} from "./TabContentComponents";
 import {CloseButton} from "../Modal/ModalComponents";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+// import useConfirmModal from "../../_hooks/useConfirmModal";
+import ConfirmModal from "./ConfirmModal";
 
 function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: TransferLoaderType[][], imageLengthList: number[]}) {
+
   const dispatch = useAppDispatch();
-  const { isDetailOpen, tabIndex, detailInfo } = useAppSelector(state => state.transferPage);
-
-  // const [selectGood, setSelectGood] = useState<TransferBoltImageObject[]>([]);
-  // const [selectLose, setSelectLose] = useState<TransferBoltImageObject[]>([]);
-  // const [selectBreak, setSelectBreak] = useState<TransferBoltImageObject[]>([]);
-  // const [selectLearn, setSelectLearn] = useState<TransferBoltImageObject[]>([]);
-
+  const { isConfirmModalOpen, isDetailOpen, tabIndex, detailInfo } = useAppSelector(state => state.transferPage);
+  const { ConfirmTransferClassButton } = TransferButtons();
   const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], [], []]);
-
-  const { TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
-  const ButtonLists: JSX.Element[] = [
-    selected[0].length ?
-      <>
-        { TransferClassButton(0, 1, selected[0].map(d => d.fileId)) }
-        { TransferClassButton(0, 2, selected[0].map(d => d.fileId)) }
-        { TransferLearningButton(selected[0].map(d => d.fileId)) }
-        { DeleteImagesButton(0, selected[0], setSelected) }
-      </> : <></>,
-    selected[1].length ?
-      <>
-        { TransferClassButton(1, 0, selected[1].map(d => d.fileId)) }
-        { TransferClassButton(1, 2, selected[1].map(d => d.fileId)) }
-        { TransferLearningButton(selected[1].map(d => d.fileId)) }
-        { DeleteImagesButton(1, selected[1], setSelected) }
-      </> : <></>,
-    selected[2].length ?
-      <>
-        { TransferClassButton(2, 0, selected[2].map(d => d.fileId)) }
-        { TransferClassButton(2, 1, selected[2].map(d => d.fileId)) }
-        { TransferLearningButton(selected[2].map(d => d.fileId)) }
-        { DeleteImagesButton(2, selected[2], setSelected) }
-      </> : <></>,
-    selected[3].length ?
-      <>
-        { TransferLearningButton(selected[3].map(d => d.fileId)) }
-        { DeleteImagesButton(3, selected[3], setSelected) }
-      </> : <></>,
-  // <>
-  //   { selected[1].length && TransferClassButton(1, 0, selected[1].map(d => d.fileId)) }
-  //   { selected[1].length && TransferClassButton(1, 2, selected[1].map(d => d.fileId)) }
-  //   { selected[1].length && TransferLearningButton(selected[1].map(d => d.fileId)) }
-  //   { selected[1].length && DeleteImagesButton(selected[1].map(d => d.fileId)) }
-  // </>, <>
-  //   { selected[2].length && TransferClassButton(2, 0, selected[2].map(d => d.fileId)) }
-  //   { selected[2].length && TransferClassButton(2, 1, selected[2].map(d => d.fileId)) }
-  //   { selected[2].length && TransferLearningButton(selected[2].map(d => d.fileId)) }
-  //   { selected[2].length && DeleteImagesButton(selected[2].map(d => d.fileId)) }
-  // </>, <>
-  //   { selected[2].length && TransferLearningButton(selected[2].map(d => d.fileId)) }
-  //   { selected[2].length && DeleteImagesButton(selected[2].map(d => d.fileId)) }
-  // </>
-  ];
-
+  // const { isConfirmModalOpen, ConfirmTransferClassButton, TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
+  // const { isConfirmModalOpen, setIsConfirmModalOpen } = useConfirmModal();
+  //
   // const ButtonLists: JSX.Element[] = [
-  //   selectGood.length ?
+  //   selected[0].length ?
   //     <>
-  //       { TransferClassButton(0, 1, selectGood.map(d => d.fileId)) }
-  //       { TransferClassButton(0, 2, selectGood.map(d => d.fileId)) }
-  //       { TransferLearningButton(selectGood.map(d => d.fileId)) }
-  //       { DeleteImagesButton(selectGood.map(d => d.fileId)) }
+  //       { TransferClassButton(0, 1, selected[0].map(d => d.fileId)) }
+  //       { TransferClassButton(0, 2, selected[0].map(d => d.fileId)) }
+  //       { TransferLearningButton(selected[0].map(d => d.fileId)) }
+  //       { DeleteImagesButton(0, selected[0], setSelected) }
   //     </> : <></>,
-  //   selectLose.length ?
+  //   selected[1].length ?
   //     <>
-  //       { TransferClassButton(1, 0, selectLose.map(d => d.fileId)) }
-  //       { TransferClassButton(1, 2, selectLose.map(d => d.fileId)) }
-  //       { TransferLearningButton(selectLose.map(d => d.fileId)) }
-  //       { DeleteImagesButton(selectLose.map(d => d.fileId)) }
+  //       { TransferClassButton(1, 0, selected[1].map(d => d.fileId)) }
+  //       { TransferClassButton(1, 2, selected[1].map(d => d.fileId)) }
+  //       { TransferLearningButton(selected[1].map(d => d.fileId)) }
+  //       { DeleteImagesButton(1, selected[1], setSelected) }
   //     </> : <></>,
-  //   selectBreak.length ?
+  //   selected[2].length ?
   //     <>
-  //       { TransferClassButton(2, 0, selectLose.map(d => d.fileId)) }
-  //       { TransferClassButton(2, 1, selectLose.map(d => d.fileId)) }
-  //       { TransferLearningButton(selectBreak.map(d => d.fileId)) }
-  //       { DeleteImagesButton(selectBreak.map(d => d.fileId)) }
+  //       { TransferClassButton(2, 0, selected[2].map(d => d.fileId)) }
+  //       { TransferClassButton(2, 1, selected[2].map(d => d.fileId)) }
+  //       { TransferLearningButton(selected[2].map(d => d.fileId)) }
+  //       { DeleteImagesButton(2, selected[2], setSelected) }
   //     </> : <></>,
-  //   selectLearn.length ?
+  //   selected[3].length ?
   //     <>
-  //       { TransferLearningButton(selectLearn.map(d => d.fileId)) }
-  //       { DeleteImagesButton(selectLearn.map(d => d.fileId)) }
+  //       { TransferLearningButton(selected[3].map(d => d.fileId)) }
+  //       { DeleteImagesButton(3, selected[3], setSelected) }
   //     </> : <></>,
-  //   // <>
-  //   //   { selected[1].length && TransferClassButton(1, 0, selected[1].map(d => d.fileId)) }
-  //   //   { selected[1].length && TransferClassButton(1, 2, selected[1].map(d => d.fileId)) }
-  //   //   { selected[1].length && TransferLearningButton(selected[1].map(d => d.fileId)) }
-  //   //   { selected[1].length && DeleteImagesButton(selected[1].map(d => d.fileId)) }
-  //   // </>, <>
-  //   //   { selected[2].length && TransferClassButton(2, 0, selected[2].map(d => d.fileId)) }
-  //   //   { selected[2].length && TransferClassButton(2, 1, selected[2].map(d => d.fileId)) }
-  //   //   { selected[2].length && TransferLearningButton(selected[2].map(d => d.fileId)) }
-  //   //   { selected[2].length && DeleteImagesButton(selected[2].map(d => d.fileId)) }
-  //   // </>, <>
-  //   //   { selected[2].length && TransferLearningButton(selected[2].map(d => d.fileId)) }
-  //   //   { selected[2].length && DeleteImagesButton(selected[2].map(d => d.fileId)) }
-  //   // </>
   // ];
 
   return (
     <TabContentContainer>
+
+      { isConfirmModalOpen ? <ConfirmModal selected={selected[tabIndex]} setSelected={setSelected} /> : <></> }
+
       <TabContentFlex>
         <TabContentInfos>
           <div>
             <label>전체 선택 <input type="checkbox"/></label>
             <div>{`현재 선택 : ${selected[tabIndex].length}/${imageLengthList[tabIndex]}`}</div>
           </div>
-          <div>{ ButtonLists[tabIndex] }</div>
+          {/*<div>{ ButtonLists[tabIndex] }</div>*/}
+          <div> {ConfirmTransferClassButton(tabIndex)} </div>
         </TabContentInfos>
         <TabContentMain>
           { tabIndex < 3 ?
@@ -131,12 +80,9 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
             <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
             <div>{detailInfo.originName}</div>
           </BoltImageDetailContainer>
+
         </TabContentMain>
       </TabContentFlex>
-      {/*{ tabIndex < 3 ?*/}
-      {/*  <TransferBoltImages BoltImageLists={BoltImageLists[0]} /> :*/}
-      {/*  <LearningBoltImages BoltImageLists={BoltImageLists[0]} imageLength={imageLength} />*/}
-      {/*}*/}
     </TabContentContainer>
   );
 }
