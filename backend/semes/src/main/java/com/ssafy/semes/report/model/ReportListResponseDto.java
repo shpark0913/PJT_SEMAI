@@ -14,6 +14,9 @@ public class ReportListResponseDto {
     private int boltGoodCount;
     private int boltOutCount;
     private int boltLoseCount;
+    private int totalGoodCount;
+    private int totalOutCount;
+    private int totalLostCoutn;
     private LocalDateTime wheelCheckDate;
     private long wheelCheckId;
     private String wheelPosition;
