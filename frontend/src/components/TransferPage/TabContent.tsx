@@ -17,7 +17,6 @@ import {CloseButton} from "../Modal/ModalComponents";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: TransferLoaderType[][], imageLengthList: number[]}) {
-
   const dispatch = useAppDispatch();
   const { ConfirmModal, OpenConfirmModal, TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
   const { isDetailOpen, tabIndex, detailInfo } = useAppSelector(state => state.transferPage);
@@ -71,15 +70,12 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
             <div>{`현재 선택 : ${selected[tabIndex].length}/${imageLengthList[tabIndex]}`}</div>
           </div>
           <div>{ ButtonLists[tabIndex] }</div>
-          <div>{ OpenButtonLists[0] }</div>
         </TabContentInfos>
-        { ConfirmModal }
         <TabContentMain>
           { tabIndex < 3 ?
             <TransferBoltImages BoltImageLists={BoltImageLists[0]} selected={selected[tabIndex]} setSelected={setSelected} /> :
-            <LearningBoltImages BoltImageLists={BoltImageLists[1]} selected={selected[tabIndex]} setSelected={setSelected} imageLength={imageLengthList[3]} />
+            <LearningBoltImages BoltImageLists={BoltImageLists[1]} imageLength={imageLengthList[3]} selected={selected[tabIndex]} setSelected={setSelected} />
           }
-
           <BoltImageDetailContainer className={isDetailOpen? "active" : ""}>
             <CloseButton onClick={() => dispatch(setIsDetailOpen(false))}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
             <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
