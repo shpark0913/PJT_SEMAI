@@ -1,7 +1,9 @@
 import React from 'react';
-import {TabMenuLi, TransferMenuContainer, LengthSpan} from "./TabMenuComponents";
-import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
-import {setTabIndex, setIsDetailOpen} from "../../_store/slices/transferPageSlice";
+
+import { useAppDispatch, useAppSelector } from "../../_hooks/hooks";
+import { setTabIndex, setIsDetailOpen } from "../../_store/slices/transferPageSlice";
+
+import { TabMenuLi, TransferMenuContainer, LengthSpan } from "./TabMenuComponents";
 
 function TabMenu({imageLengthList}: { imageLengthList: number[] }) {
 
