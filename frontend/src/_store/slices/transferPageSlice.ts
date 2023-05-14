@@ -10,6 +10,11 @@ const initialState: TransferPageSliceType = {
     originName: "",
     fileId: 0
   },
+  isConfirmModalOpen: false,
+  type: {              // 0: 양호, 1: 유실, 2: 파단, 3: 학숩, 4: 삭제
+    preType: 0,
+    nextType: 1,
+  },
 }
 
 export const TransferPageSlice = createSlice({
@@ -24,11 +29,17 @@ export const TransferPageSlice = createSlice({
     },
     setDetailInfo: (state, action) => {
       state.detailInfo = action.payload;
+    },
+    setIsConfirmModalOpen: (state, action) => {
+      state.isConfirmModalOpen = action.payload;
+    },
+    setType: (state, action) => {
+      state.type = action.payload
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setTabIndex, setIsDetailOpen, setDetailInfo } = TransferPageSlice.actions
+export const { setTabIndex, setIsDetailOpen, setDetailInfo, setIsConfirmModalOpen, setType } = TransferPageSlice.actions
 
 export default TransferPageSlice.reducer
