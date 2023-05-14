@@ -122,6 +122,8 @@ public class ReportServiceImpl implements ReportService {
         return ReportListResponseDto.builder()
                 .ohtSn(wheel.getOhtCheck().getOht().getOhtSN())
                 .boltGoodCount(wheel.getBoltGoodCount())
+                .boltOutCount(wheel.getBoltOutCount())
+                .boltLoseCount(wheel.getBoltLoseCount())
                 .wheelCheckDate(wheel.getCheckDate())
                 .wheelCheckId(wheel.getWheelHistoryId())
                 .wheelPosition(wheel.getWheelPosition())
