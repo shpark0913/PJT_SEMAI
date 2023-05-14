@@ -15,22 +15,16 @@ import LearningBoltImages from "./LearningBoltImages";
 import TransferButtons from "./TransferButtons";
 import {CloseButton} from "../Modal/ModalComponents";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+// import useConfirmModal from "../../_hooks/useConfirmModal";
+import ConfirmModal from "./ConfirmModal";
 
 function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: TransferLoaderType[][], imageLengthList: number[]}) {
+
   const dispatch = useAppDispatch();
-  const { ConfirmModal, OpenConfirmModal, TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
+  const { isConfirmModalOpen, ConfirmTransferClassButton, TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
   const { isDetailOpen, tabIndex, detailInfo } = useAppSelector(state => state.transferPage);
   const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], [], []]);
-
-  const OpenButtonLists: JSX.Element[] = [
-    selected[0].length ?
-      <>
-        { OpenConfirmModal(1) }
-        { OpenConfirmModal(2) }
-        { OpenConfirmModal(3) }
-        { OpenConfirmModal(4) }
-      </> : <></>,
-  ];
+  // const { isConfirmModalOpen, setIsConfirmModalOpen } = useConfirmModal();
 
   const ButtonLists: JSX.Element[] = [
     selected[0].length ?
@@ -63,8 +57,11 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
 
   return (
     <TabContentContainer>
+
+      { isConfirmModalOpen ? <ConfirmModal selected={selected[tabIndex]} /> : <></> }
       <TabContentFlex>
         <TabContentInfos>
+          {ConfirmTransferClassButton(tabIndex)}
           <div>
             <label>전체 선택 <input type="checkbox"/></label>
             <div>{`현재 선택 : ${selected[tabIndex].length}/${imageLengthList[tabIndex]}`}</div>
