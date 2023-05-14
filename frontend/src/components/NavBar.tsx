@@ -126,6 +126,7 @@ function NavBar() {
           레포트
         </NavLink>
         <NavLink to="/transfer">전이학습</NavLink>
+        <NavLink to="/predict">추이</NavLink>
       </NavLeftDiv>
 
       <NavRightDiv>
