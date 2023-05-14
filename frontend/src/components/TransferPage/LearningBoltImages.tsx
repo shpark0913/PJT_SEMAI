@@ -6,7 +6,6 @@ import ImageUrl from "../../_utils/ImageUrl";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
 import {setDetailInfo, setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 
-import { NumberSpan } from "./TransferTabComponents";
 import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./TransferImageComponents";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -30,6 +29,16 @@ const ClassName = styled.div`
     }
   }
 `
+
+const NumberSpan = styled.span`
+  font-size: 13px;
+  color: var(--tab-span-font-color);
+  background-color: var(--tab-span-color);
+  border-radius: 20px;
+  padding: 2px 7px;
+  margin-left: 5px;
+`;
+
 function LearningBoltImages({BoltImageLists, imageLength, selected, setSelected}:
                               { BoltImageLists: TransferLoaderType[],
                                 imageLength: number,
