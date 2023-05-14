@@ -19,9 +19,19 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: TransferLoaderType[][], imageLengthList: number[]}) {
 
   const dispatch = useAppDispatch();
-  const { TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
+  const { ConfirmModal, OpenConfirmModal, TransferClassButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
   const { isDetailOpen, tabIndex, detailInfo } = useAppSelector(state => state.transferPage);
   const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], [], []]);
+
+  const OpenButtonLists: JSX.Element[] = [
+    selected[0].length ?
+      <>
+        { OpenConfirmModal(1) }
+        { OpenConfirmModal(2) }
+        { OpenConfirmModal(3) }
+        { OpenConfirmModal(4) }
+      </> : <></>,
+  ];
 
   const ButtonLists: JSX.Element[] = [
     selected[0].length ?
@@ -61,7 +71,9 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
             <div>{`현재 선택 : ${selected[tabIndex].length}/${imageLengthList[tabIndex]}`}</div>
           </div>
           <div>{ ButtonLists[tabIndex] }</div>
+          <div>{ OpenButtonLists[0] }</div>
         </TabContentInfos>
+        { ConfirmModal }
         <TabContentMain>
           { tabIndex < 3 ?
             <TransferBoltImages BoltImageLists={BoltImageLists[0]} selected={selected[tabIndex]} setSelected={setSelected} /> :
