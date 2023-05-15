@@ -140,21 +140,18 @@ def ImgCrop(filePath, image, bboxes, binary):
                 draw.rectangle((x_min, y_min, x_max, y_max), outline=LABEL_COLOR[classification_Result], width=10, fill=None)
             f.write(result_bbox + '\n')
 
-  
-     
-        font = ImageFont.truetype("arial.ttf", 70)
-        # 이진 분류 설정시
-        if binary == True:
-            draw.rectangle((1680, 1610, 1990, 1880), outline=(255,255,255), width=10, fill=(255,255,255))
-            draw.text((1700,1630), 'BREAK', fill=LABEL_COLOR[0], font=font)
-            draw.text((1700, 1700), 'LOST', fill=LABEL_COLOR[1], font=font)
-            draw.text((1700,1770), 'LOOSE', fill=LABEL_COLOR[3], font=font)
-
-        # 이진분류 미 설정 시
-        else:
-            draw.rectangle((1680, 1610, 1990, 1810), outline=(255,255,255), width=10, fill=(255,255,255))
-            draw.text((1700,1630), 'BREAK', fill=LABEL_COLOR[0], font=font)
-            draw.text((1700, 1700), 'LOST', fill=LABEL_COLOR[1], font=font)
+        # font = ImageFont.truetype("arial.ttf", 70)
+        # # 이진 분류 설정시
+        # if binary == True:
+        #     draw.rectangle((1680, 1610, 1990, 1880), outline=(255,255,255), width=10, fill=(255,255,255))
+        #     draw.text((1700,1630), 'BREAK', fill=LABEL_COLOR[0], font=font)
+        #     draw.text((1700, 1700), 'LOST', fill=LABEL_COLOR[1], font=font)
+        #     draw.text((1700,1770), 'LOOSE', fill=LABEL_COLOR[3], font=font)
+        # # 이진분류 미 설정 시
+        # else:
+        #     draw.rectangle((1680, 1610, 1990, 1810), outline=(255,255,255), width=10, fill=(255,255,255))
+        #     draw.text((1700,1630), 'BREAK', fill=LABEL_COLOR[0], font=font)
+        #     draw.text((1700, 1700), 'LOST', fill=LABEL_COLOR[1], font=font)
 
         print(os.path.exists(WHEEL_RESULT_PATH))
         result_image.save(WHEEL_RESULT_PATH + filePath + '.jpg')
