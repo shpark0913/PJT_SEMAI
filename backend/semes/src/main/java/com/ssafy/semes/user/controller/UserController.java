@@ -28,6 +28,13 @@ public class UserController {
     @Autowired
     private UserSerivce userSerivce;
     private JwtUtil jwtUtil = new JwtUtil();
+
+    /**
+     * <p>{@summary 사용자 아이디 비밀번호를 입력 받아 유저 정보를 반환함.}<p/>
+     * 예외 처리 및 예외 메시지 수정 필요
+     * @param userRequestDto
+     * @return UserResponseDto
+     */
     @PostMapping()
     public ApiResponse<?> login(@RequestBody UserRequestDto userRequestDto){
         log.info("UserController login start");
@@ -40,12 +47,5 @@ public class UserController {
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
         }
 
-    }
-
-    @GetMapping("test")
-    public ApiResponse<?> test() throws IOException {
-
-        log.info("UserController test start");
-        return ApiResponse.success(SuccessCode.READ_DASHBOARD_MAIN);
     }
 }

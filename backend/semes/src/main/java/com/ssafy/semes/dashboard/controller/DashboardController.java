@@ -28,10 +28,20 @@ public class DashboardController {
     @Autowired
     private DashboardService dashboardService;
 
+    /** OHT 현재 검사 순서 <br>
+     * OHTCheckController.checkOht에서  검사 순서 지정 <br>
+     */
     public static int nowNum;
     public DashboardController(SseEmitters sseEmitters) {
         this.sseEmitters = sseEmitters;
     }
+
+    /**
+     * <p>{@summary SSE 사용을 위한 sseEmitters 반환 }<p/>
+     * 대시보드 하단 OHT 검사 정보 SSE 전송 <br>
+     * 대시보드 검사 현황 SSE 전송 <br>
+     * @return sseEmitters
+     */
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ResponseEntity<SseEmitter> connect() {
         log.info("DashBoard Start");
@@ -43,16 +53,19 @@ public class DashboardController {
             if(list.get(0).getOhtCheckEndDatetime() == null){
                 list.remove(0);
             }
-            //sse 생성
-            SseEmitter emitter = new SseEmitter(1*1000L);
-            sseEmitters.add(emitter);
+
+            //SSE 생성
+            SseEmitter emitter = new SseEmitter(1*1000L);//SSE 유지 시간
+            sseEmitters.add(emitter); // SSE를 서버에서 관리
+
+            //대시보드 하단 OHT 검사 정보
             emitter.send(SseEmitter.event()
                     .name("dashboard")
-                    .data(list));
+                    .data(list)); // 오늘 날짜의 검사 결과 반환
 
             System.out.println(right.getOhtSn());
 
-            //오른쪽 상단 업데이트 코드
+            //대시보드 검사 현황 업데이트 코드
             ProcessStatusDto processStatusDto = ProcessStatusDto.builder()
                     .ohtSn(right.getOhtSn())
                     .isProceeding(true)
@@ -60,6 +73,7 @@ public class DashboardController {
             for(int i = 0 ; i<= DashboardController.nowNum;i++){
                 processStatusDto.wheelComplete(i);
             }
+
             sseEmitters.showProcessStatus(processStatusDto);
 
             return ResponseEntity.ok(emitter);
@@ -71,6 +85,13 @@ public class DashboardController {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * <p>{@summary 대시보드 왼쪽 상단 메인 페이지 반환}<p/>
+     * ohtCheckId를 통해 OHT 검사 상세 정보 출력
+     * @param ohtCheckId
+     * @return DashboardMainResponseDto
+     */
     @GetMapping("/main/{oht-check-id}")
     public ApiResponse<?> showMain(@PathVariable("oht-check-id")long ohtCheckId){
         log.info("DashBoard ShowMain Start");
