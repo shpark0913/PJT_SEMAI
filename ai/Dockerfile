@@ -15,3 +15,7 @@ EXPOSE 8000
 
 WORKDIR /code/api/
 CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8000"]
+
+
+COPY ./arial.ttf /usr/share/fonts/
+RUN fc-cache -f -v
