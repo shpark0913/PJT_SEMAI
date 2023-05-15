@@ -19,8 +19,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -249,10 +253,18 @@ public class ReportController {
          * download
          */
         sb = new StringBuilder(50);
-        System.out.println(LocalTime.now());
-        st = new StringTokenizer(LocalTime.now().toString());
-        sb.append(LocalDate.now()).append("_Report");
+        Date nowDate = new Date();
+        SimpleDateFormat sdf =new SimpleDateFormat("HH-mm-ss");
+        //파일명 지정
+        sb.append(LocalDate.now()).append("T").append(sdf.format(nowDate)).append("_").append(startDate);
+        if(!startDate.equals(endDate)){
+            sb.append("_").append(endDate);
+        }
+        if(!ohtSn.equals("ALL")){
+            sb.append("_").append(ohtSn);
+        }
         String fileName = sb.toString();
+
 
         res.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         res.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
