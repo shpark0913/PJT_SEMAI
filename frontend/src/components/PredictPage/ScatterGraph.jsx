@@ -38,6 +38,11 @@ const ScatterGraph = ({ data }) => {
           vertical: 0.25,
           distance: 2.0,
         },
+        backgroundColor: {
+          // 그래프의 배경 색상 설정
+          border: "white",
+          background: "#f2f2f2",
+        },
       };
 
       const container = graphRef.current;

@@ -15,13 +15,12 @@ const PredictGridContainer = styled.div`
 `;
 
 // 좌측 표
-const TableDiv = styled.div``;
+const TableSection = styled.section``;
 
 // 우측 그래프
-const GraphDiv = styled.div`
+const GraphSection = styled.section`
   display: flex;
   flex-direction: column;
-
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -38,7 +37,7 @@ const PredictTitle = ({ title, num }: PredictTitleType) => {
   return (
     <PredictTitleDiv>
       <h4 style={{ marginRight: "7px" }}>{title}</h4>
-      <p style={{ marginTop: "10px" }}>{num}/400</p>
+      <p style={{ margin: "10px 0" }}>{num}/400</p>
     </PredictTitleDiv>
   );
 };
@@ -64,13 +63,13 @@ function PredictPage() {
   ];
   return (
     <PredictGridContainer>
-      <TableDiv>
-        <PredictTitle title="이상 위험 휠" num={114}></PredictTitle>
-      </TableDiv>
-      <GraphDiv>
-        <PredictTitle title="차주 교체 예상 휠" num={14}></PredictTitle>
+      <TableSection>
+        <PredictTitle title="금주 이상 위험 휠" num={114} />
+      </TableSection>
+      <GraphSection>
+        <PredictTitle title="차주 교체 예상 휠" num={14} />
         <ScatterGraph data={data} />
-      </GraphDiv>
+      </GraphSection>
     </PredictGridContainer>
   );
 }

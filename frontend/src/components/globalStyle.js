@@ -41,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   :root[data-theme="dark"] {
-    --emphasize-color: #A3D1FF;
+    --emphasize-color: #BDDEFF;
     --emphasize-color-hover: #3D9EFF;
     --section-color: #2A4058;
     --background-color: #001F3D;
