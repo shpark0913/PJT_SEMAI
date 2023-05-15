@@ -1,7 +1,7 @@
 import os
 import torch
 from copy import deepcopy
-from PIL import ImageDraw
+from PIL import ImageDraw, ImageFont
 import torchvision.transforms as transforms
 
 if torch.cuda.is_available():
@@ -28,7 +28,7 @@ RESULT_PATH = '../../dataset/semes_bolt/DETECTION_RESULT/'
 WHEEL_RESULT_PATH = '../../dataset/semes_bolt/WHEEL_RESULT/'
 # infer로 들어온 query의 파일 형식이 이미지 파일인지 확인
 LABEL_COLOR = {
-    0: (225, 240, 8),   # 파손
+    0: (255, 204, 0),   # 파손
     1: (255, 0, 0),     # 유실
     3: (59, 85, 193),   # 풀림
 }
@@ -102,6 +102,7 @@ def ImgCrop(filePath, image, bboxes, binary):
             image_name = filePath + f'_{i+1}.jpg' 
             # 정상인 볼트로 분류되었을 경우
             if classification_Result == 2:
+                # 이진분류 설정을 했다면
                 if binary == True:
                     # 이진 분류
                     binary_Result = bianry_classification(cropped)
@@ -136,8 +137,25 @@ def ImgCrop(filePath, image, bboxes, binary):
             # 볼트 상태가 정상이 아닐 경우
             if classification_Result != 2:
                 # 박스 그리기
-                draw.rectangle((x_min, y_min, x_max, y_max), outline=LABEL_COLOR[classification_Result], width=5, fill=None)
+                draw.rectangle((x_min, y_min, x_max, y_max), outline=LABEL_COLOR[classification_Result], width=10, fill=None)
             f.write(result_bbox + '\n')
+
+  
+     
+        font = ImageFont.truetype("arial.ttf", 70)
+        # 이진 분류 설정시
+        if binary == True:
+            draw.rectangle((1680, 1610, 1990, 1880), outline=(255,255,255), width=10, fill=(255,255,255))
+            draw.text((1700,1630), 'BREAK', fill=LABEL_COLOR[0], font=font)
+            draw.text((1700, 1700), 'LOST', fill=LABEL_COLOR[1], font=font)
+            draw.text((1700,1770), 'LOOSE', fill=LABEL_COLOR[3], font=font)
+
+        # 이진분류 미 설정 시
+        else:
+            draw.rectangle((1680, 1610, 1990, 1810), outline=(255,255,255), width=10, fill=(255,255,255))
+            draw.text((1700,1630), 'BREAK', fill=LABEL_COLOR[0], font=font)
+            draw.text((1700, 1700), 'LOST', fill=LABEL_COLOR[1], font=font)
+
         print(os.path.exists(WHEEL_RESULT_PATH))
         result_image.save(WHEEL_RESULT_PATH + filePath + '.jpg')
         # 반복을 마쳤다면 텍스트 파일 작성 완료
