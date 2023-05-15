@@ -1,5 +1,5 @@
 import React from 'react';
-import {CloseButton, Modal, ModalBackground, ModalImageContainer} from "./ModalComponents";
+import {CloseButton, Modal, ModalBackground, ModalContainer} from "./ModalComponents";
 import CloseIcon from '@mui/icons-material/Close';
 import Title from "../Title";
 import {ImageModalProps} from "../../_utils/Types";
@@ -32,14 +32,14 @@ function ImageModal({detailInfo, handleModalClose}: ImageModalProps) {
   return (
     <Modal>
       <ModalBackground />
-      <ModalImageContainer>
+      <ModalContainer>
         <CloseDiv>
           <Title title="볼트 이미지 상세보기" />
           <CloseButton onClick={handleModalClose}><CloseIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
         </CloseDiv>
         <ImageDiv imageUrl={detailInfo.imageUrl}/>
         <ButtonDiv>{detailInfo.buttons}</ButtonDiv>
-      </ModalImageContainer>
+      </ModalContainer>
     </Modal>
   );
 }
