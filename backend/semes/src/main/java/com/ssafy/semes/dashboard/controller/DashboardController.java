@@ -51,6 +51,7 @@ public class DashboardController {
                     .data(list));
 
             System.out.println(right.getOhtSn());
+
             //오른쪽 상단 업데이트 코드
             ProcessStatusDto processStatusDto = ProcessStatusDto.builder()
                     .ohtSn(right.getOhtSn())
