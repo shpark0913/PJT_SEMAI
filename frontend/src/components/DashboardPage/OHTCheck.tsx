@@ -82,6 +82,7 @@ const OHTCheckPercentBar = styled.div<OHTCheckPercentBarType>`
   height: 100%;
   top: 29%;
   z-index: 3;
+  /* transition: width 500ms ease-in-out; */
 `;
 
 const OHTCheckNameDiv = styled.div`
@@ -114,21 +115,21 @@ function OHTCheck() {
           </OHTCheckContent>
           <OHTCheckContent>{sseData.ohtSn}</OHTCheckContent>
         </OHTCheckTitle>
-        <OHTCheckGaugeDiv>
-          <OHTCheckBar>
-            <OHTCheckPercentBar checkBar={checkBar}></OHTCheckPercentBar>
-          </OHTCheckBar>
-          <OHTCheckGaugeFtn isSuccessed={checkBar[0]} wheel="FL" />
-          <OHTCheckGaugeFtn isSuccessed={checkBar[1]} wheel="FF" />
-          <OHTCheckGaugeFtn isSuccessed={checkBar[2]} wheel="RL" />
-          <OHTCheckGaugeFtn isSuccessed={checkBar[3]} wheel="RR" />
-        </OHTCheckGaugeDiv>
         <OHTCheckNameDiv>
           <div>FL</div>
           <div>FF</div>
           <div>RL</div>
           <div>RR</div>
         </OHTCheckNameDiv>
+        <OHTCheckGaugeDiv>
+          {/* <OHTCheckBar>
+            <OHTCheckPercentBar checkBar={checkBar}></OHTCheckPercentBar>
+          </OHTCheckBar> */}
+          <OHTCheckGaugeFtn isSuccessed={checkBar[0]} wheel="FL" />
+          <OHTCheckGaugeFtn isSuccessed={checkBar[1]} wheel="FF" />
+          <OHTCheckGaugeFtn isSuccessed={checkBar[2]} wheel="RL" />
+          <OHTCheckGaugeFtn isSuccessed={checkBar[3]} wheel="RR" />
+        </OHTCheckGaugeDiv>
       </OHTCheckContainer>
     </OHTCheckSec>
   );

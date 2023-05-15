@@ -2,15 +2,48 @@ import React from "react";
 import ScatterGraph from "../components/PredictPage/ScatterGraph";
 import styled from "styled-components";
 
-const GraphDiv = styled.div`
+type PredictTitleType = {
+  title: string;
+  num: number;
+};
+
+const PredictGridContainer = styled.div`
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: 60% auto;
+`;
+
+// 좌측 표
+const TableSection = styled.section``;
+
+// 우측 그래프
+const GraphSection = styled.section`
   display: flex;
-  background-color: #ededed;
-  width: 50vw;
+  flex-direction: column;
+  width: 100%;
   justify-content: center;
   align-items: center;
 `;
 
+// 표와 그래프에서 같이 쓰는 제목
+const PredictTitleDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PredictTitle = ({ title, num }: PredictTitleType) => {
+  return (
+    <PredictTitleDiv>
+      <h4 style={{ marginRight: "7px" }}>{title}</h4>
+      <p style={{ margin: "10px 0" }}>{num}/400</p>
+    </PredictTitleDiv>
+  );
+};
+
 function PredictPage() {
+  // 그래프에 표시할 변수
   const data = [
     // x, y, z 축 범위 설정
     // viewpoint가 0이면 blue(예측 데이터), 1이면 red(누적된 실제 데이터)
@@ -29,9 +62,15 @@ function PredictPage() {
     { loose: 47, broken: 40, lost: 34, viewpoint: 0 },
   ];
   return (
-    <GraphDiv>
-      <ScatterGraph data={data} />
-    </GraphDiv>
+    <PredictGridContainer>
+      <TableSection>
+        <PredictTitle title="금주 이상 위험 휠" num={114} />
+      </TableSection>
+      <GraphSection>
+        <PredictTitle title="차주 교체 예상 휠" num={14} />
+        <ScatterGraph data={data} />
+      </GraphSection>
+    </PredictGridContainer>
   );
 }
 
