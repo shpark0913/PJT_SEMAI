@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -117,13 +118,37 @@ public class ReportServiceImpl implements ReportService {
     @Transactional
     public ReportListResponseDto findReportDetail(long wheelChcekId) throws Exception {
         WheelCheckEntity wheel = wheelCheckRepository.findByWheelHistoryId(wheelChcekId);
-        int yy = Integer.parseInt(DateTimeFormatter.ofPattern("yyyy").format(wheel.getCheckDate()));
-        int mm =  Integer.parseInt(DateTimeFormatter.ofPattern("MM").format(wheel.getCheckDate()));
 
-        LocalDateTime start = LocalDateTime.of(LocalDate.of(yy,mm,1),LocalTime.of(0,0,0));
-        LocalDateTime end = LocalDateTime.of(LocalDate.of(yy,mm,31),LocalTime.of(23,59,59));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Date date = new Date();
+        date = sdf.parse(DateTimeFormatter.ofPattern("yyyyMMdd").format(wheel.getCheckDate()));
+        Calendar cal = Calendar.getInstance(Locale.KOREA);
+
+        //이번주 시작일 연산 ->월요일
+        cal.setTime(date);
+        cal.add(Calendar.DATE, 1 - cal.get(Calendar.DAY_OF_WEEK));
+        sdf = new SimpleDateFormat("yyyy");
+        int yy = Integer.parseInt(sdf.format(cal.getTime()));
+        sdf = new SimpleDateFormat("MM");
+        int mm =  Integer.parseInt(sdf.format(cal.getTime()));
+        sdf = new SimpleDateFormat("dd");
+        int dd =  Integer.parseInt(sdf.format(cal.getTime()));
+        LocalDateTime start = LocalDateTime.of(LocalDate.of(yy,mm,dd),LocalTime.of(0,0,0));
+
+
+        //이번주 종료일 연산 -> 일요일
+        cal.setTime(date);
+        cal.add(Calendar.DATE, 7 - cal.get(Calendar.DAY_OF_WEEK));
+        sdf = new SimpleDateFormat("yyyy");
+        yy = Integer.parseInt(sdf.format(cal.getTime()));
+        sdf = new SimpleDateFormat("MM");
+        mm =  Integer.parseInt(sdf.format(cal.getTime()));
+        sdf = new SimpleDateFormat("dd");
+        dd =  Integer.parseInt(sdf.format(cal.getTime()));
+        LocalDateTime end = LocalDateTime.of(LocalDate.of(yy,mm,dd),LocalTime.of(23,59,59));
 
         OHTEntity oht = wheel.getOhtCheck().getOht();
+        //해당 주 휠 조회
         List<WheelCheckEntity> wheels = wheelCheckRepository.findDate(start,end,oht.getOhtSN(),wheel.getWheelPosition());
         int tg=0,to=0,tl=0;
         for(WheelCheckEntity val : wheels){
