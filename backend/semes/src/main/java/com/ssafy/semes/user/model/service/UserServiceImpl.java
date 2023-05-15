@@ -12,6 +12,7 @@ public class UserServiceImpl implements UserSerivce{
     private UserRepository userRepository;
     @Override
     public UserEntity findUser(UserRequestDto userRequestDto) throws Exception {
+        // id, pwd를 통해 데이터 베이스에서 user정보 반환
         UserEntity user = userRepository.findByUserIdAndUserPwd(
                 userRequestDto.getUserId(),
                 userRequestDto.getUserPwd());
