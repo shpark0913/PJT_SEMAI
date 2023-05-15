@@ -34,9 +34,9 @@ public class DashboardServiceImpl implements DashboardService{
     @Override
     @Transactional
     public List<OHTCheckResponseDto> findAllCheck() throws Exception {
-        List<OHTCheckEntity> list = ohtCheckRepository.findAllJoinFetch(
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(0,0,0)),
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59))
+        List<OHTCheckEntity> list = ohtCheckRepository.findAllJoinFetch( // OHT 해당 날짜 검색 후 ohtCheckStartDatetime 기준 정렬
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(0,0,0)),// 당일 시작 시간
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59)) // 당일 종료 시간
         );
         if(list==null){
             throw  new JPAException();
@@ -58,9 +58,11 @@ public class DashboardServiceImpl implements DashboardService{
         }).collect(Collectors.toList());
     }
 
+
     @Override
     @Transactional
     public List<DashboardMainResponseDto> findAllMain(long id) throws Exception {
+        //OHT 검사 ID 를 통해 해당 검사의 휠 4개 검색
         List<WheelCheckEntity> list = wheelCheckRepository.findByOhtCheck(OHTCheckEntity.builder().ohtCheckId(id).build());
 
         if(list==null){

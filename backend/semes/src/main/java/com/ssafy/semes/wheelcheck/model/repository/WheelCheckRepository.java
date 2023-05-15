@@ -25,24 +25,5 @@ public interface WheelCheckRepository extends JpaRepository<WheelCheckEntity,Lon
     List<WheelCheckEntity> findDate(@Param("start")LocalDateTime start ,@Param("end") LocalDateTime end , @Param("sn")String sn, @Param("position")String position);
     WheelCheckEntity findByWheelHistoryId(long wheelHistoryId);
 
-//    @Query(value = "SELECT * FROM semes.wheel_check_entity e join ohtcheck_entity oe on e.oht_check_id = oe.oht_check_id join ohtentity o on oe.oht_id = o.oht_id" +
-//            " where o.oht_sn = :sn and (e.wheel_check_date BETWEEN :start and :end) and e.wheel_position = :position" +
-//            " limit 20 offset :page", nativeQuery = true)
-//    List<WheelCheckEntity> findReport(@Param("sn") String sn, @Param("start")String start, @Param("end") String end, @Param("position")String position,@Param("page")int page);
-//
-//    @Query(value = "SELECT * FROM semes.wheel_check_entity e join ohtcheck_entity oe on e.oht_check_id = oe.oht_check_id join ohtentity o on oe.oht_id = o.oht_id" +
-//            " where (e.wheel_check_date BETWEEN :start and :end) and e.wheel_position = :position" +
-//            " limit 20 offset :page", nativeQuery = true)
-//    List<WheelCheckEntity> findReportPosition(@Param("start")String start, @Param("end") String end, @Param("position")String position,@Param("page")int page);
-//
-//    @Query(value = "SELECT * FROM semes.wheel_check_entity e join ohtcheck_entity oe on e.oht_check_id = oe.oht_check_id join ohtentity o on oe.oht_id = o.oht_id" +
-//            " where o.oht_sn = :sn and (e.wheel_check_date BETWEEN :start and :end)" +
-//            " limit 20 offset :page", nativeQuery = true)
-//    List<WheelCheckEntity> findReportSn(@Param("sn") String sn,@Param("start")String start, @Param("end") String end,@Param("page")int page);
-//
-//    @Query(value = "SELECT * FROM semes.wheel_check_entity e join ohtcheck_entity oe on e.oht_check_id = oe.oht_check_id join ohtentity o on oe.oht_id = o.oht_id" +
-//            " where (e.wheel_check_date BETWEEN :start and :end)" +
-//            " limit 20 offset :page", nativeQuery = true)
-//    List<WheelCheckEntity> findReport(@Param("start")String start, @Param("end") String end,@Param("page")int page);
 
 }
