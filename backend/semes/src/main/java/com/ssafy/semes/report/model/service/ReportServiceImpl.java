@@ -124,7 +124,7 @@ public class ReportServiceImpl implements ReportService {
         date = sdf.parse(DateTimeFormatter.ofPattern("yyyyMMdd").format(wheel.getCheckDate()));
         Calendar cal = Calendar.getInstance(Locale.KOREA);
 
-        //이번주 시작일 연산 ->월요일
+        //이번주 시작일 연산 ->일요일
         cal.setTime(date);
         cal.add(Calendar.DATE, 1 - cal.get(Calendar.DAY_OF_WEEK));
         sdf = new SimpleDateFormat("yyyy");
@@ -136,7 +136,7 @@ public class ReportServiceImpl implements ReportService {
         LocalDateTime start = LocalDateTime.of(LocalDate.of(yy,mm,dd),LocalTime.of(0,0,0));
 
 
-        //이번주 종료일 연산 -> 일요일
+        //이번주 종료일 연산 -> 토요일
         cal.setTime(date);
         cal.add(Calendar.DATE, 7 - cal.get(Calendar.DAY_OF_WEEK));
         sdf = new SimpleDateFormat("yyyy");
