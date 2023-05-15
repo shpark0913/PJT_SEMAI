@@ -54,7 +54,7 @@ const CloseButton = styled.button`
   }
 `
 
-const ModalImageContainer = styled.div`
+const ModalContainer = styled.div`
   width: 70%;
   min-width: 800px;
   height: 80vh;
@@ -74,4 +74,4 @@ const ModalImageContainer = styled.div`
   flex-direction: column;
 `
 
-export { Modal, ModalBackground, ModalReportContainer, ModalImageContainer, CloseButton }
+export { Modal, ModalBackground, ModalReportContainer, ModalContainer, CloseButton }
