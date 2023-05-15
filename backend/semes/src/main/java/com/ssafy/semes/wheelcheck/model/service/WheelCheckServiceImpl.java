@@ -37,7 +37,6 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 	public WheelCheckEntity checkWheel(MultipartFile file, FileNameUtil fileNameUtil, WheelPosition wheelPosition, OHTCheckEntity ohtCheck) throws
 			IOException,
 			InterruptedException {
-
 		//바퀴 파일 생성
 		fileNameUtil.setWheelPositionVal(wheelPosition.getVal());
 		String savedFileName = FileUtil.createFile(Directory.BASE.getPath(),Directory.WHEEL_ORIGIN.getPath(),fileNameUtil.getFilename(),file);
