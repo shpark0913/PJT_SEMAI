@@ -9,6 +9,7 @@ import sys
 import torch
 from fastapi import FastAPI, HTTPException
 import time
+from abnormal import check_anormal
 
 NOW_DIR = os.getcwd()
 sys.path.append(NOW_DIR + '\\classification')
@@ -29,6 +30,34 @@ class Item(BaseModel):
     is_offer: Union[bool, None] = None
 
 
+WHEELS = [
+    {   
+        'wheel1': 'w1',
+        'lost': 1,
+        'loose': 2,
+        'broken': 3,
+    },
+    {   
+        'wheel2': 'w2',
+        'lost': 1,
+        'loose': 2,
+        'broken': 3,
+    },
+    {
+        'wheel3': 'w3',
+        'lost': 1,
+        'loose': 2,
+        'broken': 3,
+    },
+    {
+        'wheel4': 'w4',
+        'lost': 1,
+        'loose': 2,
+        'broken': 3,
+    }
+]
+
+
 @app.get("/")
 def read_root():
     return {"Hello": "SEMES"}
@@ -42,23 +71,31 @@ REGEX = re.compile('.jpg|.png|.jpeg|.gif|.bmp|.JPG|.PNG|.JPEG|.GIF|.BMP')
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
 async def detect_classification(filePath: str, binary: bool):
     try:
-        # 추론 시작 시간 설정
-        start_test = time.time()
-        # cropped 된 볼트의 각 bounding box 좌표를 원소로하는 리스트를 받는다.
-        image, bboxes = yolo.detect_bolt(filePath)
-        # 확장자 삭제
-        filePath = re.sub(REGEX, '', filePath)
-        # 이미지 크롭 후 분류하여 이미지 저장 및 분류 결과 텍스트로 저장
-        result = RegNet.ImgCrop(filePath, image, bboxes, binary)
-        # 추론 종료 시간 저장
-        reasoning_time = round(time.time() - start_test, 3)
+        # # 추론 시작 시간 설정
+        ###### 여기 풀기
+        # start_test = time.time()
+        # # cropped 된 볼트의 각 bounding box 좌표를 원소로하는 리스트를 받는다.
+        # image, bboxes = yolo.detect_bolt(filePath)
+        # # 확장자 삭제
+        # filePath = re.sub(REGEX, '', filePath)
+        # # 이미지 크롭 후 분류하여 이미지 저장 및 분류 결과 텍스트로 저장
+        # result = RegNet.ImgCrop(filePath, image, bboxes, binary)
+        # # 추론 종료 시간 저장
+        # reasoning_time = round(time.time() - start_test, 3)
+        #######
+        
+        ## 이상 탐지 ##
+        abnormal_results = check_anormal()
 
         # 데이터를 JSON 형식으로 구성
-        data = {
-            "markedImage": "WHEEL_RESULT/{}.jpg".format(filePath),
-            "bolts": result,
-            "word": "저장중"
-        }
+        ##### 여기 풀기
+        # data = {
+        #     "markedImage": "WHEEL_RESULT/{}.jpg".format(filePath),
+        #     "bolts": result,
+        #     "word": "저장중"
+        # }
+        #####
+        
         # 성공적으로 분류 작업을 수행한 경우
         return {
             "status": 200,
