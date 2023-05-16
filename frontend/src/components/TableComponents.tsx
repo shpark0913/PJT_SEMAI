@@ -8,7 +8,7 @@ const TableContainer = styled.div`
   margin-bottom: 10px;
   width: 100%;
   height: 100%;
-  min-width: 800px;
+  /* min-width: 800px; */
   overflow-y: auto;
   //flex-grow: 1;
   //flex-shrink: 1;
@@ -18,7 +18,7 @@ const Table = styled.table`
   width: 100%;
   border-collapse: separate; /* Don't collapse */
   border-spacing: 0;
-  
+
   //border-collapse: separate;
   &.detail {
     border-left: 3px solid var(--emphasize-color);
@@ -40,7 +40,7 @@ const THead = styled.thead`
   //border-bottom: 1px solid var(--emphasize-color);
   position: sticky;
   top: 0;
-  
+
   & > tr:first-child > th {
     border-top: 3px solid var(--emphasize-color);
     border-bottom: 1px solid var(--emphasize-color);
@@ -80,8 +80,9 @@ const TBody = styled.tbody`
     border-right: 1px solid var(--gray600-color);
     border-bottom: 1px solid var(--gray600-color);
   }
-  
-  &.report-table > tr:hover > td {   // 마우스 올리면 보이는 효과  
+
+  &.report-table > tr:hover > td {
+    // 마우스 올리면 보이는 효과
     background-color: var(--table-hover-color);
     text-decoration: underline;
     cursor: pointer;
