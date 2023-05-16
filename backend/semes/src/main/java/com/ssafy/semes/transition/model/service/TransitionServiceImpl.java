@@ -98,7 +98,7 @@ public class TransitionServiceImpl implements  TransitionService {
 		while(iterator.hasNext()){
 			ImageEntity image = iterator.next();
 			FileUtil.moveFile(
-				Directory.BASE.getPath(),image.getFileDir(),
+				Directory.getBaseDirectories()[image.getStatus()].getPath(),image.getFileDir(),
 				Directory.ARCHIVE.getPath(),image.getFileDir(),
 				image.getSaveName()
 			);
