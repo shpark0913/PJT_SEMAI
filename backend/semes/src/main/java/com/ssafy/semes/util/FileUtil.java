@@ -70,7 +70,7 @@ public class FileUtil{
 				Files.move(filePath, filePathToMove);
 
 			} else {
-				throw new FileNotFoundException("파일이 존재하지 않습니다.");
+				throw new FileNotFoundException("파일이 존재하지 않습니다. file: "+file.getPath()+" dest: "+dest.getPath());
 			}
 	}
 
