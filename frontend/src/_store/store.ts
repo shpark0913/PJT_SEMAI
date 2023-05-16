@@ -6,11 +6,12 @@ import dashboardReducer from "./slices/dashboardSlice";
 import themeReducer from "./slices/themeSlice";
 import userReducer from "./slices/userSlice";
 import transferPageReducer from "./slices/transferPageSlice"
+import reportPageReducer from "./slices/reportPageSlice"
 
 const persistConfig = {
   key: "root",
   storage: storage,
-  blacklist: ['transferPage'],
+  blacklist: ['transferPage', 'reportPage'],
 };
 // 리듀서
 const rootReducers = combineReducers({
@@ -18,6 +19,7 @@ const rootReducers = combineReducers({
   theme: themeReducer,
   dashboard: dashboardReducer,
   transferPage: transferPageReducer,
+  reportPage: reportPageReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
