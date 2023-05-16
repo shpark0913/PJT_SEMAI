@@ -41,8 +41,6 @@ const FormTop = styled.div`
   
 `;
 const FormInputs = styled.div`
-  //display: grid;
-  //flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(3, minmax(200px, auto));
   gap: 10px 20px;
@@ -56,10 +54,7 @@ const FormInputs = styled.div`
     justify-self: end;
   }
 `;
-// const FormButtons = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-// `;
+
 
 const NoData = styled.div`
   width: 100%;
@@ -72,18 +67,16 @@ const NoData = styled.div`
 function ReportPage() {
 
   // ================ 초기 값 ================
-  let submit = useSubmit();
   let dispatch = useAppDispatch();
+  let submit = useSubmit();
+  let { result, totalPage } = useLoaderData() as ReportLoaderType;    // 서버에서 가져온 값
+
   let [query] = useSearchParams();
-  dispatch(setQueryObj(Object.fromEntries(query)));
-  let { result, totalPage } = useLoaderData() as ReportLoaderType;
-  let userName = useAppSelector(state => state.user.userName);
-  let { queryObj } = useAppSelector(state => state.reportPage);
+  dispatch(setQueryObj(Object.fromEntries(query)));       // params를 redux에 저장
+  let { queryObj} = useAppSelector(state => state.reportPage);
+  let userName = useAppSelector(state => state.user.userName); // csv 출력 시 필요
   let { todayFormat } = useDate();
   let todayDate = todayFormat();
-
-  // let queryObj = Object.fromEntries(query);
-
 
   let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
   let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
@@ -91,26 +84,24 @@ function ReportPage() {
 
 
 
-  // ================== 페이지네이션 ======================
+  // =================== 페이지네이션 ======================
   let paginationTotalPage = Math.ceil(totalPage/20);
   /** 페이지를 바꾸는 경우 -> 기존의 필터링은 그대로 유지, 페이지 params만 변경 */
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setQueryObj({page: e.target.value}));
-    setPage(e.target.value);
+    dispatch(setQueryObj(Object.fromEntries(query)));     // 기존의 params로 값 변경
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
-      form.set('page', e.target.value);
-      !form.has("errorFlag") && form.set("errorFlag", "0");
-      !form.has("time") && form.set("time", "ALL");
+      for (const [key, val] of Object.entries(queryObj)) {
+        form.set(key, val);
+      }
+      form.set('page', e.target.value);       // page는 변경하기
       submit(form);
     }
   }
 
   // =================== 모달 관련 ===================
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // let [scrollY, setScrollY] = useState<number>(0);
-  let [detailInfo, setDetailInfo] = useState<ReportObjectType>({wheelCheckDate: [2023, 5, 2, 4, 32, 10]});        // 선택한 레포트의 상세내역을 전달할 객체
-  // const { lockScroll, openScroll } = useBodyScrollLock();
+  let [detailInfo, setDetailInfo] = useState<ReportObjectType>({wheelCheckDate: [2023, 5, 2, 4, 32, 10]});
   /** 모달이 열리면 실행되는 함수 */
   const handleModalOpen = useCallback(async (e:React.MouseEvent<HTMLTableRowElement>, wheelCheckId: number) => {
     e.preventDefault();
@@ -207,7 +198,7 @@ function ReportPage() {
           { result?.length ?
             <>
               <ReportTable handleModalOpen={handleModalOpen} nowPage={page} />
-              <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} page={page} />
+              <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} />
             </>
             :
             <NoData>데이터가 존재하지 않습니다.</NoData>
