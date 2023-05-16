@@ -1,4 +1,6 @@
+import PredictTable from "../components/PredictPage/PredictTable";
 import React from "react";
+import { ReactComponent as ScatterCircle } from "../assets/ScatterCircle.svg";
 import ScatterGraph from "../components/PredictPage/ScatterGraph";
 import styled from "styled-components";
 
@@ -7,32 +9,56 @@ type PredictTitleType = {
   num: number;
 };
 
+const ScatterCircleSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  height: 60px;
+  justify-content: space-evenly;
+`;
+
+const ScatterCircleDiv = styled.div`
+  display: flex;
+  align-items: center;
+
+  > span {
+    margin-left: 5px;
+  }
+`;
+
 const PredictGridContainer = styled.div`
   display: grid;
-  width: 100%;
+  grid-template-columns: 55% auto;
+  gap: 50px;
   height: 100%;
-  grid-template-columns: 60% auto;
+  padding: 30px;
 `;
 
 // 좌측 표
-const TableSection = styled.section``;
+const TableSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
 
 // 우측 그래프
 const GraphSection = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
-  justify-content: center;
+  height: 100%;
   align-items: center;
+  justify-content: space-between;
 `;
 
-// 표와 그래프에서 같이 쓰는 제목
 const PredictTitleDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 0.1;
 `;
 
+// 표와 그래프에서 같이 쓰는 제목
 const PredictTitle = ({ title, num }: PredictTitleType) => {
   return (
     <PredictTitleDiv>
@@ -65,10 +91,30 @@ function PredictPage() {
     <PredictGridContainer>
       <TableSection>
         <PredictTitle title="금주 이상 위험 휠" num={114} />
+        <div style={{ flexGrow: "1", flexShrink: "0", height: "100%", overflowY: "auto" }}>
+          <PredictTable />
+        </div>
       </TableSection>
+
       <GraphSection>
         <PredictTitle title="차주 교체 예상 휠" num={14} />
         <ScatterGraph data={data} />
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <ScatterCircleSection>
+            <ScatterCircleDiv>
+              <ScatterCircle fill="blue" />
+              <span>차주 교체 예상 휠</span>
+            </ScatterCircleDiv>
+            <ScatterCircleDiv>
+              <ScatterCircle fill="red" />
+              <span>과거 실제 교체 휠</span>
+            </ScatterCircleDiv>
+            <ScatterCircleDiv>
+              <ScatterCircle fill="yellow" />
+              <span>기준 좌표</span>
+            </ScatterCircleDiv>
+          </ScatterCircleSection>
+        </div>
       </GraphSection>
     </PredictGridContainer>
   );
