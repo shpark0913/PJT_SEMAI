@@ -3,6 +3,7 @@ import React from "react";
 import { ReactComponent as ScatterCircle } from "../assets/ScatterCircle.svg";
 import ScatterGraph from "../components/PredictPage/ScatterGraph";
 import styled from "styled-components";
+import Title from "../components/Title";
 
 type PredictTitleType = {
   title: string;
@@ -25,7 +26,7 @@ const ScatterCircleDiv = styled.div`
   }
 `;
 
-const PredictGridContainer = styled.div`
+const PredictGridContainer = styled.main`
   display: grid;
   grid-template-columns: 55% auto;
   gap: 50px;
@@ -39,6 +40,7 @@ const TableSection = styled.section`
   flex-direction: column;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
 `;
 
 // 우측 그래프
@@ -52,18 +54,29 @@ const GraphSection = styled.section`
 `;
 
 const PredictTitleDiv = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  flex: 0.1;
 `;
+const WheelNumberDiv = styled.div`
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  font-size: 18px;
+  
+  & > abbr {
+    color: var(--emphasize-color);
+    font-weight: bold;
+    font-size: 22px;
+  }
+`
 
 // 표와 그래프에서 같이 쓰는 제목
 const PredictTitle = ({ title, num }: PredictTitleType) => {
   return (
     <PredictTitleDiv>
-      <h4 style={{ marginRight: "7px" }}>{title}</h4>
-      <p style={{ margin: "10px 0" }}>{num}/400</p>
+      <Title title={title}></Title>
+      <WheelNumberDiv><abbr>{num}</abbr> / 400</WheelNumberDiv>
     </PredictTitleDiv>
   );
 };
@@ -91,9 +104,7 @@ function PredictPage() {
     <PredictGridContainer>
       <TableSection>
         <PredictTitle title="금주 이상 위험 휠" num={114} />
-        <div style={{ flexGrow: "1", flexShrink: "0", height: "100%", overflowY: "auto" }}>
-          <PredictTable />
-        </div>
+        <PredictTable />
       </TableSection>
 
       <GraphSection>
