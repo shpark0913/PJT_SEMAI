@@ -21,7 +21,6 @@ import com.ssafy.semes.wheelcheck.model.WheelCheckResultDto;
 import com.ssafy.semes.wheelcheck.model.repository.WheelCheckRepository;
 
 import lombok.RequiredArgsConstructor;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
