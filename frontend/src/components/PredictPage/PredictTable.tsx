@@ -25,7 +25,9 @@ function PredictTable() {
     { wheelSn: "V30019", loose: 2, lost: 3, broken: 1, normal: 5 },
     { wheelSn: "V30020", loose: 2, lost: 3, broken: 1, normal: 5 },
   ];
-  return <div>표가 올 곳</div>;
+  return (
+    <TableContainer>표가 올 곳</TableContainer>
+  );
 }
 
 export default PredictTable;
