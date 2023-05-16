@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, {css} from "styled-components";
+import {useAppSelector} from "../../_hooks/hooks";
 
 const PaginationFieldset = styled.fieldset`
   display: flex;
@@ -42,25 +43,30 @@ const PaginationLabel=styled.label< {checked?: boolean}>`
   }
 `
 
-function PaginationComponents({paginationTotalPage, handleClickPage, page}: {paginationTotalPage: number, handleClickPage: (e: React.ChangeEvent<HTMLInputElement>) => void, page: string}) {
+function PaginationComponents({paginationTotalPage, handleClickPage}: {paginationTotalPage: number, handleClickPage: (e: React.ChangeEvent<HTMLInputElement>) => void}) {
+  const { queryObj } = useAppSelector(state => state.reportPage);
+  let { page } = queryObj;
   const paginationButtons = [];
   for (let i:number =1; i<=paginationTotalPage; i++) {
     paginationButtons.push(
-      <PaginationLabel key={`pagination-${i}`}  checked={page === String(i)}> { i }
-        <input type="radio" name="page" value={String(i)} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)} checked={page === String(i)}/>
+      <PaginationLabel key={`pagination-${i}`}  checked={ page === String(i)}> { i }
+        <input
+          type="radio"
+          name="page"
+          value={String(i)}
+          onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)}
+          checked={ page === String(i)}
+        />
       </PaginationLabel>
     )
   }
 
-  console.log(paginationButtons)
-
   /*
    * page를 -1해서 0~9, 10~19, 20~29... 이렇게 끊어보자
    * page를 10으로 나누었을 때 몫을 보자(Math.floor)
-   *
    */
-  let nowPageDivTen = Math.floor((parseInt(page)-1) / 10);
-  let lastPageDivTen = Math.floor(paginationTotalPage / 10);
+  let nowPageDivTen = Math.floor((parseInt(page)-1) / 10);     // 현재 위치 기준으로 10개
+  let lastPageDivTen = Math.floor(paginationTotalPage / 10);   // 마지막 기준 10개
 
   const LeftArrow =
     <PaginationLabel key={`pagination-left_arrow`}>{`<`}
@@ -80,14 +86,12 @@ function PaginationComponents({paginationTotalPage, handleClickPage, page}: {pag
       <input type="radio" name="page" value={ paginationTotalPage } onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)}/>
     </PaginationLabel>
 
-  console.log(nowPageDivTen)
   return (
     <PaginationFieldset>
       { nowPageDivTen > 0 ? ToFirstArrow : <></> }
       { nowPageDivTen > 0 ? LeftArrow : <></> }
       {
         paginationButtons.filter((button, idx) => {
-          console.log(`결과 : ${Math.floor(idx / 10) === nowPageDivTen}, 인덱스 : ${idx}, 키값 : ${button.key}`)
           return Math.floor(idx / 10) === nowPageDivTen
         })
       }
