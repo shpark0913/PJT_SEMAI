@@ -8,7 +8,7 @@ const TableContainer = styled.div`
   margin-bottom: 10px;
   width: 100%;
   height: 100%;
-  /* min-width: 800px; */
+  //min-width: 800px;
   overflow-y: auto;
   //flex-grow: 1;
   //flex-shrink: 1;
@@ -26,7 +26,8 @@ const Table = styled.table`
       border-bottom: none;
     }
     & th {
-      width: 25%;
+      width: 130px;
+      border-right: 1px solid var(--emphasize-color);
     }
     & td {
       text-align: left;
