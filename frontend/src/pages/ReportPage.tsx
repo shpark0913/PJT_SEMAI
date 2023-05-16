@@ -32,6 +32,7 @@ const ReportSection = styled.section`
 const ReportContainer = styled.div`
   width: 100%;
   transition: all 500ms ease;
+  overflow-x: auto;
   
   &.open {
     width: 50%;
@@ -79,7 +80,7 @@ function ReportPage() {
   let [query] = useSearchParams();
   useEffect(() => {
     dispatch(setQueryObj(Object.fromEntries(query)))
-  }, [])
+  }, [query])
   let { queryObj } = useAppSelector(state => state.reportPage);
 
   let userName = useAppSelector(state => state.user.userName); // csv 출력 시 필요
