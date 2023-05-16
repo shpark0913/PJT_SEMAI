@@ -43,6 +43,7 @@ const PaginationLabel=styled.label< {checked?: boolean}>`
 `
 
 function PaginationComponents({paginationTotalPage, handleClickPage, page}: {paginationTotalPage: number, handleClickPage: (e: React.ChangeEvent<HTMLInputElement>) => void, page: string}) {
+
   const paginationButtons = [];
   for (let i:number =1; i<=paginationTotalPage; i++) {
     paginationButtons.push(
@@ -51,8 +52,6 @@ function PaginationComponents({paginationTotalPage, handleClickPage, page}: {pag
       </PaginationLabel>
     )
   }
-
-  console.log(paginationButtons)
 
   /*
    * page를 -1해서 0~9, 10~19, 20~29... 이렇게 끊어보자
@@ -80,14 +79,12 @@ function PaginationComponents({paginationTotalPage, handleClickPage, page}: {pag
       <input type="radio" name="page" value={ paginationTotalPage } onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)}/>
     </PaginationLabel>
 
-  console.log(nowPageDivTen)
   return (
     <PaginationFieldset>
       { nowPageDivTen > 0 ? ToFirstArrow : <></> }
       { nowPageDivTen > 0 ? LeftArrow : <></> }
       {
         paginationButtons.filter((button, idx) => {
-          console.log(`결과 : ${Math.floor(idx / 10) === nowPageDivTen}, 인덱스 : ${idx}, 키값 : ${button.key}`)
           return Math.floor(idx / 10) === nowPageDivTen
         })
       }

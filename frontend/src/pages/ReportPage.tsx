@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
 import styled from "styled-components";
 
-import {useAppSelector} from "../_hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../_hooks/hooks";
 import useDate from "../_hooks/useDate";
 import {ReportLoaderType, ReportObjectType} from "../_utils/Types";
 import Axios from "../_utils/Axios";
@@ -18,6 +18,7 @@ import InputTime from "../components/ReportPage/InputTime";
 import InputWheelPosition from "../components/ReportPage/InputWheelPosition";
 import InputDescFlag from "../components/ReportPage/InputDescFlag";
 import InputErrorFlag from "../components/ReportPage/InputErrorFlag";
+import {setQueryObj} from "../_store/slices/reportPageSlice";
 
 
 const ReportSection = styled.section`
@@ -71,23 +72,30 @@ const NoData = styled.div`
 function ReportPage() {
 
   // ================ 초기 값 ================
-  let [query] = useSearchParams();
   let submit = useSubmit();
+  let dispatch = useAppDispatch();
+  let [query] = useSearchParams();
+  dispatch(setQueryObj(Object.fromEntries(query)));
   let { result, totalPage } = useLoaderData() as ReportLoaderType;
   let userName = useAppSelector(state => state.user.userName);
+  let { queryObj } = useAppSelector(state => state.reportPage);
   let { todayFormat } = useDate();
   let todayDate = todayFormat();
 
+  // let queryObj = Object.fromEntries(query);
+
+
   let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
   let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
-
   let [page, setPage] = useState<string>(query.get('page') || "1");
 
 
 
   // ================== 페이지네이션 ======================
   let paginationTotalPage = Math.ceil(totalPage/20);
+  /** 페이지를 바꾸는 경우 -> 기존의 필터링은 그대로 유지, 페이지 params만 변경 */
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setQueryObj({page: e.target.value}));
     setPage(e.target.value);
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);

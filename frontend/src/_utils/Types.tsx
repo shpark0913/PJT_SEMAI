@@ -24,6 +24,19 @@ export type TransferPageSliceType = {
     nextType: number
   }
 }
+export type ReportPageSliceType = {
+  queryObj: {
+    ohtSn: string,
+    startDate: string,
+    endDate: string,
+    time: string,
+    wheelPosition: string,
+    page: string,
+    descFlag: string,
+    errorFlag: string,
+  };
+}
+
 
 // ==================== Report page types ==================
 export type ReportObjectType = {   // 디테일 페이지에 들어오는 값들의 type
