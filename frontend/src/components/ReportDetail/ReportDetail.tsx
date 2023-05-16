@@ -55,7 +55,8 @@ const ReportDetailContainer = styled.div`
     //animation: ${fadeOut} 1s forwards ease-out;
   }
   
-  
+  display: flex;
+  flex-direction: column;
 `
 function ReportDetail({handleModalClose, detailInfo, className}: {handleModalClose: any, detailInfo: ReportObjectType, className: string}) {
   return (

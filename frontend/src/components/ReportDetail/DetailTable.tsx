@@ -1,6 +1,6 @@
 import React from 'react';
 import {ReportObjectType} from "../../_utils/Types";
-import {Table, TBody, TD, TH, TR} from "../TableComponents";
+import {Table, TableContainer, TBody, TD, TH, TR} from "../TableComponents";
 import useDate from "../../_hooks/useDate";
 import ImageUrl from "../../_utils/ImageUrl";
 
@@ -8,6 +8,7 @@ function DetailTable({detailInfo}: {detailInfo: ReportObjectType}) {
   let { wheelReportId, dateFormat, timeFormat } = useDate();
 
   return (
+    <TableContainer style={{width: "100%"}}>
     <Table className="detail">
       <TBody>
         <TR>
@@ -64,6 +65,7 @@ function DetailTable({detailInfo}: {detailInfo: ReportObjectType}) {
         </TR>
       </TBody>
     </Table>
+    </TableContainer>
   );
 }
 
