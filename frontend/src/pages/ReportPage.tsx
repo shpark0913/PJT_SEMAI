@@ -26,10 +26,16 @@ const ReportSection = styled.section`
   display: flex;
   height: 100%;
   width: 100%;
-  overflow-x: hidden;
+  position: relative;
+  overflow: hidden;
 `
 const ReportContainer = styled.div`
   width: 100%;
+  transition: all 500ms ease;
+  
+  &.open {
+    width: 50%;
+  }
 `;
 
 const FormTop = styled.div`
@@ -172,46 +178,48 @@ function ReportPage() {
 
 
   return (
-    <ReportSection>
+    <>
+      <ReportSection>
 
-      {/*{ isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }*/}
-      {/*<Title title="레포트" />*/}
-      
-      <ReportContainer>
-        <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-          <FormTop>
-            <FormInputs>
-              <InputOhtSn query={query} />
-              <InputStartDate startDate={startDate} endDate={endDate} setStartDate={setStartDate} />
-              <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} setEndDate={setEndDate} />
-              <InputTime query={query} startDate={startDate} endDate={endDate} />
-              <InputWheelPosition query={query} />
-              <InputDescFlag query={query} />
-              <InputErrorFlag query={query} />
-              <div>
-                <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="120px" height="26px" style={{marginRight: "20px"}} >조회하기</SemesButton>
-                <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 일주일 조회</SemesButton>
-                <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 한 달 조회</SemesButton>
-              </div>
-            </FormInputs>
+        {/*{ isModalOpen && <ReportModal scrollY={scrollY} detailInfo={detailInfo} handleModalClose={handleModalClose}  /> }*/}
+        {/*<Title title="레포트" />*/}
 
-            <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="26px">CSV 출력</Button>
+        <ReportContainer className={isModalOpen? 'open' : 'close'}>
+          <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
+            <FormTop>
+              <FormInputs>
+                <InputOhtSn query={query} />
+                <InputStartDate startDate={startDate} endDate={endDate} setStartDate={setStartDate} />
+                <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} setEndDate={setEndDate} />
+                <InputTime query={query} startDate={startDate} endDate={endDate} />
+                <InputWheelPosition query={query} />
+                <InputDescFlag query={query} />
+                <InputErrorFlag query={query} />
+                <div>
+                  <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="120px" height="26px" style={{marginRight: "20px"}} >조회하기</SemesButton>
+                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 일주일 조회</SemesButton>
+                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 한 달 조회</SemesButton>
+                </div>
+              </FormInputs>
 
-          </FormTop>
+              <Button type="button" onClick={() => handleDownloadCSV() } width="90px" height="26px">CSV 출력</Button>
 
-          { result?.length ?
-            <>
-              <ReportTable handleModalOpen={handleModalOpen} />
-              <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} />
-            </>
-            :
-            <NoData>데이터가 존재하지 않습니다.</NoData>
-          }
-        </Form>
-      </ReportContainer>
+            </FormTop>
 
-      <ReportDetail className={isModalOpen? 'open' : 'close'} handleModalClose={handleModalClose} detailInfo={detailInfo}></ReportDetail>
-    </ReportSection>
+            { result?.length ?
+              <>
+                <ReportTable handleModalOpen={handleModalOpen} />
+                <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} />
+              </>
+              :
+              <NoData>데이터가 존재하지 않습니다.</NoData>
+            }
+          </Form>
+        </ReportContainer>
+
+        <ReportDetail className={isModalOpen? 'open' : 'close'} handleModalClose={handleModalClose} detailInfo={detailInfo}></ReportDetail>
+      </ReportSection>
+    </>
   );
 }
 
