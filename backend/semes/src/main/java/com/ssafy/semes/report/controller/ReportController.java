@@ -41,6 +41,19 @@ public class ReportController {
     private int TOTAL_BOLT=11;
     private StringTokenizer st;
     private StringBuilder sb;
+
+    /**
+     * {@summary 레포트 페이지 검색 및 조건 검색}
+     * <P>반환 - WheelCheckEntity, totalPage <P/>
+     * 제약사항 - ohtSn - ALL or oht_sn <br>
+     * startDate - yyyy-MM-dd <br>
+     * endDate - yyyy-MM-dd <br>
+     * time - ALL or 0~23 <br>
+     * wheelPosition - ALL or FL,FR,RL,RR <br>
+     * errorFlag - 0 or 1 <br>
+     * page - 1~N <br>
+     * descFlag - 0 or 1 <br>
+     */
     @GetMapping("/list")
     public ApiResponse<?> findReport(@RequestParam("ohtSn") String ohtSn
             , @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("time") String time
@@ -68,6 +81,12 @@ public class ReportController {
         }
     }
 
+    /**
+     * {@summary 레포트 디테일 검색 결과}
+     *
+     * @param wheelChcekId
+     * @return ReportListResponseDto
+     */
     @GetMapping("/detail/{wheelChcekId}")
     public ApiResponse<?> findReportDetail(@PathVariable("wheelChcekId") long wheelChcekId) {
         log.info("Report findReportDetail Start");
@@ -83,7 +102,18 @@ public class ReportController {
         }
     }
 
-
+    /**
+     * {@summary 레포트 다운로드}
+     *
+     * 제약사항 - ohtSn - ALL or oht_sn <br>
+     * startDate - yyyy-MM-dd <br>
+     * endDate - yyyy-MM-dd <br>
+     * time - ALL or 0~23 <br>
+     * wheelPosition - ALL or FL,FR,RL,RR <br>
+     * errorFlag - 0 or 1 <br>
+     * page - 1~N <br>
+     * descFlag - 0 or 1 <br>
+     */
     @GetMapping("/download")
     public void download(HttpServletResponse res,@RequestParam("ohtSn") String ohtSn
             , @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("time") String time
