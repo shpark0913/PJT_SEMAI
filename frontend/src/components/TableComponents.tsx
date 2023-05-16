@@ -26,7 +26,8 @@ const Table = styled.table`
       border-bottom: none;
     }
     & th {
-      width: 25%;
+      width: 130px;
+      border-right: 1px solid var(--emphasize-color);
     }
     & td {
       text-align: left;

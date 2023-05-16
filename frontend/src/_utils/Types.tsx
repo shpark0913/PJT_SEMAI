@@ -41,12 +41,14 @@ export type ReportPageSliceType = {
 // ==================== Report page types ==================
 export type ReportObjectType = {   // 디테일 페이지에 들어오는 값들의 type
   ohtSn?: string,
-  boltGoodCount?: number,
+  boltGoodCount?: number,    // good은 양호
   wheelCheckDate: number[],
   wheelCheckId?: number,
   wheelPosition?: string,
   markingUrl?: string,
-  originUrl?: string
+  originUrl?: string,
+  boltOutCount?: number,     // out은 유실
+  boltLoseCount?: number,    // lose는 파단
 }
 export type QueryType = {
   query: URLSearchParams,
