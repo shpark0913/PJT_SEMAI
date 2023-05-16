@@ -5,12 +5,15 @@ import { ReportTableProps } from "../../_utils/Types";
 import useDate from "../../_hooks/useDate";
 
 import {Table, TableContainer, TBody, TD, TFoot, TH, THead, TR} from "../TableComponents";
+import {useAppSelector} from "../../_hooks/hooks";
 // import { Button } from "../ButtonComponents";
 
-function ReportTable({ handleModalOpen , nowPage }: ReportTableProps) {
+function ReportTable({ handleModalOpen }: ReportTableProps) {
   let data: any = useRouteLoaderData("reportLists");
   let { result, totalPage } = data;
   let { wheelReportId, dateFormat, timeFormat } = useDate();
+  const { queryObj } = useAppSelector(state => state.reportPage);
+  let nowPage = queryObj.page
 
   return (
     <TableContainer>
