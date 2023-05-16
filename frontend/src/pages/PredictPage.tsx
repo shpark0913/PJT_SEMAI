@@ -40,6 +40,7 @@ const TableSection = styled.section`
   flex-direction: column;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
 `;
 
 // 우측 그래프
@@ -59,8 +60,8 @@ const PredictTitleDiv = styled.div`
 `;
 const WheelNumberDiv = styled.div`
   text-align: center;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 20px;
   font-size: 18px;
   
   & > abbr {

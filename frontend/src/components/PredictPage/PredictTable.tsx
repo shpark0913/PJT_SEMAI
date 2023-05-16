@@ -26,7 +26,31 @@ function PredictTable() {
     { wheelSn: "V30020", loose: 2, lost: 3, broken: 1, normal: 5 },
   ];
   return (
-    <TableContainer>표가 올 곳</TableContainer>
+
+    <TableContainer>
+      <Table>
+        <THead>
+          <TR>
+            <TH>호기 ID</TH>
+            <TH>양호</TH>
+            <TH>유실</TH>
+            <TH>파단</TH>
+            <TH>풀림</TH>
+          </TR>
+        </THead>
+        <TBody>
+          { data.map(d =>
+            <TR key={`AI-predict-report-${d.wheelSn}`}>
+              <TH>{d.wheelSn}</TH>
+              <TD>{d.normal}</TD>
+              <TD>{d.lost}</TD>
+              <TD>{d.broken}</TD>
+              <TD>{d.loose}</TD>
+            </TR> ) }
+        </TBody>
+      </Table>
+    </TableContainer>
+
   );
 }
 
