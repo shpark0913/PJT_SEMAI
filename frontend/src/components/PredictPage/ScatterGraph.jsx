@@ -20,8 +20,8 @@ const ScatterGraph = ({ data }) => {
 
       const options = {
         showLegend: false,
-        // width: "500px",
-        // height: "500px",
+        width: "500px",
+        height: "500px",
         style: "dot-color",
         dotSizeRatio: 0.015,
         showPerspective: true,
@@ -32,7 +32,6 @@ const ScatterGraph = ({ data }) => {
         xLabel: "loose",
         yLabel: "broken",
         zLabel: "lost",
-        // zValueLabel: z => z * 1e6,
         cameraPosition: {
           horizontal: -0.5,
           vertical: 0.25,
@@ -47,6 +46,8 @@ const ScatterGraph = ({ data }) => {
 
       const container = graphRef.current;
       const graph = new vis.Graph3d(container, visData, options);
+
+      // container.style.border = "2px solid white";
     };
 
     draw3DScatterVisualization();
