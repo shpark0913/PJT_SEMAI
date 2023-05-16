@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Form, useLoaderData, useSearchParams, useSubmit} from "react-router-dom";
 import styled from "styled-components";
 
@@ -55,7 +55,6 @@ const FormInputs = styled.div`
   }
 `;
 
-
 const NoData = styled.div`
   width: 100%;
   height: 100%;
@@ -72,15 +71,18 @@ function ReportPage() {
   let { result, totalPage } = useLoaderData() as ReportLoaderType;    // 서버에서 가져온 값
 
   let [query] = useSearchParams();
-  dispatch(setQueryObj(Object.fromEntries(query)));       // params를 redux에 저장
-  let { queryObj} = useAppSelector(state => state.reportPage);
+  useEffect(() => {
+    dispatch(setQueryObj(Object.fromEntries(query)))
+  }, [])
+  let { queryObj } = useAppSelector(state => state.reportPage);
+
   let userName = useAppSelector(state => state.user.userName); // csv 출력 시 필요
   let { todayFormat } = useDate();
   let todayDate = todayFormat();
 
   let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
   let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
-  let [page, setPage] = useState<string>(query.get('page') || "1");
+  // let [page, setPage] = useState<string>(query.get('page') || "1");
 
 
 
@@ -88,7 +90,8 @@ function ReportPage() {
   let paginationTotalPage = Math.ceil(totalPage/20);
   /** 페이지를 바꾸는 경우 -> 기존의 필터링은 그대로 유지, 페이지 params만 변경 */
   const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setQueryObj(Object.fromEntries(query)));     // 기존의 params로 값 변경
+    dispatch(setQueryObj({...Object.fromEntries(query), page: e.target.value}));     // 기존의 params로 값 변경
+
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
       for (const [key, val] of Object.entries(queryObj)) {
@@ -126,8 +129,9 @@ function ReportPage() {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
-      setPage("1");
-      form.set('page', '1');
+      dispatch(setQueryObj({page: "1"}));
+
+      form.set('page', "1");
       !form.has("errorFlag") && form.set("errorFlag", "0")
       !form.has("time") && form.set("time", "ALL")
       console.log(form);
@@ -152,7 +156,7 @@ function ReportPage() {
   const handleSubmitPeriod = (e: React.MouseEvent<HTMLButtonElement>, day: number) => {
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
-      setPage("1");
+      dispatch(setQueryObj({page: "1"}))
       setStartDate(todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
       setEndDate(todayDate);
 
@@ -197,7 +201,7 @@ function ReportPage() {
 
           { result?.length ?
             <>
-              <ReportTable handleModalOpen={handleModalOpen} nowPage={page} />
+              <ReportTable handleModalOpen={handleModalOpen} />
               <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} />
             </>
             :
