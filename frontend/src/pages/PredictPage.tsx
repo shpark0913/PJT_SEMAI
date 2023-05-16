@@ -30,19 +30,19 @@ const PredictGridContainer = styled.div`
   grid-template-columns: 55% auto;
   gap: 50px;
   height: 100%;
+  padding: 30px;
 `;
 
 // 좌측 표
 const TableSection = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  width: 100%;
   height: 100%;
 `;
 
 // 우측 그래프
 const GraphSection = styled.section`
-  padding: 30px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -55,6 +55,7 @@ const PredictTitleDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 0.1;
 `;
 
 // 표와 그래프에서 같이 쓰는 제목
@@ -90,7 +91,7 @@ function PredictPage() {
     <PredictGridContainer>
       <TableSection>
         <PredictTitle title="금주 이상 위험 휠" num={114} />
-        <div style={{ flexGrow: "1", overflowY: "auto" }}>
+        <div style={{ flexGrow: "1", flexShrink: "0", height: "100%", overflowY: "auto" }}>
           <PredictTable />
         </div>
       </TableSection>
