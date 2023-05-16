@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.text.SimpleDateFormat;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -175,7 +174,7 @@ public class ReportServiceImpl implements ReportService {
                 .boltLoseCount(wheel.getBoltLoseCount())
                 .totalGoodCount(tg)
                 .totalOutCount(to)
-                .totalLostCoutn(tl)
+                .totalLoseCount(tl)
                 .wheelCheckDate(wheel.getCheckDate())
                 .wheelCheckId(wheel.getWheelHistoryId())
                 .wheelPosition(wheel.getWheelPosition())
