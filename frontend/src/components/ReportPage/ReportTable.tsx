@@ -34,7 +34,7 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
         </THead>
         <TBody className="report-table">
           { result.map((report:any, idx:number) =>
-              <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`} onClick={(e: React.MouseEvent<HTMLTableRowElement>) => handleModalOpen(e, report.wheelCheckId)}>
+              <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`} onClick={(e: React.MouseEvent<HTMLTableRowElement>) => handleModalOpen(e, report.wheelCheckId)} NG={11 - report.boltGoodCount} >
                 <TH className="idxNum">{((parseInt(nowPage) - 1) * 20) + idx + 1}</TH>
                 <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}</TD>
                 <TD>{`${dateFormat(report.wheelCheckDate.slice(0, 3))}`}</TD>
