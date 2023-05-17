@@ -239,15 +239,20 @@ function OHTResult(props: any) {
                 <InfoTitleDiv></InfoTitleDiv>
                 <InfoTitleDiv>유실</InfoTitleDiv>
                 <InfoTitleDiv>풀림</InfoTitleDiv>
-                <InfoTitleDiv>모호</InfoTitleDiv>
+                <InfoTitleDiv>파단</InfoTitleDiv>
                 <InfoTitleDiv>양호</InfoTitleDiv>
                 {indexList.map((item, idx) => {
                   return (
                     <React.Fragment key={idx}>
                       <InfoTitleDiv>{data[item].wheelPosition}</InfoTitleDiv>
                       <InfoContentDiv>{data[item].boltOutCount}</InfoContentDiv>
+                      <InfoContentDiv>
+                        {11 -
+                          (data[item].boltOutCount +
+                            data[item].boltLoseCount +
+                            data[item].boltGoodCount)}
+                      </InfoContentDiv>
                       <InfoContentDiv>{data[item].boltLoseCount}</InfoContentDiv>
-                      <InfoContentDiv>{data[item].unclassifiedCount}</InfoContentDiv>
                       <InfoContentDiv>{data[item].boltGoodCount}</InfoContentDiv>
                     </React.Fragment>
                   );
