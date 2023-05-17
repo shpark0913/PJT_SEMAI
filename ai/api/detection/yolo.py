@@ -27,7 +27,7 @@ def load_detection_model(model_name, model_path=MODEL_PATH):
 ## 서버를 실행시킬 때 바로 model load ##
 model = load_detection_model(MODEL_NAME)
 # confidence를 높여서 더욱 정밀하게 추론하도록 만듦
-model.conf = 0.7
+model.conf = 0.94
 # 하나의 bbox에 대해 여러 라벨을 할당하지 못하도록 만듦
 model.multi_label = False
 
