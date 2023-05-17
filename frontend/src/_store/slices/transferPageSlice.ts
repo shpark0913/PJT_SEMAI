@@ -44,7 +44,7 @@ export const TransferPageSlice = createSlice({
     },
     setSelectedTrain: (state, action) => {
       let {idx, list} = action.payload;
-      state.selectedClass[idx] = list;
+      state.selectedTrain[idx] = list;
     }
   },
 })
