@@ -30,7 +30,7 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
         <TabContentMain>
 
           { status <= 2 ?
-            <TransferBoltImages BoltImageLists={BoltImageLists[0]} selected={selected[status]} setSelected={setSelected} /> :
+            <TransferBoltImages BoltImageList={BoltImageLists[0][status]} /> :
             <LearningBoltImages BoltImageLists={BoltImageLists[1]} imageLength={imageLengthList[3]} selected={selected[status]} setSelected={setSelected} />
           }
           <BoltImageDetail />
