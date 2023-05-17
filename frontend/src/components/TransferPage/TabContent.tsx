@@ -5,11 +5,13 @@ import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
 import ImageUrl from "../../_utils/ImageUrl";
 import {setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 
-import { TabContentFlex,
+import {
+  TabContentFlex,
   TabContentInfos,
   TabContentContainer,
   TabContentMain,
-  BoltImageDetailContainer } from "./TabContentComponents";
+  BoltImageDetailContainer, BoltImageDetail, BoltImageDetailWrapper
+} from "./TabContentComponents";
 import TransferBoltImages from "./TransferBoltImages";
 import LearningBoltImages from "./LearningBoltImages";
 import TransferButtons from "./TransferButtons";
@@ -77,8 +79,10 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
           }
           <BoltImageDetailContainer className={isDetailOpen? "active" : ""}>
             <CloseButton onClick={() => dispatch(setIsDetailOpen(false))}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
-            <img src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
-            <div>{detailInfo.originName}</div>
+            <BoltImageDetailWrapper>
+              <BoltImageDetail src={ImageUrl(detailInfo.imgUrl)} alt="bolt detail"/>
+              <div>{detailInfo.originName}</div>
+            </BoltImageDetailWrapper>
           </BoltImageDetailContainer>
 
         </TabContentMain>
