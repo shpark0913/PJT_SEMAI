@@ -2,8 +2,8 @@ import PredictTable from "../components/PredictPage/PredictTable";
 import React from "react";
 import { ReactComponent as ScatterCircle } from "../assets/ScatterCircle.svg";
 import ScatterGraph from "../components/PredictPage/ScatterGraph";
-import styled from "styled-components";
 import Title from "../components/Title";
+import styled from "styled-components";
 
 type PredictTitleType = {
   title: string;
@@ -28,10 +28,12 @@ const ScatterCircleDiv = styled.div`
 
 const PredictGridContainer = styled.main`
   display: grid;
-  grid-template-columns: 55% auto;
+  grid-template-columns: 47% auto;
   gap: 50px;
   height: 100%;
   padding: 30px;
+  overflow-x: hidden;
+  position: relative;
 `;
 
 // 좌측 표
@@ -63,20 +65,22 @@ const WheelNumberDiv = styled.div`
   padding-top: 10px;
   padding-bottom: 20px;
   font-size: 18px;
-  
+
   & > abbr {
     color: var(--emphasize-color);
     font-weight: bold;
     font-size: 22px;
   }
-`
+`;
 
 // 표와 그래프에서 같이 쓰는 제목
 const PredictTitle = ({ title, num }: PredictTitleType) => {
   return (
     <PredictTitleDiv>
       <Title title={title}></Title>
-      <WheelNumberDiv><abbr>{num}</abbr> / 400</WheelNumberDiv>
+      <WheelNumberDiv>
+        <abbr>{num}</abbr> / 400
+      </WheelNumberDiv>
     </PredictTitleDiv>
   );
 };
