@@ -53,6 +53,7 @@ function DashboardPage() {
       // OHT 검사 결과
       sse.addEventListener("state", event => {
         const stateData = JSON.parse(event.data);
+        console.log("proceed", stateData.isWheelsProceeding);
         dispatch(
           setSSEState({ ohtSn: stateData.ohtSn, isWheelsProceeding: stateData.isWheelsProceeding }),
         );
