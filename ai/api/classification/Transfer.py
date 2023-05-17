@@ -59,12 +59,6 @@ print(os.path.join(data_dir, 'train'))
 train_datasets = datasets.ImageFolder(os.path.join(data_dir, 'train'), train_transform)
 test_datasets = datasets.ImageFolder(os.path.join(data_dir, 'val'), test_transform)
 
-# DataLoader를 이용 / 데이터셋에서 미니배치(minibatch)를 추출 
-# (batch_size==미니배치의 크기 / shuffle==데이터셋을 섞을지 여부 / num_workers==데이터셋을 불러올 때 사용할 프로세스 수)
-train_loader = DataLoader(train_datasets, batch_size=32, shuffle=True, num_workers=4)
-test_loader = DataLoader(test_datasets, batch_size=32, shuffle=True, num_workers=4)
-
-
 
 def f1score(test_loader, model):
     # F1 score
@@ -94,7 +88,7 @@ def f1score(test_loader, model):
 
     return f1_micro
 
-def loadModel():
+def loadModel(set_lr, set_momentum):
     # 볼트 분석 모델 load
     TRANSFER_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     TRANSFER_CLASSIFICATION_MODEL_DIR = os.path.join(os.path.join(TRANSFER_BASE_DIR, "models"), "classification_model.pth")
@@ -109,20 +103,25 @@ def loadModel():
     # 손실 함수와 최적화 알고리즘 정의
     criterion = nn.CrossEntropyLoss()
     # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-    optimizer = optim.SGD(classification_model.parameters(), lr=0.01, momentum=0.9)
+    optimizer = optim.SGD(classification_model.parameters(), lr=set_lr, momentum=set_momentum)
 
     return classification_model, criterion, optimizer
 
 
-def learning(origin_acc, origin_loss, origin_fscore):
+def learning(origin_acc, origin_loss, origin_fscore, lr, momentum, batch, set_epoch):
+    # DataLoader를 이용 / 데이터셋에서 미니배치(minibatch)를 추출 
+    # (batch_size==미니배치의 크기 / shuffle==데이터셋을 섞을지 여부 / num_workers==데이터셋을 불러올 때 사용할 프로세스 수)
+    train_loader = DataLoader(train_datasets, batch_size=batch, shuffle=True, num_workers=4)
+    test_loader = DataLoader(test_datasets, batch_size=batch, shuffle=True, num_workers=4)
+
     # 학습된 클래스 이름과 수행 결과를 출력
     class_names = train_datasets.classes
     print('클래스:', class_names)
 
-    transfer_classification_model, criterion, optimizer = loadModel()
+    transfer_classification_model, criterion, optimizer = loadModel(lr, momentum)
 
     # 학습 epochs 설정
-    num_epochs = 10
+    num_epochs = set_epoch
 
     # epoch에 따른 손실 값과 정확도를 저장하는 리스트
     train_loss_list = []
