@@ -23,7 +23,7 @@ export const TransferPageSlice = createSlice({
   name: 'transferPage',
   initialState,
   reducers: {
-    setTabIndex: (state, action) => {
+    setStatus: (state, action) => {
       state.status = action.payload
     },
     setIsDetailOpen: (state, action) => {
@@ -50,6 +50,6 @@ export const TransferPageSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setTabIndex, setIsDetailOpen, setDetailInfo, setIsConfirmModalOpen, setType } = TransferPageSlice.actions
+export const { setStatus, setIsDetailOpen, setDetailInfo, setIsConfirmModalOpen, setType } = TransferPageSlice.actions
 
 export default TransferPageSlice.reducer

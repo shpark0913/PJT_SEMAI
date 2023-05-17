@@ -78,7 +78,7 @@ export const BoltImageDetailWrapper = styled.div`
       font-weight: bold;
     }
 `
-export const BoltImageDetail = styled.img`
+export const BoltImageDetailImg = styled.img`
   width: 80%;
   text-align: center;
   margin-bottom: 20px;
