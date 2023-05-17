@@ -5,7 +5,7 @@ import ImageUrl from "../../_utils/ImageUrl";
 import {setDetailInfo, setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
 
-import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./BoltImageComponents";
+import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./styledComponents/BoltImageComponents";
 
 
 
@@ -17,7 +17,7 @@ function TransferBoltImages({BoltImageLists, selected, setSelected}:
                               }) {
 
   const dispatch = useAppDispatch();
-  const { isDetailOpen, tabIndex } = useAppSelector(state => state.transferPage);
+  const { isDetailOpen, status } = useAppSelector(state => state.transferPage);
 
   const BoltImageElement = BoltImageLists.map((data) =>
         <>
@@ -58,7 +58,7 @@ function TransferBoltImages({BoltImageLists, selected, setSelected}:
   return (
     <BoltImagesGridContainer className={isDetailOpen? "active" : ""}>
       <BoltImagesGrid className={isDetailOpen? "active open" : "open"}>
-        {BoltImageElement[tabIndex]}
+        {BoltImageElement[status]}
       </BoltImagesGrid>
     </BoltImagesGridContainer>
   );

@@ -3,7 +3,7 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from "../../_hooks/hooks";
 import { setTabIndex, setIsDetailOpen } from "../../_store/slices/transferPageSlice";
 
-import { TabMenuLi, TransferMenuContainer, LengthSpan } from "./TabMenuComponents";
+import { TabMenuLi, TransferMenuContainer, LengthSpan } from "./styledComponents/TabMenuComponents";
 
 function TabMenu({imageLengthList}: { imageLengthList: number[] }) {
 
