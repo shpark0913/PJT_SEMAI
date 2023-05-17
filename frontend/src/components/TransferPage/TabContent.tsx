@@ -26,7 +26,7 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
       { isConfirmModalOpen ? <ConfirmModal selected={selected[status]} setSelected={setSelected} /> : <></> }
 
       <TabContentFlex>
-        <TabContentInfo imageLengthList={imageLengthList} />
+        <TabContentInfo BoltImageLists={BoltImageLists} imageLengthList={imageLengthList} />
         <TabContentMain>
 
           { status <= 2 ?
