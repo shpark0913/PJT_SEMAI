@@ -2,6 +2,8 @@
 import {useSubmit} from "react-router-dom";
 import {setIsConfirmModalOpen, setType} from "../_store/slices/transferPageSlice";
 import {useAppDispatch} from "./hooks";
+import React from "react";
+import Axios from "../_utils/Axios";
 
 function useTransferBoltImages() {
   const dispatch = useAppDispatch();
@@ -43,7 +45,40 @@ function useTransferBoltImages() {
     });
   }
   /** 학습하기 */
-  return { openConfirmModal, TransferClass, TransferLearning, DeleteImages }
+  const Train = async (e:React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (e.currentTarget.form){
+      const form = new FormData(e.currentTarget.form);
+      const Obj = Object.fromEntries(form);
+      console.log(Obj);
+      try {
+        const response = await Axios.get('transition/learning', {
+          params: Obj,
+        })
+        console.log(response);
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+    // if (e.currentTarget.form) {
+    //   let form = new FormData(e.currentTarget.form);
+    //   dispatch(setQueryObj({page: "1"}))
+    //   setStartDate(todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
+    //   setEndDate(todayDate);
+    //
+    //   form.set('page', "1");
+    //   form.set('startDate', todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
+    //   form.set('endDate', todayDate);
+    //   !form.has("errorFlag") && form.set("errorFlag", "0")
+    //   !form.has("time") && form.set("time", "ALL")
+    //
+    //   submit(form);
+    // }
+
+  }
+  return { openConfirmModal, TransferClass, TransferLearning, DeleteImages, Train }
 }
 
 export default useTransferBoltImages;
