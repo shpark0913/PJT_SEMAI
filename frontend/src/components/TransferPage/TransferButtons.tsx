@@ -3,7 +3,7 @@ import {Button, RedButton, SemesButton} from "../ButtonComponents";
 import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
 import {TransferBoltImageObject} from "../../_utils/Types";
 import { useAppDispatch, useAppSelector } from "../../_hooks/hooks";
-import { setIsConfirmModalOpen } from "../../_store/slices/transferPageSlice";
+import {setIsConfirmModalOpen, setSelectedClass, setSelectedTrain} from "../../_store/slices/transferPageSlice";
 import Axios from "../../_utils/Axios";
 
 function TransferButtons() {
@@ -11,7 +11,7 @@ function TransferButtons() {
   let { type, status } = useAppSelector(state => state.transferPage)
   const { openConfirmModal, TransferClass, TransferLearning, DeleteImages } = useTransferBoltImages();
 
-  let TransferValue = ['양호로 이동', '유실로 이동', '파단으로 이동'];
+  let TransferValue = ['양호로 이동', '유실로 이동', '파단으로 이동', '학습으로 이동', '삭제로 이동'];
 
   /** 어느 클래스로 이동할지 묻는 버튼 */
   const ConfirmMoveClassButton = (): JSX.Element => {
@@ -49,11 +49,7 @@ function TransferButtons() {
     return <SemesButton
       onClick={ () => {
         TransferClass(preType, nextType, selected.map(d => d.fileId));
-        setSelected(prev => {
-          const tmp = [...prev]
-          tmp[preType] = []
-          return [...tmp]
-        });
+        dispatch(setSelectedClass({idx: preType, list: []}))
         dispatch(setIsConfirmModalOpen(false));
       }}
     >
@@ -65,11 +61,7 @@ function TransferButtons() {
     return <SemesButton
       onClick={ () => {
         TransferLearning(selected.map(d => d.fileId));
-        setSelected(prev => {
-          const tmp = [...prev]
-          tmp[type.preType] = []
-          return [...tmp]
-        });
+        dispatch(setSelectedTrain({idx: status, list: []}))
         dispatch(setIsConfirmModalOpen(false));
       }}
     >
@@ -78,12 +70,13 @@ function TransferButtons() {
   }
   const DeleteImagesButton = (selected: TransferBoltImageObject[]) => {
     return <RedButton onClick={() => {
-      DeleteImages(selected.map(d => d.fileId))
-      setSelected(prev => {
-        const tmp = [...prev]
-        tmp[preType] = []
-        return [...tmp]
-      });
+      if ( status <= 2 ) {
+        dispatch(setSelectedClass({idx: status, list: []}))
+      }
+      else {
+        [0, 1, 2].map(val => dispatch(setSelectedTrain({idx: val, list: []})))
+      }
+      DeleteImages(selected.map(d => d.fileId));
       dispatch(setIsConfirmModalOpen(false));
     }}>{TransferValue[4]}</RedButton>
   }
