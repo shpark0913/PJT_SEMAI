@@ -47,13 +47,13 @@ const TransferBoltImage = styled.div`
       cursor: pointer;
     }
   }
-  & > input[type="checkbox"] {
+  & input[type="checkbox"] {
     position: absolute;
     top: 0;
     left: 0;
     margin: 5px 0 0 5px;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
   }
 `
 
