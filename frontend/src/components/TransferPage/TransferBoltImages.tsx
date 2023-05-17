@@ -14,7 +14,7 @@ function TransferBoltImages({ BoltImageList }: { BoltImageList: TransferLoaderTy
 
   const dispatch = useAppDispatch();
   const { isDetailOpen, status, selectedClass } = useAppSelector(state => state.transferPage);
-  const selected = selectedClass[status]
+  const selected = selectedClass[status];
 
   return (
     <BoltImagesGridContainer className={isDetailOpen? "active" : ""}>

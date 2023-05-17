@@ -40,7 +40,7 @@ function TransferButtons() {
     else {     // 학습하기 탭인 경우 -> 학습 버튼과 삭제 버튼만..
       return [
         <SemesButton onClick={() => handleOpenConfirmModal(status, 3)}> 학습하기 </SemesButton>,
-        <RedButton onClick={() => {handleOpenConfirmModal(status, 4)}}> 삭제하기 </RedButton>
+        <RedButton onClick={() => handleOpenConfirmModal(status, 4)}> 삭제하기 </RedButton>
       ]
     }
   }
