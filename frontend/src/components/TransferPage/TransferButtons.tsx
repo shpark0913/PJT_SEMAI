@@ -11,7 +11,7 @@ import { setIsConfirmModalOpen, setType } from "../../_store/slices/transferPage
 function TransferButtons() {
   const dispatch = useAppDispatch();
   // const { setIsConfirmModalOpen } = useConfirmModal();
-  let { isConfirmModalOpen, type } = useAppSelector(state => state.transferPage)
+  let { isConfirmModalOpen, type, status } = useAppSelector(state => state.transferPage)
   // let [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const { TransferClass, TransferLearning, DeleteImages } = useTransferBoltImages();
   // let [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
@@ -30,25 +30,25 @@ function TransferButtons() {
   }
 
   /** 모달창 띄우는 버튼 */
-  const ConfirmTransferClassButton = (preType: number): JSX.Element[] => {
-    if (preType < 3 ) {      // 클래스 탭인 경우 -> 클래스 이동, 학습 이동, 삭제 기능
+  const ConfirmTransferClassButton = (): JSX.Element[] => {
+    if (status <= 2 ) {      // 클래스 탭인 경우 -> 클래스 이동, 학습 이동, 삭제 기능
       return TransferValue.map((val, idx) => {
-        if (idx === preType) return <></>;
+        if (idx === status) return <></>;
         if (idx < 3) return <Button onClick={() => {
-          handleOpenConfirmModal(preType, idx);
+          handleOpenConfirmModal(status, idx);
         }}> {val} </Button>;
         else if (idx === 3) return <SemesButton onClick={() => {
-          handleOpenConfirmModal(preType, idx);
+          handleOpenConfirmModal(status, idx);
         }}> {val} </SemesButton>;
         else return <RedButton onClick={() => {
-            handleOpenConfirmModal(preType, idx);
+            handleOpenConfirmModal(status, idx);
           }}> {val} </RedButton>;
       });
     }
     else {     // 학습하기 탭인 경우 -> 학습 버튼과 삭제 버튼만..
       return [
-        <SemesButton onClick={() => handleOpenConfirmModal(preType, 3)}> '학습하기' </SemesButton>,
-        <RedButton onClick={() => {handleOpenConfirmModal(preType, 4)}}> '삭제하기' </RedButton>
+        <SemesButton onClick={() => handleOpenConfirmModal(status, 3)}> 학습하기 </SemesButton>,
+        <RedButton onClick={() => {handleOpenConfirmModal(status, 4)}}> 삭제하기 </RedButton>
       ]
     }
   }

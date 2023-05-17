@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useAppDispatch, useAppSelector } from "../../_hooks/hooks";
-import { setTabIndex, setIsDetailOpen } from "../../_store/slices/transferPageSlice";
+import { setStatus, setIsDetailOpen } from "../../_store/slices/transferPageSlice";
 
 import { TabMenuLi, TransferMenuContainer, LengthSpan } from "./styledComponents/TabMenuComponents";
 
@@ -17,7 +17,7 @@ function TabMenu({imageLengthList}: { imageLengthList: number[] }) {
           key={`transfer-tab-menu_${idx}`}
           className={idx === status ? "isActive" : "" }
           onClick={ () => {
-            dispatch(setTabIndex(idx));
+            dispatch(setStatus(idx));
             dispatch(setIsDetailOpen(false));
           }}
         >
