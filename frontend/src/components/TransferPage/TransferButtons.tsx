@@ -4,22 +4,14 @@ import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
 import {TransferBoltImageObject} from "../../_utils/Types";
 import { useAppDispatch, useAppSelector } from "../../_hooks/hooks";
 import { setIsConfirmModalOpen, setType } from "../../_store/slices/transferPageSlice";
-// import useConfirmModal from "../../_hooks/useConfirmModal";
-// import ConfirmModal from "./ConfirmModal";
-
+import Axios from "../../_utils/Axios";
 
 function TransferButtons() {
   const dispatch = useAppDispatch();
-  // const { setIsConfirmModalOpen } = useConfirmModal();
   let { isConfirmModalOpen, type, status } = useAppSelector(state => state.transferPage)
-  // let [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const { TransferClass, TransferLearning, DeleteImages } = useTransferBoltImages();
-  // let [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
 
   let TransferValue = ['양호로 이동', '유실로 이동', '파단으로 이동', '학습으로 이동', '삭제하기'];
-
-  // type에 대해서
-  // 0: 양호, 1: 유실, 2: 파단, 3: 학습, 4: 삭제
 
   const handleOpenConfirmModal = (preType: number, nextType: number) => {
     dispatch(setIsConfirmModalOpen(true));
@@ -107,7 +99,21 @@ function TransferButtons() {
       dispatch(setIsConfirmModalOpen(false));
     }}>{TransferValue[4]}</RedButton>
   }
-  return { isConfirmModalOpen, ConfirmTransferClassButton, CancelConfirmModalButton, TransferClassButton, TransferLearningButton, DeleteImagesButton }
+
+  const handleTrain = async () => {
+    try {
+      const response = await Axios.get('transition/learning')
+      console.log(response);
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+  const TrainButton = () => {
+    return <SemesButton onClick={() => handleTrain()}>학습하기</SemesButton>
+  }
+
+  return { isConfirmModalOpen, ConfirmTransferClassButton, CancelConfirmModalButton, TransferClassButton, TransferLearningButton, DeleteImagesButton, TrainButton }
 }
 
 export default TransferButtons;
