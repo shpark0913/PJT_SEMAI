@@ -6,7 +6,7 @@ import ImageUrl from "../../_utils/ImageUrl";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
 import {setDetailInfo, setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 
-import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./BoltImageComponents";
+import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./styledComponents/BoltImageComponents";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const ClassName = styled.div`

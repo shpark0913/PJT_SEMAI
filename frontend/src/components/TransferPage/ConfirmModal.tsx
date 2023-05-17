@@ -41,7 +41,7 @@ function ConfirmModal({ selected, setSelected }: {selected: TransferBoltImageObj
    */
 
   const dispatch = useAppDispatch();
-  const { type, tabMenuList } = useAppSelector(state => state.transferPage);
+  const { type, statusNameList } = useAppSelector(state => state.transferPage);
   const { TransferClassButton, CancelConfirmModalButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
   const TransferDescription = [
     '"양호"로 이동하겠습니까?',
@@ -64,7 +64,7 @@ function ConfirmModal({ selected, setSelected }: {selected: TransferBoltImageObj
         {
           type.preType < 3?   // 클래스에서 -> 클래스, 학습, 삭제
             <>
-              <DescriptionDiv>{`${ type.nextType < 4?  `"${tabMenuList[type.preType]}"에서 ` : "" }${TransferDescription[type.nextType]} (총 ${selected.length}장)`}</DescriptionDiv>
+              <DescriptionDiv>{`${ type.nextType < 4?  `"${statusNameList[type.preType]}"에서 ` : "" }${TransferDescription[type.nextType]} (총 ${selected.length}장)`}</DescriptionDiv>
               <BoltImageGridContainer>
                 <BoltImageGrid>
                   { selected.map(data => <img src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
