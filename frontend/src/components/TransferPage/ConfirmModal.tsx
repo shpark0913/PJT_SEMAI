@@ -42,7 +42,7 @@ function ConfirmModal({ selected, setSelected }: {selected: TransferBoltImageObj
 
   const dispatch = useAppDispatch();
   const { type, statusNameList } = useAppSelector(state => state.transferPage);
-  const { TransferClassButton, CancelConfirmModalButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
+  const { TransferClassButton, CancelConfirmModalButton, TransferLearningButton, DeleteImagesButton, TrainButton } = TransferButtons();
   const TransferDescription = [
     '"양호"로 이동하겠습니까?',
     '"유실"로 이동하겠습니까?',
@@ -87,9 +87,9 @@ function ConfirmModal({ selected, setSelected }: {selected: TransferBoltImageObj
               </BoltImageGridContainer>
               <ButtonsContainer>
                 { CancelConfirmModalButton() }
-
-                { type.nextType < 3 ? TransferClassButton(type.preType, type.nextType, selected, setSelected ) : <></> }
-                { type.nextType === 3 ? TransferLearningButton(selected, setSelected) :<></> }
+                { type.nextType === 3 ? TrainButton() :<></> }
+                {/*{ type.nextType < 3 ? TransferClassButton(type.preType, type.nextType, selected, setSelected ) : <></> }*/}
+                {/*{ type.nextType === 3 ? TransferLearningButton(selected, setSelected) :<></> }*/}
                 { type.nextType === 4 ? DeleteImagesButton(type.preType, selected, setSelected) :<></> }
               </ButtonsContainer>
             </>
