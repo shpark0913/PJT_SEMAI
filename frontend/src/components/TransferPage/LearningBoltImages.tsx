@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
 
-import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
+import { TransferLoaderType } from "../../_utils/Types";
 import ImageUrl from "../../_utils/ImageUrl";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
-import {setDetailInfo, setIsDetailOpen} from "../../_store/slices/transferPageSlice";
+import {
+  setDetailInfo,
+  setIsDetailOpen,
+  setSelectedTrain
+} from "../../_store/slices/transferPageSlice";
 
 import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./styledComponents/BoltImageComponents";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -39,17 +43,11 @@ const NumberSpan = styled.span`
   margin-left: 5px;
 `;
 
-function LearningBoltImages({BoltImageLists, imageLength, selected, setSelected}:
-                              { BoltImageLists: TransferLoaderType[],
-                                imageLength: number,
-                                selected: TransferBoltImageObject[],
-                                setSelected: React.Dispatch<React.SetStateAction<TransferBoltImageObject[][]>>
-                              }) {
+function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderType[] }) {
 
   const dispatch = useAppDispatch();
-  const { isDetailOpen, statusNameList } = useAppSelector(state => state.transferPage);
+  const { isDetailOpen, statusNameList, selectedTrain } = useAppSelector(state => state.transferPage);
   const [isTabOpen, setIsTabOpen] = useState<boolean[]>([false, false, false]);
-  // const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], [], []]);
 
   const styleFunc = (status: number): React.CSSProperties => {
     return {
@@ -60,67 +58,58 @@ function LearningBoltImages({BoltImageLists, imageLength, selected, setSelected}
     }
   }
 
-  const BoltImageElement = BoltImageLists.map((data) =>
-    <>
-      {/* 클래스 이름.. */}
-      <ClassName onClick={() => {
-        setIsTabOpen(prev => {
-          let newList = [...prev];
-          newList[data.status] = !newList[data.status];
-          return [...newList]
-        });
-      }}>
-        <ExpandMoreIcon sx={styleFunc(data.status)} />
-        <h1>
-          {statusNameList[data.status]}
-        </h1>
-        <NumberSpan>{data.images.length}</NumberSpan>
-      </ClassName>
-
-      <BoltImagesGrid className={`${isDetailOpen? "active" : ""} ${isTabOpen[data.status] ? "open" : ""}`}>
-        { data.images.map((image) =>
-          <TransferBoltImage key={`bolt_images_learn-${image.fileId}`} >
-            <label>
-              <input type="checkbox" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                console.log(e.target.checked);
-                if (e.target.checked) {
-                  setSelected(prev => {
-                    const tmp = [...prev];
-                    tmp[3] = [...tmp[3], image];
-                    return tmp;
-                  })
-                }
-                else {
-                  setSelected(prev => {
-                    const tmp = [...prev];
-                    tmp[3] = tmp[3].filter((tmpData) => tmpData.fileId !== image.fileId);
-                    return tmp;
-                  })
-                }
-              }} checked={ !!selected.find(val => val.fileId === image.fileId) } />
-              <img src={ImageUrl(image.imgUrl)} alt="bolt" />
-            </label>
-
-            <div onClick={() => {
-              dispatch(setIsDetailOpen(true));
-              dispatch(setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId}))
-            } }>
-              {image.originName}
-            </div>
-          </TransferBoltImage>
-        )}
-      </BoltImagesGrid>
-      <hr />
-
-    </>
-  )
-
-  // console.log(BoltImageElement);
-
-
   return (
     <BoltImagesGridContainer className={isDetailOpen? "active" : ""}>
-      { BoltImageElement }
+      { BoltImageLists.map((data) =>
+        <>
+          {/* 클래스 이름.. */}
+          <ClassName onClick={() => {
+            setIsTabOpen(prev => {
+              let newList = [...prev];
+              newList[data.status] = !newList[data.status];
+              return [...newList]
+            });
+          }}>
+            <ExpandMoreIcon sx={styleFunc(data.status)} />
+            <h1>
+              {statusNameList[data.status]}
+            </h1>
+            <NumberSpan>{data.images.length}</NumberSpan>
+          </ClassName>
+
+          <BoltImagesGrid className={`${isDetailOpen? "active" : ""} ${isTabOpen[data.status] ? "open" : ""}`}>
+            { data.images.map((image) =>
+              <TransferBoltImage key={`bolt_images_learn-${image.fileId}`} >
+                <label>
+                  <input type="checkbox" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    console.log(e.target.checked);
+                    if (e.target.checked) {
+                      const tmpList = [...selectedTrain[data.status]];
+                      tmpList.push(image)
+                      dispatch(setSelectedTrain({idx: data.status, list: tmpList}))
+                    }
+                    else {
+                      const tmpList = [...selectedTrain[data.status]];
+                      const newTmpList = tmpList.filter(existed => existed.fileId !== image.fileId);
+                      dispatch(setSelectedTrain({idx: data.status, list: newTmpList}))
+                    }
+                  }} checked={ !!selectedTrain[data.status].find(val => val.fileId === image.fileId) } />
+                  <img src={ImageUrl(image.imgUrl)} alt="bolt" />
+                </label>
+
+                <div onClick={() => {
+                  dispatch(setIsDetailOpen(true));
+                  dispatch(setDetailInfo({imgUrl: image.imgUrl, originName: image.originName, fileId: image.fileId}))
+                } }>
+                  {image.originName}
+                </div>
+              </TransferBoltImage>
+            )}
+          </BoltImagesGrid>
+          <hr />
+
+        </>)
+      }
     </BoltImagesGridContainer>
   );
 }

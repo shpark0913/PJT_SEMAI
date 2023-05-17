@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import { useAppSelector } from "../../_hooks/hooks";
-import {TransferBoltImageObject, TransferLoaderType} from "../../_utils/Types";
+import { TransferLoaderType } from "../../_utils/Types";
 
 import {
   TabContentFlex,
@@ -18,12 +18,10 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
 
   const { isConfirmModalOpen, status} = useAppSelector(state => state.transferPage);
 
-  const [selected, setSelected] = useState<TransferBoltImageObject[][]>([[], [], [], []]);
-
   return (
     <TabContentContainer>
 
-      { isConfirmModalOpen ? <ConfirmModal selected={selected[status]} setSelected={setSelected} /> : <></> }
+      { isConfirmModalOpen ? <ConfirmModal /> : <></> }
 
       <TabContentFlex>
         <TabContentInfo BoltImageLists={BoltImageLists} imageLengthList={imageLengthList} />
@@ -31,7 +29,7 @@ function TabContent({BoltImageLists, imageLengthList}: {BoltImageLists: Transfer
 
           { status <= 2 ?
             <TransferBoltImages BoltImageList={BoltImageLists[0][status]} /> :
-            <LearningBoltImages BoltImageLists={BoltImageLists[1]} imageLength={imageLengthList[3]} selected={selected[status]} setSelected={setSelected} />
+            <LearningBoltImages BoltImageLists={BoltImageLists[1]} />
           }
           <BoltImageDetail />
 
