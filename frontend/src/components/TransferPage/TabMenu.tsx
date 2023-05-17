@@ -8,20 +8,20 @@ import { TabMenuLi, TransferMenuContainer, LengthSpan } from "./TabMenuComponent
 function TabMenu({imageLengthList}: { imageLengthList: number[] }) {
 
   const dispatch = useAppDispatch();
-  const { tabIndex, tabMenuList } = useAppSelector(state => state.transferPage);
+  const { status, statusNameList } = useAppSelector(state => state.transferPage);
 
   return (
     <TransferMenuContainer>
-      { tabMenuList.map((menu, idx) =>
+      { statusNameList.map((statusName, idx) =>
         <TabMenuLi
           key={`transfer-tab-menu_${idx}`}
-          className={idx === tabIndex ? "isActive" : "" }
+          className={idx === status ? "isActive" : "" }
           onClick={ () => {
             dispatch(setTabIndex(idx));
             dispatch(setIsDetailOpen(false));
-          } }
+          }}
         >
-          { tabMenuList[idx] } <LengthSpan>{ imageLengthList[idx] }</LengthSpan>
+          { statusNameList[idx] } <LengthSpan>{ imageLengthList[idx] }</LengthSpan>
         </TabMenuLi>
       ) }
     </TransferMenuContainer>
