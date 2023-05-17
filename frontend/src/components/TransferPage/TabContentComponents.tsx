@@ -56,9 +56,30 @@ export const BoltImageDetailContainer = styled.div`
   display: none;
   padding-left: 30px;
   box-shadow: -15px 0 10px -10px var(--shadow-color);
+
+
+  
   &.active {
-    display: inline-block;
     grid-column: 6/9;
     width: 100%;
+
+    display: flex;
+    flex-direction: column;
   }
 `;
+export const BoltImageDetailWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  
+    & > div {
+      font-weight: bold;
+    }
+`
+export const BoltImageDetail = styled.img`
+  width: 80%;
+  text-align: center;
+  margin-bottom: 20px;
+`
