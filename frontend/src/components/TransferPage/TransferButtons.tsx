@@ -44,8 +44,7 @@ function TransferButtons() {
   /** 다른 클래스로 이동하기  */
   const TransferClassButton = (preType: number,
                                nextType: number,
-                               selected: TransferBoltImageObject[],
-                               setSelected: React.Dispatch<React.SetStateAction<TransferBoltImageObject[][]>>) => {
+                               selected: TransferBoltImageObject[]) => {
 
     return <SemesButton
       onClick={ () => {
@@ -61,9 +60,8 @@ function TransferButtons() {
       {TransferValue[nextType]}
     </SemesButton>
   }
-
-  const TransferLearningButton = (selected: TransferBoltImageObject[],
-                                  setSelected: React.Dispatch<React.SetStateAction<TransferBoltImageObject[][]>>) => {
+  /** 학습용 폴더로 이동 */
+  const TransferLearningButton = (selected: TransferBoltImageObject[]) => {
     return <SemesButton
       onClick={ () => {
         TransferLearning(selected.map(d => d.fileId));
@@ -78,9 +76,7 @@ function TransferButtons() {
       { TransferValue[3] }
     </SemesButton>
   }
-  const DeleteImagesButton = (preType: number,
-                              selected: TransferBoltImageObject[],
-                              setSelected: React.Dispatch<React.SetStateAction<TransferBoltImageObject[][]>>) => {
+  const DeleteImagesButton = (selected: TransferBoltImageObject[]) => {
     return <RedButton onClick={() => {
       DeleteImages(selected.map(d => d.fileId))
       setSelected(prev => {
@@ -94,7 +90,9 @@ function TransferButtons() {
 
   const handleTrain = async () => {
     try {
-      const response = await Axios.get('transition/learning')
+      const response = await Axios.get('transition/learning', {
+        params: {},
+      })
       console.log(response);
     }
     catch (error) {
