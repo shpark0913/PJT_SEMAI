@@ -50,6 +50,6 @@ export const TransferPageSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setStatus, setIsDetailOpen, setDetailInfo, setIsConfirmModalOpen, setType } = TransferPageSlice.actions
+export const { setStatus, setIsDetailOpen, setDetailInfo, setIsConfirmModalOpen, setType, setSelectedClass, setSelectedTrain } = TransferPageSlice.actions
 
 export default TransferPageSlice.reducer
