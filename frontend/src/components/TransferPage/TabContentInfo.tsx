@@ -9,7 +9,7 @@ function TabContentInfo({ BoltImageLists, imageLengthList }:
                           { BoltImageLists: TransferLoaderType[][],
                             imageLengthList: number[]}) {
   const dispatch = useAppDispatch();
-  const { ConfirmTransferClassButton } = TransferButtons();
+  const { ConfirmMoveClassButton, ConfirmMoveTrainButton, ConfirmDeleteButton, ConfirmTrainButton } = TransferButtons();
   const { selectedClass, selectedTrain, status } = useAppSelector(state => state.transferPage);
 
   const handleCheckClassAll = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +42,17 @@ function TabContentInfo({ BoltImageLists, imageLengthList }:
           <label>전체 선택 <input type="checkbox" checked={selectedClass[status].length === imageLengthList[status]} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleCheckClassAll(e)}/></label>
             <div>{`현재 선택 : ${selectedClass[status].length}/${imageLengthList[status]}`}</div>
         </div>
-        <div> {ConfirmTransferClassButton()} </div>
+        <div>
+          { selectedClass[status].length ?
+            <>
+              { ConfirmMoveClassButton() }
+              { ConfirmMoveTrainButton() }
+              { ConfirmDeleteButton() }
+            </>
+            : <></>
+          }
+
+        </div>
         </>
         :
         <>
@@ -50,7 +60,16 @@ function TabContentInfo({ BoltImageLists, imageLengthList }:
           <label>전체 선택 <input type="checkbox" checked={selectedTrain.reduce((acc, cur) => acc + cur.length, 0) === imageLengthList[status]} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleCheckTrainAll(e)}/></label>
           <div>{`현재 선택 : ${selectedTrain.reduce((acc, cur) => acc + cur.length, 0)}/${imageLengthList[status]}`}</div>
         </div>
-        <div> {ConfirmTransferClassButton()} </div>
+        <div>
+          { selectedTrain.reduce((acc, cur) => acc + cur.length, 0) ?
+            <>
+              { ConfirmTrainButton() }
+              { ConfirmDeleteButton() }
+            </>
+            : <></>
+          }
+
+        </div>
         </> }
     </TabContentInfos>
   );

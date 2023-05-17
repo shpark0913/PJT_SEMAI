@@ -3,47 +3,39 @@ import {Button, RedButton, SemesButton} from "../ButtonComponents";
 import useTransferBoltImages from "../../_hooks/useTransferBoltImages";
 import {TransferBoltImageObject} from "../../_utils/Types";
 import { useAppDispatch, useAppSelector } from "../../_hooks/hooks";
-import { setIsConfirmModalOpen, setType } from "../../_store/slices/transferPageSlice";
+import { setIsConfirmModalOpen } from "../../_store/slices/transferPageSlice";
 import Axios from "../../_utils/Axios";
 
 function TransferButtons() {
   const dispatch = useAppDispatch();
-  let { isConfirmModalOpen, type, status } = useAppSelector(state => state.transferPage)
-  const { TransferClass, TransferLearning, DeleteImages } = useTransferBoltImages();
+  let { type, status } = useAppSelector(state => state.transferPage)
+  const { openConfirmModal, TransferClass, TransferLearning, DeleteImages } = useTransferBoltImages();
 
-  let TransferValue = ['양호로 이동', '유실로 이동', '파단으로 이동', '학습으로 이동', '삭제하기'];
+  let TransferValue = ['양호로 이동', '유실로 이동', '파단으로 이동'];
 
-  const handleOpenConfirmModal = (preType: number, nextType: number) => {
-    dispatch(setIsConfirmModalOpen(true));
-    dispatch(setType({
-      preType: preType,
-      nextType: nextType
-    }));
+  /** 어느 클래스로 이동할지 묻는 버튼 */
+  const ConfirmMoveClassButton = (): JSX.Element => {
+    const moveButtons = [0, 1, 2].map(val => {
+      if (status === val) return <></>;
+      return <Button onClick={() => {
+        openConfirmModal(status, val)
+      }}> {TransferValue[val]} </Button>
+    })
+    return <> {moveButtons} </>;
   }
-
-  /** 모달창 띄우는 버튼 */
-  const ConfirmTransferClassButton = (): JSX.Element[] => {
-    if (status <= 2 ) {      // 클래스 탭인 경우 -> 클래스 이동, 학습 이동, 삭제 기능
-      return TransferValue.map((val, idx) => {
-        if (idx === status) return <></>;
-        if (idx < 3) return <Button onClick={() => {
-          handleOpenConfirmModal(status, idx);
-        }}> {val} </Button>;
-        else if (idx === 3) return <SemesButton onClick={() => {
-          handleOpenConfirmModal(status, idx);
-        }}> {val} </SemesButton>;
-        else return <RedButton onClick={() => {
-            handleOpenConfirmModal(status, idx);
-          }}> {val} </RedButton>;
-      });
-    }
-    else {     // 학습하기 탭인 경우 -> 학습 버튼과 삭제 버튼만..
-      return [
-        <SemesButton onClick={() => handleOpenConfirmModal(status, 3)}> 학습하기 </SemesButton>,
-        <RedButton onClick={() => handleOpenConfirmModal(status, 4)}> 삭제하기 </RedButton>
-      ]
-    }
-  }
+  /** 학습 클래스로 이동할지 묻는 버튼 */
+  const ConfirmMoveTrainButton = () => {
+    return <SemesButton onClick={() => openConfirmModal(status, 3)}> 학습으로 이동 </SemesButton>
+  };
+  /** 삭제를 묻는 버튼 */
+  const ConfirmDeleteButton = () => {
+    return <RedButton onClick={() => openConfirmModal(status, 4)}> 삭제하기 </RedButton>
+  };
+  /** 학습할 것인지 묻는 버튼 */
+  const ConfirmTrainButton = () => {
+    return <SemesButton onClick={() => openConfirmModal(status, 3)}> 학습하기 </SemesButton>
+  };
+  /** confirm 모달창 닫기 */
   const CancelConfirmModalButton = () => {
     return <Button onClick={() => dispatch(setIsConfirmModalOpen(false)) }>취소하기</Button>
   }
@@ -113,7 +105,8 @@ function TransferButtons() {
     return <SemesButton onClick={() => handleTrain()}>학습하기</SemesButton>
   }
 
-  return { isConfirmModalOpen, ConfirmTransferClassButton, CancelConfirmModalButton, TransferClassButton, TransferLearningButton, DeleteImagesButton, TrainButton }
+  return { ConfirmMoveClassButton, ConfirmMoveTrainButton, ConfirmDeleteButton, ConfirmTrainButton,
+    CancelConfirmModalButton, TransferClassButton, TransferLearningButton, DeleteImagesButton, TrainButton }
 }
 
 export default TransferButtons;
