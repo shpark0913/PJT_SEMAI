@@ -77,10 +77,9 @@ async def detect_classification(filePath: str, binary: bool):
 # train으로 get 요청이 왔을 때
 @app.get("/train")
 # 휠 이미지 디텍션 후 볼트 분류 함수 실행(쿼리에 담긴 filePath 전달)
-def transfer_learning(acc: float, loss: float, fscore: float):
+def transfer_learning(acc: float, loss: float, fscore: float, lr: float, momentum: float, batch: int, set_epoch: int):
     try:
-        result = Transfer.learning(acc, loss, fscore)
-
+        result = Transfer.learning(acc, loss, fscore, lr, momentum, batch, set_epoch)
         # 데이터를 JSON 형식으로 구성
         data = {
             "changed": result[0],
