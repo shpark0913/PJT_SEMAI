@@ -41,8 +41,9 @@ function ConfirmModal({ selected, setSelected }: {selected: TransferBoltImageObj
    */
 
   const dispatch = useAppDispatch();
-  const { type, tabMenuList } = useAppSelector(state => state.transferPage);
-  const { TransferClassButton, CancelConfirmModalButton, TransferLearningButton, DeleteImagesButton } = TransferButtons();
+  const { type, statusNameList, selectedClass, selectedTrain } = useAppSelector(state => state.transferPage);
+  const { preType, nextType } = type;
+  const { TransferClassButton, CancelConfirmModalButton, TransferLearningButton, DeleteImagesButton, TrainButton } = TransferButtons();
   const TransferDescription = [
     '"양호"로 이동하겠습니까?',
     '"유실"로 이동하겠습니까?',
@@ -61,10 +62,10 @@ function ConfirmModal({ selected, setSelected }: {selected: TransferBoltImageObj
       <ModalContainer>
         <CloseButton onClick={() => dispatch(setIsConfirmModalOpen(false))} ><CloseIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
 
-        {
-          type.preType < 3?   // 클래스에서 -> 클래스, 학습, 삭제
+        { preType <= 2?   // 클래스에서 -> 클래스, 학습, 삭제
             <>
-              <DescriptionDiv>{`${ type.nextType < 4?  `"${tabMenuList[type.preType]}"에서 ` : "" }${TransferDescription[type.nextType]} (총 ${selected.length}장)`}</DescriptionDiv>
+              <DescriptionDiv>
+                { `${ nextType < 4?  `"${statusNameList[preType]}"에서 ` : "" }${TransferDescription[nextType]} (총 ${selectedClass[preType].length}장)`}</DescriptionDiv>
               <BoltImageGridContainer>
                 <BoltImageGrid>
                   { selected.map(data => <img src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
@@ -72,12 +73,12 @@ function ConfirmModal({ selected, setSelected }: {selected: TransferBoltImageObj
               </BoltImageGridContainer>
               <ButtonsContainer>
                 { CancelConfirmModalButton() }
-                { type.nextType < 3 ? TransferClassButton(type.preType, type.nextType, selected, setSelected ) : <></> }
+                { type.nextType <= 2 ? TransferClassButton(type.preType, type.nextType, selected, setSelected ) : <></> }
                 { type.nextType === 3 ? TransferLearningButton(selected, setSelected) :<></> }
                 { type.nextType === 4 ? DeleteImagesButton(type.preType, selected, setSelected) :<></> }
               </ButtonsContainer>
             </>
-          :                  // 학습에서 -> 학습, 삭제
+          :
             <>
               <DescriptionDiv>{`${ type.nextType < 4?  LearnDescription[0] :  TransferDescription[type.nextType]}`}</DescriptionDiv>
               <BoltImageGridContainer>
@@ -87,14 +88,12 @@ function ConfirmModal({ selected, setSelected }: {selected: TransferBoltImageObj
               </BoltImageGridContainer>
               <ButtonsContainer>
                 { CancelConfirmModalButton() }
-
-                { type.nextType < 3 ? TransferClassButton(type.preType, type.nextType, selected, setSelected ) : <></> }
-                { type.nextType === 3 ? TransferLearningButton(selected, setSelected) :<></> }
+                { type.nextType === 3 ? TrainButton() :<></> }
+                {/*{ type.nextType < 3 ? TransferClassButton(type.preType, type.nextType, selected, setSelected ) : <></> }*/}
+                {/*{ type.nextType === 3 ? TransferLearningButton(selected, setSelected) :<></> }*/}
                 { type.nextType === 4 ? DeleteImagesButton(type.preType, selected, setSelected) :<></> }
               </ButtonsContainer>
-            </>
-
-        }
+            </> }
 
       </ModalContainer>
     </Modal>
