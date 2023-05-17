@@ -21,6 +21,7 @@ function TabContentInfo({ BoltImageLists, imageLengthList }:
     }
   }
   const handleCheckTrainAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.checked)
     if (e.target.checked) {
       for (let i=0; i<3; i++) {
         dispatch(setSelectedTrain({idx: i, list: BoltImageLists[1][i].images}))
@@ -46,7 +47,7 @@ function TabContentInfo({ BoltImageLists, imageLengthList }:
         :
         <>
         <div>
-          <label>전체 선택 <input type="checkbox" onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleCheckTrainAll(e)}/></label>
+          <label>전체 선택 <input type="checkbox" checked={selectedTrain.reduce((acc, cur) => acc + cur.length, 0) === imageLengthList[status]} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleCheckTrainAll(e)}/></label>
           <div>{`현재 선택 : ${selectedTrain.reduce((acc, cur) => acc + cur.length, 0)}/${imageLengthList[status]}`}</div>
         </div>
         <div> {ConfirmTransferClassButton()} </div>
