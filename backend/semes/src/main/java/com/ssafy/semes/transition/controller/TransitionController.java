@@ -3,6 +3,7 @@ package com.ssafy.semes.transition.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.semes.common.ErrorCode;
@@ -80,9 +82,21 @@ public class TransitionController {
         return ApiResponse.success(SuccessCode.UPDATE_IMG,"볼트 학습 이미지 선택 성공.");
     }
     @GetMapping("/learning")
-    public ApiResponse<?> startTrain(){
-        transitionService.startTrain();
-        return ApiResponse.success(SuccessCode.START_LEARNING);
+    public ApiResponse<?> startTrain(@RequestParam("lr") String lr,
+        @RequestParam("momentum") String momentum ,
+        @RequestParam("batch") String batch ,
+        @RequestParam("epoch") String epoch
+        ){
+        log.info("TransitionController startTrain start");
+        log.info("TransitionController startTrain params "+"lr:"+lr+",momentum:"+momentum+",batch:"+batch+",epoch:"+epoch);
+
+        Map<String,String> res = transitionService.startTrain(lr, momentum, batch, epoch);
+
+        if(res.get("changed").equals("true")){
+            return ApiResponse.success(SuccessCode.COMPLETE_LEARNING_CHANGED,res);
+        }else{
+            return ApiResponse.success(SuccessCode.COMPLETE_LEARNING_NOT_CHANGED,res);
+        }
     }
 
 }

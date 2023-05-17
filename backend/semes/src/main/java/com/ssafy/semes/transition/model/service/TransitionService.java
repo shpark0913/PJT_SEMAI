@@ -3,6 +3,7 @@ package com.ssafy.semes.transition.model.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,5 +21,5 @@ public interface TransitionService {
 	void moveToTrainFiles(TransitionFileIdsDto requestDto) throws IOException;
 
 	@Transactional
-	void startTrain();
+	Map<String,String> startTrain(String lr, String momentum, String batch, String epoch);
 }

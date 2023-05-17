@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,10 +122,13 @@ public class TransitionServiceImpl implements  TransitionService {
 		}
 		imageRepository.updateStatusByFileIds(requestDto.getFileIds(),2);
 	}
-
+	/**
+	 * 전이 학습 시작 서비스
+	 * learning rate (lr), momentum, batch, epoch 설정 가능
+	 * */
 	@Override
 	@Transactional
-	public void startTrain(){
+	public Map<String,String> startTrain(String lr, String momentum, String batch, String epoch){
 		//python에 전이학습 요청
 
 		TransitionConfig tc = transitionRepository.findAll().get(0);
@@ -133,8 +137,11 @@ public class TransitionServiceImpl implements  TransitionService {
 		StringBuilder quertString = new StringBuilder("?");
 		quertString.append("acc=").append(tc.getAccuracy()).append("&");
 		quertString.append("loss=").append(tc.getLoss()).append("&");
-		quertString.append("fscore=").append(tc.getFscore());
-
+		quertString.append("fscore=").append(tc.getFscore()).append("&");
+		quertString.append("lr=").append(lr).append("&");
+		quertString.append("momentum=").append(momentum).append("&");
+		quertString.append("batch=").append(batch).append("&");
+		quertString.append("set_epoch=").append(epoch);
 		try {
 			TransitionLearningResultDto res = TransitionLearningResultDto.fromHttpGetRequest("http://"+ip+":8000/train".concat(quertString.toString()));
 			System.out.println(res);
@@ -143,6 +150,7 @@ public class TransitionServiceImpl implements  TransitionService {
 				tc.setLoss(Double.valueOf(res.getData().get("loss")));
 				tc.setFscore(Double.valueOf(res.getData().get("fscore")));
 			}
+			return res.getData();
 		}catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		} catch (IOException e) {
