@@ -6,9 +6,15 @@
 
 - criterion : CrossEntropyLoss
 
-- optimizer : Adam
+- optimizer : 
   
-  - Learning rate = 0.001
+  - Adam
+    
+    - Learning rate = 0.001
+  
+  - SGD
+    
+    - Learning rate = 0.0001 / momentum =0.9
 
 - Result
   
@@ -20,23 +26,23 @@
   
   - - P(Precision) : 모델이 True라고 분류한 것 중 실제 True인 것의 비율
       
-      - BOLT_BREAK : 99.72%
+      - BOLT_BREAK : 99.85%
       
-      - BOLT_LOST : 99.39%
+      - BOLT_LOST : 100%
       
       - BOLT_NORMAL : 100%
     
     - R(Recall): 실제 True인 것 중에서 모델이 True라고 에측한 것의 비율
       
-      - BOLT_BREAK : 99.39%
+      - BOLT_BREAK : 100%
       
-      - BOLT_LOST : 99.72% 
+      - BOLT_LOST : 99.93% 
       
       - BOLT_NORMAL : 100%
   
-  - Acc: 99.85%
+  - Acc: 99.98%
   
-  - Loss: 0.0084
+  - Loss: 0.0204
 
 ---
 
@@ -46,9 +52,15 @@
 
 - criterion : CrossEntropyLoss
 
-- optimizer : Adam
+- optimizer 
   
-  - Learning rate = 0.001
+  - Adam
+    
+    - Learning rate = 0.001
+  
+  - SGD
+    
+    - Learning rate = 0.0001 / momentum =0.9
 
 - Result
   
@@ -60,16 +72,16 @@
   
   - - P(Precision) : 모델이 True라고 분류한 것 중 실제 True인 것의 비율
       
-      - BOLT_LOOSE : 91.24%
+      - BOLT_LOOSE : 93.64%
       
-      - BOLT_NORMAL : 99.97%
+      - BOLT_NORMAL : 99.94%
     
     - R(Recall): 실제 True인 것 중에서 모델이 True라고 에측한 것의 비율
       
-      - BOLT_LOOSE : 99.96%
+      - BOLT_LOOSE : 95.44%
       
-      - BOLT_NORMAL : 93.55%
+      - BOLT_NORMAL : 99.91%
   
-  - Acc: 96.12%
+  - Acc: 97.24%
   
-  - Loss: 0.1907
+  - Loss: 0.0880
