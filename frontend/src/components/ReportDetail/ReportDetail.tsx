@@ -1,9 +1,10 @@
-import React from "react";
-import styled, {keyframes} from "styled-components";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import styled, { keyframes } from "styled-components";
+
 import { CloseButton } from "../Modal/ModalComponents";
-import { ReportObjectType } from "../../_utils/Types";
 import DetailTable from "./DetailTable";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import React from "react";
+import { ReportObjectType } from "../../_utils/Types";
 
 const fadeIn = keyframes`
   0% {
@@ -12,7 +13,7 @@ const fadeIn = keyframes`
   100% {
     right: 0;
   }
-`
+`;
 const fadeOut = keyframes`
   0% {
     right: 0;
@@ -20,8 +21,7 @@ const fadeOut = keyframes`
   100% {
     right: -100%;
   }
-`
-
+`;
 
 const ReportDetailContainer = styled.div`
   background-color: var(--background-color);
@@ -35,8 +35,9 @@ const ReportDetailContainer = styled.div`
   //margin-left: 30px;
   //transform: translateX(150%);
   transition: width 600ms ease, transform 600ms ease, box-shadow 600ms ease;
-  
-  &.open{
+  z-index: 100;
+
+  &.open {
     //width: 100%;
     transform: translateX(0);
     box-shadow: -15px 0 10px -10px var(--shadow-color);
@@ -54,14 +55,24 @@ const ReportDetailContainer = styled.div`
     // animation-fill-mode: forwards;
     //animation: ${fadeOut} 1s forwards ease-out;
   }
-  
+
   display: flex;
   flex-direction: column;
-`
-function ReportDetail({handleModalClose, detailInfo, className}: {handleModalClose: any, detailInfo: ReportObjectType, className: string}) {
+`;
+function ReportDetail({
+  handleModalClose,
+  detailInfo,
+  className,
+}: {
+  handleModalClose: any;
+  detailInfo: ReportObjectType;
+  className: string;
+}) {
   return (
     <ReportDetailContainer className={className}>
-      <CloseButton onClick={handleModalClose}><KeyboardDoubleArrowRightIcon sx={{height: "35px", width: "35px"}} /></CloseButton>
+      <CloseButton onClick={handleModalClose}>
+        <KeyboardDoubleArrowRightIcon sx={{ height: "35px", width: "35px" }} />
+      </CloseButton>
       <DetailTable detailInfo={detailInfo} />
     </ReportDetailContainer>
   );
