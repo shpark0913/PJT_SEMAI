@@ -1,21 +1,16 @@
+import React, { useState } from "react";
 import { setCheckId, setInquire, setWheelImgUrl } from "../../_store/slices/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import { CloseButton } from "../Modal/ModalComponents";
 import CloseIcon from "@mui/icons-material/Close";
 import Fade from "@mui/material/Fade";
-import { Link } from "react-router-dom";
 import Modal from "@mui/material/Modal";
-import React from "react";
 import { ReactComponent as RefreshBtn } from "../../assets/refreshBtn.svg";
 import Title from "../Title";
-import Typography from "@mui/material/Typography";
-import { redirect } from "react-router";
 import styled from "styled-components";
-import { useState } from "react";
 
 type WheelNameType = {
   wheelName: string;
