@@ -14,15 +14,17 @@ export type LabelProps = {   // 레포트 페이지 - form 태그들의 label �
 
 // ==================== slice types ========================
 export type TransferPageSliceType = {
-  tabIndex: number,
-  isDetailOpen: boolean,
-  tabMenuList: string[],
+  status: number,
+  statusNameList: string[],
   detailInfo: TransferBoltImageObject,
+  isDetailOpen: boolean,
   isConfirmModalOpen: boolean,
   type: {
     preType: number,
     nextType: number
-  }
+  },
+  selectedClass: TransferBoltImageObject[][],
+  selectedTrain: TransferBoltImageObject[][],
 }
 export type ReportPageSliceType = {
   queryObj: {
