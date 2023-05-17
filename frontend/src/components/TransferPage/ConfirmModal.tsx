@@ -1,7 +1,6 @@
 import React from "react";
-import { TransferBoltImageObject } from "../../_utils/Types";
 import { CloseButton, Modal, ModalBackground, ModalContainer } from "../Modal/ModalComponents";
-// import Title from "../Title";
+
 import CloseIcon from "@mui/icons-material/Close";
 import { useAppDispatch, useAppSelector } from "../../_hooks/hooks";
 import { setIsConfirmModalOpen } from "../../_store/slices/transferPageSlice";
@@ -91,11 +90,37 @@ function ConfirmModal() {
                   </BoltImageGrid>
                 </>) }
               </BoltImageGridContainer>
-              <ButtonsContainer>
-                { CancelConfirmModalButton() }
-                { type.nextType === 3 ? TrainButton() :<></> }
-                { type.nextType === 4 ? DeleteImagesButton(selectedTrain.reduce((acc, cur) => [...acc, ...cur], [])) :<></> }
-              </ButtonsContainer>
+
+                <form >
+                    <label >
+                      learning rate :
+                      <input style={{border: "1px solid var(--emphasize-color)"}} type="number" name="lr" min={0.0001} max={0.01} defaultValue={0.001} step={0.0001} />
+                    </label>
+                    <label >
+                      momentum :
+                      <input style={{border: "1px solid var(--emphasize-color)"}} type="number" name="momentum" min={0} max={1} defaultValue={0.9} step={0.1} />
+                    </label>
+                    <label >
+                      batch :
+                      <select style={{border: "1px solid var(--emphasize-color)"}} name="batch" defaultValue={16} >
+                        <option value={16}>16</option>
+                        <option value={32}>32</option>
+                        <option value={64}>64</option>
+                        <option value={128}>128</option>
+                      </select>
+                    </label>
+                    <label >
+                      epoch :
+                      <input style={{border: "1px solid var(--emphasize-color)"}} type="number" name="epoch" min={1} defaultValue={10} step={1} />
+                    </label>
+
+                  <ButtonsContainer>
+                    { CancelConfirmModalButton() }
+                    { type.nextType === 3 ? TrainButton() :<></> }
+                    { type.nextType === 4 ? DeleteImagesButton(selectedTrain.reduce((acc, cur) => [...acc, ...cur], [])) :<></> }
+                  </ButtonsContainer>
+                </form>
+
             </> }
 
       </ModalContainer>
