@@ -1,14 +1,12 @@
-import os
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 import warnings
 warnings.filterwarnings('ignore')
 
-NOW_PATH = os.getcwd()
 
 # 지난 달 정상 휠 데이터
-DATA_PATH = NOW_PATH + '/anomaly/data/'
+DATA_PATH = '../../dataset/analysis/'
 DATA_NAME = 'wheel_diagnosis_result_2304.xlsx'
 
 # 판다스 데이터프레임화
