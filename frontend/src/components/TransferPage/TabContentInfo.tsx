@@ -38,7 +38,7 @@ function TabContentInfo({ BoltImageLists, imageLengthList }:
       { status <= 2 ?
         <>
         <div>
-          <label>전체 선택 <input type="checkbox" onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleCheckClassAll(e)}/></label>
+          <label>전체 선택 <input type="checkbox" checked={selectedClass[status].length === imageLengthList[status]} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleCheckClassAll(e)}/></label>
             <div>{`현재 선택 : ${selectedClass[status].length}/${imageLengthList[status]}`}</div>
         </div>
         <div> {ConfirmTransferClassButton()} </div>
