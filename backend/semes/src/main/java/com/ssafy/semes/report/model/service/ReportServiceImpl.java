@@ -4,7 +4,6 @@ import com.ssafy.semes.exception.JPAException;
 import com.ssafy.semes.image.model.ImageEntity;
 import com.ssafy.semes.oht.model.OHTEntity;
 import com.ssafy.semes.report.model.AnomalyEntity;
-import com.ssafy.semes.report.model.PredictDTO;
 import com.ssafy.semes.report.model.QuestionDto;
 import com.ssafy.semes.report.model.ReportListResponseDto;
 import com.ssafy.semes.report.model.repository.AnomalyRepository;
@@ -18,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -199,9 +196,4 @@ public class ReportServiceImpl implements ReportService {
         return anomalyRepository.findAll();
     }
 
-    @Override
-    public PredictDTO goPredict() throws Exception {
-
-        return null;
-    }
 }

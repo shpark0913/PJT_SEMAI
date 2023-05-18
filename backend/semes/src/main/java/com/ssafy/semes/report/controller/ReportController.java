@@ -1,12 +1,10 @@
 package com.ssafy.semes.report.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.ssafy.semes.common.ErrorCode;
 import com.ssafy.semes.common.SuccessCode;
 import com.ssafy.semes.common.dto.ApiResponse;
 import com.ssafy.semes.exception.JPAException;
-import com.ssafy.semes.report.model.PredictDTO;
 import com.ssafy.semes.report.model.QuestionDto;
 import com.ssafy.semes.report.model.ReportListResponseDto;
 import com.ssafy.semes.report.model.service.ReportService;
@@ -24,20 +22,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
