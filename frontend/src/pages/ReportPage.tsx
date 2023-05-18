@@ -193,9 +193,9 @@ function ReportPage() {
                 <InputDescFlag handleSubmit={handleSubmit} />
                 <InputErrorFlag handleSubmit={handleSubmit} />
                 <div>
+                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 30일 조회</SemesButton>
+                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 7일 조회</SemesButton>
                   <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitToday(e)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >당일 조회</SemesButton>
-                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 일주일 조회</SemesButton>
-                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 한 달 조회</SemesButton>
                 </div>
               </FormInputs>
 
