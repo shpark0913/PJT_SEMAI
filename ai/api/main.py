@@ -16,6 +16,8 @@ from predict import LinearRegression
 NOW_DIR = os.getcwd()
 sys.path.append(NOW_DIR + '\\classification')
 sys.path.append(NOW_DIR + '\\detection')
+sys.path.append(NOW_DIR + '\\anomaly')
+
 
 # GPU가 사용 가능한 경우 cuda를 0으로 초기화하여 사용 / GPU가 사용 불가능한 경우 CPU로 초기화하여 CPU 사용
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -68,12 +70,12 @@ def read_root():
 def anomaly_detection():
 
     # 4개 휠 정보를 받지 못한 경우
-    if len(wheelAgg) != 4:
-        detail = {
-                'success': False,
-                'message': '휠 데이터 개수가 4개가 아닙니다.'
-            }
-        raise HTTPException(status_code=400, detail=detail)
+    # if len(wheelAgg) != 4:
+    #     detail = {
+    #             'success': False,
+    #             'message': '휠 데이터 개수가 4개가 아닙니다.'
+    #         }
+    #     raise HTTPException(status_code=400, detail=detail)
 
     try:
         # pandas dataframe화
