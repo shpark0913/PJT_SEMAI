@@ -43,7 +43,7 @@ const CloseButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-bottom: 25px;
+  //margin-bottom: 25px;
   
   display: flex;
   justify-content: center;
