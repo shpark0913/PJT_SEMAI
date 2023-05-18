@@ -6,6 +6,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
 
 import DashboardPage from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage";
@@ -17,6 +18,7 @@ import ReportPage from "./pages/ReportPage";
 import { TransferBoltImageAction } from "./_utils/Action";
 import TransferPage from "./pages/TransferPage";
 import { store } from "./_store/store";
+import {ToastContainer} from "react-toastify";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -47,6 +49,18 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <GlobalStyle />
       <RouterProvider router={router} />
     </>

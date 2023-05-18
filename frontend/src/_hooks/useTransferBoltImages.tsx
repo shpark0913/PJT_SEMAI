@@ -4,6 +4,8 @@ import {setIsConfirmModalOpen, setType} from "../_store/slices/transferPageSlice
 import {useAppDispatch} from "./hooks";
 import React from "react";
 import Axios from "../_utils/Axios";
+import {toast} from "react-toastify";
+import {setIsTraining} from "../_store/slices/trainSlice";
 
 function useTransferBoltImages() {
   const dispatch = useAppDispatch();
@@ -48,35 +50,49 @@ function useTransferBoltImages() {
   const Train = async (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
+    dispatch(setIsTraining(true));
+
     if (e.currentTarget.form){
       const form = new FormData(e.currentTarget.form);
-      const Obj = Object.fromEntries(form);
-      console.log(Obj);
+      const paramsObj = Object.fromEntries(form);
+      console.log(paramsObj);
       try {
         const response = await Axios.get('transition/learning', {
-          params: Obj,
+          params: paramsObj,
         })
-        console.log(response);
+        let { changed, acc, loss, fscore} = response.data.data
+        dispatch(setIsConfirmModalOpen(false));
+        dispatch(setIsTraining(false));
+        if (changed === "success") {    // 성공 시
+          toast.success(`모델이 교체됐습니다. (acc: ${acc}, fscore: ${fscore}, loss: ${loss})`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+        else {                                   // 실패 시
+          toast.error(`모델이 교체되지 않았습니다. (acc: ${acc}, fscore: ${fscore}, loss: ${loss})`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+
       }
       catch (error) {
         console.log(error)
       }
     }
-    // if (e.currentTarget.form) {
-    //   let form = new FormData(e.currentTarget.form);
-    //   dispatch(setQueryObj({page: "1"}))
-    //   setStartDate(todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
-    //   setEndDate(todayDate);
-    //
-    //   form.set('page', "1");
-    //   form.set('startDate', todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
-    //   form.set('endDate', todayDate);
-    //   !form.has("errorFlag") && form.set("errorFlag", "0")
-    //   !form.has("time") && form.set("time", "ALL")
-    //
-    //   submit(form);
-    // }
-
   }
   return { openConfirmModal, TransferClass, TransferLearning, DeleteImages, Train }
 }
