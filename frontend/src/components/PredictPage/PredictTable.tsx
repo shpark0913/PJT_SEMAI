@@ -5,15 +5,19 @@ import Axios from "../../_utils/Axios";
 import React from "react";
 import ReportDetail from "../ReportDetail/ReportDetail";
 import { ReportObjectType } from "../../_utils/Types";
-import { useAppDispatch } from "../../_hooks/hooks";
 
-function PredictTable() {
-  let dispatch = useAppDispatch();
-
+function PredictTable({ abnormalWheels }: any) {
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   let [detailInfo, setDetailInfo] = useState<ReportObjectType>({
     wheelCheckDate: [2023, 5, 2, 4, 32, 10],
   });
+  let abnormalData: any[] = [];
+  abnormalWheels.map((abnormalWheel: any) => {
+    if (abnormalWheel.anomalyFlag === -1) {
+      abnormalData.push(abnormalWheel);
+    }
+  });
+
   /** 모달이 열리면 실행되는 함수 */
   const handleModalOpen = useCallback(
     async (e: React.MouseEvent<HTMLTableRowElement>, wheelCheckId: number) => {
@@ -36,28 +40,6 @@ function PredictTable() {
     setIsModalOpen(false);
   }, []);
 
-  let data = [
-    { wheelCheckId: 1230, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1229, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1228, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1227, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1226, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1225, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1224, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1223, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1222, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1221, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1220, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1219, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1218, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1217, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1216, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1215, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1214, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1213, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1212, loose: 2, lost: 3, broken: 1, normal: 5 },
-    { wheelCheckId: 1215, loose: 2, lost: 3, broken: 1, normal: 5 },
-  ];
   return (
     <>
       <TableContainer>
@@ -72,18 +54,20 @@ function PredictTable() {
             </TR>
           </THead>
           <TBody className="report-table">
-            {data.map(d => (
+            {abnormalData.map(data => (
               <TR
-                key={`AI-predict-report-${d.wheelCheckId}`}
+                key={`AI-predict-report-${data.wheelCheckId}`}
                 onClick={(e: React.MouseEvent<HTMLTableRowElement>) =>
-                  handleModalOpen(e, d.wheelCheckId)
+                  handleModalOpen(e, data.wheelCheckId)
                 }
               >
-                <TH>{d.wheelCheckId}</TH>
-                <TD>{d.normal}</TD>
-                <TD>{d.lost}</TD>
-                <TD>{d.broken}</TD>
-                <TD>{d.loose}</TD>
+                <TH>
+                  {data.ohtSn}-{data.wheelPosition}
+                </TH>
+                <TD>{data.totalGoodCount}</TD>
+                <TD>{data.totalOutCount}</TD>
+                <TD>{data.totalLoseCount}</TD>
+                <TD>{data.totalLooseCount}</TD>
               </TR>
             ))}
           </TBody>
