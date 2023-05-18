@@ -1,5 +1,6 @@
 package com.ssafy.semes.report.controller;
 
+import com.google.gson.Gson;
 import com.ssafy.semes.common.ErrorCode;
 import com.ssafy.semes.common.SuccessCode;
 import com.ssafy.semes.common.dto.ApiResponse;
@@ -15,15 +16,18 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.text.DateFormat;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -41,7 +45,8 @@ public class ReportController {
     private int TOTAL_BOLT=11;
     private StringTokenizer st;
     private StringBuilder sb;
-
+    @Value("${Ai-Api-Server-Ip}")
+    private String ip;
     /**
      * {@summary 레포트 페이지 검색 및 조건 검색}
      * <P>반환 - WheelCheckEntity, totalPage <P/>
@@ -102,6 +107,30 @@ public class ReportController {
         }
     }
 
+    @GetMapping("/predict")
+    public ApiResponse<?> predict(@Param("lost")int lost, @Param("loose") int loose,@Param("broken") int broken){
+        log.info("Report predict Start");
+        try {
+           String url = "http://"+ip+":8000/predict?lost="+lost+"&loose="+loose+"&broken="+broken;
+
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .GET()
+                    .build();
+            HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            String json = httpResponse.body();
+            Gson gson = new Gson();
+            return gson.fromJson(json.toString(),ApiResponse.class);
+        }catch (JPAException jpaException){
+            log.error("Report Error : " + jpaException.getMessage());
+            return ApiResponse.error(ErrorCode.JPA_NOT_FIND);
+        } catch (Exception e) {
+            slackController.errorSend("Report predict Error : " + e.getMessage());
+            log.error("Report findReportDetail Error : " + e.getMessage());
+            return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
+        }
+    }
 
     @GetMapping("/anomaly")
     public ApiResponse<?> anomaly(){
