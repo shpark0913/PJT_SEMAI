@@ -1,4 +1,5 @@
 import { BoltImageListsLoader, ReportListsLoader } from "./_utils/Loader";
+import PredictPage, { loader as PredictLoader } from "./pages/PredictPage";
 import {
   Route,
   RouterProvider,
@@ -7,18 +8,15 @@ import {
 } from "react-router-dom";
 
 import DashboardPage from "./pages/DashboardPage";
+import ErrorPage from "./pages/ErrorPage";
 import GlobalStyle from "./components/globalStyle";
 import LayoutPage from "./pages/LayoutPage";
 import LoginPage from "./pages/LoginPage";
-import PredictPage from "./pages/PredictPage";
 import React from "react";
 import ReportPage from "./pages/ReportPage";
 import { TransferBoltImageAction } from "./_utils/Action";
 import TransferPage from "./pages/TransferPage";
-import ErrorPage from "./pages/ErrorPage";
-
 import { store } from "./_store/store";
-
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,7 +35,7 @@ const router = createBrowserRouter(
           action={TransferBoltImageAction}
         />
 
-        <Route path="predict" id="predict" element={<PredictPage />} />
+        <Route path="predict" id="predict" element={<PredictPage />} loader={PredictLoader} />
       </Route>
     </Route>,
   ),
