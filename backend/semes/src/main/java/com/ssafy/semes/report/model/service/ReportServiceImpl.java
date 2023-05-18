@@ -17,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -195,9 +193,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<AnomalyEntity> goAnomaly() throws Exception {
-
         return anomalyRepository.findAll();
-
-
     }
+
 }
