@@ -1,14 +1,13 @@
+import React, { useState } from "react";
+
 import Axios from "../_utils/Axios";
 import { Button } from "../components/ButtonComponents";
 import PredictTable from "../components/PredictPage/PredictTable";
-import React from "react";
 import { ReactComponent as ScatterCircle } from "../assets/ScatterCircle.svg";
 import ScatterGraph from "../components/PredictPage/ScatterGraph";
 import Title from "../components/Title";
-import axios from "axios";
 import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
-import { useState } from "react";
 
 export async function loader() {
   let abnormalWheels;
