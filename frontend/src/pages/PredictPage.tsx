@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
 
 export async function loader() {
-  let abnormalWheels;
+  let abnormalWheels: any;
   async function f() {
     const response = await Axios.get(`report/anomaly`);
     abnormalWheels = response.data.data;
@@ -25,22 +25,8 @@ type PredictTitleType = {
   num: number | string;
 };
 
-const ScatterCircleSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  height: 60px;
-  justify-content: space-evenly;
-`;
-
-const ScatterCircleDiv = styled.div`
-  display: flex;
-  align-items: center;
-
-  > span {
-    margin-left: 5px;
-  }
-`;
-
+/////////////////////////// 좌,우측 화면 공용 styled component ///////////////////////////
+// AI 분석 페이지 최상단 main 태그
 const PredictGridContainer = styled.main`
   display: grid;
   grid-template-columns: 47% auto;
@@ -51,45 +37,25 @@ const PredictGridContainer = styled.main`
   position: relative;
 `;
 
-// 좌측 표
-const TableSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-`;
-
-// 우측 그래프
-const GraphSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const PredictTitleDiv = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-const WheelNumberDiv = styled.div`
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 20px;
-  font-size: 18px;
-
-  & > abbr {
-    color: var(--emphasize-color);
-    font-weight: bold;
-    font-size: 22px;
-  }
-`;
-
-// 표와 그래프에서 같이 쓰는 제목
+/** 좌, 우측 화면의 제목 및 휠 개수 표시하는 컴포넌트 */
 const PredictTitle = ({ title, num }: PredictTitleType) => {
+  const PredictTitleDiv = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  `;
+  const WheelNumberDiv = styled.div`
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    font-size: 18px;
+
+    & > abbr {
+      color: var(--emphasize-color);
+      font-weight: bold;
+      font-size: 22px;
+    }
+  `;
   return (
     <PredictTitleDiv>
       <Title title={title}></Title>
@@ -100,6 +66,28 @@ const PredictTitle = ({ title, num }: PredictTitleType) => {
   );
 };
 
+/////////////////////////// 좌측 화면 : 이상 위험 휠 관련 styled component ///////////////////////////
+// 좌측 화면 최상단 section 태그
+const TableSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+`;
+
+/////////////////////////// 우측 화면 : 차주 교체 예상 휠 관련 styled component ///////////////////////////
+// 우측 화면 최상단 section 태그
+const GraphSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+// 차주 교체 예상 휠을 산정하기 위한 변수를 입력하는 input 태그(유실, 파단, 풀림)
 const CustomInput = styled.input`
   border: 1px solid var(--emphasize-color);
   border-radius: 5px;
@@ -108,22 +96,62 @@ const CustomInput = styled.input`
   margin: 0px 15px 0px 5px;
 `;
 
+// 그래프 하단에서 그래프의 각 색상이 무엇을 의미하는지 나타내는 section 태그
+const ScatterCircleSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  height: 60px;
+  justify-content: space-evenly;
+`;
+
+// ScatterCircleSection 내에서 1개의 색상이 의미하는 것을 각각 나타내는 div 태그
+const ScatterCircleDiv = styled.div`
+  display: flex;
+  align-items: center;
+
+  > span {
+    margin-left: 5px;
+  }
+`;
+
 function PredictPage() {
+  /////////////////////////// 좌측 화면 :  이상 위험 휠 관련 ///////////////////////////
+  // abnormalWheels : 모든 휠들의 누적 검사 결과 (양호, 유실, 파단, 풀림 상태의 볼트의 누적 개수 및 가장 최근의 검사 ID 포함)
+  const abnormalWheels: any = useLoaderData();
+  let abnormalData: any[] = []; // 가장 최근 검사에서 이상이 발견된 휠들로 이뤄진 배열
+  abnormalWheels.map((abnormalWheel: any) => {
+    if (abnormalWheel.anomalyFlag === -1) {
+      abnormalData.push(abnormalWheel);
+    }
+  });
+
+  const [lostNum, SetLostNum] = useState(""); // 유실된 볼트 개수
+
+  const [brokenNum, SetBrokenNum] = useState(""); // 파손된 볼트 개수
+
+  const [looseNum, SetLooseNum] = useState(""); // 풀린 볼트 개수
+
+  /////////////////////////// 우측 화면 : 차주 교체 예상 휠 관련 ///////////////////////////
+  // 차주 교체 예상 휠 개수
   const [predictWheelNum, setPredictWheelNum] = useState("-");
-  const [lostNum, SetLostNum] = useState("");
-  const [brokenNum, SetBrokenNum] = useState("");
-  const [looseNum, SetLooseNum] = useState("");
+
+  /** 유실된 볼트 개수를 입력(정규식을 이용해 숫자만 입력 가능하도록 설정함) */
   const onLostNumHandler = (event: any) => SetLostNum(event.target.value.replace(/[^0-9]/g, ""));
+
+  /** 파손된 볼트 개수를 입력(정규식을 이용해 숫자만 입력 가능하도록 설정함) */
   const onBrokenNumHandler = (event: any) =>
     SetBrokenNum(event.target.value.replace(/[^0-9]/g, ""));
+
+  /** 풀린 볼트 개수를 입력(정규식을 이용해 숫자만 입력 가능하도록 설정함) */
   const onLooseNumHandler = (event: any) => SetLooseNum(event.target.value.replace(/[^0-9]/g, ""));
+
+  // 3차원 Scatter 함수에 표시할 좌표들
   const [graphData, setGraphData] = useState([
-    // x, y, z 축 범위 설정
-    // viewpoint가 0이면 blue(예측 데이터), 1이면 red(누적된 실제 데이터)
+    // x, y, z 축 범위 설정 (viewpoint가 0이면 blue(예측 데이터), 1이면 red(누적된 실제 데이터))
     { loose: 0, broken: 0, lost: 0, viewpoint: 0.7 },
     { loose: 300, broken: 120, lost: 200, viewpoint: 0.7 },
 
-    // 아래는 추가적인 데이터
+    // 아래는 추가적인 데이터 (실제로 그래프에 표시되는 좌표들)
     { lost: 68, loose: 160, broken: 20, viewpoint: 1 },
     { lost: 115, loose: 207, broken: 30, viewpoint: 1 },
     { lost: 86, loose: 195, broken: 47, viewpoint: 1 },
@@ -198,14 +226,6 @@ function PredictPage() {
     { lost: 104, loose: 206, broken: 53, viewpoint: 0 },
   ]);
 
-  const abnormalWheels: any = useLoaderData();
-  let abnormalData: any[] = [];
-  abnormalWheels.map((abnormalWheel: any) => {
-    if (abnormalWheel.anomalyFlag === -1) {
-      abnormalData.push(abnormalWheel);
-    }
-  });
-
   return (
     <PredictGridContainer>
       <TableSection>
@@ -216,7 +236,7 @@ function PredictPage() {
       <GraphSection>
         <PredictTitle
           title="차주 교체 예상 휠"
-          num={predictWheelNum !== "-" ? Math.round(Number(predictWheelNum)) : "-"}
+          num={predictWheelNum !== "-" ? Math.round(Number(predictWheelNum)) : "-"} // 유실, 파단, 풀림 개수를 입력한 후 조회해야 차주 교체 예상 휠 개수(반올림된 값)가 보임. 그 전에는 "-"로 표시
         />
         <div>
           <label htmlFor="lost">유실 :</label>
