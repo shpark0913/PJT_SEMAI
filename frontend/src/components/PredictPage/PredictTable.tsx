@@ -1,4 +1,4 @@
-import { TBody, TD, TFoot, TH, THead, TR, Table, TableContainer } from "../TableComponents";
+import { TBody, TD, TH, THead, TR, Table, TableContainer } from "../TableComponents";
 import { useCallback, useState } from "react";
 
 import Axios from "../../_utils/Axios";

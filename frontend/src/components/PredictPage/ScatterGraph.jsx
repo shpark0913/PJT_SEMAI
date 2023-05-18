@@ -46,8 +46,6 @@ const ScatterGraph = ({ data }) => {
 
       const container = graphRef.current;
       const graph = new vis.Graph3d(container, visData, options);
-
-      // container.style.border = "2px solid white";
     };
 
     draw3DScatterVisualization();
