@@ -53,7 +53,6 @@ function DashboardPage() {
       // OHT 검사 결과
       sse.addEventListener("state", event => {
         const stateData = JSON.parse(event.data);
-        console.log("proceed", stateData.isWheelsProceeding);
         dispatch(
           setSSEState({ ohtSn: stateData.ohtSn, isWheelsProceeding: stateData.isWheelsProceeding }),
         );
@@ -74,7 +73,6 @@ function DashboardPage() {
       const persistRoot = localStorage.getItem("persist:root");
       const store = persistRoot ? JSON.parse(persistRoot) : {};
       const inquire = JSON.parse(store.dashboard)?.inquire || false;
-      console.log("inquire", inquire);
       const newOHTCheckId = dashboardData[0].ohtCheckId;
       dispatch(setSSEId(newOHTCheckId));
       if (inquire === false) {
@@ -91,7 +89,6 @@ function DashboardPage() {
           const response = await Axios.get(`${BASE_URL}dashboard/main/${ohtCheckId}`);
           const wheelData = response.data.data;
           if (wheelDataNew !== wheelData) {
-            console.log("wheelData 변신!!!!!!!!!!!!!!!!!!!!!");
             setWheelDataNew(wheelData);
           }
         } catch (error) {
