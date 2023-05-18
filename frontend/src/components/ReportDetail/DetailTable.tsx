@@ -123,11 +123,14 @@ function DetailTable({ detailInfo }: { detailInfo: ReportObjectType }) {
           <TR>
             <TH>풀림</TH>
             <TD>
+              {11 - (detailInfo.boltLoseCount + detailInfo.boltOutCount + detailInfo.boltGoodCount)}
+            </TD>
+            {/* <TD>
               {detailInfo.boltLoseCount && detailInfo.boltOutCount && detailInfo.boltGoodCount
                 ? 11 -
                   (detailInfo.boltLoseCount + detailInfo.boltOutCount + detailInfo.boltGoodCount)
                 : 0}
-            </TD>
+            </TD> */}
           </TR>
           <TR>
             <TH>Marked Image</TH>
