@@ -5,6 +5,7 @@ import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "../_hooks/hooks";
 import useDate from "../_hooks/useDate";
 import {ReportLoaderType, ReportObjectType} from "../_utils/Types";
+import {setQueryObj} from "../_store/slices/reportPageSlice";
 import Axios from "../_utils/Axios";
 
 import { Button, SemesButton } from "../components/ButtonComponents";
@@ -18,7 +19,6 @@ import InputTime from "../components/ReportPage/InputTime";
 import InputWheelPosition from "../components/ReportPage/InputWheelPosition";
 import InputDescFlag from "../components/ReportPage/InputDescFlag";
 import InputErrorFlag from "../components/ReportPage/InputErrorFlag";
-import {setQueryObj} from "../_store/slices/reportPageSlice";
 
 
 const ReportSection = styled.section`
@@ -77,34 +77,29 @@ function ReportPage() {
   let submit = useSubmit();
   let { result, totalPage } = useLoaderData() as ReportLoaderType;    // 서버에서 가져온 값
 
-  let [query] = useSearchParams();
+  let [query] = useSearchParams();   // 쿼리값
+
   useEffect(() => {
-    dispatch(setQueryObj(Object.fromEntries(query)))
+    dispatch(setQueryObj(Object.fromEntries(query)))        // 쿼리 값을 redux에 저장... 저장 되는거 맞지?
   }, [query])
-  let { queryObj } = useAppSelector(state => state.reportPage);
 
-  let userName = useAppSelector(state => state.user.userName); // csv 출력 시 필요
+  let userName = useAppSelector(state => state.user.userName);    // csv 출력 시 필요
   let { todayFormat } = useDate();
-  let todayDate = todayFormat();
-
-  let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
-  let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
-  // let [page, setPage] = useState<string>(query.get('page') || "1");
-
-
-
-  // =================== 페이지네이션 ======================
+  let todayDate = todayFormat();     // 오늘 날짜
   let paginationTotalPage = Math.ceil(totalPage/20);
-  /** 페이지를 바꾸는 경우 -> 기존의 필터링은 그대로 유지, 페이지 params만 변경 */
-  const handleClickPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setQueryObj({...Object.fromEntries(query), page: e.target.value}));     // 기존의 params로 값 변경
 
+  // =================== submit ======================
+  /** 페이지를 바꾸는 경우 -> 그냥 제출
+   *  그게 아니면 -> page를 1로 바꿔줘야 함
+   */
+  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
-      for (const [key, val] of Object.entries(queryObj)) {
-        form.set(key, val);
+      if (e.currentTarget.name !== "page") {
+        form.set('page', "1");
       }
-      form.set('page', e.target.value);       // page는 변경하기
+      !form.has("errorFlag") && form.set("errorFlag", "0")
+      !form.has("time") && form.set("time", "ALL")
       submit(form);
     }
   }
@@ -119,7 +114,6 @@ function ReportPage() {
     try {
       let response = await Axios.get(`report/detail/${wheelCheckId}`);
       reportDetail = response.data.data;
-      console.log(reportDetail);
     }
     catch (err) {
       console.log(err)
@@ -133,18 +127,7 @@ function ReportPage() {
   }, []);
 
   // ================ form 조회 =================
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (e.currentTarget.form) {
-      let form = new FormData(e.currentTarget.form);
-      dispatch(setQueryObj({page: "1"}));
 
-      form.set('page', "1");
-      !form.has("errorFlag") && form.set("errorFlag", "0")
-      !form.has("time") && form.set("time", "ALL")
-      console.log(form);
-      submit(form);
-    }
-  }
 
   // ==================== CSV 파일 다운로드 ====================
   const handleDownloadCSV = () => {
@@ -163,12 +146,25 @@ function ReportPage() {
   const handleSubmitPeriod = (e: React.MouseEvent<HTMLButtonElement>, day: number) => {
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
-      dispatch(setQueryObj({page: "1"}))
-      setStartDate(todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
-      setEndDate(todayDate);
+      dispatch(setQueryObj({page: "1", startDate: todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ), endDate: todayDate}))
 
       form.set('page', "1");
       form.set('startDate', todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
+      form.set('endDate', todayDate);
+      !form.has("errorFlag") && form.set("errorFlag", "0")
+      !form.has("time") && form.set("time", "ALL")
+
+      submit(form);
+    }
+  }
+
+  const handleSubmitToday = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (e.currentTarget.form) {
+      let form = new FormData(e.currentTarget.form);
+      dispatch(setQueryObj({page: "1", startDate: todayDate, endDate: todayDate}))
+
+      form.set('page', "1");
+      form.set('startDate', todayDate);
       form.set('endDate', todayDate);
       !form.has("errorFlag") && form.set("errorFlag", "0")
       !form.has("time") && form.set("time", "ALL")
@@ -189,17 +185,17 @@ function ReportPage() {
           <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
             <FormTop>
               <FormInputs>
-                <InputOhtSn query={query} />
-                <InputStartDate startDate={startDate} endDate={endDate} setStartDate={setStartDate} />
-                <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} setEndDate={setEndDate} />
-                <InputTime query={query} startDate={startDate} endDate={endDate} />
-                <InputWheelPosition query={query} />
-                <InputDescFlag query={query} />
-                <InputErrorFlag query={query} />
+                <InputOhtSn />
+                <InputStartDate handleSubmit={handleSubmit} />
+                <InputEndDate handleSubmit={handleSubmit} todayDate={todayDate} />
+                <InputTime handleSubmit={handleSubmit} />
+                <InputWheelPosition handleSubmit={handleSubmit} />
+                <InputDescFlag handleSubmit={handleSubmit} />
+                <InputErrorFlag handleSubmit={handleSubmit} />
                 <div>
-                  <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="120px" height="26px" style={{marginRight: "20px"}} >조회하기</SemesButton>
-                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 일주일 조회</SemesButton>
-                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 한 달 조회</SemesButton>
+                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 30일 조회</SemesButton>
+                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 7일 조회</SemesButton>
+                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitToday(e)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >당일 조회</SemesButton>
                 </div>
               </FormInputs>
 
@@ -210,7 +206,7 @@ function ReportPage() {
             { result?.length ?
               <>
                 <ReportTable handleModalOpen={handleModalOpen} />
-                <PaginationComponents paginationTotalPage={paginationTotalPage} handleClickPage={handleClickPage} />
+                <PaginationComponents paginationTotalPage={paginationTotalPage} handleSubmit={handleSubmit} />
               </>
               :
               <NoData>데이터가 존재하지 않습니다.</NoData>
