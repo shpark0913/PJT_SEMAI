@@ -90,7 +90,19 @@ function useTransferBoltImages() {
 
       }
       catch (error) {
-        console.log(error)
+        console.log(error);
+        dispatch(setIsConfirmModalOpen(false));
+        dispatch(setIsTraining(false));
+        toast.error(`에러가 발생했습니다.`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     }
   }
