@@ -69,7 +69,7 @@ function ConfirmModal() {
               </DescriptionDiv>
               <BoltImageGridContainer>
                 <BoltImageGrid>
-                  { selectedClass[status].map(data => <img src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
+                  { selectedClass[status].map(data => <img key={`selected-images-${data.fileId}`} src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
                 </BoltImageGrid>
               </BoltImageGridContainer>
               <ButtonsContainer>
@@ -86,7 +86,7 @@ function ConfirmModal() {
                 { selectedTrain.map((selected, idx) => <>
                   <h1>{ statusNameList[idx] }</h1>
                   <BoltImageGrid style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "20px"}}>
-                    { selected.map(data => <img src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
+                    { selected.map(data => <img key={`selected-train-images-${data.fileId}`} src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
                   </BoltImageGrid>
                 </>) }
               </BoltImageGridContainer>
@@ -94,15 +94,15 @@ function ConfirmModal() {
                 <form >
                     <label >
                       learning rate :
-                      <input style={{border: "1px solid var(--emphasize-color)"}} type="number" name="lr" min={0.0001} max={0.01} defaultValue={0.001} step={0.0001} />
+                      <input style={{border: "1px solid var(--emphasize-color)", color: "var(--font-color)"}} type="number" name="lr" min={0.0001} max={0.01} defaultValue={0.001} step={0.0001} />
                     </label>
                     <label >
                       momentum :
-                      <input style={{border: "1px solid var(--emphasize-color)"}} type="number" name="momentum" min={0} max={1} defaultValue={0.9} step={0.1} />
+                      <input style={{border: "1px solid var(--emphasize-color)", color: "var(--font-color)"}} type="number" name="momentum" min={0} max={1} defaultValue={0.9} step={0.1} />
                     </label>
                     <label >
                       batch :
-                      <select style={{border: "1px solid var(--emphasize-color)"}} name="batch" defaultValue={16} >
+                      <select style={{border: "1px solid var(--emphasize-color)", color: "var(--font-color)", backgroundColor: "var(--background-color)"}} name="batch" defaultValue={16} >
                         <option value={16}>16</option>
                         <option value={32}>32</option>
                         <option value={64}>64</option>
@@ -111,7 +111,7 @@ function ConfirmModal() {
                     </label>
                     <label >
                       epoch :
-                      <input style={{border: "1px solid var(--emphasize-color)"}} type="number" name="epoch" min={1} defaultValue={10} step={1} />
+                      <input style={{border: "1px solid var(--emphasize-color)", color: "var(--font-color)"}} type="number" name="epoch" min={1} defaultValue={10} step={1} />
                     </label>
 
                   <ButtonsContainer>
