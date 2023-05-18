@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useAppSelector} from "../../_hooks/hooks";
 import {Label} from "./FilterComponents";
-import {QueryType} from "../../_utils/Types";
 
-function InputErrorFlag({query}: QueryType) {
+function InputErrorFlag({handleSubmit}: {handleSubmit: (e: React.ChangeEvent<HTMLInputElement>) => void}) {
   const theme=useAppSelector(state => state.theme.theme);
-  let [errorFlag, setErrorFlag] = useState<string>(query.get('errorFlag') || "0");
+  const { errorFlag } = useAppSelector(state => state.reportPage.queryObj)
   return (
     <Label theme={theme}> 오류 기록만 조회
-      <input type="checkbox" name="errorFlag" value={1} />
+      <input type="checkbox" checked={errorFlag === "1"} name="errorFlag" value={1} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSubmit(e)} />
     </Label>
   );
 }

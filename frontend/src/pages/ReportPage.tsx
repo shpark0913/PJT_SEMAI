@@ -78,17 +78,19 @@ function ReportPage() {
   let { result, totalPage } = useLoaderData() as ReportLoaderType;    // 서버에서 가져온 값
 
   let [query] = useSearchParams();
+  console.log(query.values());
   useEffect(() => {
     dispatch(setQueryObj(Object.fromEntries(query)))
   }, [query])
   let { queryObj } = useAppSelector(state => state.reportPage);
-
   let userName = useAppSelector(state => state.user.userName); // csv 출력 시 필요
   let { todayFormat } = useDate();
   let todayDate = todayFormat();
 
-  let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
-  let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
+  // let [startDate, setStartDate] = useState<string>(query.get('startDate') || todayDate);
+  // let [endDate, setEndDate] = useState<string>(query.get('endDate') || todayDate);
+
+
   // let [page, setPage] = useState<string>(query.get('page') || "1");
 
 
@@ -133,7 +135,20 @@ function ReportPage() {
   }, []);
 
   // ================ form 조회 =================
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  // const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   if (e.currentTarget.form) {
+  //     let form = new FormData(e.currentTarget.form);
+  //     dispatch(setQueryObj({page: "1"}));
+  //
+  //     form.set('page', "1");
+  //     !form.has("errorFlag") && form.set("errorFlag", "0")
+  //     !form.has("time") && form.set("time", "ALL")
+  //     console.log(form);
+  //     submit(form);
+  //   }
+  // }
+
+  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
       dispatch(setQueryObj({page: "1"}));
@@ -145,6 +160,7 @@ function ReportPage() {
       submit(form);
     }
   }
+
 
   // ==================== CSV 파일 다운로드 ====================
   const handleDownloadCSV = () => {
@@ -163,12 +179,25 @@ function ReportPage() {
   const handleSubmitPeriod = (e: React.MouseEvent<HTMLButtonElement>, day: number) => {
     if (e.currentTarget.form) {
       let form = new FormData(e.currentTarget.form);
-      dispatch(setQueryObj({page: "1"}))
-      setStartDate(todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
-      setEndDate(todayDate);
+      dispatch(setQueryObj({page: "1", startDate: todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ), endDate: todayDate}))
 
       form.set('page', "1");
       form.set('startDate', todayFormat( new Date(Date.now() - (day*24*60*60*1000)) ));
+      form.set('endDate', todayDate);
+      !form.has("errorFlag") && form.set("errorFlag", "0")
+      !form.has("time") && form.set("time", "ALL")
+
+      submit(form);
+    }
+  }
+
+  const handleSubmitToday = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (e.currentTarget.form) {
+      let form = new FormData(e.currentTarget.form);
+      dispatch(setQueryObj({page: "1", startDate: todayDate, endDate: todayDate}))
+
+      form.set('page', "1");
+      form.set('startDate', todayDate);
       form.set('endDate', todayDate);
       !form.has("errorFlag") && form.set("errorFlag", "0")
       !form.has("time") && form.set("time", "ALL")
@@ -189,15 +218,15 @@ function ReportPage() {
           <Form replace={true} method="GET" style={{height : "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
             <FormTop>
               <FormInputs>
-                <InputOhtSn query={query} />
-                <InputStartDate startDate={startDate} endDate={endDate} setStartDate={setStartDate} />
-                <InputEndDate startDate={startDate} endDate={endDate} todayDate={todayDate} setEndDate={setEndDate} />
-                <InputTime query={query} startDate={startDate} endDate={endDate} />
-                <InputWheelPosition query={query} />
-                <InputDescFlag query={query} />
-                <InputErrorFlag query={query} />
+                <InputOhtSn />
+                <InputStartDate handleSubmit={handleSubmit} />
+                <InputEndDate handleSubmit={handleSubmit} todayDate={todayDate} />
+                <InputTime handleSubmit={handleSubmit} />
+                <InputWheelPosition handleSubmit={handleSubmit} />
+                <InputDescFlag handleSubmit={handleSubmit} />
+                <InputErrorFlag handleSubmit={handleSubmit} />
                 <div>
-                  <SemesButton type="button" onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} width="120px" height="26px" style={{marginRight: "20px"}} >조회하기</SemesButton>
+                  <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitToday(e)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >당일 조회</SemesButton>
                   <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 7)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 일주일 조회</SemesButton>
                   <SemesButton onClick={(e:React.MouseEvent<HTMLButtonElement>) => handleSubmitPeriod(e, 30)} type="button" width="120px" height="26px" style={{marginRight: "20px"}} >최근 한 달 조회</SemesButton>
                 </div>
