@@ -19,8 +19,6 @@ export const reportPageSlice = createSlice({
   initialState,
   reducers: {
     setQueryObj: (state, action) => {
-      console.log(`tmpObj:`)
-      console.log(action.payload);
       Object.assign(state.queryObj, action.payload);
     },
   }
