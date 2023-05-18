@@ -17,7 +17,6 @@ import styled from "styled-components";
 import { toggleTheme } from "../_store/slices/themeSlice";
 import { useAppSelector } from "../_hooks/hooks";
 import useDate from "../_hooks/useDate";
-import {toast} from "react-toastify";
 
 const Nav = styled.nav`
   height: var(--nav-height);
@@ -131,16 +130,6 @@ function NavBar() {
       </NavLeftDiv>
 
       <NavRightDiv>
-        <button onClick={() => toast('🦄 Wow so easy!', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        })}>테스트</button>
         <Profile>
           {userName} <span style={{ fontSize: "15px", fontWeight: "normal" }}>님</span>
         </Profile>
