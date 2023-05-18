@@ -39,8 +39,8 @@ const ScatterGraph = ({ data }) => {
         },
         backgroundColor: {
           // 그래프의 배경 색상 설정
-          border: "white",
-          background: "#f2f2f2",
+          // stroke: "white",
+          // background: "#f2f2f2",
         },
       };
 
