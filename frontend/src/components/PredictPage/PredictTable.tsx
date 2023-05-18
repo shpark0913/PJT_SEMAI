@@ -10,6 +10,9 @@ function PredictTable({ abnormalWheels }: any) {
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   let [detailInfo, setDetailInfo] = useState<ReportObjectType>({
     wheelCheckDate: [2023, 5, 2, 4, 32, 10],
+    boltGoodCount: 0,
+    boltLoseCount: 0,
+    boltOutCount: 0,
   });
   let abnormalData: any[] = [];
   abnormalWheels.map((abnormalWheel: any) => {
@@ -22,7 +25,12 @@ function PredictTable({ abnormalWheels }: any) {
   const handleModalOpen = useCallback(
     async (e: React.MouseEvent<HTMLTableRowElement>, wheelCheckId: number) => {
       e.preventDefault();
-      let reportDetail: ReportObjectType = { wheelCheckDate: [2023, 5, 2, 4, 32, 10] };
+      let reportDetail: ReportObjectType = {
+        wheelCheckDate: [2023, 5, 2, 4, 32, 10],
+        boltGoodCount: 0,
+        boltLoseCount: 0,
+        boltOutCount: 0,
+      };
       try {
         let response = await Axios.get(`report/detail/${wheelCheckId}`);
         reportDetail = response.data.data;

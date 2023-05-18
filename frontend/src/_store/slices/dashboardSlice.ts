@@ -4,7 +4,7 @@ const initialState = {
   checkId: 2,
   sseId: 2,
   inquire: false,
-  sseState: { ohtSn: "P2", isWheelsProceeding: [true, true, true, true] },
+  sseState: { ohtSn: "V30001", isWheelsProceeding: [true, true, true, true] },
   imgUrl: false,
 };
 
