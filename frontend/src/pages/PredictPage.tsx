@@ -111,9 +111,6 @@ const CustomInput = styled.input`
 
 function PredictPage() {
   const [predictWheelNum, setPredictWheelNum] = useState("-");
-  const [predictWheelData, setPredictWheelData] = useState("");
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
-  // 그래프에 표시할 변수
   const [lostNum, SetLostNum] = useState("");
   const [brokenNum, SetBrokenNum] = useState("");
   const [looseNum, SetLooseNum] = useState("");
@@ -241,7 +238,6 @@ function PredictPage() {
                 },
               })
                 .then(response => {
-                  setPredictWheelData(response.data);
                   setPredictWheelNum(response.data.data.predictNum);
                   const newData = {
                     lost: response.data.data.lost,
