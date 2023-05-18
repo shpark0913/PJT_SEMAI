@@ -1,6 +1,7 @@
 package com.ssafy.semes.report.model.service;
 
 import com.ssafy.semes.report.model.AnomalyEntity;
+import com.ssafy.semes.report.model.PredictDTO;
 import com.ssafy.semes.report.model.QuestionDto;
 import com.ssafy.semes.report.model.ReportListResponseDto;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +24,5 @@ public interface ReportService {
      */
     ReportListResponseDto findReportDetail(long wheelChcekId) throws Exception;
     List<AnomalyEntity> goAnomaly() throws Exception;
+    PredictDTO goPredict() throws Exception;
 }
