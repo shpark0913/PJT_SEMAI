@@ -6,9 +6,91 @@ import { useAppDispatch, useAppSelector } from "../../_hooks/hooks";
 import { setIsConfirmModalOpen } from "../../_store/slices/transferPageSlice";
 import ImageUrl from "../../_utils/ImageUrl";
 import TransferButtons from "./TransferButtons";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import {Label} from "../ReportPage/FilterComponents";
 import RefreshIcon from '@mui/icons-material/Refresh';
+
+const Ring = keyframes`
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+`
+
+const LoadingContainer = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const Loading = styled.div`
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 40px;
+  
+  & div{
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--emphasize-color);
+    animation: ${Ring} 1.2s linear infinite;
+    
+    &:nth-of-type(1) {
+      top: 8px;
+      left: 8px;
+      animation-delay: 0s;
+    }
+    &:nth-of-type(2) {
+      top: 8px;
+      left: 32px;
+      animation-delay: -0.4s;
+    }
+    &:nth-of-type(3) {
+      top: 8px;
+      left: 56px;
+      animation-delay: -0.8s;
+    }
+    &:nth-of-type(4) {
+      top: 32px;
+      left: 8px;
+      animation-delay: -0.4s;
+    }
+    &:nth-of-type(5) {
+      top: 32px;
+      left: 32px;
+      animation-delay: -0.8s;
+    }
+    &:nth-of-type(6) {
+      top: 32px;
+      left: 56px;
+      animation-delay: -1.2s;
+    }
+    &:nth-of-type(7) {
+      top: 56px;
+      left: 8px;
+      animation-delay: -0.8s;
+    }
+    &:nth-of-type(8) {
+      top: 56px;
+      left: 32px;
+      animation-delay: -1.2s;
+    }
+    &:nth-of-type(9) {
+      top: 56px;
+      left: 56px;
+      animation-delay: -1.6s;
+    }
+  }
+`;
 
 const DescriptionDiv = styled.div`
   margin-bottom: 15px;
@@ -58,6 +140,7 @@ function ConfirmModal() {
 
   const dispatch = useAppDispatch();
   const { type, status, statusNameList, selectedClass, selectedTrain } = useAppSelector(state => state.transferPage);
+  const { isTraining } = useAppSelector(state => state.train)
   const {theme} = useAppSelector(state => state.theme)
   const { preType, nextType } = type;
   const { CancelConfirmModalButton, TransferClassButton, TransferLearningButton, DeleteImagesButton, TrainButton } = TransferButtons();
@@ -98,50 +181,66 @@ function ConfirmModal() {
               </ButtonsContainer>
             </>
           :
-            <>
-              <DescriptionDiv>{`${ type.nextType === 4?  LearnDescription[1] :  LearnDescription[0]}`}</DescriptionDiv>
-              <BoltImageGridContainer>
-                { selectedTrain.map((selected, idx) => <>
-                  <h1>{ statusNameList[idx] }</h1>
-                  <BoltImageGrid style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "20px"}}>
-                    { selected.map(data => <img key={`selected-train-images-${data.fileId}`} src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
-                  </BoltImageGrid>
-                </>) }
-              </BoltImageGridContainer>
+            isTraining?
+              <LoadingContainer >
+                <Loading>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </Loading>
+                학습이 진행되고 있습니다!
+              </LoadingContainer>
+              :
+              <>
+                <DescriptionDiv>{`${ type.nextType === 4?  LearnDescription[1] :  LearnDescription[0]}`}</DescriptionDiv>
+                <BoltImageGridContainer>
+                  { selectedTrain.map((selected, idx) => <>
+                    <h1>{ statusNameList[idx] }</h1>
+                    <BoltImageGrid style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "20px"}}>
+                      { selected.map(data => <img key={`selected-train-images-${data.fileId}`} src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
+                    </BoltImageGrid>
+                  </>) }
+                </BoltImageGridContainer>
 
-                <form >
-                  <ParamsContainer>
-                    <Label>
-                      learning rate :
-                      <input type="number" name="lr" min={0.0001} max={0.01} defaultValue={0.001} step={0.0001} />
-                    </Label>
-                    <Label>
-                      momentum :
-                      <input type="number" name="momentum" min={0} max={1} defaultValue={0.9} step={0.1} />
-                    </Label>
-                    <Label theme={theme}>
-                      batch :
-                      <select name="batch" defaultValue={16} >
-                        <option value={16}>16</option>
-                        <option value={32}>32</option>
-                        <option value={64}>64</option>
-                        <option value={128}>128</option>
-                      </select>
-                    </Label>
-                    <Label>
-                      epoch :
-                      <input type="number" name="epoch" min={1} defaultValue={10} step={1} />
-                    </Label>
-                    <button type="reset"><RefreshIcon sx={{width: "30px", height: "30px", color: "var(--emphasize-color)"}} /></button>
-                  </ParamsContainer>
-                  <ButtonsContainer>
-                    { CancelConfirmModalButton() }
-                    { type.nextType === 3 ? TrainButton() :<></> }
-                    { type.nextType === 4 ? DeleteImagesButton(selectedTrain.reduce((acc, cur) => [...acc, ...cur], [])) :<></> }
-                  </ButtonsContainer>
-                </form>
+                  <form >
+                    <ParamsContainer>
+                      <Label>
+                        learning rate :
+                        <input type="number" name="lr" min={0.0001} max={0.01} defaultValue={0.001} step={0.0001} />
+                      </Label>
+                      <Label>
+                        momentum :
+                        <input type="number" name="momentum" min={0} max={1} defaultValue={0.9} step={0.1} />
+                      </Label>
+                      <Label theme={theme}>
+                        batch :
+                        <select name="batch" defaultValue={16} >
+                          <option value={16}>16</option>
+                          <option value={32}>32</option>
+                          <option value={64}>64</option>
+                          <option value={128}>128</option>
+                        </select>
+                      </Label>
+                      <Label>
+                        epoch :
+                        <input type="number" name="epoch" min={1} defaultValue={10} step={1} />
+                      </Label>
+                      <button type="reset"><RefreshIcon sx={{width: "30px", height: "30px", color: "var(--emphasize-color)"}} /></button>
+                    </ParamsContainer>
+                    <ButtonsContainer>
+                      { CancelConfirmModalButton() }
+                      { type.nextType === 3 ? TrainButton() :<></> }
+                      { type.nextType === 4 ? DeleteImagesButton(selectedTrain.reduce((acc, cur) => [...acc, ...cur], [])) :<></> }
+                    </ButtonsContainer>
+                  </form>
 
-            </> }
+              </> }
 
       </ModalContainer>
     </Modal>
