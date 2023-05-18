@@ -23,7 +23,7 @@ public enum SuccessCode {
     ,CHECK_OHT_COMPLETE(SUCCESS,"OHT 검사 종료")
     ,READ_USER_LOGIN(SUCCESS,"유저 로그인 성공")
     ,START_LEARNING(SUCCESS,"학습 시작 성공"),COMPLETE_LEARNING_CHANGED(SUCCESS,"전이학습 완료 및 모델 업그레이드 성공"),COMPLETE_LEARNING_NOT_CHANGED(SUCCESS,"전이학습 완료")
-    ,READ_REPORT_ANOMALY(SUCCESS,"이상탐지 완료")
+    ,READ_REPORT_ANOMALY(SUCCESS,"이상탐지 완료"),READ_REPORT_PREDICT(SUCCESS,"에측 완료")
     ;
 
     private final StatusCode statusCode;

@@ -4,6 +4,7 @@ import com.ssafy.semes.exception.JPAException;
 import com.ssafy.semes.image.model.ImageEntity;
 import com.ssafy.semes.oht.model.OHTEntity;
 import com.ssafy.semes.report.model.AnomalyEntity;
+import com.ssafy.semes.report.model.PredictDTO;
 import com.ssafy.semes.report.model.QuestionDto;
 import com.ssafy.semes.report.model.ReportListResponseDto;
 import com.ssafy.semes.report.model.repository.AnomalyRepository;
@@ -195,9 +196,12 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<AnomalyEntity> goAnomaly() throws Exception {
-
         return anomalyRepository.findAll();
+    }
 
+    @Override
+    public PredictDTO goPredict() throws Exception {
 
+        return null;
     }
 }
