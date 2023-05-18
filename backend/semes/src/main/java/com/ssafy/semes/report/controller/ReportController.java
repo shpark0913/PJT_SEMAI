@@ -102,6 +102,24 @@ public class ReportController {
         }
     }
 
+
+    @GetMapping("/anomaly")
+    public ApiResponse<?> anomaly(){
+
+        log.info("Report anomaly Start");
+        try {
+            return ApiResponse.success(SuccessCode.READ_REPORT_ANOMALY,reportService.goAnomaly());
+        }catch (JPAException jpaException){
+            log.error("DashBoard Error : " + jpaException.getMessage());
+            return ApiResponse.error(ErrorCode.JPA_NOT_FIND);
+        } catch (Exception e) {
+            slackController.errorSend("Report anomaly Error : " + e.getMessage());
+            log.error("Report findReportDetail Error : " + e.getMessage());
+            return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
+        }
+    }
+
+
     /**
      * {@summary 레포트 다운로드}
      *
