@@ -7,9 +7,11 @@ import { setIsConfirmModalOpen } from "../../_store/slices/transferPageSlice";
 import ImageUrl from "../../_utils/ImageUrl";
 import TransferButtons from "./TransferButtons";
 import styled from "styled-components";
+import {Label} from "../ReportPage/FilterComponents";
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const DescriptionDiv = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   font-size: 20px;
 `;
 
@@ -21,14 +23,29 @@ const BoltImageGridContainer = styled.div`
 
 const BoltImageGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   gap: 20px;
 `;
 
 const ButtonsContainer = styled.div`
-  margin-top: 10px;
   & > button:first-child {
     margin-right: 10px;
+  }
+`
+
+const ParamsContainer = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border: none;
+  & > * {
+    margin-bottom: 10px;
+  }
+  & > button {
+    background: transparent;
   }
 `
 
@@ -41,6 +58,7 @@ function ConfirmModal() {
 
   const dispatch = useAppDispatch();
   const { type, status, statusNameList, selectedClass, selectedTrain } = useAppSelector(state => state.transferPage);
+  const {theme} = useAppSelector(state => state.theme)
   const { preType, nextType } = type;
   const { CancelConfirmModalButton, TransferClassButton, TransferLearningButton, DeleteImagesButton, TrainButton } = TransferButtons();
 
@@ -69,7 +87,7 @@ function ConfirmModal() {
               </DescriptionDiv>
               <BoltImageGridContainer>
                 <BoltImageGrid>
-                  { selectedClass[status].map(data => <img src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
+                  { selectedClass[status].map(data => <img key={`selected-images-${data.fileId}`} src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
                 </BoltImageGrid>
               </BoltImageGridContainer>
               <ButtonsContainer>
@@ -86,34 +104,36 @@ function ConfirmModal() {
                 { selectedTrain.map((selected, idx) => <>
                   <h1>{ statusNameList[idx] }</h1>
                   <BoltImageGrid style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "20px"}}>
-                    { selected.map(data => <img src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
+                    { selected.map(data => <img key={`selected-train-images-${data.fileId}`} src={ImageUrl(data.imgUrl)} alt='볼트 이미지' width="100%"></img>) }
                   </BoltImageGrid>
                 </>) }
               </BoltImageGridContainer>
 
                 <form >
-                    <label >
+                  <ParamsContainer>
+                    <Label>
                       learning rate :
-                      <input style={{border: "1px solid var(--emphasize-color)"}} type="number" name="lr" min={0.0001} max={0.01} defaultValue={0.001} step={0.0001} />
-                    </label>
-                    <label >
+                      <input type="number" name="lr" min={0.0001} max={0.01} defaultValue={0.001} step={0.0001} />
+                    </Label>
+                    <Label>
                       momentum :
-                      <input style={{border: "1px solid var(--emphasize-color)"}} type="number" name="momentum" min={0} max={1} defaultValue={0.9} step={0.1} />
-                    </label>
-                    <label >
+                      <input type="number" name="momentum" min={0} max={1} defaultValue={0.9} step={0.1} />
+                    </Label>
+                    <Label theme={theme}>
                       batch :
-                      <select style={{border: "1px solid var(--emphasize-color)"}} name="batch" defaultValue={16} >
+                      <select name="batch" defaultValue={16} >
                         <option value={16}>16</option>
                         <option value={32}>32</option>
                         <option value={64}>64</option>
                         <option value={128}>128</option>
                       </select>
-                    </label>
-                    <label >
+                    </Label>
+                    <Label>
                       epoch :
-                      <input style={{border: "1px solid var(--emphasize-color)"}} type="number" name="epoch" min={1} defaultValue={10} step={1} />
-                    </label>
-
+                      <input type="number" name="epoch" min={1} defaultValue={10} step={1} />
+                    </Label>
+                    <button type="reset"><RefreshIcon sx={{width: "30px", height: "30px", color: "var(--emphasize-color)"}} /></button>
+                  </ParamsContainer>
                   <ButtonsContainer>
                     { CancelConfirmModalButton() }
                     { type.nextType === 3 ? TrainButton() :<></> }
