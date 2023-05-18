@@ -55,6 +55,7 @@ function PaginationComponents({paginationTotalPage, handleClickPage}: {paginatio
           name="page"
           value={String(i)}
           onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleClickPage(e)}
+          // onClick={(e:React.MouseEvent<HTMLInputElement>) => alert(`${e.target}, ${e.currentTarget.name}`)}
           checked={ page === String(i)}
         />
       </PaginationLabel>

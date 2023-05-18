@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useAppSelector} from "../../_hooks/hooks";
 import {Label} from "./FilterComponents";
-import {QueryType} from "../../_utils/Types";
 
-function InputWheelPosition({query}: QueryType) {
+function InputWheelPosition({handleSubmit}: {handleSubmit: (e: React.ChangeEvent<HTMLSelectElement>) => void}) {
+
   const theme = useAppSelector(state => state.theme.theme);
-  let [wheelPosition, setWheelPosition] = useState<string>(query.get('wheelPosition') || "ALL");
+  const { wheelPosition } = useAppSelector(state => state.reportPage.queryObj)
 
   return (
     <Label theme={theme}> 검사 휠 위치
-      <select name="wheelPosition" defaultValue={wheelPosition}>
+      <select name="wheelPosition" defaultValue={wheelPosition} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSubmit(e)}>
         <option value="ALL">전체</option>
         <option value="FL">FL</option>
         <option value="FR">FR</option>

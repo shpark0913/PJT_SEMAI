@@ -1,15 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Label} from "./FilterComponents";
 import {useAppSelector} from "../../_hooks/hooks";
-import {QueryType} from "../../_utils/Types";
 
-function InputOhtSn({query}: QueryType) {
+function InputOhtSn() {
   let theme= useAppSelector(state => state.theme.theme);
-  let [ohtSn, setOhtSn] = useState<string>(query.get('ohtSn') || "ALL");
 
   return (
     <Label theme={theme} style={{display: "none"}} > 장비 종류
-      <select name="ohtSn" defaultValue={ohtSn} >
+      <select name="ohtSn" defaultValue={"ALL"} >
         <option value="ALL">전체</option>
         <option value="P1">P1</option>
         <option value="P2">P2</option>
