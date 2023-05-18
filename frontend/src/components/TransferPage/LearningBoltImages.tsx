@@ -63,7 +63,7 @@ function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
       { BoltImageLists.map((data) =>
         <>
           {/* 클래스 이름.. */}
-          <ClassName onClick={() => {
+          <ClassName key={`bolt-images_by-class-${statusNameList[data.status]}`} onClick={() => {
             setIsTabOpen(prev => {
               let newList = [...prev];
               newList[data.status] = !newList[data.status];
