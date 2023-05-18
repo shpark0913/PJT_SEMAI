@@ -47,7 +47,7 @@ function LearningBoltImages({BoltImageLists}: { BoltImageLists: TransferLoaderTy
 
   const dispatch = useAppDispatch();
   const { isDetailOpen, statusNameList, selectedTrain } = useAppSelector(state => state.transferPage);
-  const [isTabOpen, setIsTabOpen] = useState<boolean[]>([false, false, false]);
+  const [isTabOpen, setIsTabOpen] = useState<boolean[]>([false, false, true]);
 
   const styleFunc = (status: number): React.CSSProperties => {
     return {
