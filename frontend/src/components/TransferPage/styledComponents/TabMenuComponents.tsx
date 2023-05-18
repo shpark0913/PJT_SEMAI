@@ -36,4 +36,8 @@ export const LengthSpan = styled.span`
   border-radius: 20px;
   padding: 2px 7px;
   margin-left: 5px;
+  
+  &.isActive {
+    background-color: var(--tab-span-color);
+  }
 `;
