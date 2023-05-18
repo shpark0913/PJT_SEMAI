@@ -108,20 +108,26 @@ function DetailTable({ detailInfo }: { detailInfo: ReportObjectType }) {
             <TD colSpan={2}>11</TD>
           </TR>
           <TR>
-            <TH rowSpan={3}>결과값</TH>
+            <TH rowSpan={4}>결과값</TH>
             <TH>양호</TH>
             <TD>{detailInfo.boltGoodCount}</TD>
-            {/*<TD>{ detailInfo.boltGoodCount }</TD>*/}
           </TR>
           <TR>
-            {/*<TD></TD>*/}
             <TH>유실</TH>
             <TD>{detailInfo.boltOutCount}</TD>
           </TR>
           <TR>
-            {/*<TD></TD>*/}
             <TH>파단</TH>
             <TD>{detailInfo.boltLoseCount}</TD>
+          </TR>
+          <TR>
+            <TH>풀림</TH>
+            <TD>
+              {detailInfo.boltLoseCount && detailInfo.boltOutCount && detailInfo.boltGoodCount
+                ? 11 -
+                  (detailInfo.boltLoseCount + detailInfo.boltOutCount + detailInfo.boltGoodCount)
+                : 0}
+            </TD>
           </TR>
           <TR>
             <TH>Marked Image</TH>
