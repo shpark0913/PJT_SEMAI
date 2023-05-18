@@ -4,6 +4,26 @@ import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
 import TransferButtons from "./TransferButtons";
 import {setSelectedClass, setSelectedTrain} from "../../_store/slices/transferPageSlice";
 import {TransferLoaderType} from "../../_utils/Types";
+import styled from "styled-components";
+
+const SelectCountInfo = styled.div`
+  font-size: 18px;
+  
+  display: flex;
+  align-items: center;
+  
+  & > * {
+    margin-right: 15px;
+  }
+  & > label {
+    display: flex;
+    align-items: center;
+  }
+  & input[type=checkbox] {
+    width: 18px;
+    height: 18px;
+  }
+`;
 
 function TabContentInfo({ BoltImageLists, imageLengthList }:
                           { BoltImageLists: TransferLoaderType[][],
@@ -38,10 +58,10 @@ function TabContentInfo({ BoltImageLists, imageLengthList }:
     <TabContentInfos>
       { status <= 2 ?
         <>
-        <div>
+        <SelectCountInfo>
+          <div>{`현재 선택 : ${selectedClass[status].length}/${imageLengthList[status]}`}</div>
           <label>전체 선택 <input type="checkbox" checked={selectedClass[status].length === imageLengthList[status]} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleCheckClassAll(e)}/></label>
-            <div>{`현재 선택 : ${selectedClass[status].length}/${imageLengthList[status]}`}</div>
-        </div>
+        </SelectCountInfo>
         <div>
           { selectedClass[status].length ?
             <>
@@ -56,10 +76,10 @@ function TabContentInfo({ BoltImageLists, imageLengthList }:
         </>
         :
         <>
-        <div>
-          <label>전체 선택 <input type="checkbox" checked={selectedTrain.reduce((acc, cur) => acc + cur.length, 0) === imageLengthList[status]} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleCheckTrainAll(e)}/></label>
+        <SelectCountInfo>
           <div>{`현재 선택 : ${selectedTrain.reduce((acc, cur) => acc + cur.length, 0)}/${imageLengthList[status]}`}</div>
-        </div>
+          <label>전체 선택 <input type="checkbox" checked={selectedTrain.reduce((acc, cur) => acc + cur.length, 0) === imageLengthList[status]} onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleCheckTrainAll(e)}/></label>
+        </SelectCountInfo>
         <div>
           { selectedTrain.reduce((acc, cur) => acc + cur.length, 0) ?
             <>
