@@ -3,17 +3,22 @@ package com.ssafy.semes.report.model.service;
 import com.ssafy.semes.exception.JPAException;
 import com.ssafy.semes.image.model.ImageEntity;
 import com.ssafy.semes.oht.model.OHTEntity;
+import com.ssafy.semes.report.model.AnomalyEntity;
 import com.ssafy.semes.report.model.QuestionDto;
 import com.ssafy.semes.report.model.ReportListResponseDto;
+import com.ssafy.semes.report.model.repository.AnomalyRepository;
 import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
 import com.ssafy.semes.wheelcheck.model.repository.WheelCheckRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,8 +35,11 @@ public class ReportServiceImpl implements ReportService {
     private WheelCheckRepository wheelCheckRepository;
     @Autowired
     private EntityManager em;
+    @Autowired
+    private AnomalyRepository anomalyRepository;
     private final int PAGE_SIZE = 20;
-
+    @Value("${Ai-Api-Server-Ip}")
+    private String ip;
     @Override
     @Transactional
     public Map<String,Object> findReport(QuestionDto dto) throws Exception {
@@ -156,11 +164,12 @@ public class ReportServiceImpl implements ReportService {
         OHTEntity oht = wheel.getOhtCheck().getOht();
         //해당 주 휠 조회
         List<WheelCheckEntity> wheels = wheelCheckRepository.findDate(start,end,oht.getOhtSN(),wheel.getWheelPosition());
-        int tg=0,to=0,tl=0;
+        int tg=0,to=0,tl=0,tloo =0;
         for(WheelCheckEntity val : wheels){
             tg += val.getBoltGoodCount();
             to += val.getBoltOutCount();
             tl +=val.getBoltLoseCount();
+            tloo += 11- val.getBoltGoodCount()- val.getBoltLoseCount()-val.getBoltOutCount();
         }
         ImageEntity image = wheel.getImage();
         if (wheel == null) {
@@ -175,11 +184,20 @@ public class ReportServiceImpl implements ReportService {
                 .totalGoodCount(tg)
                 .totalOutCount(to)
                 .totalLoseCount(tl)
+                .totalLooseCount(tloo)
                 .wheelCheckDate(wheel.getCheckDate())
                 .wheelCheckId(wheel.getWheelHistoryId())
                 .wheelPosition(wheel.getWheelPosition())
                 .markingUrl(image.markingUrl())
                 .originUrl(image.originUrl())
                 .build();
+    }
+
+    @Override
+    public List<AnomalyEntity> goAnomaly() throws Exception {
+
+        return anomalyRepository.findAll();
+
+
     }
 }

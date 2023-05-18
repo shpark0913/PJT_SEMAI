@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.ssafy.semes.common.SuccessCode;
 import com.ssafy.semes.common.dto.ApiResponse;
 import com.ssafy.semes.dashboard.controller.DashboardController;
+import com.ssafy.semes.image.model.ImageListResponseDto;
 import com.ssafy.semes.ohtcheck.controller.OHTCheckController;
 import com.ssafy.semes.report.controller.ReportController;
+import com.ssafy.semes.transition.controller.TransitionController;
+import com.ssafy.semes.transition.model.TransitionUpdateRequestDto;
 import com.ssafy.semes.user.controller.UserController;
 import com.ssafy.semes.user.model.UserRequestDto;
 import com.ssafy.semes.user.model.UserResponseDto;
@@ -22,6 +25,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 class SemesApplicationTests {
@@ -34,6 +39,8 @@ class SemesApplicationTests {
 	OHTCheckController ohtCheckController;
 	@Autowired
 	ReportController reportController;
+	@Autowired
+	TransitionController transitionController;
 
 	@Test
 	void userLogin() throws IOException {
@@ -48,7 +55,7 @@ class SemesApplicationTests {
 	@Test
 	void  dashBoardTest() throws Exception {
 		assertEquals(dashboardController.connect().getStatusCode(), HttpStatus.OK);
-		assertEquals(dashboardController.showMain(228).getMessage(),SuccessCode.READ_DASHBOARD_MAIN.getMessage());
+		assertEquals(dashboardController.showMain(300).getMessage(),SuccessCode.READ_DASHBOARD_MAIN.getMessage());
 		MultipartFile [] multipartFiles = new MultipartFile [4];
 		for(int i =1;i<=4;i++){
 			String name = "files";
@@ -66,14 +73,28 @@ class SemesApplicationTests {
 	void  report(){
 		assertEquals(reportController.findReport("ALL",
 						"2023-04-11",
-						"2023-05-11",
+						"2023-05-31",
 						"ALL",
 						"ALL",
 						0,
 						1,
 						1).getMessage()
 				,SuccessCode.READ_REPORT_LIST.getMessage());
-		assertEquals(reportController.findReportDetail(452).getMessage(),SuccessCode.READ_REPORT_DETAIL.getMessage());
+		assertEquals(reportController.findReportDetail(700).getMessage(),SuccessCode.READ_REPORT_DETAIL.getMessage());
 
+	}
+
+	@Test
+	void transition(){
+		ApiResponse api = transitionController.findAllBolt();
+		//5742
+		List<List<ImageListResponseDto>> boult = (List<List<ImageListResponseDto>>) api.getData();
+		List<ImageListResponseDto> images = boult.get(0);
+		List<ImageListResponseDto> train = boult.get(1);
+		assertEquals(api.getMessage(),SuccessCode.READ_IMG_LIST.getMessage());
+		Long temp[] = {13668L};
+		assertEquals(transitionController.updateBolt(TransitionUpdateRequestDto.builder().
+						fileIds(temp).preType(0).nextType(0).build()).getMessage()
+				,SuccessCode.UPDATE_IMG.getMessage());
 	}
 }
