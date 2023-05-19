@@ -76,7 +76,7 @@ function useTransferBoltImages() {
           });
         }
         else {                                   // 실패 시
-          toast.error(`모델이 교체되지 않았습니다. (acc: ${acc}, fscore: ${fscore}, loss: ${loss})`, {
+          toast.error(`모델이 교체되지 않았습니다.`, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
