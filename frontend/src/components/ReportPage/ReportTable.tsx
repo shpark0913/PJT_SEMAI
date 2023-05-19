@@ -50,8 +50,8 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
         </TBody>
         <TFoot>
           <TR>
-            <TD colSpan={8} />
-            <TD colSpan={2}>보기 {(Number(nowPage)-1)*20+1}-{Number(nowPage)*20 > totalPage? totalPage : Number(nowPage)*20} / <span style={{color: "var(--emphasize-color)", fontWeight: "bold"}}>{ totalPage }</span></TD>
+            <TD colSpan={7} />
+            <TD colSpan={2}>보기 {(Number(nowPage)-1)*20+1}-{Number(nowPage)*20 > totalPage? totalPage : Number(nowPage)*20} / <span style={{color: "var(--emphasize-color)", fontWeight: "bold", fontSize: "16px"}}>{ totalPage }</span></TD>
           </TR>
         </TFoot>
       </Table>
