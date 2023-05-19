@@ -18,6 +18,7 @@ const SelectCountInfo = styled.div`
   & > label {
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
   & input[type=checkbox] {
     width: 18px;
