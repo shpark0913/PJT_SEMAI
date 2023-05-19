@@ -51,7 +51,7 @@ const ScatterGraph = ({ data }) => {
     draw3DScatterVisualization();
   }, [data]);
 
-  return <div ref={graphRef} />;
+  return <div style={{marginBottom: "20px"}} ref={graphRef} />;
 };
 
 export default ScatterGraph;

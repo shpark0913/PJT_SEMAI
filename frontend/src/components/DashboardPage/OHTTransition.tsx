@@ -38,17 +38,17 @@ function OHTTransition() {
   if (theme === "dark") {
     chart = (
       <OHTTransitionSec>
-        <ChartLight name="양호" myScore={94} order="1" />
-        <ChartLight name="유실" myScore={28} order="2" />
-        <ChartLight name="파단" myScore={7} order="3" />
+        <ChartLight name="양호" myScore={100} order="1" />
+        <ChartLight name="유실" myScore={100} order="2" />
+        <ChartLight name="파단" myScore={100} order="3" />
       </OHTTransitionSec>
     );
   } else {
     chart = (
       <OHTTransitionSec>
-        <ChartDark name="양호" myScore={94} order="1" />
-        <ChartDark name="유실" myScore={28} order="2" />
-        <ChartDark name="파단" myScore={7} order="3" />
+        <ChartDark name="양호" myScore={100} order="1" />
+        <ChartDark name="유실" myScore={100} order="2" />
+        <ChartDark name="파단" myScore={100} order="3" />
       </OHTTransitionSec>
     );
   }
