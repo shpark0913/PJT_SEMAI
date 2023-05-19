@@ -20,8 +20,8 @@ const ScatterGraph = ({ data }) => {
 
       const options = {
         showLegend: false,
-        width: "450px",
-        height: "450px",
+        width: "640px",
+        height: "640px",
         style: "dot-color",
         dotSizeRatio: 0.015,
         showPerspective: true,
