@@ -32,7 +32,8 @@ const ReportContainer = styled.div`
   overflow-x: auto;
 
   &.open {
-    width: 50%;
+    width: 55%;
+    overflow-x: auto;
   }
 `;
 
@@ -63,6 +64,8 @@ const NoData = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 function ReportPage() {

@@ -54,7 +54,7 @@ function PredictTable({ abnormalWheels }: any) {
         <Table>
           <THead>
             <TR>
-              <TH>검사 ID</TH>
+              <TH>휠 ID</TH>
               <TH>양호</TH>
               <TH>유실</TH>
               <TH>파단</TH>
@@ -69,7 +69,7 @@ function PredictTable({ abnormalWheels }: any) {
                   handleModalOpen(e, data.wheelCheckId)
                 }
               >
-                <TH>
+                <TH style={{borderRight: "1px solid var(--emphasize-color)"}}>
                   {data.ohtSn}-{data.wheelPosition}
                 </TH>
                 <TD>{data.totalGoodCount}</TD>
