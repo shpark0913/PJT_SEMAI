@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
 import Axios from "../_utils/Axios";
-import { Button } from "../components/ButtonComponents";
+import { SemesButton} from "../components/ButtonComponents";
 import PredictTable from "../components/PredictPage/PredictTable";
 import { ReactComponent as ScatterCircle } from "../assets/ScatterCircle.svg";
 import ScatterGraph from "../components/PredictPage/ScatterGraph";
 import Title from "../components/Title";
 import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
+import { Label } from "../components/ReportPage/FilterComponents"
 
 export async function loader() {
   let abnormalWheels: any;
@@ -84,17 +85,17 @@ const GraphSection = styled.section`
   width: 100%;
   height: 100%;
   align-items: center;
-  justify-content: space-between;
+  //justify-content: space-between;
 `;
 
 // 차주 교체 예상 휠을 산정하기 위한 변수를 입력하는 input 태그(유실, 파단, 풀림)
-const CustomInput = styled.input`
-  border: 1px solid var(--emphasize-color);
-  border-radius: 5px;
-  width: 40px;
-  color: var(--font-color);
-  margin: 0px 15px 0px 5px;
-`;
+// const CustomInput = styled.input`
+//   border: 1px solid var(--emphasize-color);
+//   border-radius: 5px;
+//   width: 40px;
+//   color: var(--font-color);
+//   margin: 0px 15px 0px 5px;
+// `;
 
 // 그래프 하단에서 그래프의 각 색상이 무엇을 의미하는지 나타내는 section 태그
 const ScatterCircleSection = styled.section`
@@ -238,15 +239,20 @@ function PredictPage() {
           title="차주 교체 예상 휠"
           num={predictWheelNum !== "-" ? Math.round(Number(predictWheelNum)) : "-"} // 유실, 파단, 풀림 개수를 입력한 후 조회해야 차주 교체 예상 휠 개수(반올림된 값)가 보임. 그 전에는 "-"로 표시
         />
-        <div>
-          <label htmlFor="lost">유실 :</label>
-          <CustomInput type="text" id="lost" value={lostNum} onChange={onLostNumHandler} />
-          <label htmlFor="broken">파단 :</label>
-          <CustomInput type="text" id="broken" value={brokenNum} onChange={onBrokenNumHandler} />
-          <label htmlFor="loose">풀림 :</label>
-          <CustomInput type="text" id="loose" value={looseNum} onChange={onLooseNumHandler} />
-          <Button
-            style={{ width: "45px", height: "28px" }}
+
+
+        <div style={{display: "flex", marginBottom: "20px"}}>
+          <Label htmlFor="lost">유실 :
+            <input style={{width: "90px", marginRight: "10px"}} type="text" id="lost" value={lostNum} onChange={onLostNumHandler} />
+          </Label>
+          <Label htmlFor="broken">파단 :
+            <input style={{width: "90px", marginRight: "10px"}} type="text" id="broken" value={brokenNum} onChange={onBrokenNumHandler} />
+          </Label>
+          <Label htmlFor="loose">풀림 :
+            <input style={{width: "90px", marginRight: "10px"}} type="text" id="loose" value={looseNum} onChange={onLooseNumHandler} />
+          </Label>
+          <SemesButton
+            style={{ width: "60px", height: "26px" }}
             onClick={event => {
               event.preventDefault();
               Axios.get(`report/predict`, {
@@ -273,7 +279,7 @@ function PredictPage() {
             }}
           >
             조회
-          </Button>
+          </SemesButton>
         </div>
         <ScatterGraph data={graphData} />
         <div style={{ display: "flex", alignItems: "center" }}>

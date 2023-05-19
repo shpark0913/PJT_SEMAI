@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { RootState, persistor } from "../_store/store";
 import { useDispatch, useSelector } from "react-redux";
 
-import BuildIcon from "@mui/icons-material/Build";
-import { Checkbox } from "@mui/material";
+// import BuildIcon from "@mui/icons-material/Build";
+// import { Checkbox } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -180,19 +180,19 @@ function NavBar() {
               }}
             />
           </CenteredMenuItem>
-          <CenteredMenuItem>
-            <BuildIcon sx={{ width: "21px", color: "#003870", fontWeight: "100" }} />
-            <span
-              style={{
-                marginLeft: "3px",
-                color: "#003870",
-                fontWeight: "bold",
-              }}
-            >
-              풀림
-            </span>
-            <Checkbox size="small" sx={{ padding: "0" }} />
-          </CenteredMenuItem>
+          {/*<CenteredMenuItem>*/}
+          {/*  <BuildIcon sx={{ width: "21px", color: "#003870", fontWeight: "100" }} />*/}
+          {/*  <span*/}
+          {/*    style={{*/}
+          {/*      marginLeft: "3px",*/}
+          {/*      color: "#003870",*/}
+          {/*      fontWeight: "bold",*/}
+          {/*    }}*/}
+          {/*  >*/}
+          {/*    풀림*/}
+          {/*  </span>*/}
+          {/*  <Checkbox size="small" sx={{ padding: "0" }} />*/}
+          {/*</CenteredMenuItem>*/}
           <CenteredMenuItem>
             <LogoutButton
               aria-label="logout"
