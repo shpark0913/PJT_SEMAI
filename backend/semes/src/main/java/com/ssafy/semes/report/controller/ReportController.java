@@ -107,20 +107,32 @@ public class ReportController {
         }
     }
 
+
+    /**
+     * {@summary 이상 예측}
+     * AI 서버에 Param (lost loose broken) 전송 후 반환 값 프론트로 반환
+     * @param lost, loose, broken
+     * @return AI 서버 반환값
+     */
     @GetMapping("/predict")
     public ApiResponse<?> predict(@Param("lost")int lost, @Param("loose") int loose,@Param("broken") int broken){
         log.info("Report predict Start");
         try {
+            //AIAPI 서버 URI
            String url = "http://"+ip+":8000/predict?lost="+lost+"&loose="+loose+"&broken="+broken;
+
 
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .GET()
                     .build();
+            //http 통신 이후 반환 값을 받아온다.
             HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            //body의 값을 json으로 변환
             String json = httpResponse.body();
             Gson gson = new Gson();
+            //body값을 ApiResponse Class형태의 json으로 변환 후 전송
             return gson.fromJson(json.toString(),ApiResponse.class);
         }catch (JPAException jpaException){
             log.error("Report Error : " + jpaException.getMessage());
@@ -132,6 +144,11 @@ public class ReportController {
         }
     }
 
+
+    /**
+     * {@summary 이상 휠 탐지}
+     * anomaly table 전체 반환
+     */
     @GetMapping("/anomaly")
     public ApiResponse<?> anomaly(){
 
@@ -139,11 +156,11 @@ public class ReportController {
         try {
             return ApiResponse.success(SuccessCode.READ_REPORT_ANOMALY,reportService.goAnomaly());
         }catch (JPAException jpaException){
-            log.error("DashBoard Error : " + jpaException.getMessage());
+            log.error("Report Error : " + jpaException.getMessage());
             return ApiResponse.error(ErrorCode.JPA_NOT_FIND);
         } catch (Exception e) {
-            slackController.errorSend("Report anomaly Error : " + e.getMessage());
-            log.error("Report findReportDetail Error : " + e.getMessage());
+            slackController.errorSend("Report Report Error : " + e.getMessage());
+            log.error("Report Report Error : " + e.getMessage());
             return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION);
         }
     }
