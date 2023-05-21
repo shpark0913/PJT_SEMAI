@@ -16,7 +16,8 @@ function FormInputs() {
   const { todayFormat, timeFormat } = useDate();
   const todayDate = todayFormat();
 
-  const timeInput = useMemo( () => {      // 당일 조회 시 시간 option을 한 번에 나타내기 위한 배열
+  // 당일 조회 시 시간 option을 한 번에 나타내기 위한 배열
+  const timeInput = useMemo( () => {      
     const tmp = [];
     for(let i=0; i<24; i++) {
       tmp.push(<option key={`time-key-${i + 1}`} value={i}>{timeFormat([i, 0])}</option>)
@@ -24,6 +25,7 @@ function FormInputs() {
     return tmp;
   }, []);
 
+  /** csv 파일을 다운받는 함수 */
   const downloadCSV = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -48,22 +50,22 @@ function FormInputs() {
         </Label>
 
         <Label theme={theme}> 검사 시작점
-          <input type="date" name="startDate" defaultValue={startDate} max={endDate} onChange={(e) => submitForm(e)}/>
+          <input type="date" name="startDate" value={startDate} max={endDate} onChange={(e) => submitForm(e)}/>
         </Label>
 
         <Label theme={theme}> 검사 종료점
-          <input type="date" name="endDate" defaultValue={endDate} max={todayDate} min={startDate} onChange={(e) => submitForm(e)} />
+          <input type="date" name="endDate" value={endDate} max={todayDate} min={startDate} onChange={(e) => submitForm(e)} />
         </Label>
 
         <Label theme={theme}> 검사 시간
-          <select onChange={(e: React.ChangeEvent<HTMLSelectElement>)=>submitForm(e)} name="time" disabled={startDate !== endDate} defaultValue={ startDate !== endDate? "ALL" : time }>
+          <select onChange={(e: React.ChangeEvent<HTMLSelectElement>)=>submitForm(e)} name="time" disabled={startDate !== endDate} value={ startDate !== endDate? "ALL" : time }>
             <option value="ALL" >전체</option>
             {timeInput.map(option => option)}
           </select>
         </Label>
 
         <Label theme={theme}> 검사 휠 위치
-          <select name="wheelPosition" defaultValue={wheelPosition} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => submitForm(e)}>
+          <select name="wheelPosition" value={wheelPosition} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => submitForm(e)}>
             <option value="ALL">전체</option>
             <option value="FL">FL</option>
             <option value="FR">FR</option>
@@ -73,7 +75,7 @@ function FormInputs() {
         </Label>
 
         <Label theme={theme}> 정렬 기준
-          <select name="descFlag" defaultValue={descFlag} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => submitForm(e)}>
+          <select name="descFlag" value={descFlag} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => submitForm(e)}>
             <option value="0">오래된 순</option>
             <option value="1">최신 순</option>
           </select>
