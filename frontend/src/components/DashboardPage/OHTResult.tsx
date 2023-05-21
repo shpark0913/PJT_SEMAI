@@ -120,7 +120,6 @@ function OHTResult(props: any) {
   const indexList = [0, 1, 2, 3];
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const sseId = useSelector((state: any) => {
     return state.dashboard.sseId;
