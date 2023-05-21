@@ -9,10 +9,6 @@ type OHTCheckGaugeType = {
   wheel: string;
 };
 
-type OHTCheckPercentBarType = {
-  checkBar: boolean[];
-};
-
 const OHTCheckSec = styled.section`
   display: flex;
   flex-direction: column;
@@ -59,32 +55,6 @@ const OHTCheckGauge = styled.div<OHTCheckGaugeType>`
   z-index: 2;
 `;
 
-const OHTCheckBar = styled.div`
-  width: 100%;
-  background-color: var(--background-color);
-  position: absolute;
-  height: 7px;
-  z-index: 1;
-`;
-
-const OHTCheckPercentBar = styled.div<OHTCheckPercentBarType>`
-  width: ${props =>
-    props.checkBar[3]
-      ? "100%"
-      : props.checkBar[2]
-      ? "60%"
-      : props.checkBar[1]
-      ? "40%"
-      : props.checkBar[0]
-      ? "20%"
-      : "0%"};
-  background-color: var(--emphasize-color);
-  height: 100%;
-  top: 29%;
-  z-index: 3;
-  /* transition: width 500ms ease-in-out; */
-`;
-
 const OHTCheckNameDiv = styled.div`
   display: flex;
   align-items: center;
@@ -122,9 +92,6 @@ function OHTCheck() {
           <div>RR</div>
         </OHTCheckNameDiv>
         <OHTCheckGaugeDiv>
-          {/* <OHTCheckBar>
-            <OHTCheckPercentBar checkBar={checkBar}></OHTCheckPercentBar>
-          </OHTCheckBar> */}
           <OHTCheckGaugeFtn isSuccessed={checkBar[0]} wheel="FL" />
           <OHTCheckGaugeFtn isSuccessed={checkBar[1]} wheel="FF" />
           <OHTCheckGaugeFtn isSuccessed={checkBar[2]} wheel="RL" />
