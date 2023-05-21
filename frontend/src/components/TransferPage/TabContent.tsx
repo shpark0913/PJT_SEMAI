@@ -7,7 +7,7 @@ import {
   TabContentFlex,
   TabContentContainer,
   TabContentMain,
-} from "./styledComponents/TabContentComponents";
+} from "./styles/TabContentComponents";
 import TransferBoltImages from "./TransferBoltImages";
 import LearningBoltImages from "./LearningBoltImages";
 import ConfirmModal from "./ConfirmModal";
