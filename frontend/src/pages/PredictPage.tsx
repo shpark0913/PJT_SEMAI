@@ -6,6 +6,7 @@ import PredictTable from "../components/PredictPage/PredictTable";
 import { ReactComponent as ScatterCircle } from "../assets/ScatterCircle.svg";
 import ScatterGraph from "../components/PredictPage/ScatterGraph";
 import Title from "../components/Title";
+import axios from "axios";
 import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
 import { Label } from "../components/ReportPage/FilterComponents"
@@ -152,7 +153,7 @@ function PredictPage() {
     { loose: 0, broken: 0, lost: 0, viewpoint: 0.7 },
     { loose: 300, broken: 120, lost: 200, viewpoint: 0.7 },
 
-    // 아래는 추가적인 데이터 (실제로 그래프에 표시되는 좌표들)
+    // 아래는 추가적인 데이터 (실제로 그래프에 표시되는 좌표들, 아직 더미 데이터)
     { lost: 68, loose: 160, broken: 20, viewpoint: 1 },
     { lost: 115, loose: 207, broken: 30, viewpoint: 1 },
     { lost: 86, loose: 195, broken: 47, viewpoint: 1 },
@@ -226,6 +227,9 @@ function PredictPage() {
     { lost: 104, loose: 206, broken: 53, viewpoint: 1 },
     { lost: 104, loose: 206, broken: 53, viewpoint: 0 },
   ]);
+  const persistRoot = localStorage.getItem("persist:root");
+  const user = persistRoot ? JSON.parse(persistRoot).user : undefined;
+  const token = user ? JSON.parse(user).token : "";
 
   return (
     <PredictGridContainer>
@@ -255,13 +259,17 @@ function PredictPage() {
             style={{ width: "60px", height: "26px" }}
             onClick={event => {
               event.preventDefault();
-              Axios.get(`report/predict`, {
-                params: {
-                  lost: lostNum,
-                  loose: looseNum,
-                  broken: brokenNum,
-                },
-              })
+              axios
+                .get(`http://semes.info:8888/dev/report/predict`, {
+                  params: {
+                    lost: lostNum,
+                    loose: looseNum,
+                    broken: brokenNum,
+                  },
+                  headers: {
+                    accesstoken: token,
+                  },
+                })
                 .then(response => {
                   setPredictWheelNum(response.data.data.predictNum);
                   const newData = {
