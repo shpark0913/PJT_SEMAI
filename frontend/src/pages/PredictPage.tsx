@@ -9,7 +9,7 @@ import Title from "../components/Title";
 import axios from "axios";
 import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
-import { Label } from "../components/ReportPage/FilterComponents"
+import { Label } from "../components/ReportPage/styledComponents/FilterComponents"
 
 export async function loader() {
   let abnormalWheels: any;

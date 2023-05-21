@@ -25,19 +25,18 @@ const router = createBrowserRouter(
     <Route>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<LayoutPage />} errorElement={<ErrorPage />}>
-        <Route index element={<DashboardPage />} />
-
-        <Route path="report" element={<ReportPage />} id="reportLists" loader={ReportListsLoader} />
-
-        <Route
-          path="transfer"
-          id="transfer"
-          element={<TransferPage />}
-          loader={BoltImageListsLoader}
-          action={TransferBoltImageAction}
-        />
-
-        <Route path="predict" id="predict" element={<PredictPage />} loader={PredictLoader} />
+        <Route errorElement={ <ErrorPage /> }>
+          <Route index element={<DashboardPage />} />
+          <Route path="report" element={<ReportPage />} id="reportLists" loader={ReportListsLoader} />
+          <Route
+            path="transfer"
+            id="transfer"
+            element={<TransferPage />}
+            loader={BoltImageListsLoader}
+            action={TransferBoltImageAction}
+          />
+          <Route path="predict" id="predict" element={<PredictPage />} loader={PredictLoader} />
+        </Route>
       </Route>
     </Route>,
   ),
