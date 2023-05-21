@@ -24,7 +24,9 @@ function FormInputs() {
     return tmp;
   }, []);
 
-  const downloadCSV = useCallback(() => {
+  const downloadCSV = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     let searchParams = new URLSearchParams(window.location.search);   // 현재 url의 params를 가져온다.
     searchParams.delete("page");                                      // page를 지우고
     searchParams.set("userName", userName);                           // userName을 params에 넣음
@@ -100,7 +102,7 @@ function FormInputs() {
           </PeriodButton>
         </div>
       </FormInput>
-      <Button onClick={() => downloadCSV()} width="120px" height="26px">CSV 출력</Button>
+      <Button onClick={(e) => downloadCSV(e)} width="120px" height="26px">CSV 출력</Button>
     </FormTop>
   );
 }

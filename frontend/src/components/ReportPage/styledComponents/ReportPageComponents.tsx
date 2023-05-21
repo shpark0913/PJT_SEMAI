@@ -14,7 +14,7 @@ export const ReportFormContainer = styled.div`
   overflow-x: auto;
 
   &.open {
-    width: 55%;
+    width: calc(100vw - 830px);
     overflow-x: auto;
   }
 `;

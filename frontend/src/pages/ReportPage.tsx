@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Form, useLoaderData, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -24,15 +24,15 @@ const NoData = styled.div`
 `;
 
 function ReportPage() {
-  // ================ 초기 값 ================
-  let { result, totalPage } = useLoaderData() as ReportLoaderType; // 서버에서 가져온 값
+  let dispatch = useAppDispatch();
+  let { totalPage } = useLoaderData() as ReportLoaderType;    // 서버에서 받아온 값
   let [query] = useSearchParams();
   useEffect(() => {
     dispatch(setQueryObj(Object.fromEntries(query)));     // 초기에 params를 redux에 저장하기
   }, []);
-  let dispatch = useAppDispatch();
 
-  let paginationTotalPage = Math.ceil(totalPage / 20);
+  // 데이터를 20개씩 나누었을 때 하단에 총 몇 개의 page를 표기해야 하는지 계산
+  let paginationTotalPage = useMemo(() => Math.ceil(totalPage / 20), [totalPage]);
 
   // =================== 모달 관련 ===================
   let [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -69,37 +69,38 @@ function ReportPage() {
   }, []);
 
   return (
-      <ReportSection>
-        <ReportFormContainer className={isModalOpen ? "open" : "close"}>
-          <Form
-            replace={true}
-            method="GET"
-            style={{
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
-            <FormInputs />
-            { result?.length ? (
-              <>
-                <ReportTable handleModalOpen={handleModalOpen} />
-                <PaginationComponents
-                  paginationTotalPage={paginationTotalPage}
-                />
-              </>
-            )
-            : <NoData>데이터가 존재하지 않습니다.</NoData> }
-          </Form>
-        </ReportFormContainer>
+    <ReportSection>
+      <ReportFormContainer className={isModalOpen ? "open" : "close"}>
+        <Form
+          replace={true}
+          method="GET"
+          style={{
+            height: "100%",
+            width: "100%",
+            minWidth: "800px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            paddingRight: "30px",
+          }}
+        >
+          <FormInputs />
+          { totalPage? (
+            <>
+              <ReportTable handleModalOpen={handleModalOpen} />
+              <PaginationComponents paginationTotalPage={paginationTotalPage} />
+            </>
+          )
+          : <NoData>데이터가 존재하지 않습니다.</NoData> }
+        </Form>
+      </ReportFormContainer>
 
-        <ReportDetail
-          className={isModalOpen ? "open" : "close"}
-          handleModalClose={handleModalClose}
-          detailInfo={detailInfo}
-        ></ReportDetail>
-      </ReportSection>
+      <ReportDetail
+        className={isModalOpen ? "open" : "close"}
+        handleModalClose={handleModalClose}
+        detailInfo={detailInfo}
+      ></ReportDetail>
+    </ReportSection>
   );
 }
 
