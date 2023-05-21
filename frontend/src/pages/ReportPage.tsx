@@ -10,7 +10,7 @@ import Axios from "../_utils/Axios";
 import PaginationComponents from "../components/ReportPage/PaginationComponents";
 import ReportDetail from "../components/ReportDetail/ReportDetail";
 import ReportTable from "../components/ReportPage/ReportTable";
-import { ReportFormContainer, ReportSection } from "../components/ReportPage/styledComponents/ReportPageComponents";
+import { ReportFormContainer, ReportSection } from "../components/ReportPage/styles/ReportPageComponents";
 import FormInputs from "../components/ReportPage/FormInputs";
 
 const NoData = styled.div`

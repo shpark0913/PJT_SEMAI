@@ -5,8 +5,8 @@ import useSubmitForm from "../../_hooks/useSubmitForm";
 import useDate from "../../_hooks/useDate";
 
 import { Button } from "../ButtonComponents";
-import { FormTop, FormInput, PeriodButton } from "./styledComponents/FormInputsComponents";
-import { Label } from "./styledComponents/FilterComponents";
+import { FormTop, FormInput, PeriodButton } from "./styles/FormInputsComponents";
+import { Label } from "./styles/FilterComponents";
 
 function FormInputs() {
   const theme= useAppSelector(state => state.theme.theme);
