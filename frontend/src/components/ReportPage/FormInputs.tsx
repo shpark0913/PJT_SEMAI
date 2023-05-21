@@ -1,32 +1,44 @@
-import React, { useMemo } from "react";
-import { SemesButton } from "../ButtonComponents";
-import { FormTop, FormInput } from "./styledComponents/FormInputsComponents";
-import { Label } from "./styledComponents/FilterComponents";
+import React, { useCallback, useMemo } from "react";
+
 import { useAppSelector } from "../../_hooks/hooks";
 import useSubmitForm from "../../_hooks/useSubmitForm";
 import useDate from "../../_hooks/useDate";
 
+import { Button } from "../ButtonComponents";
+import { FormTop, FormInput, PeriodButton } from "./styledComponents/FormInputsComponents";
+import { Label } from "./styledComponents/FilterComponents";
+
 function FormInputs() {
-  let theme= useAppSelector(state => state.theme.theme);
-  let { startDate, endDate, wheelPosition, descFlag, errorFlag, time } = useAppSelector(state => state.reportPage.queryObj);
+  const theme= useAppSelector(state => state.theme.theme);
+  const userName = useAppSelector(state => state.user.userName);   // csv 출력 시 필요
+  const { startDate, endDate, wheelPosition, descFlag, errorFlag, time } = useAppSelector(state => state.reportPage.queryObj);
   const { submitForm, submitFormPeriod } = useSubmitForm();
   const { todayFormat, timeFormat } = useDate();
   const todayDate = todayFormat();
 
-  const timeInput = useMemo( () => {
-    console.log("만들어요");
+  const timeInput = useMemo( () => {      // 당일 조회 시 시간 option을 한 번에 나타내기 위한 배열
     const tmp = [];
     for(let i=0; i<24; i++) {
       tmp.push(<option key={`time-key-${i + 1}`} value={i}>{timeFormat([i, 0])}</option>)
     }
     return tmp;
-  }, [])
+  }, []);
 
-  console.log(startDate, endDate);
+  const downloadCSV = useCallback(() => {
+    let searchParams = new URLSearchParams(window.location.search);   // 현재 url의 params를 가져온다.
+    searchParams.delete("page");                                      // page를 지우고
+    searchParams.set("userName", userName);                           // userName을 params에 넣음
+    let newSearchParams: string[] = [];
+    searchParams.forEach((val, key) => {
+      newSearchParams.push(`${key}=${val}`);
+    });
+
+    window.location.href = `${process.env.REACT_APP_BASE_URL}report/download?${newSearchParams.join("&")}`;
+  }, [userName]);
+
   return (
     <FormTop>
       <FormInput>
-
         <Label theme={theme} style={{display: "none"}} > 장비 종류
           <select name="ohtSn" defaultValue={"ALL"} >
             <option value="ALL">전체</option>
@@ -69,37 +81,26 @@ function FormInputs() {
           <input type="checkbox" checked={errorFlag === "1"} name="errorFlag" value={1} onChange={(e: React.ChangeEvent<HTMLInputElement>) => submitForm(e)} />
         </Label>
 
+        {/* 기간 조회 버튼, 30일 7일 당일 */}
         <div>
-          <SemesButton
+          <PeriodButton
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => submitFormPeriod(e, 30)}
-            width="120px"
-            height="26px"
-            style={{ marginRight: "20px" }}
           >
             최근 30일 조회
-          </SemesButton>
-          <SemesButton
+          </PeriodButton>
+          <PeriodButton
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => submitFormPeriod(e, 7)}
-            width="120px"
-            height="26px"
-            style={{ marginRight: "20px" }}
           >
             최근 7일 조회
-          </SemesButton>
-          <SemesButton
+          </PeriodButton>
+          <PeriodButton
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => submitFormPeriod(e, 1)}
-            width="120px"
-            height="26px"
-            style={{ marginRight: "20px" }}
           >
             당일 조회
-          </SemesButton>
+          </PeriodButton>
         </div>
       </FormInput>
-
-      {/*<Button onClick={() => handleDownloadCSV()} width="90px" height="26px">*/}
-      {/*  CSV 출력*/}
-      {/*</Button>*/}
+      <Button onClick={() => downloadCSV()} width="120px" height="26px">CSV 출력</Button>
     </FormTop>
   );
 }

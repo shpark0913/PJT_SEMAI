@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { setQueryObj } from "../_store/slices/reportPageSlice";
 import { ReportLoaderType, ReportObjectType } from "../_utils/Types";
-import { useAppDispatch, useAppSelector } from "../_hooks/hooks";
+import { useAppDispatch } from "../_hooks/hooks";
 import Axios from "../_utils/Axios";
 
 import PaginationComponents from "../components/ReportPage/PaginationComponents";
@@ -25,15 +25,13 @@ const NoData = styled.div`
 
 function ReportPage() {
   // ================ 초기 값 ================
-  let dispatch = useAppDispatch();
   let { result, totalPage } = useLoaderData() as ReportLoaderType; // 서버에서 가져온 값
-  let [query] = useSearchParams();                                 // 쿼리값
-
+  let [query] = useSearchParams();
   useEffect(() => {
-    dispatch(setQueryObj(Object.fromEntries(query))); // 쿼리 값을 redux에 저장... 저장 되는거 맞지?
+    dispatch(setQueryObj(Object.fromEntries(query)));     // 초기에 params를 redux에 저장하기
   }, []);
+  let dispatch = useAppDispatch();
 
-  let userName = useAppSelector(state => state.user.userName); // csv 출력 시 필요
   let paginationTotalPage = Math.ceil(totalPage / 20);
 
   // =================== 모달 관련 ===================
@@ -69,21 +67,6 @@ function ReportPage() {
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
   }, []);
-
-  // ==================== CSV 파일 다운로드 ====================
-  const handleDownloadCSV = () => {
-    let searchParams = new URLSearchParams(window.location.search);
-    searchParams.delete("page");
-    searchParams.set("userName", userName);
-    let newSearchParams: string[] = [];
-    searchParams.forEach((val, key) => {
-      newSearchParams.push(`${key}=${val}`);
-    });
-
-    window.location.href = `${process.env.REACT_APP_BASE_URL}report/download?${newSearchParams.join(
-      "&",
-    )}`;
-  };
 
   return (
       <ReportSection>
