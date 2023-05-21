@@ -77,7 +77,7 @@ function ReportPage() {
           style={{
             height: "100%",
             width: "100%",
-            minWidth: "800px",
+            minWidth: "850px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
