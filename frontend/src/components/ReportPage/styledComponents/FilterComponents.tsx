@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { LabelProps } from "../../_utils/Types";
+import { LabelProps } from "../../../_utils/Types";
 
 const Label = styled.label<LabelProps>`
   color: var(--emphasize-color);
