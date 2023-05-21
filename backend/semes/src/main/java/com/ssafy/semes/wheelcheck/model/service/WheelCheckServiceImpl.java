@@ -33,6 +33,16 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 	@Value("${Ai-Api-Server-Ip}")
 	private String ip;
 
+	/**
+	 * {@summary 개별 바퀴 검사 진행}
+	 * 바퀴 원본 이미지를 저장 후 AI 서버를 통해 진단하고
+	 * 그 결과를 저장한다.
+	 * @param file 검사를 진행할 이미지 파일
+	 * @param fileNameUtil 바퀴 이미지 파일 이름을 결정할 OHT 기반 파일 이름
+	 * @param wheelPosition 바퀴 위치
+	 * @param ohtCheck 현재 진행중임 OHT 검사 객체
+	 * @return 생성된 바퀴 검사 객체
+	 */
 	public WheelCheckEntity checkWheel(MultipartFile file, FileNameUtil fileNameUtil, WheelPosition wheelPosition, OHTCheckEntity ohtCheck) throws
 			IOException,
 			InterruptedException {
@@ -40,7 +50,7 @@ public class WheelCheckServiceImpl implements WheelCheckService {
 		fileNameUtil.setWheelPositionVal(wheelPosition.getVal());
 		String savedFileName = FileUtil.createFile(Directory.BASE.getPath(),Directory.WHEEL_ORIGIN.getPath(),fileNameUtil.getFilename(),file);
 
-		//바퀴 이미지 요청
+		//바퀴 이미지로 요청
 		WheelCheckResultDto result = WheelCheckResultDto.fromWheelImage(savedFileName,ip);
 		if(result.getStatus() == 400){
 			throw new IOException("잘못된 파일 명입니다.");

@@ -69,7 +69,12 @@ public class WheelCheckResultDto {
 		String json = response.body();
 		return fromJson(json);
 	}
-
+	/**
+	 * {@summary 개별 바퀴 검사 요청}
+	 * 바퀴 파일 이름으로 바퀴 진단 요청
+	 * @param url AI 서버 API URL
+	 * @return 바퀴 검사 결과를 담은 DTO
+	 */
 	public static WheelCheckResultDto fromHttpGetRequest(String url) throws IOException, InterruptedException {
 		HttpClient httpClient = HttpClient.newHttpClient();
 		HttpRequest httpRequest = HttpRequest.newBuilder()
@@ -80,6 +85,14 @@ public class WheelCheckResultDto {
 		return fromHttpResponse(httpResponse);
 	}
 
+
+	/**
+	 * {@summary 개별 바퀴 검사 요청 URL 생성}
+	 * 바퀴 파일 이름으로 바퀴 진단 요청 URL 생성
+	 * @param originFilePath 검사 진행할 파일 경로
+	 * @param ip AI 서버 주소
+	 * @return 바퀴 검사 결과를 담은 DTO
+	 */
 	public static WheelCheckResultDto fromWheelImage(String originFilePath,String ip) throws IOException, InterruptedException {
 		String encodedFilePath = URLEncoder.encode(originFilePath, "UTF-8");
 		String url = "http://"+ip+":8000/infer?filePath=" + encodedFilePath+"&binary=True";// 추후 수정
