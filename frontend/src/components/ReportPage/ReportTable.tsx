@@ -6,7 +6,6 @@ import useDate from "../../_hooks/useDate";
 
 import {Table, TableContainer, TBody, TD, TFoot, TH, THead, TR} from "../TableComponents";
 import {useAppSelector} from "../../_hooks/hooks";
-// import { Button } from "../ButtonComponents";
 
 function ReportTable({ handleModalOpen }: ReportTableProps) {
   let data: any = useRouteLoaderData("reportLists");

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, {css} from "styled-components";
 import {useAppSelector} from "../../_hooks/hooks";
+import useSubmitForm from "../../_hooks/useSubmitForm";
 
 const PaginationFieldset = styled.fieldset`
   display: flex;
@@ -43,8 +44,9 @@ const PaginationLabel=styled.label< {checked?: boolean}>`
   }
 `
 
-function PaginationComponents({paginationTotalPage, handleSubmit}: {paginationTotalPage: number, handleSubmit: (e: React.ChangeEvent<HTMLInputElement>) => void}) {
+function PaginationComponents({paginationTotalPage}: {paginationTotalPage: number}) {
   const { queryObj } = useAppSelector(state => state.reportPage);
+  const { submitForm } = useSubmitForm();
   let { page } = queryObj;
   const paginationButtons = [];
   for (let i:number =1; i<=paginationTotalPage; i++) {
@@ -54,7 +56,7 @@ function PaginationComponents({paginationTotalPage, handleSubmit}: {paginationTo
           type="radio"
           name="page"
           value={String(i)}
-          onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleSubmit(e)}
+          onChange={(e:React.ChangeEvent<HTMLInputElement>) => submitForm(e)}
           // onClick={(e:React.MouseEvent<HTMLInputElement>) => alert(`${e.target}, ${e.currentTarget.name}`)}
           checked={ page === String(i)}
         />
@@ -71,20 +73,20 @@ function PaginationComponents({paginationTotalPage, handleSubmit}: {paginationTo
 
   const LeftArrow =
     <PaginationLabel key={`pagination-left_arrow`}>{`<`}
-      <input type="radio" name="page" value={ (nowPageDivTen - 1) * 10 + 1 } onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleSubmit(e)}/>
+      <input type="radio" name="page" value={ (nowPageDivTen - 1) * 10 + 1 } onChange={(e:React.ChangeEvent<HTMLInputElement>) => submitForm(e)}/>
     </PaginationLabel>
   const ToFirstArrow =
     <PaginationLabel key={`pagination-first_arrow`}>{`<<`}
-      <input type="radio" name="page" value={ 1 } onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleSubmit(e)}/>
+      <input type="radio" name="page" value={ 1 } onChange={(e:React.ChangeEvent<HTMLInputElement>) => submitForm(e)}/>
     </PaginationLabel>
 
   const RightArrow =
     <PaginationLabel key={`pagination-right_arrow`}>{`>`}
-      <input type="radio" name="page" value={ ( nowPageDivTen + 1 ) * 10 + 1 } onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleSubmit(e)}/>
+      <input type="radio" name="page" value={ ( nowPageDivTen + 1 ) * 10 + 1 } onChange={(e:React.ChangeEvent<HTMLInputElement>) => submitForm(e)}/>
     </PaginationLabel>
   const ToLastArrow =
     <PaginationLabel key={`pagination-last_arrow`}>{`>>`}
-      <input type="radio" name="page" value={ paginationTotalPage } onChange={(e:React.ChangeEvent<HTMLInputElement>) => handleSubmit(e)}/>
+      <input type="radio" name="page" value={ paginationTotalPage } onChange={(e:React.ChangeEvent<HTMLInputElement>) => submitForm(e)}/>
     </PaginationLabel>
 
   return (
