@@ -22,7 +22,12 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 	@Autowired
 	OHTRepository ohtRepository;
 	int TOTAL_BOLT_COUNT = 11;
-
+	/**
+	 * {@summary OHT 검사 기록}
+	 * OHT 검사 기록을 생성한다.
+	 * @param ohtSn 검사가 시작된 OHT 시리얼 넘
+	 * @return 생성된 OHT 검사 객체
+	 */
 	public OHTCheckEntity createOhtCheck(String ohtSn) throws InvaildOHTSerialNo{
 		Optional<OHTEntity> oht = ohtRepository.findByOhtSN(ohtSn);
 
@@ -36,6 +41,12 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 
 		return ohtCheckRepository.save(ohtCheck);
 	}
+
+	/**
+	 * {@summary OHT 검사 종료 시간 업데이트}
+	 * OHT 검사 종료시 시간을 기록한다.
+	 * @param ohtCheck 검사 완료 표시할 OHT 검사 객체
+	 */
 	@Transactional
 	@Override
 	public void updateOhtCheckEndDate(OHTCheckEntity ohtCheck){
@@ -45,6 +56,7 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 
 			for (WheelCheckEntity wheelCheck:
 			wheelChecks) {
+				//각 바퀴 위치별로 전체 볼트 개수에서 정상 볼트 개수를 뺴, 불량 볼트 개수 총합을 저장한다.
 				switch (wheelCheck.getWheelPosition()){
 					case "FL":
 						check.get().setFlBadCount(TOTAL_BOLT_COUNT-wheelCheck.getBoltGoodCount());
@@ -61,6 +73,7 @@ public class OHTCheckServiceImpl implements OHTCheckService {
 				}
 			}
 			LocalDateTime ldt = LocalDateTime.now();
+			//검사 종료 시간 저장
 			check.get().setOhtCheckEndDatetime(ldt);
 			check.get().getOht().setCheckDate(ldt);
 		}
