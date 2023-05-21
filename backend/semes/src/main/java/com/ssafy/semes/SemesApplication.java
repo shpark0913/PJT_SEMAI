@@ -13,6 +13,7 @@ import com.ssafy.semes.util.FileUtil;
 @EnableAsync
 public class SemesApplication {
 	public static void main(String[] args) {
+		// 파일 저장 위한 폴더 초기화
 		FileUtil.init(Directory.BASE.getPath());
 		FileUtil.init(Directory.ARCHIVE.getPath());
 
