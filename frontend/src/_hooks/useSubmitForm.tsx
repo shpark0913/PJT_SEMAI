@@ -32,6 +32,8 @@ function useSubmitForm() {
       !form.has("errorFlag") && form.set("errorFlag", "0");
       !form.has("time") && form.set("time", "ALL");
 
+      dispatch(setQueryObj(Object.fromEntries(form)));
+
       // form을 제출
       submit(form);
     }

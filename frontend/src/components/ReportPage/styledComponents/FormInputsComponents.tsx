@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { SemesButton } from "../../ButtonComponents";
 
 export const FormTop = styled.div`
   display: flex;
@@ -21,3 +22,9 @@ export const FormInput = styled.div`
     justify-self: end;
   }
 `;
+
+export const PeriodButton = styled(SemesButton)`
+  width: 120px;
+  height: 26px;
+  margin-right: 20px;
+`
