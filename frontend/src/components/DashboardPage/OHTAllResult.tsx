@@ -50,7 +50,7 @@ const OHTAllResultSec = styled.div`
 `;
 
 function OHTAllResult() {
-  // isActive가 true이면 전체, false이면 에러
+  // isActive가 true이면 "OHT 휠 검사 현황" 컴포넌트에서 전체를 조회, false이면 에러만 조회
   const [isActive, SetIsActive] = useState(true);
   const ClickHandler = (isActive: any) => {
     SetIsActive(!isActive);
