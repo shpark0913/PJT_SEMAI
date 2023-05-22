@@ -1,32 +1,22 @@
 import React from 'react';
 import { useRouteLoaderData } from "react-router-dom";
 
-import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
+import { useAppSelector } from "../../_hooks/hooks";
 import useDate from "../../_hooks/useDate";
 import { ReportLoaderType } from "../../_utils/Types";
-import Axios from "../../_utils/Axios";
-import {setDetailOpen, setReportDetail} from "../../_store/slices/reportPageSlice";
 
 import { Table, TableContainer, TBody, TD, TFoot, TH, THead, TR } from "../TableComponents";
+import useReportDetail from "../../_hooks/useReportDetail";
 
 function ReportTable() {
-  const dispatch = useAppDispatch();
   const { result, totalPage } = useRouteLoaderData("reportLists") as ReportLoaderType;
+  const { openReportDetail } = useReportDetail();
   let { wheelReportId, dateFormat, timeFormat } = useDate();
   let { page } = useAppSelector(state => state.reportPage.queryObj);
+  let nowDetail = useAppSelector(state => state.reportDetail.reportDetail.wheelCheckId);
+
   let currentPage: number = Number(page);
-
-  const handleDetailOpen = async (wheelCheckId: number) => {
-    dispatch(setDetailOpen());
-    try {
-      let response = await Axios.get(`report/detail/${wheelCheckId}`);
-      dispatch(setReportDetail(response.data.data))
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
-
+  
   return (
     <TableContainer>
       <Table>
@@ -46,8 +36,9 @@ function ReportTable() {
         <TBody className="report-table">
           { result.map((report:any, idx:number) =>
               <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}
-                  onClick={() => handleDetailOpen(report.wheelCheckId)}
+                  onClick={() => openReportDetail(report.wheelCheckId)}
                   NG={11 - report.boltGoodCount}
+                  isActive={nowDetail === report.wheelCheckId}
               >
                 <TH className="idxNum">{((currentPage - 1) * 20) + idx + 1}</TH>
                 <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}</TD>

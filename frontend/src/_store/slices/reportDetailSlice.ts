@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { PredictPageSliceType } from "../../_utils/Types";
+import { ReportDetailSliceType } from "../../_utils/Types";
 
-const initialState: PredictPageSliceType = {
+const initialState: ReportDetailSliceType= {
   reportDetail: {
     ohtSn: "",
     boltGoodCount: 0,
@@ -20,8 +20,8 @@ const initialState: PredictPageSliceType = {
   isDetailOpen: false,
 }
 
-export const predictPageSlice = createSlice({
-  name: 'predictPage',
+export const reportDetail = createSlice({
+  name: 'reportDetail',
   initialState,
   reducers: {
     setReportDetail: (state, action) => {
@@ -38,6 +38,6 @@ export const predictPageSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setReportDetail, setDetailOpen, setDetailClose } = predictPageSlice.actions
+export const { setReportDetail, setDetailOpen, setDetailClose } = reportDetail.actions
 
-export default predictPageSlice.reducer
+export default reportDetail.reducer

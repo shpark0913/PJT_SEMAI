@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import { useSubmit } from "react-router-dom";
-import {setDetailClose, setQueryObj} from "../_store/slices/reportPageSlice";
+
+import { setQueryObj } from "../_store/slices/reportPageSlice";
+import { setDetailClose } from "../_store/slices/reportDetailSlice";
 import { useAppDispatch } from "./hooks";
 import useDate from "./useDate";
 
