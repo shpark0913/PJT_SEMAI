@@ -7,7 +7,7 @@ import { setIsConfirmModalOpen } from "../../_store/slices/transferPageSlice";
 import ImageUrl from "../../_utils/ImageUrl";
 import TransferButtons from "./TransferButtons";
 import styled, {keyframes} from "styled-components";
-import {Label} from "../ReportPage/styles/FilterComponents";
+import {Label} from "../ReportPage/styles/FormInputsComponents";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {LengthSpan} from "./styles/TabMenuComponents";
 
