@@ -7,12 +7,13 @@ import themeReducer from "./slices/themeSlice";
 import userReducer from "./slices/userSlice";
 import transferPageReducer from "./slices/transferPageSlice"
 import reportPageReducer from "./slices/reportPageSlice"
+import predictPageReducer from "./slices/predictSlice"
 import trainReducer from "./slices/trainSlice"
 
 const persistConfig = {
   key: "root",
   storage: storage,
-  blacklist: ['transferPage', 'reportPage', 'train'],
+  blacklist: ['transferPage', 'reportPage', 'train', 'predictPage'],
 };
 // 리듀서
 const rootReducers = combineReducers({
@@ -22,6 +23,7 @@ const rootReducers = combineReducers({
   transferPage: transferPageReducer,
   reportPage: reportPageReducer,
   train: trainReducer,
+  predictPage: predictPageReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
