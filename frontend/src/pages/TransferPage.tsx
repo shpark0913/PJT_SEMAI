@@ -5,7 +5,7 @@ import { TransferLoaderType } from "../_utils/Types";
 
 import TabMenu from "../components/TransferPage/TabMenu";
 import TabContent from "../components/TransferPage/TabContent";
-import { TransferSection, TransferContainer } from "../components/TransferPage/styledComponents/TransferPageComponents";
+import { TransferSection, TransferContainer } from "../components/TransferPage/styles/TransferPageComponents";
 
 
 function TransferPage() {

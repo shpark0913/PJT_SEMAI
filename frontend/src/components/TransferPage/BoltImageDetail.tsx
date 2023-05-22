@@ -3,7 +3,7 @@ import {
   BoltImageDetailContainer,
   BoltImageDetailImg,
   BoltImageDetailWrapper
-} from "./styledComponents/TabContentComponents";
+} from "./styles/TabContentComponents";
 import {CloseButton} from "../Modal/ModalComponents";
 import {setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";

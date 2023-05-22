@@ -10,7 +10,7 @@ import {
   setSelectedTrain
 } from "../../_store/slices/transferPageSlice";
 
-import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./styledComponents/BoltImageComponents";
+import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./styles/BoltImageComponents";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const ClassName = styled.div`
