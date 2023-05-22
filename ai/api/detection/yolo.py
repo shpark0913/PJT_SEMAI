@@ -4,6 +4,7 @@ import torch
 from PIL import Image
 from io import BytesIO
 
+# 추론을 위해 작업 디렉토리 변경
 NOW_DIR = os.getcwd()
 os.chdir('./detection')
 
@@ -65,26 +66,29 @@ def detect_bolt(image_path, model=model):
     
     # image에 해당 휠 이미지 열기
     now_image = Image.open(IMAGE_ORIGIN_PATH + image_path)
+
+    # 전처리 수행
     now_image = preprocess_image(now_image)
 
+    # 추론 수행
     result = model(now_image, size=TARGET_IMAGE_SIZE)
 
-    # left, upper, right, lower
+    # bbox 좌표(left, upper, right, lower)
     bboxes = result.xyxy[0].tolist()
     n_bboxes = len(bboxes)
     
-    # left, upper, width, height (normalized)
+    # bbox 좌표(left, upper, width, height)(normalized)
     bboxes_norm = result.xywhn[0].tolist()
     image_name = re.sub(REGEX, '', image_path)
     
-    # bboxes 저장
+    # bboxes 결과 저장 폴더
     if n_bboxes != 11:
         label_path = PROBLEM_BBOXES_PATH
     else:
         label_path = NORMAL_BBOXES_PATH
 
-    # 반환 값
     bboxes_response = []
+    # bbox 결과 저장
     with open(label_path + image_name + '.txt', 'w') as f:
         for i in range(n_bboxes):
             bbox_str = '{} {} {} {} {}'.format(int(bboxes_norm[i][-1]), bboxes_norm[i][0], bboxes_norm[i][1], bboxes_norm[i][2], bboxes_norm[i][3])
@@ -92,7 +96,9 @@ def detect_bolt(image_path, model=model):
             f.write(bbox_str + '\n')
         f.close()
 
+    # 작업 수행 후 작업 디렉토리 되돌리기
     os.chdir('../')
     return now_image, bboxes_response
 
+# 작업 수행 후 작업 디렉토리 되돌리기
 os.chdir('../')
