@@ -6,7 +6,7 @@ import { ReportLoaderType, ReportObjectType } from "../_utils/Types";
 import Axios from "../_utils/Axios";
 import { useAppDispatch } from "../_hooks/hooks";
 
-import PaginationComponents from "../components/ReportPage/PaginationComponents";
+import Pagination from "../components/ReportPage/Pagination";
 import ReportDetail from "../components/ReportDetail/ReportDetail";
 import ReportTable from "../components/ReportPage/ReportTable";
 import {
@@ -70,7 +70,7 @@ function ReportPage() {
           { totalPage?
             ( <>
               <ReportTable handleModalOpen={handleModalOpen} />
-              <PaginationComponents paginationTotalPage={paginationTotalPage} />
+              <Pagination paginationTotalPage={paginationTotalPage} />
             </> )
             : <NoData>데이터가 존재하지 않습니다.</NoData> }
         </ReportForm>
