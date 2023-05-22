@@ -40,6 +40,10 @@ export type ReportPageSliceType = {
   reportDetail: ReportObjectType;
   isDetailOpen: boolean
 };
+export type PredictPageSliceType = {
+  reportDetail: ReportObjectType;
+  isDetailOpen: boolean
+};
 
 // ==================== Report page types ==================
 export type ReportObjectType = {
