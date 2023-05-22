@@ -1,8 +1,9 @@
-path: ../datasets/wheel_0501
+path: datasets/final_train_0510
 train: train/images
 val: valid/images
 test: test/images
 
+nc: 2
 names: 
   0: inner
   1: outer
