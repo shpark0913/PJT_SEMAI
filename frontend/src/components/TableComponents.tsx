@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 type TRType = {
   NG?: number;
+  isActive?: boolean;
 };
 
 const TableContainer = styled.div`
@@ -84,7 +85,7 @@ const TBody = styled.tbody`
 
   &.report-table > tr:hover > td {
     // 마우스 올리면 보이는 효과
-    background-color: var(--table-hover-color);
+    // background-color: var(--table-hover-color);
     text-decoration: underline;
     cursor: pointer;
   }
@@ -98,8 +99,6 @@ const TBody = styled.tbody`
 
 const TFoot = styled.tfoot`
   text-align: center;
-  //border-top: 1px solid var(--emphasize-color);
-  //border-bottom: 3px solid var(--emphasize-color);
   background-color: var(--background-dark-color);
 
   position: sticky;
@@ -113,7 +112,7 @@ const TFoot = styled.tfoot`
 
 const TR = styled.tr<TRType>`
   height: 35px;
-  background-color: ${props => (props.NG ? "rgba(255, 255, 10, 0.6)" : "none")};
+  background-color: ${props => props.isActive? "var(--table-hover-color)" : (props.NG ? "rgba(255, 255, 10, 0.6)" : "none")};
 `;
 
 const TH = styled.th`

@@ -4,11 +4,11 @@ import {
   BoltImageDetailImg,
   BoltImageDetailWrapper
 } from "./styles/TabContentComponents";
-import {CloseButton} from "../Modal/ModalComponents";
 import {setIsDetailOpen} from "../../_store/slices/transferPageSlice";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import ImageUrl from "../../_utils/ImageUrl";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
+import { CloseButton } from "../ReportDetail/styles/ReportDetailComponents";
 
 function BoltImageDetail() {
   const dispatch = useAppDispatch();

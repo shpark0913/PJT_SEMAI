@@ -1,7 +1,4 @@
 // ============== component types ================
-
-import React from "react";
-
 export type TitleProps = {
   title: string;
 };
@@ -39,21 +36,33 @@ export type ReportPageSliceType = {
     page: string;
     descFlag: string;
     errorFlag: string;
-  };
+  }
 };
+export type PredictPageSliceType = {
+  reportDetail: ReportObjectType;
+  isDetailOpen: boolean
+};
+export type ReportDetailSliceType = {
+  reportDetail: ReportObjectType;
+  isDetailOpen: boolean
+}
 
 // ==================== Report page types ==================
 export type ReportObjectType = {
   // 디테일 페이지에 들어오는 값들의 type
-  ohtSn?: string;
-  boltGoodCount: number; // good은 양호
+  ohtSn: string;
+  boltGoodCount: number; // 양호
+  boltOutCount: number;  // 유실
+  boltLoseCount: number; // 파단
+  totalGoodCount: number,   // 이번 달 양호 볼트
+  totalOutCount: number,    // 이번 달 유실 볼트
+  totalLoseCount: number,   // 이번 달 파단 볼트
+  totalLooseCount: number,  // 이번 달 풀림 볼트
   wheelCheckDate: number[];
-  wheelCheckId?: number;
-  wheelPosition?: string;
-  markingUrl?: string;
-  originUrl?: string;
-  boltOutCount: number; // out은 유실
-  boltLoseCount: number; // lose는 파단
+  wheelCheckId: number;
+  wheelPosition: string;
+  markingUrl: string;
+  originUrl: string;
 };
 
 export type ReportLoaderType = {
@@ -70,7 +79,7 @@ export type ReportModalProps = {
   scrollY: number;
 };
 
-// 전이학습 페이지 type
+// ================ transfer page props ===================
 export type TransferBoltImageObject = {
   fileId: number;
   imgUrl: string;

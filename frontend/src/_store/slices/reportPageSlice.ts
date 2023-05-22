@@ -11,7 +11,7 @@ const initialState: ReportPageSliceType = {
     page: "",
     descFlag: "",
     errorFlag: "",
-  }
+  },
 }
 
 export const reportPageSlice = createSlice({
