@@ -1,31 +1,25 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Form, useLoaderData, useSearchParams } from "react-router-dom";
-import styled from "styled-components";
+import { useLoaderData, useSearchParams } from "react-router-dom";
 
 import { setQueryObj } from "../_store/slices/reportPageSlice";
 import { ReportLoaderType, ReportObjectType } from "../_utils/Types";
-import { useAppDispatch } from "../_hooks/hooks";
 import Axios from "../_utils/Axios";
+import { useAppDispatch } from "../_hooks/hooks";
 
 import PaginationComponents from "../components/ReportPage/PaginationComponents";
 import ReportDetail from "../components/ReportDetail/ReportDetail";
 import ReportTable from "../components/ReportPage/ReportTable";
-import { ReportFormContainer, ReportSection } from "../components/ReportPage/styles/ReportPageComponents";
+import {
+  NoData,
+  ReportForm,
+  ReportFormContainer,
+  ReportSection
+} from "../components/ReportPage/styles/ReportPageComponents";
 import FormInputs from "../components/ReportPage/FormInputs";
-
-const NoData = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  font-weight: bold;
-`;
 
 function ReportPage() {
   let dispatch = useAppDispatch();
-  let { totalPage } = useLoaderData() as ReportLoaderType;    // 서버에서 받아온 값
+  let { totalPage } = useLoaderData() as ReportLoaderType;    // 서버에서 받아온 값, 총 데이터 개수
   let [query] = useSearchParams();
   useEffect(() => {
     dispatch(setQueryObj(Object.fromEntries(query)));     // 초기에 params를 redux에 저장하기
@@ -71,28 +65,15 @@ function ReportPage() {
   return (
     <ReportSection>
       <ReportFormContainer className={isModalOpen ? "open" : "close"}>
-        <Form
-          replace={true}
-          method="GET"
-          style={{
-            height: "100%",
-            width: "100%",
-            minWidth: "850px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            paddingRight: "30px",
-          }}
-        >
+        <ReportForm replace={true} method="GET">
           <FormInputs />
-          { totalPage? (
-            <>
+          { totalPage?
+            ( <>
               <ReportTable handleModalOpen={handleModalOpen} />
               <PaginationComponents paginationTotalPage={paginationTotalPage} />
-            </>
-          )
-          : <NoData>데이터가 존재하지 않습니다.</NoData> }
-        </Form>
+            </> )
+            : <NoData>데이터가 존재하지 않습니다.</NoData> }
+        </ReportForm>
       </ReportFormContainer>
 
       <ReportDetail
