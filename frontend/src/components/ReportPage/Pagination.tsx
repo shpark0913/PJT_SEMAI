@@ -1,55 +1,18 @@
 import React, { useMemo } from "react";
-import styled, {css} from "styled-components";
+
 import {useAppSelector} from "../../_hooks/hooks";
 import useSubmitForm from "../../_hooks/useSubmitForm";
 
-const PaginationFieldset = styled.fieldset`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  padding: 0;
-`
+import {PaginationFieldset, PaginationLabel} from "./styles/PaginationComponents";
 
-const PaginationLabel=styled.label< {checked?: boolean}>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  margin-right: 5px;
-  
-  color: ${props => props.checked? "var(--background-color)" : "inherit"};
-  font-weight: ${props => props.checked? "bold" : "inherit"};
-  background-color: ${props => props.checked? "var(--emphasize-color)" : "inherit"};
-  
-  transition: background-color 200ms ease-in;
-  
-  ${ props => !props.checked && css`
-    &:hover {
-      background-color: var(--shadow-color);
-      cursor: pointer;
-    }`
-  }
-  
-  & > input {
-    vertical-align: middle;
-    appearance: none;
-    width: 0;
-    height: 0;
-    margin: 0;
-    flex-shrink: 1;
-    background-color: transparent;
-  }
-`
-
-function PaginationComponents({paginationTotalPage}: {paginationTotalPage: number}) {
+function Pagination({paginationTotalPage}: {paginationTotalPage: number}) {
   const { page } = useAppSelector(state => state.reportPage.queryObj);
   const { submitForm } = useSubmitForm();
+
+  /** [1, 2, 3, ... , 19] 이런 식의 페이지 이동 버튼 생성 */
   const paginationButtons = useMemo(() => {
     const tmp = [];
-    for (let i: number = 1; i <= paginationTotalPage; i++) {  // [1, 2, 3, ... , 19] 이런 식의 페이지 이동 버튼 생성
+    for (let i: number = 1; i <= paginationTotalPage; i++) {
       tmp.push(
         <PaginationLabel key={`pagination-${i}`} checked={page === String(i)}> {i}
           <input
@@ -109,4 +72,4 @@ function PaginationComponents({paginationTotalPage}: {paginationTotalPage: numbe
   );
 }
 
-export default PaginationComponents;
+export default Pagination;
