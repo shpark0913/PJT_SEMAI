@@ -36,14 +36,16 @@ export type ReportPageSliceType = {
     page: string;
     descFlag: string;
     errorFlag: string;
-  },
-  reportDetail: ReportObjectType;
-  isDetailOpen: boolean
+  }
 };
 export type PredictPageSliceType = {
   reportDetail: ReportObjectType;
   isDetailOpen: boolean
 };
+export type ReportDetailSliceType = {
+  reportDetail: ReportObjectType;
+  isDetailOpen: boolean
+}
 
 // ==================== Report page types ==================
 export type ReportObjectType = {

@@ -1,9 +1,10 @@
 import React from 'react';
-import {CloseButton, Modal, ModalBackground, ModalContainer} from "./ModalComponents";
+import {Modal, ModalBackground, ModalContainer} from "./ModalComponents";
 import CloseIcon from '@mui/icons-material/Close';
 import Title from "../Title";
 import {ImageModalProps} from "../../_utils/Types";
 import styled from "styled-components";
+import { CloseButton } from "../ReportDetail/styles/ReportDetailComponents";
 
 const CloseDiv = styled.div`
   display: flex;

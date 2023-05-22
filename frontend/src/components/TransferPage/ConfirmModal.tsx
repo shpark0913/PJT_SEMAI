@@ -1,5 +1,5 @@
 import React from "react";
-import { CloseButton, Modal, ModalBackground, ModalContainer } from "../Modal/ModalComponents";
+import { Modal, ModalBackground, ModalContainer } from "../Modal/ModalComponents";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { useAppDispatch, useAppSelector } from "../../_hooks/hooks";
@@ -10,6 +10,7 @@ import styled, {keyframes} from "styled-components";
 import {Label} from "../ReportPage/styles/FormInputsComponents";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {LengthSpan} from "./styles/TabMenuComponents";
+import { CloseButton } from "../ReportDetail/styles/ReportDetailComponents";
 
 const Ring = keyframes`
   0%, 100% {
