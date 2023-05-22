@@ -5,18 +5,17 @@ import useSubmitForm from "../../_hooks/useSubmitForm";
 import useDate from "../../_hooks/useDate";
 
 import { Button } from "../ButtonComponents";
-import { FormTop, FormInput, PeriodButton } from "./styledComponents/FormInputsComponents";
-import { Label } from "./styledComponents/FilterComponents";
+import { FormTop, FormInput, PeriodButton, Label } from "./styles/FormInputsComponents";
 
 function FormInputs() {
   const theme= useAppSelector(state => state.theme.theme);
-  const userName = useAppSelector(state => state.user.userName);   // csv 출력 시 필요
+  const userName = useAppSelector(state => state.user.userName);    // csv 출력 시 필요
   const { startDate, endDate, wheelPosition, descFlag, errorFlag, time } = useAppSelector(state => state.reportPage.queryObj);
   const { submitForm, submitFormPeriod } = useSubmitForm();
   const { todayFormat, timeFormat } = useDate();
   const todayDate = todayFormat();
 
-  // 당일 조회 시 시간 option을 한 번에 나타내기 위한 배열
+  // 당일 조회 시 시간 select-option을 for문을 이용해 배열로 만들어둔다. (00:00, 01:00, ... 23:00)
   const timeInput = useMemo( () => {      
     const tmp = [];
     for(let i=0; i<24; i++) {
@@ -26,7 +25,7 @@ function FormInputs() {
   }, []);
 
   /** csv 파일을 다운받는 함수 */
-  const downloadCSV = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
+  const handleDownloadCSV = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     let searchParams = new URLSearchParams(window.location.search);   // 현재 url의 params를 가져온다.
@@ -104,7 +103,7 @@ function FormInputs() {
           </PeriodButton>
         </div>
       </FormInput>
-      <Button onClick={(e) => downloadCSV(e)} width="120px" height="26px">CSV 출력</Button>
+      <Button onClick={(e) => handleDownloadCSV(e)} width="120px" height="26px">CSV 출력</Button>
     </FormTop>
   );
 }

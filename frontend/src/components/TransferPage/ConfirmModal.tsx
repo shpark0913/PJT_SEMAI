@@ -7,9 +7,9 @@ import { setIsConfirmModalOpen } from "../../_store/slices/transferPageSlice";
 import ImageUrl from "../../_utils/ImageUrl";
 import TransferButtons from "./TransferButtons";
 import styled, {keyframes} from "styled-components";
-import {Label} from "../ReportPage/styledComponents/FilterComponents";
+import {Label} from "../ReportPage/styles/FormInputsComponents";
 import RefreshIcon from '@mui/icons-material/Refresh';
-import {LengthSpan} from "./styledComponents/TabMenuComponents";
+import {LengthSpan} from "./styles/TabMenuComponents";
 
 const Ring = keyframes`
   0%, 100% {

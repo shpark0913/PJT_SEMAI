@@ -5,7 +5,7 @@ import ImageUrl from "../../_utils/ImageUrl";
 import {setDetailInfo, setIsDetailOpen, setSelectedClass} from "../../_store/slices/transferPageSlice";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
 
-import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./styledComponents/BoltImageComponents";
+import {TransferBoltImage, BoltImagesGrid, BoltImagesGridContainer} from "./styles/BoltImageComponents";
 
 
 

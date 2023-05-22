@@ -1,5 +1,5 @@
 import React from 'react';
-import {TabContentInfos} from "./styledComponents/TabContentComponents";
+import {TabContentInfos} from "./styles/TabContentComponents";
 import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
 import TransferButtons from "./TransferButtons";
 import {setSelectedClass, setSelectedTrain} from "../../_store/slices/transferPageSlice";
