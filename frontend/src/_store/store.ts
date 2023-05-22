@@ -8,11 +8,12 @@ import userReducer from "./slices/userSlice";
 import transferPageReducer from "./slices/transferPageSlice"
 import reportPageReducer from "./slices/reportPageSlice"
 import trainReducer from "./slices/trainSlice"
+import reportDetailReducer from "./slices/reportDetailSlice"
 
 const persistConfig = {
   key: "root",
   storage: storage,
-  blacklist: ['transferPage', 'reportPage', 'train'],
+  blacklist: ['transferPage', 'reportPage', 'train', 'reportDetail'],
 };
 // 리듀서
 const rootReducers = combineReducers({
@@ -21,6 +22,7 @@ const rootReducers = combineReducers({
   dashboard: dashboardReducer,
   transferPage: transferPageReducer,
   reportPage: reportPageReducer,
+  reportDetail: reportDetailReducer,
   train: trainReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);

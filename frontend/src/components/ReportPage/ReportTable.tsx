@@ -3,16 +3,20 @@ import { useRouteLoaderData } from "react-router-dom";
 
 import { useAppSelector } from "../../_hooks/hooks";
 import useDate from "../../_hooks/useDate";
-import { ReportLoaderType, ReportTableProps } from "../../_utils/Types";
+import { ReportLoaderType } from "../../_utils/Types";
 
 import { Table, TableContainer, TBody, TD, TFoot, TH, THead, TR } from "../TableComponents";
+import useReportDetail from "../../_hooks/useReportDetail";
 
-function ReportTable({ handleModalOpen }: ReportTableProps) {
+function ReportTable() {
   const { result, totalPage } = useRouteLoaderData("reportLists") as ReportLoaderType;
+  const { openReportDetail } = useReportDetail();
   let { wheelReportId, dateFormat, timeFormat } = useDate();
   let { page } = useAppSelector(state => state.reportPage.queryObj);
-  let currentPage:number = Number(page);
+  let nowDetail = useAppSelector(state => state.reportDetail.reportDetail.wheelCheckId);
 
+  let currentPage: number = Number(page);
+  
   return (
     <TableContainer>
       <Table>
@@ -32,8 +36,9 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
         <TBody className="report-table">
           { result.map((report:any, idx:number) =>
               <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}
-                  onClick={(e: React.MouseEvent<HTMLTableRowElement>) => handleModalOpen(e, report.wheelCheckId)}
+                  onClick={() => openReportDetail(report.wheelCheckId)}
                   NG={11 - report.boltGoodCount}
+                  isActive={nowDetail === report.wheelCheckId}
               >
                 <TH className="idxNum">{((currentPage - 1) * 20) + idx + 1}</TH>
                 <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}</TD>
