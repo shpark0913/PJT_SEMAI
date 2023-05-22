@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { useSubmit } from "react-router-dom";
-import { setQueryObj } from "../_store/slices/reportPageSlice";
+import {setDetailClose, setQueryObj} from "../_store/slices/reportPageSlice";
 import { useAppDispatch } from "./hooks";
 import useDate from "./useDate";
 
@@ -21,6 +21,8 @@ function useSubmitForm() {
       // 이벤트가 발생한 객체가 page가 아니라면, page를 1로 초기화해야 함.
       if (e.currentTarget.name !== "page") {
         form.set("page", "1");
+        // 상세보기 닫기
+        dispatch(setDetailClose())
       }
       /*
        * errorFlag는 input의 type이 checkbox이므로 체크되지 않으면 값이 비어있게 된다.
@@ -44,6 +46,8 @@ function useSubmitForm() {
     e.preventDefault();
 
     if (e.currentTarget.form) {
+      // 상세보기 닫기
+      dispatch(setDetailClose())
       // form에 제출된 값을 불러와 formData 객체 생성
       let form = new FormData(e.currentTarget.form);
 

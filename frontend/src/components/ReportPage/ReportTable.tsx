@@ -1,17 +1,31 @@
 import React from 'react';
 import { useRouteLoaderData } from "react-router-dom";
 
-import { useAppSelector } from "../../_hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../_hooks/hooks";
 import useDate from "../../_hooks/useDate";
-import { ReportLoaderType, ReportTableProps } from "../../_utils/Types";
+import { ReportLoaderType } from "../../_utils/Types";
+import Axios from "../../_utils/Axios";
+import {setDetailOpen, setReportDetail} from "../../_store/slices/reportPageSlice";
 
 import { Table, TableContainer, TBody, TD, TFoot, TH, THead, TR } from "../TableComponents";
 
-function ReportTable({ handleModalOpen }: ReportTableProps) {
+function ReportTable() {
+  const dispatch = useAppDispatch();
   const { result, totalPage } = useRouteLoaderData("reportLists") as ReportLoaderType;
   let { wheelReportId, dateFormat, timeFormat } = useDate();
   let { page } = useAppSelector(state => state.reportPage.queryObj);
-  let currentPage:number = Number(page);
+  let currentPage: number = Number(page);
+
+  const handleDetailOpen = async (wheelCheckId: number) => {
+    dispatch(setDetailOpen());
+    try {
+      let response = await Axios.get(`report/detail/${wheelCheckId}`);
+      dispatch(setReportDetail(response.data.data))
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <TableContainer>
@@ -32,7 +46,7 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
         <TBody className="report-table">
           { result.map((report:any, idx:number) =>
               <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}
-                  onClick={(e: React.MouseEvent<HTMLTableRowElement>) => handleModalOpen(e, report.wheelCheckId)}
+                  onClick={() => handleDetailOpen(report.wheelCheckId)}
                   NG={11 - report.boltGoodCount}
               >
                 <TH className="idxNum">{((currentPage - 1) * 20) + idx + 1}</TH>
