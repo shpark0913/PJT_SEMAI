@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
-import { CloseButton } from "../Modal/ModalComponents";
 import CloseIcon from "@mui/icons-material/Close";
 import Fade from "@mui/material/Fade";
 import Modal from "@mui/material/Modal";
 import { ReactComponent as RefreshBtn } from "../../assets/refreshBtn.svg";
 import Title from "../Title";
 import styled from "styled-components";
+import { CloseButton } from "../ReportDetail/styles/ReportDetailComponents";
 
 type WheelNameType = {
   wheelName: string;
