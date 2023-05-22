@@ -32,33 +32,6 @@ class Item(BaseModel):
     price: float
     is_offer: Union[bool, None] = None
 
-WHEELS = [
-    {   
-        'wheel_id': 'w1',
-        'lost': 10,
-        'loose': 5,
-        'broken': 8,
-    },
-    {   
-        'wheel_id': 'w2',
-        'lost': 1,
-        'loose': 20,
-        'broken': 15,
-    },
-    {
-        'wheel_id': 'w3',
-        'lost': 0,
-        'loose': 0,
-        'broken': 0,
-    },
-    {
-        'wheel_id': 'w4',
-        'lost': 1,
-        'loose': 2,
-        'broken': 3,
-    }
-]
-
 
 @app.get("/")
 def read_root():
@@ -67,19 +40,19 @@ def read_root():
 
 # anomaly로 post 요청이 왔을 때
 @app.post("/anomaly")
-def anomaly_detection():
+def anomaly_detection(wheels: list):
 
     # 4개 휠 정보를 받지 못한 경우
-    # if len(wheelAgg) != 4:
-    #     detail = {
-    #             'success': False,
-    #             'message': '휠 데이터 개수가 4개가 아닙니다.'
-    #         }
-    #     raise HTTPException(status_code=400, detail=detail)
+    if len(wheels) != 4:
+        detail = {
+                'success': False,
+                'message': '휠 데이터 개수가 4개가 아닙니다.'
+            }
+        raise HTTPException(status_code=400, detail=detail)
 
     try:
         # pandas dataframe화
-        now_wheels = pd.DataFrame(WHEELS)
+        now_wheels = pd.DataFrame(wheels)
         now_wheels.set_index('wheel_id', inplace=True)
 
         # 이상 탐지 실행

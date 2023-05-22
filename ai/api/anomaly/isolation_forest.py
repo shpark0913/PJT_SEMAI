@@ -24,7 +24,7 @@ def check_anomaly(wheels:pd.DataFrame):
     wheels['anomaly'] = 0
 
     for wheel in wheels.index:
-
+        
         # 세 feature 값 모두 평균 이하일 경우 정상
         if (wheels.loc[wheel, 'broken'].item() <= broken_mean) and (wheels.loc[wheel, 'loose'].item() <= loose_mean) and (wheels.loc[wheel, 'lost'].item() <= lost_mean):
             wheels.loc[wheel, 'anomaly'] = 1
