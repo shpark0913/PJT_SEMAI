@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Modal = styled.div< {scrollY?: number}>`
   height: 100vh;
@@ -33,27 +33,6 @@ const ModalReportContainer = styled.div`
   padding: 30px 50px;
 `;
 
-const CloseButton = styled.button`
-  background-color: transparent;
-  color: var(--emphasize-color);
-  font-weight: bold;
-  font-size: 20px;
-  transition: background-color 100ms ease-out;
-  
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  //margin-bottom: 25px;
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  &:hover {
-    background-color: var(--shadow-color);
-  }
-`
-
 const ModalContainer = styled.div`
   width: 70%;
   min-width: 800px;
@@ -74,4 +53,4 @@ const ModalContainer = styled.div`
   flex-direction: column;
 `
 
-export { Modal, ModalBackground, ModalReportContainer, ModalContainer, CloseButton }
+export { Modal, ModalBackground, ModalReportContainer, ModalContainer }

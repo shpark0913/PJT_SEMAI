@@ -2,17 +2,21 @@ import React from 'react';
 import { useRouteLoaderData } from "react-router-dom";
 
 import { useAppSelector } from "../../_hooks/hooks";
-import { ReportLoaderType, ReportTableProps } from "../../_utils/Types";
 import useDate from "../../_hooks/useDate";
+import { ReportLoaderType } from "../../_utils/Types";
 
 import { Table, TableContainer, TBody, TD, TFoot, TH, THead, TR } from "../TableComponents";
+import useReportDetail from "../../_hooks/useReportDetail";
 
-function ReportTable({ handleModalOpen }: ReportTableProps) {
+function ReportTable() {
   const { result, totalPage } = useRouteLoaderData("reportLists") as ReportLoaderType;
+  const { openReportDetail } = useReportDetail();
   let { wheelReportId, dateFormat, timeFormat } = useDate();
   let { page } = useAppSelector(state => state.reportPage.queryObj);
-  let nowPage:number = Number(page);
+  let nowDetail = useAppSelector(state => state.reportDetail.reportDetail.wheelCheckId);
 
+  let currentPage: number = Number(page);
+  
   return (
     <TableContainer>
       <Table>
@@ -32,10 +36,11 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
         <TBody className="report-table">
           { result.map((report:any, idx:number) =>
               <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}
-                  onClick={(e: React.MouseEvent<HTMLTableRowElement>) => handleModalOpen(e, report.wheelCheckId)}
+                  onClick={() => openReportDetail(report.wheelCheckId)}
                   NG={11 - report.boltGoodCount}
+                  isActive={nowDetail === report.wheelCheckId}
               >
-                <TH className="idxNum">{((nowPage - 1) * 20) + idx + 1}</TH>
+                <TH className="idxNum">{((currentPage - 1) * 20) + idx + 1}</TH>
                 <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}</TD>
                 <TD>{`${dateFormat(report.wheelCheckDate.slice(0, 3))}`}</TD>
                 <TD>{`${timeFormat(report.wheelCheckDate.slice(3, 6))}`}</TD>
@@ -51,7 +56,7 @@ function ReportTable({ handleModalOpen }: ReportTableProps) {
           <TR>
             <TD colSpan={7} />
             <TD colSpan={2}>
-              {(nowPage-1)*20+1}-{nowPage*20 > totalPage? totalPage : nowPage*20} /
+              {(currentPage-1)*20+1}-{currentPage*20 > totalPage? totalPage : currentPage*20} /
               <span style={{color: "var(--emphasize-color)", fontWeight: "bold", fontSize: "16px"}}> { totalPage }</span>
             </TD>
           </TR>
