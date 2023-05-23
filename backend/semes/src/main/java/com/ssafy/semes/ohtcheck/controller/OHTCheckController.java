@@ -144,44 +144,44 @@ public class OHTCheckController {
 		ohtCheckService.updateOhtCheckEndDate(ohtCheck);
 		slackController.successSend(processStatusDto.getOhtSn()+"번 OHT 검사 종료");
 
-		String json = new Gson().toJson(wheelAgg);
-		try {
-			URL url = new URL("http://"+ip+":8000/anomaly");
-			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			con.setRequestMethod("POST");
-			con.setRequestProperty("Content-Type","applicaiton/json;utf-8");
-			con.setRequestProperty("Accept","application/json");
-			con.setDoOutput(true);
-			try(OutputStream os = con.getOutputStream()){
-				byte[] input = json.getBytes("utf-8");
-				os.write(input, 0, input.length);
-				log.info("읽기 통과");
-			}
-			try(BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(),"utf-8"))){
-				StringBuilder response = new StringBuilder();
-				String responseLine;
-				while((responseLine = br.readLine()) != null){
-					response.append(responseLine.trim());
-				}
-				log.info("쓰기 통과");
-				Gson gson = new Gson();
-				ApiResponse map;
-				map = gson.fromJson(response.toString(),ApiResponse.class);
-				StringTokenizer st = new StringTokenizer(map.getData().toString(),"{=, }");
-				int temp;
-				for(int i = 0 ; i < 4; i++){
-					st.nextToken();
-					temp =(int) Double.parseDouble(st.nextToken());
-					log.info("setAnomalyFlag : "+ temp);
-					ano.get(i).setAnomalyFlag((int) temp);
-				}
-
-				anomalyRepository.saveAll(ano);
-			}
-		} catch (Exception e) {
-			log.info("OHTCheckController anomaly error");
-			throw new RuntimeException(e);
-		}
+//		String json = new Gson().toJson(wheelAgg);
+//		try {
+//			URL url = new URL("http://"+ip+":8000/anomaly");
+//			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//			con.setRequestMethod("POST");
+//			con.setRequestProperty("Content-Type","applicaiton/json;utf-8");
+//			con.setRequestProperty("Accept","application/json");
+//			con.setDoOutput(true);
+//			try(OutputStream os = con.getOutputStream()){
+//				byte[] input = json.getBytes("utf-8");
+//				os.write(input, 0, input.length);
+//				log.info("읽기 통과");
+//			}
+//			try(BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(),"utf-8"))){
+//				StringBuilder response = new StringBuilder();
+//				String responseLine;
+//				while((responseLine = br.readLine()) != null){
+//					response.append(responseLine.trim());
+//				}
+//				log.info("쓰기 통과");
+//				Gson gson = new Gson();
+//				ApiResponse map;
+//				map = gson.fromJson(response.toString(),ApiResponse.class);
+//				StringTokenizer st = new StringTokenizer(map.getData().toString(),"{=, }");
+//				int temp;
+//				for(int i = 0 ; i < 4; i++){
+//					st.nextToken();
+//					temp =(int) Double.parseDouble(st.nextToken());
+//					log.info("setAnomalyFlag : "+ temp);
+//					ano.get(i).setAnomalyFlag((int) temp);
+//				}
+//
+//				anomalyRepository.saveAll(ano);
+//			}
+//		} catch (Exception e) {
+//			log.info("OHTCheckController anomaly error");
+//			throw new RuntimeException(e);
+//		}
 
 
 		return ApiResponse.success(SuccessCode.CHECK_OHT_COMPLETE);
