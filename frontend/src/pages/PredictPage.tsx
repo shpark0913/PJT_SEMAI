@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 
 import Axios from "../_utils/Axios";
 import { SemesButton} from "../components/ButtonComponents";
@@ -10,6 +10,8 @@ import axios from "axios";
 import styled from "styled-components";
 import { useLoaderData } from "react-router-dom";
 import { Label } from "../components/ReportPage/styles/FormInputsComponents"
+import {setDetailClose} from "../_store/slices/reportDetailSlice";
+import {useAppDispatch} from "../_hooks/hooks";
 
 export async function loader() {
   let abnormalWheels: any;
@@ -117,6 +119,10 @@ const ScatterCircleDiv = styled.div`
 `;
 
 function PredictPage() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setDetailClose());                             // 초기에, report detail이 열려있다면 닫아주기
+  }, []);
   /////////////////////////// 좌측 화면 :  이상 위험 휠 관련 ///////////////////////////
   // abnormalWheels : 모든 휠들의 누적 검사 결과 (양호, 유실, 파단, 풀림 상태의 볼트의 누적 개수 및 가장 최근의 검사 ID 포함)
   const abnormalWheels: any = useLoaderData();
