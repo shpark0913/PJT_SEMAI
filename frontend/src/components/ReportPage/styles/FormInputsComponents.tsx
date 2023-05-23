@@ -1,10 +1,34 @@
 import styled from "styled-components";
-import { LabelProps } from "../../../_utils/Types";
+import { SemesButton } from "../../ButtonComponents";
+import {LabelProps} from "../../../_utils/Types";
 
-const Label = styled.label<LabelProps>`
+export const FormTop = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`;
+export const FormInput = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, auto));
+  gap: 10px 20px;
+
+  & div {
+    grid-column: span 2;
+    width: calc(2 * 220px + 20px);
+  }
+
+  & > button:last-child {
+    justify-self: end;
+  }
+`;
+export const PeriodButton = styled(SemesButton)`
+  width: 120px;
+  height: 26px;
+  margin-right: 20px;
+`
+export const Label = styled.label<LabelProps>`
   color: var(--emphasize-color);
-  //margin-right: 25px;
-  //margin-bottom: 5px;
   height: 26px;
   
   display: flex;
@@ -29,7 +53,7 @@ const Label = styled.label<LabelProps>`
                   <path 
                     fill="${props => props.theme === "dark" ? encodeURIComponent('#A3D1FF') : encodeURIComponent('#0052A4')}" 
                     d="m7 10 5 5 5-5z"/>
-                  </svg>') calc(100% - 5px) calc(100% - 7px) no-repeat;
+                  </svg>') calc(100% - 5px) calc(100% - 4px) no-repeat;
     & > option {
       background-color: var(--background-color);
     }
@@ -47,5 +71,3 @@ const Label = styled.label<LabelProps>`
     width: auto;
   }
 `
-
-export { Label }

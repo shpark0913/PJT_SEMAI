@@ -264,8 +264,8 @@ git clone https://lab.ssafy.com/s08-final/S08P31A301.git
     ```bash
     # /frontend/.env
     
-    REACT_APP_BASE_URL=http://semes.info:8888/dev/
-    REACT_APP_IMG_URL=http://semes.info/dataset
+    REACT_APP_BASE_URL=http://localhost:8888/dev/
+    REACT_APP_IMG_URL=http://localhost/dataset
     ```
     
 4. run react app

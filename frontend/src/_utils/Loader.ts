@@ -38,19 +38,3 @@ export async function ReportListsLoader ({request}: {request: any}) {
   return ReportLists;
 }
 
-export async function ReportDetailLoader ({params}: {params: any}) {
-  // let ReportLists: string[] = [];
-  // const search = url.search;
-  const wheelCheckId = params.wheelCheckId;
-  let reportDetail: string[] = [];
-
-  try {
-    let response = await Axios.get(`report/detail/${wheelCheckId}`);
-    reportDetail = response.data.data;
-    console.log(reportDetail);
-  }
-  catch (err) {
-    console.log(err)
-  }
-  return reportDetail;
-}
