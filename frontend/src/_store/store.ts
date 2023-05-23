@@ -1,19 +1,20 @@
 import { Action, ThunkAction, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { PERSIST, PURGE, persistReducer, persistStore } from "redux-persist";
-import storage from "redux-persist/lib/storage";
 
 import dashboardReducer from "./slices/dashboardSlice";
+import reportDetailReducer from "./slices/reportDetailSlice";
+import reportPageReducer from "./slices/reportPageSlice";
+import sseReducer from "./slices/sseSlice";
+import storage from "redux-persist/lib/storage";
 import themeReducer from "./slices/themeSlice";
+import trainReducer from "./slices/trainSlice";
+import transferPageReducer from "./slices/transferPageSlice";
 import userReducer from "./slices/userSlice";
-import transferPageReducer from "./slices/transferPageSlice"
-import reportPageReducer from "./slices/reportPageSlice"
-import trainReducer from "./slices/trainSlice"
-import reportDetailReducer from "./slices/reportDetailSlice"
 
 const persistConfig = {
   key: "root",
   storage: storage,
-  blacklist: ['transferPage', 'reportPage', 'train', 'reportDetail'],
+  blacklist: ["transferPage", "reportPage", "train", "reportDetail"],
 };
 // 리듀서
 const rootReducers = combineReducers({
@@ -24,6 +25,7 @@ const rootReducers = combineReducers({
   reportPage: reportPageReducer,
   reportDetail: reportDetailReducer,
   train: trainReducer,
+  sseEvent: sseReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 

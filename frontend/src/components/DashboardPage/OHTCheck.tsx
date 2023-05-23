@@ -63,7 +63,7 @@ const OHTCheckNameDiv = styled.div`
 
 function OHTCheck() {
   const sseData = useSelector((state: any) => {
-    return state.dashboard.sseState;
+    return state.sseEvent.sseState;
   });
 
   const checkBar: boolean[] = sseData.isWheelsProceeding;

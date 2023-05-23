@@ -1,35 +1,23 @@
 import { TBody, TD, TH, THeadMain, TR, Table } from "../TableComponents";
-import { setCheckId, setInquire } from "../../_store/slices/dashboardSlice";
+import { setClickWheelData, setInquire } from "../../_store/slices/sseSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
+import Axios from "../../_utils/Axios";
 import { Button } from "../ButtonComponents";
-import { EventSourcePolyfill } from "event-source-polyfill";
-import { store } from "../../_store/store";
+import { setCheckId } from "../../_store/slices/dashboardSlice";
+import { useState } from "react";
 
 function OHTResultMenu(props) {
-  const [dashboardData, setDashboardData] = useState([]);
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const dashboardData = useSelector(state => state.sseEvent.dashboardData);
   const dispatch = useDispatch();
-  const inquire = useSelector(state => {
-    return state.dashboard.inquire;
-  });
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  useEffect(() => {
-    const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
-      headers: {
-        accesstoken: store.getState().user.token,
-      },
-    });
-
-    sse.addEventListener("dashboard", event => {
-      setDashboardData(JSON.parse(event.data));
-      if (inquire === false) {
-        dispatch(setCheckId(JSON.parse(event.data)[0].ohtCheckId));
-      }
-    });
-  }, []);
-
+  async function f(checkId) {
+    const response = await Axios.get(`${BASE_URL}dashboard/main/${checkId}`);
+    const newWheelData = response.data.data;
+    dispatch(setClickWheelData(newWheelData));
+    return newWheelData;
+  }
   return (
     <Table>
       <THeadMain style={{ borderTop: "solid 2px var(--emphasize-color)" }}>
@@ -48,49 +36,7 @@ function OHTResultMenu(props) {
       {props.isActive ? (
         <TBody>
           {dashboardData.map((item, idx) => {
-            return (
-              <TR key={idx} NG={item.flCount + item.frCount + item.rlCount + item.rrCount}>
-                <TD>
-                  {item.ohtCheckEndDatetime[0]}-
-                  {String(item.ohtCheckEndDatetime[1]).padStart(2, "0")}-
-                  {String(item.ohtCheckEndDatetime[2]).padStart(2, "0")}
-                </TD>
-                <TD>
-                  {" "}
-                  {String(item.ohtCheckEndDatetime[3]).padStart(2, "0")}:
-                  {String(item.ohtCheckEndDatetime[4]).padStart(2, "0")}:
-                  {item.ohtCheckEndDatetime.length === 5
-                    ? "00"
-                    : String(item.ohtCheckEndDatetime[5]).padStart(2, "0")}
-                </TD>
-                <TD>{item.ohtSn}</TD>
-                <TD>
-                  {item.flCount + item.frCount + item.rlCount + item.rrCount === 0 ? "정상" : "NG"}
-                </TD>
-                <TD>{item.flCount ? item.flCount : "-"}</TD>
-                <TD>{item.frCount ? item.frCount : "-"}</TD>
-                <TD>{item.rlCount ? item.rlCount : "-"}</TD>
-                <TD>{item.rrCount ? item.rrCount : "-"}</TD>
-                <TD>
-                  <Button
-                    width="50%"
-                    onClick={event => {
-                      event.preventDefault();
-                      dispatch(setCheckId(item.ohtCheckId));
-                      dispatch(setInquire(true));
-                    }}
-                  >
-                    상세보기
-                  </Button>
-                </TD>
-              </TR>
-            );
-          })}
-        </TBody>
-      ) : (
-        <TBody>
-          {dashboardData.map((item, idx) => {
-            if (item.flCount + item.frCount + item.rlCount + item.rrCount !== 0) {
+            if (item.ohtCheckEndDatetime) {
               return (
                 <TR key={idx} NG={item.flCount + item.frCount + item.rlCount + item.rrCount}>
                   <TD>
@@ -123,6 +69,7 @@ function OHTResultMenu(props) {
                         event.preventDefault();
                         dispatch(setCheckId(item.ohtCheckId));
                         dispatch(setInquire(true));
+                        f(item.ohtCheckId);
                       }}
                     >
                       상세보기
@@ -131,7 +78,56 @@ function OHTResultMenu(props) {
                 </TR>
               );
             }
-            return null;
+          })}
+        </TBody>
+      ) : (
+        <TBody>
+          {dashboardData.map((item, idx) => {
+            if (item.ohtCheckEndDatetime) {
+              if (item.flCount + item.frCount + item.rlCount + item.rrCount !== 0) {
+                return (
+                  <TR key={idx} NG={item.flCount + item.frCount + item.rlCount + item.rrCount}>
+                    <TD>
+                      {item.ohtCheckEndDatetime[0]}-
+                      {String(item.ohtCheckEndDatetime[1]).padStart(2, "0")}-
+                      {String(item.ohtCheckEndDatetime[2]).padStart(2, "0")}
+                    </TD>
+                    <TD>
+                      {" "}
+                      {String(item.ohtCheckEndDatetime[3]).padStart(2, "0")}:
+                      {String(item.ohtCheckEndDatetime[4]).padStart(2, "0")}:
+                      {item.ohtCheckEndDatetime.length === 5
+                        ? "00"
+                        : String(item.ohtCheckEndDatetime[5]).padStart(2, "0")}
+                    </TD>
+                    <TD>{item.ohtSn}</TD>
+                    <TD>
+                      {item.flCount + item.frCount + item.rlCount + item.rrCount === 0
+                        ? "정상"
+                        : "NG"}
+                    </TD>
+                    <TD>{item.flCount ? item.flCount : "-"}</TD>
+                    <TD>{item.frCount ? item.frCount : "-"}</TD>
+                    <TD>{item.rlCount ? item.rlCount : "-"}</TD>
+                    <TD>{item.rrCount ? item.rrCount : "-"}</TD>
+                    <TD>
+                      <Button
+                        width="50%"
+                        onClick={event => {
+                          event.preventDefault();
+                          dispatch(setCheckId(item.ohtCheckId));
+                          dispatch(setInquire(true));
+                          f(item.ohtCheckId);
+                        }}
+                      >
+                        상세보기
+                      </Button>
+                    </TD>
+                  </TR>
+                );
+              }
+              return null;
+            }
           })}
         </TBody>
       )}

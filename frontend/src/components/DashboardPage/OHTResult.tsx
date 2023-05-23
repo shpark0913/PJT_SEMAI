@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { setCheckId, setInquire, setWheelImgUrl } from "../../_store/slices/dashboardSlice";
+import { setCheckId, setInquire, setWheelImgUrl } from "../../_store/slices/sseSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+import Axios from "../../_utils/Axios";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
+import { CloseButton } from "../ReportDetail/styles/ReportDetailComponents";
 import CloseIcon from "@mui/icons-material/Close";
 import Fade from "@mui/material/Fade";
 import Modal from "@mui/material/Modal";
 import { ReactComponent as RefreshBtn } from "../../assets/refreshBtn.svg";
 import Title from "../Title";
 import styled from "styled-components";
-import { CloseButton } from "../ReportDetail/styles/ReportDetailComponents";
 
 type WheelNameType = {
   wheelName: string;
@@ -112,8 +113,14 @@ const TitleContainer = styled.div`
   display: flex;
 `;
 
-function OHTResult(props: any) {
-  const data = props.data;
+function OHTResult() {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  const inquire = useSelector((state: any) => state.sseEvent.inquire);
+  const wheelData = useSelector((state: any) => state.sseEvent.wheelData);
+  const clickWheelData = useSelector((state: any) => state.sseEvent.clickWheelData);
+
+  const data = inquire ? clickWheelData : wheelData;
   const imgUrl = useSelector((state: any) => {
     return state.dashboard.imgUrl;
   });
@@ -147,6 +154,7 @@ function OHTResult(props: any) {
       </WheelDiv>
     );
   };
+
   return (
     <OHTResultSec>
       <Modal
