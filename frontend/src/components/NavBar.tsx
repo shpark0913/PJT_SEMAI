@@ -1,8 +1,8 @@
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { NavLink, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { RootState, persistor } from "../_store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { persistor } from "../_store/store";
+import { useDispatch } from "react-redux";
 
 // import BuildIcon from "@mui/icons-material/Build";
 // import { Checkbox } from "@mui/material";
@@ -96,15 +96,15 @@ function handleToggleTheme({ isDark, setIsDark, dispatch }: ToggleThemeProps) {
 }
 
 function NavBar() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userName = useAppSelector(state => state.user.userName);
   let [isDark, setIsDark] = useState(
-    useSelector((state: RootState) => state.theme.theme === "dark"),
+    useAppSelector(state => state.theme.theme === "dark"),
   );
   let { todayFormat } = useDate();
   let TodayDate = todayFormat();
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const userName = useAppSelector(state => state.user.userName);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
