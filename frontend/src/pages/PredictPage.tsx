@@ -324,11 +324,11 @@ function PredictPage() {
           <ScatterCircleSection>
             <ScatterCircleDiv>
               <ScatterCircle fill="blue" />
-              <span>차주 교체 예상 휠</span>
+              <span>금주 이상 볼트 개수</span>
             </ScatterCircleDiv>
             <ScatterCircleDiv>
               <ScatterCircle fill="red" />
-              <span>과거 실제 교체 휠</span>
+              <span>과거 이상 볼트 개수</span>
             </ScatterCircleDiv>
             <ScatterCircleDiv>
               <ScatterCircle fill="yellow" />
