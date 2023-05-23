@@ -1,9 +1,11 @@
 package com.ssafy.semes.dashboard.model.service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,8 +36,9 @@ public class DashboardServiceImpl implements DashboardService{
     @Override
     @Transactional
     public List<OHTCheckResponseDto> findAllCheck() throws Exception {
+
         List<OHTCheckEntity> list = ohtCheckRepository.findAllJoinFetch( // OHT 해당 날짜 검색 후 ohtCheckStartDatetime 기준 정렬
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(0,0,0)),// 당일 시작 시간
+                LocalDateTime.of(LocalDate.now().plusDays(-6), LocalTime.of(0,0,0)),// 당일 시작 시간
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59)) // 당일 종료 시간
         );
         if(list==null){
