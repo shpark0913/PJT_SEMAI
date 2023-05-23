@@ -1,34 +1,12 @@
 import { TBody, TD, TH, THeadMain, TR, Table } from "../TableComponents";
 import { setCheckId, setInquire } from "../../_store/slices/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 import { Button } from "../ButtonComponents";
-import { EventSourcePolyfill } from "event-source-polyfill";
-import { store } from "../../_store/store";
 
 function OHTResultMenu(props) {
-  const [dashboardData, setDashboardData] = useState([]);
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const dashboardData = useSelector(state => state.sseEvent.dashboardData);
   const dispatch = useDispatch();
-  const inquire = useSelector(state => {
-    return state.dashboard.inquire;
-  });
-
-  useEffect(() => {
-    const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
-      headers: {
-        accesstoken: store.getState().user.token,
-      },
-    });
-
-    sse.addEventListener("dashboard", event => {
-      setDashboardData(JSON.parse(event.data));
-      if (inquire === false) {
-        dispatch(setCheckId(JSON.parse(event.data)[0].ohtCheckId));
-      }
-    });
-  }, []);
 
   return (
     <Table>
