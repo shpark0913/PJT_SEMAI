@@ -199,14 +199,18 @@ function OHTResult() {
       <TitleContainer>
         <Title title="OHT 휠 검사 결과" />
         <h1 style={{ marginLeft: "6px", paddingTop: "1px" }}>
-          <RefreshBtn
-            fill="var(--emphasize-color)"
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              dispatch(setCheckId(sseId));
-              dispatch(setInquire(false));
-            }}
-          />
+          {inquire ? (
+            <RefreshBtn
+              fill="var(--emphasize-color)"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                dispatch(setCheckId(sseId));
+                dispatch(setInquire(false));
+              }}
+            />
+          ) : (
+            <div></div>
+          )}
         </h1>
       </TitleContainer>
       <OHTResultContainer>
