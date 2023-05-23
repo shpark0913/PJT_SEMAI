@@ -38,10 +38,7 @@ export type ReportPageSliceType = {
     errorFlag: string;
   }
 };
-export type PredictPageSliceType = {
-  reportDetail: ReportObjectType;
-  isDetailOpen: boolean
-};
+
 export type ReportDetailSliceType = {
   reportDetail: ReportObjectType;
   isDetailOpen: boolean
@@ -68,15 +65,6 @@ export type ReportObjectType = {
 export type ReportLoaderType = {
   result: ReportObjectType[];
   totalPage: number;
-};
-export type ReportTableProps = {
-  // 레포트 페이지의 테이블 중 모달 open
-  handleModalOpen: (e: React.MouseEvent<HTMLTableRowElement>, wheelCheckId: number) => void;
-};
-export type ReportModalProps = {
-  detailInfo: ReportObjectType;
-  handleModalClose: () => void;
-  scrollY: number;
 };
 
 // ================ transfer page props ===================
