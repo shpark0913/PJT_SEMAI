@@ -20,8 +20,9 @@ function DetailTable() {
   let { wheelReportId, dateFormat, timeFormat } = useDate();
   let { imgUrl } = useAppSelector(state => state.dashboard);
   const { reportDetail } = useAppSelector(state => state.reportDetail);
-  const { ohtSn, boltGoodCount, boltOutCount, boltLoseCount, wheelCheckDate, wheelPosition, markingUrl, originUrl  } = reportDetail;
-
+  let { ohtSn, boltGoodCount, boltOutCount, boltLoseCount, wheelCheckDate, wheelPosition, markingUrl, originUrl  } = reportDetail;
+  wheelCheckDate = [...wheelCheckDate];
+  if (wheelCheckDate.length === 5) wheelCheckDate.push(0)
   // 보고서 상세보기에서 이미지를 클릭할 때 ...
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);

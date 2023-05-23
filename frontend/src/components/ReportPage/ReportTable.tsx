@@ -34,23 +34,27 @@ function ReportTable() {
           </TR>
         </THead>
         <TBody className="report-table">
-          { result.map((report:any, idx:number) =>
-              <TR key={`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}
-                  onClick={() => openReportDetail(report.wheelCheckId)}
-                  NG={11 - report.boltGoodCount}
-                  isActive={nowDetail === report.wheelCheckId}
+          { result.map((report:any, idx:number) => {
+            let {ohtSn, wheelPosition, wheelCheckDate, wheelCheckId, boltGoodCount} = report;
+            if (wheelCheckDate.length === 5) wheelCheckDate.push(0);
+            return (
+              <TR key={`${ohtSn}-${wheelPosition}-${wheelReportId(wheelCheckDate.slice(0, 6))}`}
+                  onClick={() => openReportDetail(wheelCheckId)}
+                  NG={11 - boltGoodCount}
+                  isActive={nowDetail === wheelCheckId}
               >
                 <TH className="idxNum">{((currentPage - 1) * 20) + idx + 1}</TH>
-                <TD>{`${report.ohtSn}-${report.wheelPosition}-${wheelReportId(report.wheelCheckDate.slice(0, 6))}`}</TD>
-                <TD>{`${dateFormat(report.wheelCheckDate.slice(0, 3))}`}</TD>
-                <TD>{`${timeFormat(report.wheelCheckDate.slice(3, 6))}`}</TD>
-                <TD>{report.ohtSn}</TD>
-                <TD>{report.wheelPosition}</TD>
-                <TD>{report.boltGoodCount === 11 ? "정상" : "NG"}</TD>
+                <TD>{`${ohtSn}-${wheelPosition}-${wheelReportId(wheelCheckDate.slice(0, 6))}`}</TD>
+                <TD>{`${dateFormat(wheelCheckDate.slice(0, 3))}`}</TD>
+                <TD>{`${timeFormat(wheelCheckDate.slice(3, 6))}`}</TD>
+                <TD>{ohtSn}</TD>
+                <TD>{wheelPosition}</TD>
+                <TD>{boltGoodCount === 11 ? "정상" : "NG"}</TD>
                 <TD>11</TD>
-                <TD>{report.boltGoodCount}</TD>
+                <TD>{boltGoodCount}</TD>
               </TR>
-          ) }
+            )}
+          )}
         </TBody>
         <TFoot>
           <TR>
