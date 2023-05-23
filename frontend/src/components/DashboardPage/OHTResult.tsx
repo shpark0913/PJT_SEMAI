@@ -111,6 +111,10 @@ const WheelDiv = styled.div<WheelDivType>`
 
 const TitleContainer = styled.div`
   display: flex;
+  align-items: center;
+  & > * {
+    margin-right: 8px;
+  }
 `;
 
 function OHTResult() {
@@ -200,7 +204,7 @@ function OHTResult() {
       </Modal>
       <TitleContainer>
         <Title title="OHT 휠 검사 결과" />
-        <h1 style={{ marginLeft: "6px", paddingTop: "1px" }}>
+        <h1>
           {inquire ? (
             <RefreshBtn
               fill="var(--emphasize-color)"
