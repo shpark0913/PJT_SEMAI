@@ -1,7 +1,6 @@
 import "react-toastify/dist/ReactToastify.css";
 
 import { BoltImageListsLoader, ReportListsLoader } from "./_utils/Loader";
-import DashboardPage, { loader as DashboardLoader } from "./pages/DashboardPage";
 import PredictPage, { loader as PredictLoader } from "./pages/PredictPage";
 import {
   Route,
@@ -10,6 +9,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
+import DashboardPage from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage";
 import GlobalStyle from "./components/globalStyle";
 import LayoutPage from "./pages/LayoutPage";
@@ -27,7 +27,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<LayoutPage />} errorElement={<ErrorPage />}>
         <Route errorElement={<ErrorPage />}>
-          <Route index element={<DashboardPage />} loader={DashboardLoader} />
+          <Route index element={<DashboardPage />} />
           <Route
             path="report"
             element={<ReportPage />}

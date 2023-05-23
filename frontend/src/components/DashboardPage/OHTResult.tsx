@@ -121,15 +121,16 @@ function OHTResult() {
   const clickWheelData = useSelector((state: any) => state.sseEvent.clickWheelData);
 
   const data = inquire ? clickWheelData : wheelData;
+  console.log("data", data[0].image);
   const imgUrl = useSelector((state: any) => {
-    return state.dashboard.imgUrl;
+    return state.sseEvent.imgUrl;
   });
   const indexList = [0, 1, 2, 3];
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const sseId = useSelector((state: any) => {
-    return state.dashboard.sseId;
+    return state.sseEvent.sseId;
   });
   const divStyle = {
     width: "45vw",
@@ -140,6 +141,7 @@ function OHTResult() {
   };
   const OHTWheel = ({ wheelName, url, goodCnt }: WheelNameType) => {
     const IMG_URL = process.env.REACT_APP_IMG_URL;
+    const WHEEL_IMG_URL = useSelector((state: any) => state.sseEvent.imgUrl);
     return (
       <WheelDiv
         url={`${IMG_URL}${url}`}
@@ -199,14 +201,18 @@ function OHTResult() {
       <TitleContainer>
         <Title title="OHT 휠 검사 결과" />
         <h1 style={{ marginLeft: "6px", paddingTop: "1px" }}>
-          <RefreshBtn
-            fill="var(--emphasize-color)"
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              dispatch(setCheckId(sseId));
-              dispatch(setInquire(false));
-            }}
-          />
+          {inquire ? (
+            <RefreshBtn
+              fill="var(--emphasize-color)"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                dispatch(setCheckId(sseId));
+                dispatch(setInquire(false));
+              }}
+            />
+          ) : (
+            <div></div>
+          )}
         </h1>
       </TitleContainer>
       <OHTResultContainer>
@@ -215,7 +221,7 @@ function OHTResult() {
           <OHTInfoGrid>
             <InfoTitleDiv>검사 호기</InfoTitleDiv>
             <InfoContentDiv>{data[0].oht_sn}</InfoContentDiv>
-            <InfoTitleDiv>검사 일시</InfoTitleDiv>
+            <InfoTitleDiv>최근 검사 일시</InfoTitleDiv>
             <InfoContentDiv>
               {data[0].ohtCheckDatetime[0]}-{String(data[0].ohtCheckDatetime[1]).padStart(2, "0")}-
               {String(data[0].ohtChangeDate[2]).padStart(2, "0")}{" "}
@@ -225,7 +231,7 @@ function OHTResult() {
                 ? "00"
                 : String(data[0].ohtChangeDate[5]).padStart(2, "0")}
             </InfoContentDiv>
-            <InfoTitleDiv>최종 교체</InfoTitleDiv>
+            <InfoTitleDiv>최종 교체 일시</InfoTitleDiv>
             <InfoContentDiv>
               {data[0].ohtChangeDate[0]}-{String(data[0].ohtChangeDate[1]).padStart(2, "0")}-
               {String(data[0].ohtChangeDate[2]).padStart(2, "0")}{" "}

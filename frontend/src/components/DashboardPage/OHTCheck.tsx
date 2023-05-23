@@ -77,7 +77,7 @@ function OHTCheck() {
 
   return (
     <OHTCheckSec>
-      <Title title="현재 검사 OHT" />
+      <Title title="최근 검사 OHT" />
       <OHTCheckContainer>
         <OHTCheckTitle>
           <OHTCheckContent style={{ color: "var(--emphasize-color)", marginRight: "5px" }}>
