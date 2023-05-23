@@ -7,6 +7,8 @@ const initialState = {
   sseState: { ohtSn: "V30001", isWheelsProceeding: [true, true, true, true] },
   imgUrl: false,
   dashboardData: null,
+  wheelData: null,
+  clickWheelData: null,
 };
 
 // Dashboard에서 사용됨
@@ -42,11 +44,25 @@ export const sseSlice = createSlice({
     setDashboardData: (state, action) => {
       state.dashboardData = action.payload;
     },
+    setWheelData: (state, action) => {
+      state.wheelData = action.payload;
+    },
+    setClickWheelData: (state, action) => {
+      state.clickWheelData = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCheckId, setSSEId, setInquire, setSSEState, setWheelImgUrl, setDashboardData } =
-  sseSlice.actions;
+export const {
+  setCheckId,
+  setSSEId,
+  setInquire,
+  setSSEState,
+  setWheelImgUrl,
+  setDashboardData,
+  setWheelData,
+  setClickWheelData,
+} = sseSlice.actions;
 
 export default sseSlice.reducer;
