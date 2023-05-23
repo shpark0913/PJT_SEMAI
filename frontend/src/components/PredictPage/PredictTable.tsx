@@ -8,7 +8,8 @@ import { TBody, TD, TH, THead, TR, Table, TableContainer } from "../TableCompone
 
 function PredictTable({ abnormalWheels }: any) {
   const { openReportDetail } = useReportDetail();
-  const { isDetailOpen } = useAppSelector(state => state.reportDetail)
+  const { isDetailOpen } = useAppSelector(state => state.reportDetail);
+  let nowDetail = useAppSelector(state => state.reportDetail.reportDetail.wheelCheckId);
 
   let abnormalData: any[] = [];
   abnormalWheels.map((abnormalWheel: any) => {
@@ -35,6 +36,7 @@ function PredictTable({ abnormalWheels }: any) {
               <TR
                 key={`AI-predict-report-${data.wheelCheckId}`}
                 onClick={() => openReportDetail(data.wheelCheckId)}
+                isActive={nowDetail === data.wheelCheckId}
               >
                 <TH style={{borderRight: "1px solid var(--emphasize-color)"}}>
                   {data.ohtSn}-{data.wheelPosition}
