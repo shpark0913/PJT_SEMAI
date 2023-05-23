@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import Axios from "../_utils/Axios";
-import { SemesButton} from "../components/ButtonComponents";
+import { Label } from "../components/ReportPage/styles/FormInputsComponents";
 import PredictTable from "../components/PredictPage/PredictTable";
 import { ReactComponent as ScatterCircle } from "../assets/ScatterCircle.svg";
 import ScatterGraph from "../components/PredictPage/ScatterGraph";
+import { SemesButton } from "../components/ButtonComponents";
 import Title from "../components/Title";
 import axios from "axios";
+import { setDetailClose } from "../_store/slices/reportDetailSlice";
 import styled from "styled-components";
+import { useAppDispatch } from "../_hooks/hooks";
 import { useLoaderData } from "react-router-dom";
-import { Label } from "../components/ReportPage/styles/FormInputsComponents"
-import {setDetailClose} from "../_store/slices/reportDetailSlice";
-import {useAppDispatch} from "../_hooks/hooks";
 
 export async function loader() {
   let abnormalWheels: any;
@@ -121,7 +121,7 @@ const ScatterCircleDiv = styled.div`
 function PredictPage() {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(setDetailClose());                             // 초기에, report detail이 열려있다면 닫아주기
+    dispatch(setDetailClose()); // 초기에, report detail이 열려있다면 닫아주기
   }, []);
   /////////////////////////// 좌측 화면 :  이상 위험 휠 관련 ///////////////////////////
   // abnormalWheels : 모든 휠들의 누적 검사 결과 (양호, 유실, 파단, 풀림 상태의 볼트의 누적 개수 및 가장 최근의 검사 ID 포함)
@@ -251,16 +251,39 @@ function PredictPage() {
           num={predictWheelNum !== "-" ? Math.round(Number(predictWheelNum)) : "-"} // 유실, 파단, 풀림 개수를 입력한 후 조회해야 차주 교체 예상 휠 개수(반올림된 값)가 보임. 그 전에는 "-"로 표시
         />
 
-
-        <div style={{display: "flex", marginBottom: "20px"}}>
-          <Label htmlFor="lost">유실 :
-            <input style={{width: "90px", marginRight: "10px"}} type="text" id="lost" value={lostNum} onChange={onLostNumHandler} />
+        <div style={{ display: "flex", marginBottom: "20px" }}>
+          <Label htmlFor="lost">
+            유실 :
+            <input
+              style={{ width: "90px", marginRight: "10px" }}
+              type="text"
+              id="lost"
+              value={lostNum}
+              onChange={onLostNumHandler}
+              autoComplete="off"
+            />
           </Label>
-          <Label htmlFor="broken">파단 :
-            <input style={{width: "90px", marginRight: "10px"}} type="text" id="broken" value={brokenNum} onChange={onBrokenNumHandler} />
+          <Label htmlFor="broken">
+            파단 :
+            <input
+              style={{ width: "90px", marginRight: "10px" }}
+              type="text"
+              id="broken"
+              value={brokenNum}
+              onChange={onBrokenNumHandler}
+              autoComplete="off"
+            />
           </Label>
-          <Label htmlFor="loose">풀림 :
-            <input style={{width: "90px", marginRight: "10px"}} type="text" id="loose" value={looseNum} onChange={onLooseNumHandler} />
+          <Label htmlFor="loose">
+            풀림 :
+            <input
+              style={{ width: "90px", marginRight: "10px" }}
+              type="text"
+              id="loose"
+              value={looseNum}
+              onChange={onLooseNumHandler}
+              autoComplete="off"
+            />
           </Label>
           <SemesButton
             style={{ width: "60px", height: "26px" }}
