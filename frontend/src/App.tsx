@@ -1,4 +1,7 @@
+import "react-toastify/dist/ReactToastify.css";
+
 import { BoltImageListsLoader, ReportListsLoader } from "./_utils/Loader";
+import DashboardPage, { loader as DashboardLoader } from "./pages/DashboardPage";
 import PredictPage, { loader as PredictLoader } from "./pages/PredictPage";
 import {
   Route,
@@ -6,28 +9,31 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import 'react-toastify/dist/ReactToastify.css';
 
-import DashboardPage from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage";
 import GlobalStyle from "./components/globalStyle";
 import LayoutPage from "./pages/LayoutPage";
 import LoginPage from "./pages/LoginPage";
 import React from "react";
 import ReportPage from "./pages/ReportPage";
+import { ToastContainer } from "react-toastify";
 import { TransferBoltImageAction } from "./_utils/Action";
 import TransferPage from "./pages/TransferPage";
 import { store } from "./_store/store";
-import {ToastContainer} from "react-toastify";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<LayoutPage />} errorElement={<ErrorPage />}>
-        <Route errorElement={ <ErrorPage /> }>
-          <Route index element={<DashboardPage />} />
-          <Route path="report" element={<ReportPage />} id="reportLists" loader={ReportListsLoader} />
+        <Route errorElement={<ErrorPage />}>
+          <Route index element={<DashboardPage />} loader={DashboardLoader} />
+          <Route
+            path="report"
+            element={<ReportPage />}
+            id="reportLists"
+            loader={ReportListsLoader}
+          />
           <Route
             path="transfer"
             id="transfer"
