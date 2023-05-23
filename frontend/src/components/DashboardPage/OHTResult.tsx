@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { setCheckId, setInquire, setWheelImgUrl } from "../../_store/slices/dashboardSlice";
+import { setCheckId, setInquire, setWheelImgUrl } from "../../_store/slices/sseSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+import Axios from "../../_utils/Axios";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import { CloseButton } from "../ReportDetail/styles/ReportDetailComponents";
@@ -113,7 +114,13 @@ const TitleContainer = styled.div`
 `;
 
 function OHTResult() {
-  let data: any;
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  const inquire = useSelector((state: any) => state.sseEvent.inquire);
+  const wheelData = useSelector((state: any) => state.sseEvent.wheelData);
+  const clickWheelData = useSelector((state: any) => state.sseEvent.clickWheelData);
+
+  const data = inquire ? clickWheelData : wheelData;
   const imgUrl = useSelector((state: any) => {
     return state.dashboard.imgUrl;
   });
@@ -147,6 +154,7 @@ function OHTResult() {
       </WheelDiv>
     );
   };
+
   return (
     <OHTResultSec>
       <Modal

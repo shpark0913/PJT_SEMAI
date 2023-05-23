@@ -1,6 +1,8 @@
-import { setDashboardData, setSSEId, setSSEState } from "../_store/slices/sseSlice";
+import { setDashboardData, setSSEId, setSSEState, setWheelData } from "../_store/slices/sseSlice";
 
+import Axios from "../_utils/Axios";
 import { EventSourcePolyfill } from "event-source-polyfill";
+import { useSelector } from "react-redux";
 
 // import { setSSEState } from "../_store/slices/dashboardSlice";
 
@@ -25,10 +27,18 @@ export async function fetchData(dispatch) {
 
   sse.addEventListener("dashboard", event => {
     const dashboardData = JSON.parse(event.data);
-    console.log("dashboard", dashboardData);
 
     // 최신 검사 Id store에 저장
     dispatch(setSSEId(dashboardData[0].ohtCheckId));
     dispatch(setDashboardData(dashboardData));
+
+    async function f() {
+      const response = await Axios.get(`${BASE_URL}dashboard/main/${dashboardData[0].ohtCheckId}`);
+      const wheelData = response.data.data;
+      return wheelData;
+    }
+    f().then(response => {
+      dispatch(setWheelData(response));
+    });
   });
 }

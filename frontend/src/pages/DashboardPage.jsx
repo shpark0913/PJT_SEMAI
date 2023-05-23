@@ -59,7 +59,6 @@ function DashboardPage() {
 
   return (
     <MainGrid>
-      {/* {wheelDataNew ? <OHTResult data={wheelDataNew} /> : null} */}
       <OHTResult />
       <OHTCheck />
       <OHTTransition />
