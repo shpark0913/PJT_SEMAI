@@ -236,7 +236,7 @@ function PredictPage() {
   const persistRoot = localStorage.getItem("persist:root");
   const user = persistRoot ? JSON.parse(persistRoot).user : undefined;
   const token = user ? JSON.parse(user).token : "";
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const AI_URL = process.env.REACT_APP_AI_URL;
 
   return (
     <PredictGridContainer>
@@ -290,7 +290,7 @@ function PredictPage() {
             onClick={event => {
               event.preventDefault();
               axios
-                .get(`${BASE_URL}report/predict`, {
+                .get(`${AI_URL}report/predict`, {
                   params: {
                     lost: lostNum,
                     loose: looseNum,
