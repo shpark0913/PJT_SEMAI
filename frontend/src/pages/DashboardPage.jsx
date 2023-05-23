@@ -11,37 +11,6 @@ import OHTTransition from "../components/DashboardPage/OHTTransition";
 import { fetchData } from "./DashboardLoader";
 import styled from "styled-components";
 
-export async function loader() {
-  // const dispatch = useDispatch()
-  // async function fetchData() {
-  //   const persistRoot = localStorage.getItem("persist:root");
-  //   const store = persistRoot ? JSON.parse(persistRoot) : {};
-  //   const token = JSON.parse(store.user)?.token || "";
-  //   const sse = new EventSourcePolyfill(`${BASE_URL}dashboard`, {
-  //     headers: {
-  //       accesstoken: token,
-  //     },
-  //   });
-
-  //   // "현재 검사 OHT"를 나타내는 OHTCheck 컴포넌트에 사용되는 데이터
-  //   sse.addEventListener("state", event => {
-  //     const stateData = JSON.parse(event.data);
-  //     dispatch(
-  //       setSSEState({ ohtSn: stateData.ohtSn, isWheelsProceeding: stateData.isWheelsProceeding }),
-  //     );
-  //   });
-
-  //   // "OHT 휠 검사 현황"을 나타내는 OHTAllResult 컴포넌트에 사용되는 데이터
-  //   sse.addEventListener("dashboard", event => {
-  //     const dashboardData = JSON.parse(event.data);
-
-  //   });
-  // }
-  // fetchData();
-
-  return null;
-}
-
 const MainGrid = styled.section`
   display: grid;
   width: 100%;
