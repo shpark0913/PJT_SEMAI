@@ -2,9 +2,6 @@ import { setDashboardData, setSSEId, setSSEState, setWheelData } from "../_store
 
 import Axios from "../_utils/Axios";
 import { EventSourcePolyfill } from "event-source-polyfill";
-import { useSelector } from "react-redux";
-
-// import { setSSEState } from "../_store/slices/dashboardSlice";
 
 export async function fetchData(dispatch) {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -19,6 +16,7 @@ export async function fetchData(dispatch) {
   });
 
   sse.addEventListener("state", event => {
+    console.log("state 발생");
     const stateData = JSON.parse(event.data);
     dispatch(
       setSSEState({ ohtSn: stateData.ohtSn, isWheelsProceeding: stateData.isWheelsProceeding }),
@@ -26,6 +24,7 @@ export async function fetchData(dispatch) {
   });
 
   sse.addEventListener("dashboard", event => {
+    console.log("dashboard 발생");
     const dashboardData = JSON.parse(event.data);
 
     // 최신 검사 Id store에 저장
