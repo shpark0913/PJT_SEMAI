@@ -128,8 +128,15 @@ function PredictPage() {
   const abnormalWheels: any = useLoaderData();
   let abnormalData: any[] = []; // 가장 최근 검사에서 이상이 발견된 휠들로 이뤄진 배열
   abnormalWheels.map((abnormalWheel: any) => {
-    if (abnormalWheel.anomalyFlag === -1) {
-      abnormalData.push(abnormalWheel);
+    if (abnormalWheel.anomalyFlag === -1 || 1) {
+      if (
+        abnormalWheel.totalLoseCount +
+          abnormalWheel.totalLooseCount +
+          abnormalWheel.totalOutCount !==
+        0
+      ) {
+        abnormalData.push(abnormalWheel);
+      }
     }
   });
 

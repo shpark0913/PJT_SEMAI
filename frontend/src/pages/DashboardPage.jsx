@@ -1,15 +1,12 @@
-import { setCheckId, setSSEId, setSSEState } from "../_store/slices/dashboardSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 
-import Axios from "../_utils/Axios";
-import { EventSourcePolyfill } from "event-source-polyfill";
 import OHTAllResult from "../components/DashboardPage/OHTAllResult";
 import OHTCheck from "../components/DashboardPage/OHTCheck";
 import OHTResult from "../components/DashboardPage/OHTResult";
 import OHTTransition from "../components/DashboardPage/OHTTransition";
 import { fetchData } from "./DashboardLoader";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 const MainGrid = styled.section`
   display: grid;
@@ -20,6 +17,7 @@ const MainGrid = styled.section`
 `;
 
 function DashboardPage() {
+  console.log("BASE_URL", process.env.REACT_APP_BASE_URL);
   const dispatch = useDispatch();
 
   useEffect(() => {

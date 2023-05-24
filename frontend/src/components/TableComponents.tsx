@@ -35,6 +35,10 @@ const Table = styled.table`
       padding-left: 20px;
     }
   }
+
+  & > tbody:last-child > tr:last-child > * {
+    border-bottom: 2px solid var(--emphasize-color);
+  }
 `;
 
 const THead = styled.thead`
@@ -112,7 +116,8 @@ const TFoot = styled.tfoot`
 
 const TR = styled.tr<TRType>`
   height: 35px;
-  background-color: ${props => props.isActive? "var(--table-hover-color)" : (props.NG ? "rgba(255, 255, 10, 0.6)" : "none")};
+  background-color: ${props =>
+    props.isActive ? "var(--table-hover-color)" : props.NG ? "rgba(255, 255, 10, 0.6)" : "none"};
 `;
 
 const TH = styled.th`

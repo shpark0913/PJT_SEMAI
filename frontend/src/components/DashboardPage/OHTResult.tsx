@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { setCheckId, setInquire, setWheelImgUrl } from "../../_store/slices/sseSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import Axios from "../../_utils/Axios";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import { CloseButton } from "../ReportDetail/styles/ReportDetailComponents";
@@ -118,14 +117,11 @@ const TitleContainer = styled.div`
 `;
 
 function OHTResult() {
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
-
   const inquire = useSelector((state: any) => state.sseEvent.inquire);
   const wheelData = useSelector((state: any) => state.sseEvent.wheelData);
   const clickWheelData = useSelector((state: any) => state.sseEvent.clickWheelData);
 
   const data = inquire ? clickWheelData : wheelData;
-  console.log("data", data[0].image);
   const imgUrl = useSelector((state: any) => {
     return state.sseEvent.imgUrl;
   });
@@ -145,7 +141,6 @@ function OHTResult() {
   };
   const OHTWheel = ({ wheelName, url, goodCnt }: WheelNameType) => {
     const IMG_URL = process.env.REACT_APP_IMG_URL;
-    const WHEEL_IMG_URL = useSelector((state: any) => state.sseEvent.imgUrl);
     return (
       <WheelDiv
         url={`${IMG_URL}${url}`}

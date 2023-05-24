@@ -1,10 +1,9 @@
+import { TBody, TD, TFoot, TH, THead, TR, Table, TableContainer } from "../TableComponents";
+
 import React from "react";
-
-import useReportDetail from "../../_hooks/useReportDetail";
-import { useAppSelector } from "../../_hooks/hooks";
-
 import ReportDetail from "../ReportDetail/ReportDetail";
-import { TBody, TD, TH, THead, TR, Table, TableContainer } from "../TableComponents";
+import { useAppSelector } from "../../_hooks/hooks";
+import useReportDetail from "../../_hooks/useReportDetail";
 
 function PredictTable({ abnormalWheels }: any) {
   const { openReportDetail } = useReportDetail();
@@ -13,8 +12,15 @@ function PredictTable({ abnormalWheels }: any) {
 
   let abnormalData: any[] = [];
   abnormalWheels.map((abnormalWheel: any) => {
-    if (abnormalWheel.anomalyFlag === -1) {
-      abnormalData.push(abnormalWheel);
+    if (abnormalWheel.anomalyFlag === -1 || 1) {
+      if (
+        abnormalWheel.totalLoseCount +
+          abnormalWheel.totalLooseCount +
+          abnormalWheel.totalOutCount !==
+        0
+      ) {
+        abnormalData.push(abnormalWheel);
+      }
     }
   });
 
@@ -38,7 +44,7 @@ function PredictTable({ abnormalWheels }: any) {
                 onClick={() => openReportDetail(data.wheelCheckId)}
                 isActive={nowDetail === data.wheelCheckId}
               >
-                <TH style={{borderRight: "1px solid var(--emphasize-color)"}}>
+                <TH style={{ borderRight: "1px solid var(--emphasize-color)" }}>
                   {data.ohtSn}-{data.wheelPosition}
                 </TH>
                 <TD>{data.totalGoodCount}</TD>
