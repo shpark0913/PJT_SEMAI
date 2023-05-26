@@ -1,7 +1,7 @@
 // import React from 'react';
 import {useSubmit} from "react-router-dom";
 import {setIsConfirmModalOpen, setType} from "../_store/slices/transferPageSlice";
-import {useAppDispatch} from "./hooks";
+import {useAppDispatch, useAppSelector} from "./hooks";
 import React from "react";
 import Axios from "../_utils/Axios";
 import {toast} from "react-toastify";
@@ -10,6 +10,7 @@ import {setIsTraining} from "../_store/slices/trainSlice";
 function useTransferBoltImages() {
   const dispatch = useAppDispatch();
   const submit = useSubmit();
+  const theme = useAppSelector(state => state.theme.theme)
 
   /** 모달창 open */
   const openConfirmModal = (preType: number, nextType: number) => {
@@ -72,7 +73,7 @@ function useTransferBoltImages() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "colored",
+            theme: theme,
           });
         }
         else {                                   // 실패 시
@@ -84,7 +85,7 @@ function useTransferBoltImages() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "colored",
+            theme: theme,
           });
         }
 
@@ -95,13 +96,13 @@ function useTransferBoltImages() {
         dispatch(setIsTraining(false));
         toast.error(`에러가 발생했습니다.`, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: false,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: theme,
         });
       }
     }
