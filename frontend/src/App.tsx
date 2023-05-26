@@ -62,7 +62,7 @@ function App() {
         rtl={false}
         pauseOnFocusLoss
         draggable
-        theme="colored"
+        theme={theme}
       />
       <GlobalStyle />
       <RouterProvider router={router} />
