@@ -19,7 +19,7 @@ public class move : MonoBehaviour
     public Color originColur = new Color(255f, 255f, 255f, 0f);
     public float timer;
     public int waitingTime = 10;
-    string url = "http://localhost:8888/dev/ohtcheck/P4";
+    string url = "http://localhost:8888/dev/ohtcheck/unity";
     public bool is_fitin;
     public bool is_go;
     public bool is_StopDoor;
@@ -97,7 +97,7 @@ public class move : MonoBehaviour
                 {
                     cam = true;
                     changed = true;
-                    //StartCoroutine(UnityWebRequestGETTest());
+                    StartCoroutine(UnityWebRequestGETTest());
                 }
                 if (timer > 4)
                 {
@@ -120,20 +120,9 @@ public class move : MonoBehaviour
     }
     IEnumerator UnityWebRequestGETTest()
     {
-        List<IMultipartFormSection> files = new List<IMultipartFormSection>();
-        files.Add(new MultipartFormFileSection
-            (System.IO.File.ReadAllBytes(Application.dataPath + "/Resources/aug_1_inner_and_outer_8_11.jpg")));
 
-        files.Add(new MultipartFormFileSection
-            (System.IO.File.ReadAllBytes(Application.dataPath + "/Resources/aug_1_nothing_3.jpg")));
-
-        files.Add(new MultipartFormFileSection
-            (System.IO.File.ReadAllBytes(Application.dataPath + "/Resources/aug_2_only_inner_1_2.jpg")));
-
-        files.Add(new MultipartFormFileSection
-            (System.IO.File.ReadAllBytes(Application.dataPath + "/Resources/aug_3_only_inner_2_27.jpg")));
-        UnityWebRequest www = UnityWebRequest.Post(url, files);
-        www.SetRequestHeader("accesstoken", "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjgyMzIzMTIzMDU1LCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODM2MTkxMjMsInN1YiI6ImFjY2Vzcy10b2tlbiIsInJvbGUiOiJBRE1JTiJ9.czbc3p8q8Gv33TcrUCwkla8unotFvhrtbhtZS7vUwt4");
+        UnityWebRequest www = UnityWebRequest.Get(url);
+        www.SetRequestHeader("accesstoken", "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjg0Mzc1ODc2Mzk5LCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODU2NzE4NzYsInN1YiI6ImFjY2Vzcy10b2tlbiIsInJvbGUiOiJBRE1JTiJ9.38DriSkMLPFOWS24RlNP6LDeU4RItWxPgZZORcqFZb0");
         yield return www.SendWebRequest();
 
         if (www.error == null)  // 에러가 나지 않으면 동작.

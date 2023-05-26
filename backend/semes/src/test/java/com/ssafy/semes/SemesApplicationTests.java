@@ -66,7 +66,7 @@ class SemesApplicationTests {
 			multipartFiles[i-1] = new MockMultipartFile(name,
 					file.getName(), contentType, IOUtils.toByteArray(input));
 		}
-		ohtCheckController.checkOht("P4",multipartFiles);
+		ohtCheckController.checkOht("V30001",multipartFiles);
 	}
 
 	@Test

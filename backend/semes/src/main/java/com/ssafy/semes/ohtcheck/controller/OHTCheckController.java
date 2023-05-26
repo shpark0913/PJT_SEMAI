@@ -1,25 +1,16 @@
 package com.ssafy.semes.ohtcheck.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.Gson;
 import com.ssafy.semes.common.ErrorCode;
 import com.ssafy.semes.common.SuccessCode;
 import com.ssafy.semes.common.WheelPosition;
@@ -41,6 +32,15 @@ import com.ssafy.semes.wheelcheck.model.WheelCheckEntity;
 import com.ssafy.semes.wheelcheck.model.service.WheelCheckService;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import java.io.FileInputStream;
+import java.io.File;
+import java.io.OutputStream;
+import org.apache.commons.io.IOUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 @RestController
 @RequestMapping("ohtcheck")
@@ -64,6 +64,27 @@ public class OHTCheckController {
 	@Value("${Ai-Api-Server-Ip}")
 	private String ip;
 
+	@GetMapping("/unity")
+	public ApiResponse<?> Getunity() throws IOException {
+		MultipartFile [] multipartFiles = new MultipartFile [4];
+		for(int i =1;i<=4;i++){
+//			String name = "files";
+////			String originalFileName = i+".jpg";
+////			File file = Paths.get(System.getProperty("user.dir"), "src/test/"+originalFileName).toFile();
+////			FileInputStream input = new FileInputStream(file);
+////			String contentType = "image/jpg";
+			String name = "files";
+			String originalFileName = i+".jpg";
+			File file = Paths.get(System.getProperty("user.dir"), "src/test/"+originalFileName).toFile();
+			FileItem fileItem = new DiskFileItem(name, Files.probeContentType(file.toPath()), false, file.getName(), (int) file.length(), file.getParentFile());
+			InputStream input = new FileInputStream(file);
+			OutputStream os = fileItem.getOutputStream();
+			IOUtils.copy(input, os);
+			MultipartFile mFile = new CommonsMultipartFile(fileItem);
+			multipartFiles[i-1] = mFile;
+		}
+		return checkOht("V30001",multipartFiles);
+	}
 	/**
 	 * {@summary OHT 검사 시작 API}
 	 * OHT 휠 이미지 4장을 입력 받아 AI 서버를 통해 진단한다.
@@ -182,8 +203,6 @@ public class OHTCheckController {
 //			log.info("OHTCheckController anomaly error");
 //			throw new RuntimeException(e);
 //		}
-
-
 		return ApiResponse.success(SuccessCode.CHECK_OHT_COMPLETE);
 	}
 }
