@@ -71,11 +71,12 @@ const InfoTitleDiv = styled.div`
   background-color: var(--background-color);
 `;
 
-const InfoContentDiv = styled.div`
+const InfoContentDiv = styled.div<{ isGood?: number } >`
   background-color: var(--background-color);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: ${props => props.isGood && props.isGood > 0 ? "red" : "inherit"};
 `;
 
 const VoltInfoGrid = styled.div`
@@ -254,9 +255,12 @@ function OHTResult() {
                     <React.Fragment key={idx}>
                       <InfoTitleDiv>{data[item].wheelPosition}</InfoTitleDiv>
                       <InfoContentDiv>{data[item].boltGoodCount}</InfoContentDiv>
-                      <InfoContentDiv>{data[item].boltOutCount}</InfoContentDiv>
-                      <InfoContentDiv>{data[item].boltLoseCount}</InfoContentDiv>
-                      <InfoContentDiv>
+                      <InfoContentDiv isGood={data[item].boltOutCount}>{data[item].boltOutCount}</InfoContentDiv>
+                      <InfoContentDiv isGood={data[item].boltLoseCount}>{data[item].boltLoseCount}</InfoContentDiv>
+                      <InfoContentDiv isGood={11 -
+                          (data[item].boltOutCount +
+                            data[item].boltLoseCount +
+                            data[item].boltGoodCount)}>
                         {11 -
                           (data[item].boltOutCount +
                             data[item].boltLoseCount +
