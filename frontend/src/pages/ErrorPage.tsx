@@ -12,8 +12,8 @@ const ErrorSection = styled.section`
   align-items: center;
   
   & h1 {
-    font-size: 36px;
-    margin-bottom: 15px;
+    font-size: 60px;
+    margin-bottom: 20px;
   }
   & h2 {
     font-size: 30px;
@@ -21,12 +21,13 @@ const ErrorSection = styled.section`
 `
 function ErrorPage() {
   const error = useRouteError();
+  console.log(error);
 
-  if (isRouteErrorResponse(error) && error.status === 500) {
+  if (isRouteErrorResponse(error) && error.data.status === 404) {
     return (
       <ErrorSection>
-        <h1>{error.status}</h1>
-        <h2>{error.data.sorry}</h2>
+        <h1>{error.data.message}</h1>
+        <h2>관리자 계정으로 접속해주세요.</h2>
       </ErrorSection>
     );
   }
