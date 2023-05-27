@@ -65,7 +65,7 @@ function useTransferBoltImages() {
         dispatch(setIsConfirmModalOpen(false));
         dispatch(setIsTraining(false));
         if (changed === "success") {    // 성공 시
-          toast.success(`모델이 교체됐습니다. (acc: ${acc}, fscore: ${fscore}, loss: ${loss})`, {
+          toast.success(<div>모델이 교체됐습니다.<br/>(acc: {acc}, fscore: {fscore}, loss: {loss})</div>, {
             position: "top-right",
             autoClose: false,
             hideProgressBar: false,
@@ -77,7 +77,7 @@ function useTransferBoltImages() {
           });
         }
         else {                                   // 실패 시
-          toast.warn(`기존 모델의 정확도가 더 높아\n 모델이 교체되지 않았습니다.`, {
+          toast.warn(<div>기존 모델의 정확도가 더 높아<br/> 모델이 교체되지 않았습니다.</div>, {
             position: "top-right",
             autoClose: false,
             hideProgressBar: false,
