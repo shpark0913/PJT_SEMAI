@@ -102,10 +102,12 @@ const WheelDiv = styled.div<WheelDivType>`
   display: flex;
   flex-direction: column;
   border-radius: 5px;
+  background-color: var(--gray600-color);
   background-image: url(${props => props.url});
   background-size: cover;
   background-position: center;
   border: ${props => (props.goodCnt === 11 ? "none" : "4px red solid")};
+  cursor: pointer;
 `;
 
 const TitleContainer = styled.div`
@@ -149,7 +151,6 @@ function OHTResult() {
           dispatch(setWheelImgUrl(`${IMG_URL}${url}`));
           setOpen(true);
         }}
-        style={{ cursor: "pointer" }}
       >
         <h4 style={{ color: "#A3D1FF" }}>{wheelName}</h4>
       </WheelDiv>
