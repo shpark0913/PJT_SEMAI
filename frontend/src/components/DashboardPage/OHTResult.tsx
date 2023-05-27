@@ -71,11 +71,12 @@ const InfoTitleDiv = styled.div`
   background-color: var(--background-color);
 `;
 
-const InfoContentDiv = styled.div`
+const InfoContentDiv = styled.div<{ isGood?: number } >`
   background-color: var(--background-color);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: ${props => props.isGood && props.isGood > 0 ? "red" : "inherit"};
 `;
 
 const VoltInfoGrid = styled.div`
@@ -102,10 +103,12 @@ const WheelDiv = styled.div<WheelDivType>`
   display: flex;
   flex-direction: column;
   border-radius: 5px;
+  background-color: var(--gray600-color);
   background-image: url(${props => props.url});
   background-size: cover;
   background-position: center;
   border: ${props => (props.goodCnt === 11 ? "none" : "4px red solid")};
+  cursor: pointer;
 `;
 
 const TitleContainer = styled.div`
@@ -149,7 +152,6 @@ function OHTResult() {
           dispatch(setWheelImgUrl(`${IMG_URL}${url}`));
           setOpen(true);
         }}
-        style={{ cursor: "pointer" }}
       >
         <h4 style={{ color: "#A3D1FF" }}>{wheelName}</h4>
       </WheelDiv>
@@ -253,9 +255,12 @@ function OHTResult() {
                     <React.Fragment key={idx}>
                       <InfoTitleDiv>{data[item].wheelPosition}</InfoTitleDiv>
                       <InfoContentDiv>{data[item].boltGoodCount}</InfoContentDiv>
-                      <InfoContentDiv>{data[item].boltOutCount}</InfoContentDiv>
-                      <InfoContentDiv>{data[item].boltLoseCount}</InfoContentDiv>
-                      <InfoContentDiv>
+                      <InfoContentDiv isGood={data[item].boltOutCount}>{data[item].boltOutCount}</InfoContentDiv>
+                      <InfoContentDiv isGood={data[item].boltLoseCount}>{data[item].boltLoseCount}</InfoContentDiv>
+                      <InfoContentDiv isGood={11 -
+                          (data[item].boltOutCount +
+                            data[item].boltLoseCount +
+                            data[item].boltGoodCount)}>
                         {11 -
                           (data[item].boltOutCount +
                             data[item].boltLoseCount +
