@@ -2,23 +2,15 @@ import Axios from "./Axios";
 import { json } from "react-router-dom";
 
 export async function BoltImageListsLoader () {
-  let BoltImageLists = []
-  try {
-    let response = await Axios.get('transition');
-    BoltImageLists = response.data.data;
-    console.log(BoltImageLists);
+  let BoltImageLists = [];
+
+  let response = await Axios.get('transition');
+  console.log(response);
+  if (response.data.status === 404) {
+    throw json (response.data);
   }
-  catch (err: any) {
-    console.log(err);
-    if (err.response.status === 500) {
-      throw json(
-        {
-          sorry: "서버 에러가 발생했습니다!",
-        },
-        { status: 500 }
-      );
-    }
-  }
+  BoltImageLists = response.data.data;
+  console.log(BoltImageLists);
   return BoltImageLists;
 }
 

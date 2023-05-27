@@ -103,9 +103,13 @@ const GraphSection = styled.section`
 // 그래프 하단에서 그래프의 각 색상이 무엇을 의미하는지 나타내는 section 태그
 const ScatterCircleSection = styled.section`
   display: flex;
-  flex-direction: column;
-  height: 60px;
+  flex-direction: row;
+  //height: 60px;
   justify-content: space-evenly;
+  
+  & > * {
+    margin-right: 15px;
+  }
 `;
 
 // ScatterCircleSection 내에서 1개의 색상이 의미하는 것을 각각 나타내는 div 태그
