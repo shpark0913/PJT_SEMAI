@@ -1,5 +1,5 @@
 # SEMAI: 이미지 기반 볼트 이상 진단 AI
-> **⭐️ SEMES 기업 연계 프로젝트**
+> **⭐️ SEMES 기업 연계 프로젝트**<br>
 > **⭐️ SSAFY 자율 프로젝트 2위 수상(148개 팀 中)**
 
 <hr>
@@ -15,7 +15,7 @@
   - 삼성전자 P1라인에만 1850대의 OHT가 가동되고 있다([관련 기사](https://www.inews24.com/view/1517772)).
   - OHT와 OHT 휠
     <span style="color:red;">* 보안 문제로 README에서 실제 휠 및 볼트 사진은 사용이 불가.</span>
-    <img src="./docs/oht_wheel.jpg" width="50%">
+    <img src="./docs/oht_wheel.jpg" width="200">
     - [oht 사진 출처](http://news.heraldcorp.com/view.php?ud=20220908000699)
     - [oht 휠 사진 출처](http://krcaster.co.kr/goods/minutely.php?goods_id=2684)
 - **SEMAI의 필요성**
@@ -27,7 +27,7 @@
 <span style="color:red;">* 각 기능의 개발 상세 내용은 `ai`, `backend`, `frontend` 폴더 내에서 확인 가능.</span>
 ### 1. 이미지 기반 볼트 이상 진단 기능
 - 휠 이미지가 input으로 들어오면 휠 내 볼트를 탐지하여 **볼트 이미지를 추출**하고, 추출된 이미지들을 분류 모델에 넣어 **정상/유실/파단/풀림**을 분류한다.
-<img src="./docs/ai_프로세스.png" width="50%">
+<img src="./docs/ai_프로세스.png" width="50vw">
 - **볼트 이상 진단 시스템 구성도**
 <img src="./docs/시스템구성도_볼트이상진단.png" width="50%">
 ①	휠 이미지가 촬영되면 해당 이미지가 Spring Boot로 전달된다.
