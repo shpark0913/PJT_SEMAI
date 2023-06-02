@@ -14,8 +14,8 @@
   - Overhead Hoist Transport의 약자로, 반도체 공장에서 천장 레일을 통해 반도체 소재를 옮기는 장비이다.
   - 삼성전자 P1라인에만 1850대의 OHT가 가동되고 있다([관련 기사](https://www.inews24.com/view/1517772)).
   - OHT와 OHT 휠  
-    **`보안 문제로 README에서 실제 휠 및 볼트 사진은 사용이 불가.`**
-    <img src="/docs/oht_wheel.JPG" width="400"/>
+    **`보안 문제로 README에서 실제 휠 및 볼트 사진은 사용이 불가.`**  
+    <img src="/docs/oht_wheel.JPG" width="400"/>  
     - [oht 사진 출처](http://news.heraldcorp.com/view.php?ud=20220908000699)
     - [oht 휠 사진 출처](http://krcaster.co.kr/goods/minutely.php?goods_id=2684)
 - **SEMAI의 필요성**
@@ -74,7 +74,7 @@
 - 당원 누적 이상 볼트 개수가 정상 범주를 벗어난 **이상(anomaly) 휠의 리스트**를 확인할 수 있다.
 - 최근 52주 불량 볼트 데이터를 바탕으로 예측된 **차주 교체 예상 휠 개수**를 확인할 수 있다.
 - **AI 분석 시스템 구성도**  
-  <img src="/docs/시스템구성도_AI분석.jpg" width="400"/>  
+  <img src="/docs/시스템구성도_AI분석.png" width="400"/>  
   ①	AI 분석 페이지로 이동한다.  
   ②	이상 위험 휠, 차주 교체 예상 휠 데이터를 요청한다.  
   ③	이상 위험 휠, 차주 교체 예상 휠 데이터를 반환한다.  
