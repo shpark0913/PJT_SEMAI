@@ -1,16 +1,91 @@
-# 이미지 기반 이상 진단 AI
-<h4>🎤 볼트 판다스 (A301)🎤</h4>
+# SEMAI: 이미지 기반 볼트 이상 진단 AI
+> **⭐️ SEMES 기업 연계 프로젝트**
 
-|이름|역할|팀 역할|
-|------|---|---|
-|김규리|FE|팀원|
-|김민식|BE|팀원|
-|김영식|AI|팀원|
-|안태윤|BE|팀장|
-|박시현|FE|팀원|
-|유다윗|AI|팀원|
+<hr>
 
+## SEMAI 서비스 개요
+- `SEMAI`는 크게 네 가지 주요 기능을 탑재한 프로그램이다.
+  1. 이미지 기반 OHT 휠(wheel) 볼트 이상 진단 기능
+  2. 전이학습 기능
+  3. 레포트 기능
+  4. AI 분석 기능
+- OHT란?
+  - Overhead Hoist Transport의 약자로, 반도체 공장에서 천장 레일을 통해 반도체 소재를 옮기는 장비이다.
+  - 삼성전자 P1라인에만 1850대의 OHT가 가동되고 있다([관련 기사](https://www.inews24.com/view/1517772)).
+  - OHT와 OHT 휠
+    <span style="color:red;">* 보안 문제로 README에서 실제 휠 및 볼트 사진은 사용이 불가.</span>
+    <img src="docs/oht_wheel.jpg" width=50%>
+    - [oht 사진 출처](http://news.heraldcorp.com/view.php?ud=20220908000699)
+    - [oht 휠 사진 출처](http://krcaster.co.kr/goods/minutely.php?goods_id=2684)
+- SEMAI의 필요성
+  - OHT 휠에 대한 정확하고 효율적인 점검을 위해 데이터 기반 OHT 휠 볼트 사전 이상 예방 시스템의 필요성이 대두되었다.
 
+<hr>
+
+## 주요 기능 소개
+<span style="color:red;">* 각 기능의 개발 상세 내용은 `ai`, `backend`, `frontend` 폴더 내에서 확인 가능.</span>
+### 1. 이미지 기반 볼트 이상 진단 기능
+- 휠 이미지가 input으로 들어오면 휠 내 볼트를 탐지하여 볼트 이미지를 추출하고, 추출된 이미지들을 분류 모델에 넣어 정상/유실/파단/풀림을 분류한다.
+<img src="docs/ai_프로세스.png" width=50%>
+- 볼트 이상 진단 시스템 구성도
+<img src="docs/시스템구성도_볼트이상진단.png" width=50%>
+①	휠 이미지가 촬영되면 해당 이미지가 Spring Boot로 전달된다.
+②	Spring Boot에서 Fast API로 해당 이미지에 대한 볼트 이상 진단 요청을 보낸다.
+③	볼트 이상 진단 결과를 응답한다.
+④	대시보드에 업데이트 될 데이터를 전송한다.
+⑤	최근 진단 내역을 대시보드에 업데이트한다.
+⑥	최근 진단 내역을 사용자가 확인한다.
+
+<br>
+
+### 2. 전이학습 기능
+- SEMAI가 동작하며 쌓이는 클래스별(정상/유실/파단/풀림) 볼트 데이터를 가지고 전이학습을 수행하는 기능이다.
+- 전이학습 시스템 구성도
+<img src="docs/시스템구성도_전이학습.png" width=50%>
+①	전이학습 페이지로 이동한다.
+②	전이학습에 사용할 이미지 선택 및 학습 하이퍼파라미터를 설정한다.
+③	전이학습을 요청한다.
+④	전이학습을 진행시킨다.
+⑤	전이학습 완료 후 결과를 반환한다.
+⑥	전이학습 결과를 반환한다.
+⑦	전이학습 결과 알림을 띄운다.
+⑧	전이학습 결과 알림을 확인한다.
+
+<br>
+
+### 3. 레포트 기능
+- 볼트 이상 진단 기록을 자세히 확인할 수 있다.
+- 검사 기간 설정, 정렬 등으로 원하는 기록만 추출할 수 있고, CSV 파일로 기록을 다운로드 할 수 있다.
+- 레포트 시스템 구성도
+<img src="docs/시스템구성도_레포트.png" width=50%>
+①	레포트 페이지로 이동한다.
+②	볼트 이상 진단 결과 데이터를 조회한다.
+③	볼트 이상 진단 결과 데이터를 요청한다.
+④	볼트 이상 진단 결과 데이터를 반환한다.
+⑤	사용자가 조회한 내역을 보여준다.
+⑥	사용자가 조회한 내역을 확인한다.
+
+<br>
+
+### 4. AI 분석 기능
+- 당원 누적 이상 볼트 개수가 정상 범주를 벗어난 휠의 리스트를 확인할 수 있다.
+- 최근 52주 불량 볼트 데이터를 바탕으로 예측된 차주 교체 예상 휠 개수를 확인할 수 있다.
+- AI 분석 시스템 구성도
+<img src="docs/시스템구성도_AI분석.png" width=50%>
+①	AI 분석 페이지로 이동한다.
+②	이상 위험 휠, 차주 교체 예상 휠 데이터를 요청한다.
+③	이상 위험 휠, 차주 교체 예상 휠 데이터를 반환한다.
+④	이상 위험 휠 및 차주 교체 예상 휠 개수, 이상 위험 휠 표 및 이상 볼트 개수 3차원 그래프를 보여준다.
+⑤	AI 분석 결과를 확인한다.
+
+<hr>
+
+## 팀 소개
+<img src="docs/팀소개.png" width=70%>
+
+<hr>
+
+## 기술스택
 <div align="center">
     <h4>⭐️ Platforms & Languages ⭐️</h4>
     <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
@@ -18,15 +93,18 @@
     <img src="https://img.shields.io/badge/Pytorch-FF6F00?style=flat&logo=Pytorch&logoColor=white"/>
     <br>
     <img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Conda-Forge&logoColor=white"/>
-	<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white" />
-	<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white" />
+    <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white" />
+    <img src="https://img.shields.io/badge/FastAPI-00cc99?style=flat&logo=FastApi&logoColor=white"/>
     <br>
+    <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"/>
     <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white" />
     <img src="https://img.shields.io/badge/Jenkins-D24939?style=flat&logo=Jenkins&logoColor=white" />
 </div>
+
 <br>
+
 <div align=center>
-	<p>🛠 Tools 🛠</p>
+	<h4>🛠 Tools 🛠</h4>
 </div>
 <div align=center>
 	<img src="https://img.shields.io/badge/Intellij Idea-212121?style=flat&logo=intellijidea&logoColor=white" />
@@ -39,9 +117,10 @@
     <img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=white" />
 </div>
 
+<hr>
 
-
-# 🍀 깃 컨벤션
+## Conventions
+### 1. Git Convention
 <details>
 <summary>📌 커밋 메시지 컨벤션</summary>
 
@@ -129,20 +208,10 @@ main은 모든 작업이 끝난 후 develop에서 merge 시킨다.
 
 main → develop → feature/내용, fix/내용, refactor/내용
 </details>
+
 <br>
 
-
-# 🍀 코딩 컨벤션
-
-### ☑️ 코드 컨벤션이 필요한 이유
-
-- 팀원끼리 코드를 공유하기 때문에 일관성 있는 코드를 작성하면 서로 이해하기 쉽다.
-- 나중에 입사 지원 시 프로젝트를 하며 코드 컨벤션을 만들어 진행했다고 하면 협업 면에서 유리하게 작용할 수 있다.
-
-#### 참고 
-[코딩컨벤션](https://ui.toast.com/fe-guide/ko_CODING-CONVENTION)
-
-
+## 2. 코딩 컨벤션
 <details>
 <summary>📌 FrontEnd</summary>
 
@@ -337,7 +406,7 @@ function getUserId(){}
 </details>
 <br>
 
-# 🍀DB 컨벤션
+## 3. DB 컨벤션
 <details>
 <summary>📌 DB 컨벤션</summary>
 
@@ -364,19 +433,21 @@ idx는 테이블명_idx로 하도록 한다.
 **3.이분법으로 나눠지는 값은 is‘_‘사용**
 </details>
 
-## 🖤 명명 규칙의 중요성
+<details>
+<summary mmary>📌 명명 규칙의 중요성</summary>
 
-#### ☑️ 이름은 오래간다.
+  #### ☑️ 이름은 오래간다.
 
-데이터 구조는 어플리케이션 코드보다 훨씬 지속력이 높다. 
-잘 정의된 데이터 구조와 테이블 레이아웃은 어떠한 어플리케이션에서도 사용되어질 수 있다. 즉, **데이터 구조는 한번 잘 짜 놓든 아니든 영향력이 오래간다.**
+  데이터 구조는 어플리케이션 코드보다 훨씬 지속력이 높다. 
+  잘 정의된 데이터 구조와 테이블 레이아웃은 어떠한 어플리케이션에서도 사용되어질 수 있다. 즉, **데이터 구조는 한번 잘 짜 놓든 아니든 영향력이 오래간다.**
 
-#### ☑️ 이름은 계약이다.
+  #### ☑️ 이름은 계약이다.
 
-한번 컬럼이나 테이블 이름을 정해 놓으면 어플리케이션에서는 그 이름을 코딩으로 사용한다. 
-**만약 컬럼과 테이블의 이름이 변경된다면 의존하고 있던 어플리케이션에서도 수정**이 일어나야 한다.
+  한번 컬럼이나 테이블 이름을 정해 놓으면 어플리케이션에서는 그 이름을 코딩으로 사용한다. 
+  **만약 컬럼과 테이블의 이름이 변경된다면 의존하고 있던 어플리케이션에서도 수정**이 일어나야 한다.
 
-#### ☑️ 개발자 환경의 차이.
+  #### ☑️ 개발자 환경의 차이.
 
-이름이 잘 정의된 테이블, 뷰, 컬럼이 있다면 **본인 뿐만 아니라 다른 개발자들도 데이터베이스의
-구조를 이해하는데 짧은 시간이 소모**될 것이다.
+  이름이 잘 정의된 테이블, 뷰, 컬럼이 있다면 **본인 뿐만 아니라 다른 개발자들도 데이터베이스의
+  구조를 이해하는데 짧은 시간이 소모**될 것이다.
+</details>
