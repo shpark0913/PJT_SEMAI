@@ -13,8 +13,8 @@
 - **OHT란?**
   - Overhead Hoist Transport의 약자로, 반도체 공장에서 천장 레일을 통해 반도체 소재를 옮기는 장비이다.
   - 삼성전자 P1라인에만 1850대의 OHT가 가동되고 있다([관련 기사](https://www.inews24.com/view/1517772)).
-  - OHT와 OHT 휠
-    <span style="color:red;">* 보안 문제로 README에서 실제 휠 및 볼트 사진은 사용이 불가.</span>
+  - OHT와 OHT 휠  
+    **`보안 문제로 README에서 실제 휠 및 볼트 사진은 사용이 불가.`**
     <img src="/docs/oht_wheel.JPG" width="400"/>
     - [oht 사진 출처](http://news.heraldcorp.com/view.php?ud=20220908000699)
     - [oht 휠 사진 출처](http://krcaster.co.kr/goods/minutely.php?goods_id=2684)
@@ -24,7 +24,7 @@
 <hr>
 
 ## 주요 기능 소개
-<span style="color:red;">* 각 기능의 개발 상세 내용은 `ai`, `backend`, `frontend` 폴더 내에서 확인 가능.</span>
+**`* 각 기능의 개발 상세 내용은 ai, backend, frontend 폴더 내에서 확인 가능.`**
 
 ### 1. 이미지 기반 볼트 이상 진단 기능
 - 휠 이미지가 input으로 들어오면 휠 내 볼트를 탐지하여 **볼트 이미지를 추출**하고, 추출된 이미지들을 분류 모델에 넣어 **정상/유실/파단/풀림**을 분류한다.  
@@ -74,7 +74,7 @@
 - 당원 누적 이상 볼트 개수가 정상 범주를 벗어난 **이상(anomaly) 휠의 리스트**를 확인할 수 있다.
 - 최근 52주 불량 볼트 데이터를 바탕으로 예측된 **차주 교체 예상 휠 개수**를 확인할 수 있다.
 - **AI 분석 시스템 구성도**  
-  <img src="/docs/시스템구성도_AI분석.png" width="400"/>  
+  <img src="/docs/시스템구성도_AI분석.jpg" width="400"/>  
   ①	AI 분석 페이지로 이동한다.  
   ②	이상 위험 휠, 차주 교체 예상 휠 데이터를 요청한다.  
   ③	이상 위험 휠, 차주 교체 예상 휠 데이터를 반환한다.  
