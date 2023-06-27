@@ -1,11 +1,11 @@
 import ReactEcharts from "echarts-for-react";
 import styled from "styled-components";
 
-interface Props {
+type Props = {
   myScore: number;
   name: string;
   order: string;
-}
+};
 
 const ChartFrame = styled.div`
   padding-top: 4%;
