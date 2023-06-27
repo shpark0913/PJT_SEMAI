@@ -51,8 +51,8 @@ const OHTAllResultSec = styled.div`
 
 function OHTAllResult() {
   // isActive가 true이면 "OHT 휠 검사 현황" 컴포넌트에서 전체를 조회, false이면 에러만 조회
-  const [isActive, SetIsActive] = useState(true);
-  const ClickHandler = (isActive: any) => {
+  const [isActive, SetIsActive] = useState<boolean>(true);
+  const ClickHandler = () => {
     SetIsActive(!isActive);
   };
   return (
@@ -60,10 +60,10 @@ function OHTAllResult() {
       <TitleContainer>
         <Title title="OHT 휠 검사 현황" />
         <TabMenuContainer>
-          <TabMenuDiv isActive={isActive} onClick={isActive => ClickHandler(!isActive)}>
+          <TabMenuDiv isActive={isActive} onClick={ClickHandler}>
             전체
           </TabMenuDiv>
-          <TabMenuDiv isActive={!isActive} onClick={isActive => ClickHandler(isActive)}>
+          <TabMenuDiv isActive={!isActive} onClick={ClickHandler}>
             에러
           </TabMenuDiv>
         </TabMenuContainer>
